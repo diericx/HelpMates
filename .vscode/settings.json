@@ -1,4 +1,5 @@
 {
   "editor.formatOnSave": true,
-  "editor.snippetSuggestions": "top"
+  "editor.snippetSuggestions": "top",
+  "editor.tabSize": 2,
 }
