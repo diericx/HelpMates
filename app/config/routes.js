@@ -26,6 +26,7 @@ export default StackNavigator(
     },
   },
   {
+    initialRouteName: 'Main',
     mode: 'modal',
     headerMode: 'none',
   },
