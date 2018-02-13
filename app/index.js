@@ -1,6 +1,6 @@
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+import Font from 'expo';
 import Navigator from './config/routes';
 
 EStyleSheet.build({
