@@ -1,7 +1,7 @@
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { View, Text, Button, FlatList, StatusBar } from 'react-native';
-import DataRow from '../components/home/DataRow';
+import DataRow from '../components/general/DataRow';
 
 const styles = EStyleSheet.create({
   container: {
@@ -41,10 +41,11 @@ export default class ChooseCourseScreen extends React.Component {
   constructor(props) {
     super(props);
     this.props.navigation.navigate('Auth');
+    this.onPress = this.onPress.bind(this);
   }
 
-  componentDidMount() {
-    console.log('MOUNTED HOME');
+  onPress(params) {
+    this.props.navigation.navigate('ChooseTutor', params);
   }
 
   render() {
@@ -55,7 +56,9 @@ export default class ChooseCourseScreen extends React.Component {
           <FlatList
             style={styles.list}
             data={mockCourseData}
-            renderItem={({ item }) => <DataRow title1={item.course_name} />}
+            renderItem={({ item }) => (
+              <DataRow id={item.key} title1={item.course_name} onPress={this.onPress} />
+            )}
           />
         </View>
       </View>

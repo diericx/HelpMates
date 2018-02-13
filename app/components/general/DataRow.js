@@ -16,9 +16,20 @@ const styles = EStyleSheet.create({
 });
 
 export default class DataRow extends Component {
+  constructor(props) {
+    super(props);
+    this.onPress = this.onPress.bind(this);
+  }
+
+  onPress() {
+    this.props.onPress({
+      tutorId: this.props.key,
+    });
+  }
+
   render() {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={this.onPress}>
         <View style={styles.container}>
           <View>
             <Text> {this.props.title1} </Text>

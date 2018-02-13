@@ -3,15 +3,19 @@ import { StackNavigator } from 'react-navigation';
 
 import AuthScreen from '../screens/Auth';
 import ChooseCourseScreen from '../screens/ChooseCourseScreen';
+import ChooseTutorScreen from '../screens/ChooseTutorScreen';
 
 const MainStack = StackNavigator(
   {
-    Home: {
+    ChooseCourse: {
       screen: ChooseCourseScreen,
+    },
+    ChooseTutor: {
+      screen: ChooseTutorScreen,
     },
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'ChooseCourse',
   },
 );
 
