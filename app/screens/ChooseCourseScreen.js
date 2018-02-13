@@ -6,11 +6,24 @@ import DataRow from '../components/home/DataRow';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '$purple',
+    backgroundColor: 'white',
   },
+  listContainer: {
+    marginTop: 20,
+    flexDirection: 'column',
+    flex: 1,
+  },
+  list: {},
 });
 
-export default class HomeScreen extends React.Component {
+// Data for debugging layout
+mockCourseData = [
+  { key: 0, course_name: 'Computer Science I' },
+  { key: 1, course_name: 'Computer Science II' },
+  { key: 2, course_name: 'Computer Science III' },
+];
+
+export default class ChooseCourseScreen extends React.Component {
   static navigationOptions = {
     title: 'HelpMates',
     headerStyle: {
@@ -36,16 +49,15 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <FlatList
-          data={[
-            { key: 0, course_name: 'Computer Science I' },
-            { key: 1, course_name: 'Computer Science II' },
-            { key: 2, course_name: 'Computer Science III' },
-          ]}
-          renderItem={({ item }) => <DataRow title1={item.course_name} />}
-        />
+        <View style={styles.listContainer}>
+          <FlatList
+            style={styles.list}
+            data={mockCourseData}
+            renderItem={({ item }) => <DataRow title1={item.course_name} />}
+          />
+        </View>
       </View>
     );
   }

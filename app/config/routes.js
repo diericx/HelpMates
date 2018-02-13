@@ -2,12 +2,12 @@ import { StatusBar } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import AuthScreen from '../screens/Auth';
-import HomeScreen from '../screens/Home';
+import ChooseCourseScreen from '../screens/ChooseCourseScreen';
 
 const MainStack = StackNavigator(
   {
     Home: {
-      screen: HomeScreen,
+      screen: ChooseCourseScreen,
     },
   },
   {

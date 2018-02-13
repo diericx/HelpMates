@@ -6,6 +6,10 @@ import Navigator from './config/routes';
 EStyleSheet.build({
   $black: 'black',
   $purple: '#cd84f1',
+  $offWhite: 'rgb(252, 252, 252)',
+  $offWhiteDown: 'rgb(247, 247, 247)',
+  $lightBlue: '#7efff5',
+  $lightBlueDown: '#76f2e7',
 });
 
 export default class App extends React.Component {
