@@ -1,17 +1,13 @@
 import { StatusBar } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
-import Home from '../screens/Home';
+import AuthScreen from '../screens/Auth';
+import HomeScreen from '../screens/Home';
 
-//
-const HomeStack = StackNavigator(
+const MainStack = StackNavigator(
   {
     Home: {
-      screen: Home,
-      navigationOptions: {
-        header: () => null,
-        headerTitle: 'Home',
-      },
+      screen: HomeScreen,
     },
   },
   {
@@ -22,13 +18,15 @@ const HomeStack = StackNavigator(
 // Root navigator
 export default StackNavigator(
   {
-    Home: {
-      screen: HomeStack,
+    Main: {
+      screen: MainStack,
+    },
+    Auth: {
+      screen: AuthScreen,
     },
   },
   {
     mode: 'modal',
-    header: 'none',
-    cardStyle: { paddingTop: StatusBar.currentHeight },
+    headerMode: 'none',
   },
 );
