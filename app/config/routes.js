@@ -1,7 +1,7 @@
 import { StatusBar } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
-import AuthScreen from '../screens/Auth';
+import AuthContainer from '../containers/Auth';
 import ChooseCourseScreen from '../screens/ChooseCourseScreen';
 import ChooseTutorScreen from '../screens/ChooseTutorScreen';
 
@@ -26,11 +26,11 @@ export default StackNavigator(
       screen: MainStack,
     },
     Auth: {
-      screen: AuthScreen,
+      screen: AuthContainer,
     },
   },
   {
-    initialRouteName: 'Main',
+    initialRouteName: 'Auth',
     mode: 'modal',
     headerMode: 'none',
   },

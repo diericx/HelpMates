@@ -1,8 +1,14 @@
 import React from 'react';
+import { Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Font from 'expo';
-import Navigator from './config/routes';
 
+import connect from './connect';
+
+import Navigator from './config/routes';
+import Meteor, { createContainer } from 'react-native-meteor';
+
+// Build global stylesheet variables
 EStyleSheet.build({
   $black: 'black',
   $purple: '#cd84f1',
@@ -13,14 +19,19 @@ EStyleSheet.build({
 });
 
 export default class App extends React.Component {
-  state = {
-    isReady: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = { isReady: false };
+  }
 
   async componentWillMount() {
+    // Import Assets
     await Expo.Font.loadAsync({
       Milkshake: require('../assets/fonts/Milkshake.ttf'),
     });
+
+    connect();
+
     this.setState({ isReady: true });
   }
 
