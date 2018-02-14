@@ -3,8 +3,6 @@ import Meteor, { createContainer } from 'react-native-meteor';
 
 import CoursesIndexScreen from '../scenes/Courses/index.js';
 
-const UNI_ID = 'bJ2ppiHYrMFRThfWE';
-
 const NAV_OPTIONS = {
   title: 'HelpMates',
   headerStyle: {
@@ -19,19 +17,7 @@ const NAV_OPTIONS = {
   },
 };
 
-export default (CoursesIndexContainer = createContainer(
-  ownProps => ({
-    courses: Meteor.call('courses.getAllForUni', { universityId: UNI_ID }),
-  }),
-  CoursesIndexScreen,
-));
+const CoursesIndexContainer = createContainer(ownProps => ({}), CoursesIndexScreen);
+CoursesIndexContainer.navigationOptions = { ...NAV_OPTIONS, title: 'Choose a Course' };
 
-// const CoursesIndexContainer = createContainer(
-//   ownProps => ({
-//     courses: Meteor.call('courses.getAllForUni', { universityId: UNI_ID }),
-//   }),
-//   CoursesIndexScreen,
-// );
-// CoursesIndexContainer.navigationOptions = { ...NAV_OPTIONS, title: 'Choose a Course' };
-
-// export default CoursesIndexContainer;
+export default CoursesIndexContainer;

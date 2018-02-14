@@ -6,6 +6,8 @@ import Meteor, { Accounts, createContainer } from 'react-native-meteor';
 
 import DataRow from '../../components/general/DataRow';
 
+const UNI_ID = 'bJ2ppiHYrMFRThfWE';
+
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
@@ -29,13 +31,13 @@ mockCourseData = [
 export default class ChooseCourseScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { courses: [] };
 
-    // Meteor.call('courses.getAllForUni', { universityId: UNI_ID }, (err, res) => {
-    //   // Do whatever you want with the response
-    //   this.setState({ courses: res });
-    //   console.log('Items.addOne', err, res);
-    // });
+    Meteor.call('courses.getAllForUni', { universityId: UNI_ID }, (err, res) => {
+      // Do whatever you want with the response
+      this.setState({ courses: res });
+      console.log('Items.addOne', err, res);
+    });
 
     // console.log(this.state);
 
@@ -51,22 +53,28 @@ export default class ChooseCourseScreen extends React.Component {
     this.props.navigation.navigate('ChooseTutor', params);
   }
 
+  renderCourses() {
+    return (
+      <View style={styles.listContainer}>
+        <FlatList
+          style={styles.list}
+          data={this.state.courses}
+          keyExtractor={item => item._id}
+          renderItem={({ item }) => (
+            <DataRow id={item._id} title1={item.title1} onPress={this.onPress} />
+          )}
+        />
+      </View>
+    );
+  }
+
   render() {
     const { courses } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <Text> {courses} </Text>
-        {courses ? console.log('here') : console.log('not here')}
-        <View style={styles.listContainer}>
-          <FlatList
-            style={styles.list}
-            data={mockCourseData}
-            renderItem={({ item }) => (
-              <DataRow id={item.key} title1={item.course_name} onPress={this.onPress} />
-            )}
-          />
-        </View>
+        {this.state.courses.length > 0 ? this.renderCourses() : console.log('loading...')}
       </View>
     );
   }
