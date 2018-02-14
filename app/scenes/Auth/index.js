@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { View, Text, KeyboardAvoidingView, StatusBar, TouchableOpacity } from 'react-native';
 import Meteor from 'react-native-meteor';
 
-import LoginForm from '../components/auth/LoginForm';
+import LoginForm from './components/LoginForm';
 
 const styles = EStyleSheet.create({
   container: {
@@ -47,8 +47,9 @@ class AuthScreen extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     if (nextProps.user != null) {
-      this.props.navigation.navigate('ChooseCourse');
+      this.props.navigation.navigate('Main');
     }
   }
 
@@ -80,7 +81,7 @@ class AuthScreen extends React.Component {
           this.setState({ error: error.reason });
         } else {
           // const user = Meteor.users.findOne(Meteor.userId());
-          this.props.navigation.goBack();
+          // this.props.navigation.goBack();
         }
       });
     }
@@ -118,9 +119,9 @@ class AuthScreen extends React.Component {
   }
 }
 
-AuthScreen.propTypes = {
-  loggingIn: PropTypes.bool.isRequired,
-  user: PropTypes.object,
-};
+// AuthScreen.propTypes = {
+//   loggingIn: PropTypes.bool.isRequired,
+//   user: PropTypes.object,
+// };
 
 export default AuthScreen;

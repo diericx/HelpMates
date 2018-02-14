@@ -1,17 +1,17 @@
 import { StatusBar } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
-import AuthContainer from '../containers/Auth';
-import ChooseCourseScreen from '../screens/ChooseCourseScreen';
-import ChooseTutorScreen from '../screens/ChooseTutorScreen';
+import AuthIndexContainer from '../containers/Auth';
+import CoursesIndexContainer from '../containers/Courses';
+import { ChooseTutorContainer } from '../containers/Users';
 
 const MainStack = StackNavigator(
   {
     ChooseCourse: {
-      screen: ChooseCourseScreen,
+      screen: CoursesIndexContainer,
     },
     ChooseTutor: {
-      screen: ChooseTutorScreen,
+      screen: ChooseTutorContainer,
     },
   },
   {
@@ -26,7 +26,7 @@ export default StackNavigator(
       screen: MainStack,
     },
     Auth: {
-      screen: AuthContainer,
+      screen: AuthIndexContainer,
     },
   },
   {

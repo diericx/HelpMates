@@ -16,7 +16,7 @@
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "react-native-scripts start",
+    "start": "NODE_PATH=src react-native-scripts start",
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
@@ -28,10 +28,7 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "yarn run format-code",
-      "git add"
-    ]
+    "*.js": ["yarn run format-code", "git add"]
   },
   "jest": {
     "preset": "jest-expo"

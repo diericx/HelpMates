@@ -6,7 +6,6 @@ import Font from 'expo';
 import connect from './connect';
 
 import Navigator from './config/routes';
-import Meteor, { createContainer } from 'react-native-meteor';
 
 // Build global stylesheet variables
 EStyleSheet.build({

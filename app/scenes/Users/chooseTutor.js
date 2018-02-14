@@ -1,7 +1,7 @@
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { View, Text, Button, FlatList, StatusBar } from 'react-native';
-import DataRow from '../components/general/DataRow';
+import DataRow from '../../components/general/DataRow';
 
 const styles = EStyleSheet.create({
   container: {
@@ -25,7 +25,7 @@ mockTutorData = [
   { key: 4, tutor_name: 'John Doe' },
 ];
 
-export default class ChooseCourseScreen extends React.Component {
+export default class ChooseTutorScreen extends React.Component {
   static navigationOptions = {
     title: 'HelpMates',
     headerStyle: {

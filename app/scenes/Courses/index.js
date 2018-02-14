@@ -1,11 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, Button, FlatList, StatusBar, AsyncStorage } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Meteor, { Accounts, createContainer } from 'react-native-meteor';
 
-import DataRow from '../components/general/DataRow';
-
-const UNI_ID = 'bJ2ppiHYrMFRThfWE';
+import DataRow from '../../components/general/DataRow';
 
 const styles = EStyleSheet.create({
   container: {
@@ -27,17 +26,10 @@ mockCourseData = [
   { key: 2, course_name: 'Computer Science III' },
 ];
 
-class ChooseCourseScreen extends React.Component {
+export default class ChooseCourseScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      courses: [],
-      loginToken: '',
-    };
-
-    console.log(Meteor.status());
-
-    console.log(props);
+    this.state = {};
 
     // Meteor.call('courses.getAllForUni', { universityId: UNI_ID }, (err, res) => {
     //   // Do whatever you want with the response
@@ -51,8 +43,8 @@ class ChooseCourseScreen extends React.Component {
     this.onPress = this.onPress.bind(this);
   }
 
-  openAuthScreen() {
-    this.props.navigation.navigate('Auth');
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
   }
 
   onPress(params) {
@@ -60,11 +52,12 @@ class ChooseCourseScreen extends React.Component {
   }
 
   render() {
-    const { loggingIn } = this.props;
+    const { courses } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-        <Text>{this.state.courses.length} </Text>
+        <Text> {courses} </Text>
+        {courses ? console.log('here') : console.log('not here')}
         <View style={styles.listContainer}>
           <FlatList
             style={styles.list}
@@ -78,27 +71,3 @@ class ChooseCourseScreen extends React.Component {
     );
   }
 }
-
-const container = createContainer(
-  props => ({
-    ...props,
-    loggingIn: Meteor.loggingIn(),
-  }),
-  ChooseCourseScreen,
-);
-
-container.navigationOptions = {
-  title: 'HelpMates',
-  headerStyle: {
-    backgroundColor: '#cd84f1',
-  },
-
-  headerTintColor: '#fff',
-  headerTitleStyle: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    fontFamily: 'Milkshake',
-  },
-};
-
-export default container;
