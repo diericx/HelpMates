@@ -1,11 +1,12 @@
 import React from 'react';
 import { Text } from 'react-native';
+import Meteor, { createContainer, View } from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Font from 'expo';
 
 import connect from './connect';
 
-import Navigator from './config/routes';
+import { MainStack, AuthStack } from './config/routes';
 
 // Build global stylesheet variables
 EStyleSheet.build({
@@ -17,7 +18,7 @@ EStyleSheet.build({
   $lightBlueDown: '#76f2e7',
 });
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isReady: false };
@@ -35,9 +36,20 @@ export default class App extends React.Component {
   }
 
   render() {
+    const { user, loggingIn } = this.props;
     if (!this.state.isReady) {
       return <Expo.AppLoading />;
+    } else if (user == null) {
+      return <AuthStack user={user} loggingIn={loggingIn} onNavigationStateChange={null} />;
     }
-    return <Navigator onNavigationStateChange={null} />;
+    return <MainStack onNavigationStateChange={null} />;
   }
 }
+
+export default createContainer(
+  params => ({
+    loggingIn: Meteor.loggingIn(),
+    user: Meteor.user(),
+  }),
+  App,
+);

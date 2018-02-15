@@ -23,7 +23,7 @@ export default class DataRow extends Component {
 
   onPress() {
     this.props.onPress({
-      tutorId: this.props.key,
+      id: this.props.id,
     });
   }
 

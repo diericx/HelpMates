@@ -32,25 +32,18 @@ export default class ChooseCourseScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = { courses: [] };
-
+    // Get available courses from server
     Meteor.call('courses.getAllForUni', { universityId: UNI_ID }, (err, res) => {
       // Do whatever you want with the response
       this.setState({ courses: res });
-      console.log('Items.addOne', err, res);
     });
-
-    // console.log(this.state);
 
     // Bind functions to this
     this.onPress = this.onPress.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-  }
-
-  onPress(params) {
-    this.props.navigation.navigate('ChooseTutor', params);
+  onPress(props) {
+    this.props.navigation.navigate('ChooseTutor', props);
   }
 
   renderCourses() {

@@ -41,18 +41,14 @@ class AuthScreen extends React.Component {
       email: 'zac@gmail.com',
       password: 'dash2233',
       error: null,
+      user: props.user,
+      loggingIn: props.loggingIn,
     };
 
     this.loginHandler = this.loginHandler.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    if (nextProps.user != null) {
-      this.props.navigation.navigate('Main');
-    }
-  }
-
+  // Check if the username and password are valid
   isValid() {
     const { email, password } = this.state;
     let valid = false;
@@ -70,6 +66,7 @@ class AuthScreen extends React.Component {
     return valid;
   }
 
+  // attempt to login to server
   loginHandler() {
     // get email and password from state
     const { email, password } = this.state;
@@ -104,8 +101,6 @@ class AuthScreen extends React.Component {
   }
 
   render() {
-    const { loggingIn, user } = this.props;
-
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -113,15 +108,13 @@ class AuthScreen extends React.Component {
           <Text style={styles.logo}> HelpMates </Text>
           <Text style={styles.error}> {this.state.error} </Text>
         </View>
-        {loggingIn === false && !user ? this.renderLoginForm() : this.renderLoggingIn()}
+        <Text> {this.state.loggingIn} </Text>
+        {this.state.loggingIn === false && !this.state.user
+          ? this.renderLoginForm()
+          : this.renderLoggingIn()}
       </KeyboardAvoidingView>
     );
   }
 }
-
-// AuthScreen.propTypes = {
-//   loggingIn: PropTypes.bool.isRequired,
-//   user: PropTypes.object,
-// };
 
 export default AuthScreen;

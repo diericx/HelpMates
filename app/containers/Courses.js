@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
 
-import CoursesIndexScreen from '../scenes/Courses/index.js';
+import CoursesIndexScreen from '../scenes/Courses/chooseCourse.js';
 
 const NAV_OPTIONS = {
   title: 'HelpMates',

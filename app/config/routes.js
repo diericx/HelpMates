@@ -5,7 +5,7 @@ import AuthIndexContainer from '../containers/Auth';
 import CoursesIndexContainer from '../containers/Courses';
 import { ChooseTutorContainer } from '../containers/Users';
 
-const MainStack = StackNavigator(
+export const MainStack = StackNavigator(
   {
     ChooseCourse: {
       screen: CoursesIndexContainer,
@@ -19,19 +19,25 @@ const MainStack = StackNavigator(
   },
 );
 
-// Root navigator
-export default StackNavigator(
+export const AuthStack = StackNavigator(
   {
-    Main: {
-      screen: MainStack,
-    },
     Auth: {
       screen: AuthIndexContainer,
     },
   },
   {
-    initialRouteName: 'Auth',
-    mode: 'modal',
     headerMode: 'none',
   },
 );
+
+// Root navigator
+// export default StackNavigator(
+//   {
+//     Main: {
+//       screen: MainStack,
+//     },
+//   },
+//   {
+//     headerMode: 'none',
+//   },
+// );

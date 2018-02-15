@@ -1,6 +1,8 @@
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { View, Text, Button, FlatList, StatusBar } from 'react-native';
+import Meteor from 'react-native-meteor';
+
 import DataRow from '../../components/general/DataRow';
 
 const styles = EStyleSheet.create({
@@ -42,6 +44,31 @@ export default class ChooseTutorScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    // params from navigation
+    const { params } = this.props.navigation.state;
+
+    // bind functions
+    this.takenCourseButtonOnPress = this.takenCourseButtonOnPress.bind(this);
+
+    this.state = {
+      available_users: [],
+      params: params,
+    };
+
+    // get users who have completed this course
+    Meteor.call('users.getAllWhoCompletedCourse', { courseId: params.id }, (err, res) => {
+      // Do whatever you want with the response
+      this.setState({ available_users: res });
+      console.log(res);
+    });
+  }
+
+  takenCourseButtonOnPress() {
+    // Get available courses from server
+    Meteor.call('users.addCompletedCourse', { courseId: this.state.params.id }, (err, res) => {
+      // Do whatever you want with the response
+      this.setState({ courses: res });
+    });
   }
 
   tutorSelectHandler() {}
@@ -50,12 +77,18 @@ export default class ChooseTutorScreen extends React.Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
+        <Button
+          onPress={this.takenCourseButtonOnPress}
+          title="I have taken this course"
+          color="#841584"
+        />
         <View style={styles.listContainer}>
           <FlatList
             style={styles.list}
-            data={mockTutorData}
+            data={this.state.available_users}
+            keyExtractor={item => item._id}
             renderItem={({ item }) => (
-              <DataRow id={item.key} title1={item.tutor_name} onPress={this.onPress} />
+              <DataRow id={item.key} title1={item.profile.name} onPress={this.onPress} />
             )}
           />
         </View>
