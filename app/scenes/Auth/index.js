@@ -109,7 +109,7 @@ class AuthScreen extends React.Component {
           <Text style={styles.error}> {this.state.error} </Text>
         </View>
         <Text> {this.state.loggingIn} </Text>
-        {this.state.loggingIn === false && !this.state.user
+        {!this.state.loggingIn && !this.state.user
           ? this.renderLoginForm()
           : this.renderLoggingIn()}
       </KeyboardAvoidingView>
