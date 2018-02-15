@@ -5,8 +5,10 @@ import Meteor, { createContainer } from 'react-native-meteor';
 class Items extends Component {
   render() {
     return (
-      <View>
-        <Text> {this.props.count} </Text>
+      <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <Text> Log In </Text>
+        </View>
       </View>
     );
   }

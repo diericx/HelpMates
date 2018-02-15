@@ -11,9 +11,6 @@ const styles = EStyleSheet.create({
     flex: 1,
     backgroundColor: '$purple',
   },
-  error: {
-    color: 'red',
-  },
   input: {
     color: 'black',
     backgroundColor: 'gray',
@@ -31,9 +28,31 @@ const styles = EStyleSheet.create({
     fontFamily: 'Milkshake',
     paddingTop: 50,
   },
+
+  buttonContainer: {
+    paddingVertical: 25,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 24,
+    textAlign: 'center',
+  },
+  signupButton: {
+    backgroundColor: '#32ff7e',
+  },
+  loginButton: {
+    backgroundColor: '#ff9f1a',
+  },
 });
 
 class AuthScreen extends React.Component {
+  // Naviagation options
+  static navigationOptions = {
+    header: false,
+  };
+
+  // constructor
   constructor(props) {
     super(props);
 
@@ -45,55 +64,16 @@ class AuthScreen extends React.Component {
       loggingIn: props.loggingIn,
     };
 
-    this.loginHandler = this.loginHandler.bind(this);
+    this.goToLoginScreen = this.goToLoginScreen.bind(this);
+    this.goToSignupScreen = this.goToSignupScreen.bind(this);
   }
 
-  // Check if the username and password are valid
-  isValid() {
-    const { email, password } = this.state;
-    let valid = false;
-
-    if (email.length > 0 && password.length > 0) {
-      valid = true;
-    }
-
-    if (email.length === 0) {
-      this.setState({ error: 'You must enter an email address' });
-    } else if (password.length === 0) {
-      this.setState({ error: 'You must enter a password' });
-    }
-
-    return valid;
+  goToLoginScreen() {
+    this.props.navigation.navigate('Login');
   }
 
-  // attempt to login to server
-  loginHandler() {
-    // get email and password from state
-    const { email, password } = this.state;
-    // check validity of e and p
-    if (this.isValid()) {
-      // attempt to sign in
-      Meteor.loginWithPassword(email, password, (error) => {
-        if (error) {
-          this.setState({ error: error.reason });
-        } else {
-          // const user = Meteor.users.findOne(Meteor.userId());
-          // this.props.navigation.goBack();
-        }
-      });
-    }
-  }
-
-  renderLoginForm() {
-    return (
-      <View>
-        <LoginForm
-          emailHandler={email => this.setState({ email })}
-          passwordHandler={password => this.setState({ password })}
-          loginHandler={this.loginHandler}
-        />
-      </View>
-    );
+  goToSignupScreen() {
+    this.props.navigation.navigate('Signup');
   }
 
   renderLoggingIn() {
@@ -103,15 +83,27 @@ class AuthScreen extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle="light-content" hidden />
         <View style={styles.logoContainer}>
           <Text style={styles.logo}> HelpMates </Text>
-          <Text style={styles.error}> {this.state.error} </Text>
         </View>
-        <Text> {this.state.loggingIn} </Text>
-        {!this.state.loggingIn && !this.state.user
+
+        <TouchableOpacity
+          style={[styles.buttonContainer, styles.loginButton]}
+          onPress={this.goToLoginScreen}
+        >
+          <Text style={styles.buttonText}> LOGIN </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.buttonContainer, styles.signupButton]}
+          onPress={this.goToSignupScreen}
+        >
+          <Text style={styles.buttonText}> SIGN UP </Text>
+        </TouchableOpacity>
+        {/* {!this.state.loggingIn && !this.state.user
           ? this.renderLoginForm()
-          : this.renderLoggingIn()}
+          : this.renderLoggingIn()} */}
       </KeyboardAvoidingView>
     );
   }
