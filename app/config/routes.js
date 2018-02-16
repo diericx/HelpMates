@@ -15,7 +15,7 @@ import UsersProfileScreen from '../scenes/Users/profile';
 // Course Screens
 import CoursesChooseCourseScreen from '../scenes/Courses/chooseCourse';
 
-const HomeStack = StackNavigator({
+const StudentStack = StackNavigator({
   ChooseCourse: {
     screen: CoursesChooseCourseScreen,
   },
@@ -27,6 +27,12 @@ const HomeStack = StackNavigator({
   },
 });
 
+const TutorStack = StackNavigator({
+  Home: {
+    screen: UsersProfileScreen,
+  },
+});
+
 const ProfileStack = StackNavigator({
   Profile: {
     screen: UsersProfileScreen,
@@ -35,10 +41,16 @@ const ProfileStack = StackNavigator({
 
 export const MainNavigation = TabNavigator(
   {
-    Home: {
-      screen: HomeStack,
+    Student: {
+      screen: StudentStack,
       navigationOptions: {
-        tabBarLabel: 'Get Help',
+        tabBarLabel: 'Student',
+      },
+    },
+    Tutor: {
+      screen: TutorStack,
+      navigationOptions: {
+        tabBarLabel: 'Tutor',
       },
     },
     Profile: {
@@ -53,7 +65,7 @@ export const MainNavigation = TabNavigator(
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
-        if (routeName === 'Home') {
+        if (routeName === 'Student') {
           iconName = `ios-people${focused ? '' : '-outline'}`;
         } else if (routeName === 'Profile') {
           iconName = `ios-person${focused ? '' : '-outline'}`;
