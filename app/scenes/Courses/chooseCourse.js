@@ -29,6 +29,20 @@ mockCourseData = [
 ];
 
 export default class ChooseCourseScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Choose a Course',
+    headerStyle: {
+      backgroundColor: '#cd84f1',
+    },
+
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontSize: 25,
+      fontWeight: 'bold',
+      fontFamily: 'Milkshake',
+    },
+  };
+
   constructor(props) {
     super(props);
     this.state = { courses: [] };
@@ -42,8 +56,8 @@ export default class ChooseCourseScreen extends React.Component {
     this.onPress = this.onPress.bind(this);
   }
 
-  onPress(props) {
-    this.props.navigation.navigate('ChooseTutor', props);
+  onPress(params) {
+    this.props.navigation.navigate('ChooseTutor', params);
   }
 
   renderCourses() {

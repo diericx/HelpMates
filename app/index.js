@@ -6,7 +6,7 @@ import Font from 'expo';
 
 import connect from './connect';
 
-import { MainStack, AuthStack } from './config/routes';
+import { MainNavigation, AuthStack } from './config/routes';
 
 // Build global stylesheet variables
 EStyleSheet.build({
@@ -42,7 +42,7 @@ class App extends React.Component {
     } else if (user == null) {
       return <AuthStack user={user} loggingIn={loggingIn} onNavigationStateChange={null} />;
     }
-    return <MainStack onNavigationStateChange={null} />;
+    return <MainNavigation onNavigationStateChange={null} />;
   }
 }
 
