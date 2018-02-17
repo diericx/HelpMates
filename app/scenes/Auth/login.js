@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Meteor from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { View, Text, Dimensions } from 'react-native';
 

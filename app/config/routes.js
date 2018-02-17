@@ -11,6 +11,7 @@ import AuthSignupScreen from '../scenes/Auth/signup';
 // User Screens
 import UsersChooseTimeSlotScreen from '../scenes/Users/chooseTimeSlot';
 import UsersChooseTutorScreen from '../scenes/Users/chooseTutor';
+import UsersTutorScreen from '../scenes/Users/tutor';
 import UsersProfileScreen from '../scenes/Users/profile';
 // Course Screens
 import CoursesChooseCourseScreen from '../scenes/Courses/chooseCourse';
@@ -29,7 +30,7 @@ const StudentStack = StackNavigator({
 
 const TutorStack = StackNavigator({
   Home: {
-    screen: UsersProfileScreen,
+    screen: UsersTutorScreen,
   },
 });
 

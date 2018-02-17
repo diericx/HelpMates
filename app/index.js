@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Dimensions } from 'react-native';
 import Meteor, { createContainer, View } from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Font from 'expo';
@@ -10,6 +10,7 @@ import { MainNavigation, AuthStack } from './config/routes';
 
 // Build global stylesheet variables
 EStyleSheet.build({
+  $screenWidth: Dimensions.get('window').width,
   $black: 'black',
   $purple: '#cd84f1',
   $offWhite: 'rgb(252, 252, 252)',

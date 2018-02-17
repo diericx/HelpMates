@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity, Text, Dimensions } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     padding: 20,
-    width: Dimensions.get('window').width,
+    width: '$screenWidth',
   },
   input: {
     color: 'black',
