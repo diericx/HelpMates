@@ -68,7 +68,7 @@ export default class ChooseCourseScreen extends React.Component {
           data={this.state.courses}
           keyExtractor={item => item._id}
           renderItem={({ item }) => (
-            <DataRow id={item._id} title1={item.title1} onPress={this.onPress} />
+            <DataRow params={{ id: item._id }} title1={item.title1} onPress={this.onPress} />
           )}
         />
       </View>

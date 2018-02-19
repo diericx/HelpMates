@@ -22,9 +22,7 @@ export default class DataRow extends Component {
   }
 
   onPress() {
-    this.props.onPress({
-      id: this.props.id,
-    });
+    this.props.onPress(this.props.params);
   }
 
   render() {

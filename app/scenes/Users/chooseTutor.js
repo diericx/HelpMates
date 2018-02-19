@@ -94,7 +94,11 @@ export default class ChooseTutorScreen extends React.Component {
             data={this.state.available_users}
             keyExtractor={item => item._id}
             renderItem={({ item }) => (
-              <DataRow id={item._id} title1={item.profile.name} onPress={this.tutorOnPress} />
+              <DataRow
+                params={{ id: item._id, name: item.name }}
+                title1={item.profile.name}
+                onPress={this.tutorOnPress}
+              />
             )}
           />
         </View>
