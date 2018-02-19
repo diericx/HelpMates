@@ -1,5 +1,13 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
+    "sdkVersion": "25.0.0",
+    "ios": {
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "would like access to your photo gallery",
+        "NSCameraUsageDescription": "would like to use your camera",
+        "NSPhotoLibraryAddUsageDescription": "would like to save photos to your photo gallery",
+        "NSMicrophoneUsageDescription": "would like to your microphone (for videos)"
+      }
+    }
   }
 }

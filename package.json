@@ -37,6 +37,7 @@
     "react-native": "0.52.0",
     "react-native-calendars": "^1.17.1",
     "react-native-extended-stylesheet": "^0.8.1",
+    "react-native-image-picker": "^0.26.7",
     "react-native-meteor": "^1.2.0",
     "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.0.3"
