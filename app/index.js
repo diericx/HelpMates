@@ -17,6 +17,7 @@ EStyleSheet.build({
   $offWhiteDown: 'rgb(247, 247, 247)',
   $lightBlue: '#7efff5',
   $lightBlueDown: '#76f2e7',
+  $green: '#32ff7e',
 });
 
 class App extends React.Component {
@@ -29,6 +30,7 @@ class App extends React.Component {
     // Import Assets
     await Expo.Font.loadAsync({
       Milkshake: require('../assets/fonts/Milkshake.ttf'),
+      OpenSansLight: require('../assets/fonts/OpenSansLight.ttf'),
     });
 
     connect();

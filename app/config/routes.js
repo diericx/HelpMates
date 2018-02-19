@@ -15,6 +15,35 @@ import UsersTutorScreen from '../scenes/Users/tutor';
 import UsersProfileScreen from '../scenes/Users/profile';
 // Course Screens
 import CoursesChooseCourseScreen from '../scenes/Courses/chooseCourse';
+// Help Session Request
+import HelpSessionRequestSendScreen from '../scenes/HelpSessionRequest/sendRequest';
+
+const SendHelpSessionRequestStack = StackNavigator(
+  {
+    SendHelpSessionRequest: {
+      screen: HelpSessionRequestSendScreen,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  },
+);
+
+const ChooseTimeSlotStack = StackNavigator(
+  {
+    ChooseTimeSlot: {
+      screen: UsersChooseTimeSlotScreen,
+    },
+    SendHelpSessionRequest: {
+      screen: HelpSessionRequestSendScreen,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  },
+);
 
 const StudentStack = StackNavigator({
   ChooseCourse: {
@@ -24,7 +53,7 @@ const StudentStack = StackNavigator({
     screen: UsersChooseTutorScreen,
   },
   ChooseTimeSlot: {
-    screen: UsersChooseTimeSlotScreen,
+    screen: ChooseTimeSlotStack,
   },
 });
 

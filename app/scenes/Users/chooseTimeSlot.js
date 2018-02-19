@@ -4,6 +4,7 @@ import update from 'immutability-helper';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { View, Text, Button, FlatList, StatusBar, TouchableOpacity } from 'react-native';
 import { Agenda } from 'react-native-calendars';
+import SendHelpRequestModal from './components/sendHelpSessionRequestModal';
 
 const styles = EStyleSheet.create({
   container: {
@@ -49,14 +50,22 @@ export default class ChooseTimeSlot extends React.Component {
     this.state = {
       params: params,
       userId: params.id,
-      selectedDate: new Date(),
+      startDate: null,
+      endDate: null,
       availabilities: [],
       items: {},
+      isModalVisible: false,
     };
     // get this users availabilities
     this.getAvailabilities();
     // bind functions
     this.onTimeSlotPress = this.onTimeSlotPress.bind(this);
+    this._toggleModal = this._toggleModal.bind(this);
+  }
+
+  // Toggle the modal
+  _toggleModal() {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
   }
 
   loadItems(day) {
@@ -134,16 +143,16 @@ export default class ChooseTimeSlot extends React.Component {
   }
 
   renderEmptyDate() {
-    return (
-      <View style={styles.emptyDate}>
-        <Text>{this.state.params.name} is not available on this day!</Text>
-      </View>
-    );
+    return <View style={styles.emptyDate} />;
   }
 
   // CALENDAR BUTTON CALLBACKS
-  onTimeSlotPress() {
-    console.log('Pressed time slot!');
+  onTimeSlotPress(startDate, endDate) {
+    this.setState({
+      startDate: startDate,
+      endDate: endDate,
+    });
+    this._toggleModal();
   }
 
   rowHasChanged(r1, r2) {
@@ -194,7 +203,14 @@ export default class ChooseTimeSlot extends React.Component {
     var todayString = this.dateToLocalString(today);
     return (
       <View style={styles.container}>
-        <Text> asdf asf saf asf asf as </Text>
+        <SendHelpRequestModal
+          name={this.state.params.name}
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
+          isVisible={this.state.isModalVisible}
+          toggleModal={this._toggleModal}
+        />
+
         <Agenda
           items={this.state.items}
           loadItemsForMonth={this.loadItems.bind(this)}
