@@ -87,7 +87,7 @@ class Tutor extends React.Component {
   addAvailability() {
     Meteor.call(
       'users.addAvailability',
-      { date: this.state.chosenDate, repeats: true },
+      { date: this.state.chosenDate, length: '60', repeats: true },
       (err, res) => {
         if (err) {
           console.log(err);

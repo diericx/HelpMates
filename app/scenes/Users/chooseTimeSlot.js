@@ -9,6 +9,8 @@ const styles = EStyleSheet.create({
   item: {
     backgroundColor: 'white',
     flex: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'column',
     borderRadius: 5,
     padding: 10,
     marginRight: 10,
@@ -54,7 +56,10 @@ export default class ChooseTimeSlot extends React.Component {
   loadItems(day) {
     setTimeout(() => {
       var today = new Date();
+      var todayLocal = this.dateToLocalString(today);
       var dateInc = new Date(today.getUTCFullYear(), day.month - 1, 1);
+
+      console.log(todayLocal);
 
       while (dateInc.getMonth() + 1 == day.month) {
         var dateIncStr = this.dateToString(dateInc);
@@ -70,7 +75,10 @@ export default class ChooseTimeSlot extends React.Component {
             // if it is the same day of the week
             if (dateInc.getUTCDay() == availabilityDate.getUTCDay()) {
               this.state.items[dateIncStr].push({
-                name: 'test',
+                startTime: this.dateGet12HourTime(availabilityDate),
+                endTime: this.dateGet12HourTime(
+                  new Date(availabilityDate.getTime() + availability.length * 60000),
+                ),
                 height: 100,
               });
             }
@@ -138,9 +146,8 @@ export default class ChooseTimeSlot extends React.Component {
   renderItem(item) {
     return (
       <View style={[styles.item, { height: item.height }]}>
-        <Text>
-          {item.name}, {item.dateStr}
-        </Text>
+        <Text>{item.startTime}</Text>
+        <Text>{item.endTime}</Text>
       </View>
     );
   }
@@ -180,6 +187,27 @@ export default class ChooseTimeSlot extends React.Component {
     return date.toISOString().split('T')[0];
   }
 
+  dateGet12HourTime(date) {
+    var hour = date.getHours();
+    var minutes = date.getMinutes();
+    if (hour > 12) {
+      return (hour - 12).toString() + ':' + minutes + 'PM';
+    }
+    return hour.toString() + ':' + minutes + 'AM';
+  }
+
+  dateToLocalString(date) {
+    var month = (date.getMonth() + 1).toString();
+    var day = date.getDate().toString();
+    if (month.length == 1) {
+      month = '0' + month;
+    }
+    if (day.length == 1) {
+      day = '0' + date;
+    }
+    return date.getUTCFullYear() + '-' + month + '-' + day;
+  }
+
   // METEOR - get availabilities for this user
   getAvailabilities() {
     Meteor.call('users.getAvailabilities', { userId: this.state.userId }, (err, res) => {
@@ -189,12 +217,14 @@ export default class ChooseTimeSlot extends React.Component {
   }
 
   render() {
+    var today = new Date();
+    var todayString = this.dateToLocalString(today);
     return (
       <Agenda
         items={this.state.items}
         loadItemsForMonth={this.loadItems.bind(this)}
-        selected={this.dateToString(new Date())}
-        minDate={this.dateToString(new Date())}
+        selected={todayString}
+        minDate={todayString}
         renderItem={this.renderItem.bind(this)}
         // renderDay={this.renderDay.bind(this)}
         renderEmptyDate={this.renderEmptyDate.bind(this)}
