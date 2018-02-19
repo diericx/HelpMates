@@ -95,7 +95,7 @@ export default class ChooseTutorScreen extends React.Component {
             keyExtractor={item => item._id}
             renderItem={({ item }) => (
               <DataRow
-                params={{ id: item._id, name: item.name }}
+                params={{ id: item._id, name: item.profile.name }}
                 title1={item.profile.name}
                 onPress={this.tutorOnPress}
               />

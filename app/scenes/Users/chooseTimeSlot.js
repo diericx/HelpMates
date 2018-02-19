@@ -2,10 +2,13 @@ import React from 'react';
 import Meteor from 'react-native-meteor';
 import update from 'immutability-helper';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, Button, FlatList, StatusBar } from 'react-native';
+import { View, Text, Button, FlatList, StatusBar, TouchableOpacity } from 'react-native';
 import { Agenda } from 'react-native-calendars';
 
 const styles = EStyleSheet.create({
+  container: {
+    flex: 1,
+  },
   item: {
     backgroundColor: 'white',
     flex: 1,
@@ -44,6 +47,7 @@ export default class ChooseTimeSlot extends React.Component {
     // params from navigation
     const { params } = this.props.navigation.state;
     this.state = {
+      params: params,
       userId: params.id,
       selectedDate: new Date(),
       availabilities: [],
@@ -51,6 +55,8 @@ export default class ChooseTimeSlot extends React.Component {
     };
     // get this users availabilities
     this.getAvailabilities();
+    // bind functions
+    this.onTimeSlotPress = this.onTimeSlotPress.bind(this);
   }
 
   loadItems(day) {
@@ -75,10 +81,8 @@ export default class ChooseTimeSlot extends React.Component {
             // if it is the same day of the week
             if (dateInc.getUTCDay() == availabilityDate.getUTCDay()) {
               this.state.items[dateIncStr].push({
-                startTime: this.dateGet12HourTime(availabilityDate),
-                endTime: this.dateGet12HourTime(
-                  new Date(availabilityDate.getTime() + availability.length * 60000),
-                ),
+                startDate: availabilityDate,
+                endDate: new Date(availabilityDate.getTime() + availability.length * 60000),
                 height: 100,
               });
             }
@@ -97,58 +101,21 @@ export default class ChooseTimeSlot extends React.Component {
         items: newItems,
       });
     }, 1000);
-
-    // if (day.month != this.state.selectedDate.getMonth() + 1) {
-    //   return;
-    // }
-
-    // setTimeout(() => {
-    //   var date = new Date(day.dateString);
-    //   console.log(date.getUTCDay());
-    //   var dateStr = this.dateToString(date);
-    //   console.log(date);
-    //   console.log(dateStr);
-
-    //   // reset items, make new array for selected day
-    //   var newItems = {};
-    //   newItems[dateStr] = [];
-
-    //   // loop over availabilities and find one that fits in this day
-    //   for (var i = 0; i < this.state.availabilities.length; i++) {
-    //     var availability = this.state.availabilities[i];
-    //     var availabilityDate = new Date(availability.date);
-    //     var availabilityDateStr = this.dateToString(availabilityDate);
-    //     console.log('-----');
-    //     console.log(date.getUTCDay(), availabilityDate.getUTCDay());
-    //     console.log(dateStr == availabilityDateStr);
-    //     console.log(date.getUTCDay() - availabilityDate.getUTCDay() % 7 == 0);
-    //     console.log(
-    //       dateStr == availabilityDateStr || date.getUTCDay() == availabilityDate.getUTCDay(),
-    //     );
-    //     if (
-    //       dateStr == availabilityDateStr ||
-    //       date.getUTCDay() - availabilityDate.getUTCDay() % 7 == 0
-    //     ) {
-    //       newItems[dateStr].push({
-    //         name: availabilityDateStr,
-    //         height: 100,
-    //       });
-    //     }
-    //   }
-
-    //   this.setState({
-    //     items: newItems,
-    //   });
-    // }, 1000);
-    // console.log(`Load Items for ${day.year}-${day.month}`);
   }
 
+  // CALENDAR RENDER FUNCTIONS
   renderItem(item) {
     return (
-      <View style={[styles.item, { height: item.height }]}>
-        <Text>{item.startTime}</Text>
-        <Text>{item.endTime}</Text>
-      </View>
+      <TouchableOpacity
+        onPress={() => {
+          this.onTimeSlotPress(item.startDate, item.endDate);
+        }}
+      >
+        <View style={[styles.item, { height: item.height }]}>
+          <Text>{this.dateGet12HourTime(item.startDate)}</Text>
+          <Text>{this.dateGet12HourTime(item.endDate)}</Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 
@@ -169,15 +136,21 @@ export default class ChooseTimeSlot extends React.Component {
   renderEmptyDate() {
     return (
       <View style={styles.emptyDate}>
-        <Text>This is empty date!</Text>
+        <Text>{this.state.params.name} is not available on this day!</Text>
       </View>
     );
+  }
+
+  // CALENDAR BUTTON CALLBACKS
+  onTimeSlotPress() {
+    console.log('Pressed time slot!');
   }
 
   rowHasChanged(r1, r2) {
     return r1.name !== r2.name;
   }
 
+  // DATE HELPER FUNCTIONS
   timeToString(time) {
     const date = new Date(time);
     return this.dateToString(date);
@@ -220,34 +193,23 @@ export default class ChooseTimeSlot extends React.Component {
     var today = new Date();
     var todayString = this.dateToLocalString(today);
     return (
-      <Agenda
-        items={this.state.items}
-        loadItemsForMonth={this.loadItems.bind(this)}
-        selected={todayString}
-        minDate={todayString}
-        renderItem={this.renderItem.bind(this)}
-        // renderDay={this.renderDay.bind(this)}
-        renderEmptyDate={this.renderEmptyDate.bind(this)}
-        rowHasChanged={this.rowHasChanged.bind(this)}
-        pastScrollRange={1}
-        onDayPress={day => {
-          this.setState({ selectedDate: new Date(day.dateString) });
-        }}
-
-        // markingType={'period'}
-        // markedDates={{
-        //    '2017-05-08': {textColor: '#666'},
-        //    '2017-05-09': {textColor: '#666'},
-        //    '2017-05-14': {startingDay: true, endingDay: true, color: 'blue'},
-        //    '2017-05-21': {startingDay: true, color: 'blue'},
-        //    '2017-05-22': {endingDay: true, color: 'gray'},
-        //    '2017-05-24': {startingDay: true, color: 'gray'},
-        //    '2017-05-25': {color: 'gray'},
-        //    '2017-05-26': {endingDay: true, color: 'gray'}}}
-        // monthFormat={'yyyy'}
-        // theme={{calendarBackground: 'red', agendaKnobColor: 'green'}}
-        // renderDay={(day, item) => <Text>{day ? day.day : 'item'}</Text>}
-      />
+      <View style={styles.container}>
+        <Text> asdf asf saf asf asf as </Text>
+        <Agenda
+          items={this.state.items}
+          loadItemsForMonth={this.loadItems.bind(this)}
+          selected={todayString}
+          minDate={todayString}
+          renderItem={this.renderItem.bind(this)}
+          // renderDay={this.renderDay.bind(this)}
+          renderEmptyDate={this.renderEmptyDate.bind(this)}
+          rowHasChanged={this.rowHasChanged.bind(this)}
+          pastScrollRange={1}
+          onDayPress={day => {
+            this.setState({ selectedDate: new Date(day.dateString) });
+          }}
+        />
+      </View>
     );
   }
 }
