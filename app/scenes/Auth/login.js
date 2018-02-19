@@ -66,10 +66,13 @@ export default class Login extends Component {
       // attempt to sign in
       Meteor.loginWithPassword(email, password, error => {
         if (error) {
+          console.log(error);
           this.setState({ error: error.reason });
         } else {
         }
       });
+    } else {
+      console.log('not valid');
     }
   }
 

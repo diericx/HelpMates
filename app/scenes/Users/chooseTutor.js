@@ -59,7 +59,6 @@ export default class ChooseTutorScreen extends React.Component {
       (err, res) => {
         // Do whatever you want with the response
         this.setState({ available_users: res });
-        console.log(res);
       },
     );
 
@@ -95,7 +94,7 @@ export default class ChooseTutorScreen extends React.Component {
             data={this.state.available_users}
             keyExtractor={item => item._id}
             renderItem={({ item }) => (
-              <DataRow id={item.key} title1={item.profile.name} onPress={this.tutorOnPress} />
+              <DataRow id={item._id} title1={item.profile.name} onPress={this.tutorOnPress} />
             )}
           />
         </View>
