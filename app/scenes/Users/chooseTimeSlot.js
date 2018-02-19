@@ -49,7 +49,7 @@ export default class ChooseTimeSlot extends React.Component {
     const { params } = this.props.navigation.state;
     this.state = {
       params: params,
-      userId: params.id,
+      userId: params.userId,
       startDate: null,
       endDate: null,
       availabilities: [],
@@ -205,6 +205,8 @@ export default class ChooseTimeSlot extends React.Component {
       <View style={styles.container}>
         <SendHelpRequestModal
           name={this.state.params.name}
+          userId={this.state.userId}
+          courseId={this.state.params.courseId}
           startDate={this.state.startDate}
           endDate={this.state.endDate}
           isVisible={this.state.isModalVisible}

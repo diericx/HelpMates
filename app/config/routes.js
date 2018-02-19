@@ -17,6 +17,7 @@ import UsersProfileScreen from '../scenes/Users/profile';
 import CoursesChooseCourseScreen from '../scenes/Courses/chooseCourse';
 // Help Session Request
 import HelpSessionRequestSendScreen from '../scenes/HelpSessionRequest/sendRequest';
+import HelpSessionRequestIndexScreen from '../scenes/HelpSessionRequest/index';
 
 const SendHelpSessionRequestStack = StackNavigator(
   {
@@ -69,12 +70,24 @@ const ProfileStack = StackNavigator({
   },
 });
 
+const HelpSessionStack = StackNavigator({
+  Index: {
+    screen: HelpSessionRequestIndexScreen,
+  },
+});
+
 export const MainNavigation = TabNavigator(
   {
-    Student: {
+    GetHelp: {
       screen: StudentStack,
       navigationOptions: {
-        tabBarLabel: 'Student',
+        tabBarLabel: 'Get Help',
+      },
+    },
+    Sessions: {
+      screen: HelpSessionStack,
+      navigationOptions: {
+        tabBarLabel: 'Sessions',
       },
     },
     Tutor: {
@@ -95,10 +108,12 @@ export const MainNavigation = TabNavigator(
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
-        if (routeName === 'Student') {
+        if (routeName === 'GetHelp') {
           iconName = `ios-people${focused ? '' : '-outline'}`;
         } else if (routeName === 'Profile') {
           iconName = `ios-person${focused ? '' : '-outline'}`;
+        } else if (routeName === 'Sessions') {
+          iconName = `ios-send${focused ? '' : '-outline'}`;
         }
 
         // You can return any component that you like here! We usually use an

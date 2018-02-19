@@ -55,7 +55,7 @@ export default class ChooseTutorScreen extends React.Component {
     // get users who have completed this course
     Meteor.call(
       'users.getAllWhoCompletedCourse',
-      { courseId: this.state.params.id },
+      { courseId: this.state.params.courseId },
       (err, res) => {
         // Do whatever you want with the response
         this.setState({ available_users: res });
@@ -69,10 +69,14 @@ export default class ChooseTutorScreen extends React.Component {
 
   takenCourseButtonOnPress() {
     // Get available courses from server
-    Meteor.call('users.addCompletedCourse', { courseId: this.state.params.id }, (err, res) => {
-      // Do whatever you want with the response
-      this.setState({ courses: res });
-    });
+    Meteor.call(
+      'users.addCompletedCourse',
+      { courseId: this.state.params.courseId },
+      (err, res) => {
+        // Do whatever you want with the response
+        this.setState({ courses: res });
+      },
+    );
   }
 
   tutorOnPress(params) {
@@ -95,7 +99,11 @@ export default class ChooseTutorScreen extends React.Component {
             keyExtractor={item => item._id}
             renderItem={({ item }) => (
               <DataRow
-                params={{ id: item._id, name: item.profile.name }}
+                params={{
+                  userId: item._id,
+                  courseId: this.state.params.courseId,
+                  name: item.profile.name,
+                }}
                 title1={item.profile.name}
                 onPress={this.tutorOnPress}
               />

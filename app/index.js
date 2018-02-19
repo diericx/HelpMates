@@ -31,6 +31,8 @@ class App extends React.Component {
     await Expo.Font.loadAsync({
       Milkshake: require('../assets/fonts/Milkshake.ttf'),
       OpenSansLight: require('../assets/fonts/OpenSansLight.ttf'),
+      OpenSansBold: require('../assets/fonts/OpenSansBold.ttf'),
+      OpenSans: require('../assets/fonts/OpenSansRegular.ttf'),
     });
 
     connect();

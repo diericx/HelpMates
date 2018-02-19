@@ -1,6 +1,7 @@
 import React from 'react';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { View, Text, Button, FlatList, StatusBar, TouchableOpacity } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import Meteor from 'react-native-meteor';
 import Modal from 'react-native-modal';
 
 const styles = EStyleSheet.create({
@@ -14,12 +15,13 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   dataContainerTitle: {
-    fontFamily: 'OpenSansLight',
+    fontFamily: 'OpenSans',
     fontSize: 23,
     marginTop: 30,
   },
   dataContainerText: {
     fontFamily: 'OpenSansLight',
+    marginTop: 20,
   },
   sendButtonContainer: {
     height: 70,
@@ -35,6 +37,33 @@ const styles = EStyleSheet.create({
 });
 
 export default class SendHelpSessionRequestModal extends React.Component {
+  constructor(props) {
+    super(props);
+    // bind
+    this.sendRequest = this.sendRequest.bind(this);
+  }
+
+  sendRequest() {
+    Meteor.call(
+      'helpSessionRequests.create',
+      {
+        userId: Meteor.userId(),
+        tutorId: this.props.userId,
+        courseId: this.props.courseId,
+        startDate: this.props.startDate,
+        endDate: this.props.endDate,
+      },
+      (err, res) => {
+        if (err) {
+          console.log(err);
+        } else {
+          this.props.toggleModal();
+        }
+        // Do whatever you want with the response
+      },
+    );
+  }
+
   renderDateRange() {
     if (this.props.startDate && this.props.endDate) {
       return (
@@ -54,7 +83,7 @@ export default class SendHelpSessionRequestModal extends React.Component {
             <Text style={styles.dataContainerTitle}>Get help from {this.props.name} </Text>
             {this.renderDateRange()}
           </View>
-          <TouchableOpacity onPress={this.toggleModal}>
+          <TouchableOpacity onPress={this.sendRequest}>
             <View style={styles.sendButtonContainer}>
               <Text style={styles.sendButtonText}> SEND REQUEST </Text>
             </View>
