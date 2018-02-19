@@ -1,7 +1,6 @@
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, Button, Image } from 'react-native';
-import ImagePicker from 'react-native-image-picker';
+import { View, Text, Button, Image, CameraRoll } from 'react-native';
 
 export default class Profile extends React.Component {
   constructor(props) {
