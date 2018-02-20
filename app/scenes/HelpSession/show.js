@@ -32,7 +32,8 @@ class Show extends React.Component {
       console.log('conversation is here');
       return (
         <GiftedChat
-          messages={conversation.messages}
+          messages={conversation.messages.reverse()}
+          bottomOffset={50}
           onSend={messages => this.onSend(conversation._id, messages)}
           user={{
             _id: Meteor.userId(),

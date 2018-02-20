@@ -1,6 +1,7 @@
 import React from 'react';
+import Meteor from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, Button, Image, CameraRoll } from 'react-native';
+import { View, Text, Button, Image } from 'react-native';
 
 export default class Profile extends React.Component {
   constructor(props) {
@@ -9,43 +10,16 @@ export default class Profile extends React.Component {
       profilePicSource: null,
     };
   }
-  onUploadProfilePicture() {
-    const options = {
-      quality: 1.0,
-      maxWidth: 500,
-      maxHeight: 500,
-      storageOptions: {
-        skipBackup: true,
-      },
-    };
 
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled photo picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        const source = { uri: response.uri };
-
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        this.setState({
-          profilePicSource: source,
-        });
-      }
-    });
+  logout() {
+    Meteor.logout();
   }
 
   render() {
     return (
       <View>
         <Text> Profile Screen </Text>
-        <Button onPress={this.onUploadProfilePicture.bind(this)} title="Upload Profile Picture" />
+        <Button onPress={this.logout} title="Logout" />
         <Image source={this.state.avatarSource} />
       </View>
     );
