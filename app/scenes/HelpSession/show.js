@@ -1,14 +1,14 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const styles = EStyleSheet.create({
   container: {},
 });
 
-export default class Index extends React.Component {
+export default class Show extends React.Component {
   static navigationOptions = {
-    title: 'My Sessions',
+    title: 'Session',
     headerStyle: {
       backgroundColor: '#cd84f1',
     },
@@ -24,7 +24,7 @@ export default class Index extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> Your requests </Text>
+        <Text> Help Session </Text>
       </View>
     );
   }

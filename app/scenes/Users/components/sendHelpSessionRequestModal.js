@@ -45,7 +45,7 @@ export default class SendHelpSessionRequestModal extends React.Component {
 
   sendRequest() {
     Meteor.call(
-      'helpSessionRequests.create',
+      'helpSessions.create',
       {
         userId: Meteor.userId(),
         tutorId: this.props.userId,

@@ -16,20 +16,9 @@ import UsersProfileScreen from '../scenes/Users/profile';
 // Course Screens
 import CoursesChooseCourseScreen from '../scenes/Courses/chooseCourse';
 // Help Session Request
-import HelpSessionRequestSendScreen from '../scenes/HelpSessionRequest/sendRequest';
-import HelpSessionRequestIndexScreen from '../scenes/HelpSessionRequest/index';
-
-const SendHelpSessionRequestStack = StackNavigator(
-  {
-    SendHelpSessionRequest: {
-      screen: HelpSessionRequestSendScreen,
-    },
-  },
-  {
-    mode: 'modal',
-    headerMode: 'none',
-  },
-);
+import HelpSessionSendRequestScreen from '../scenes/HelpSession/sendRequest';
+import HelpSessionIndexScreen from '../scenes/HelpSession/index';
+import HelpSessionShowScreen from '../scenes/HelpSession/show';
 
 const ChooseTimeSlotStack = StackNavigator(
   {
@@ -37,7 +26,7 @@ const ChooseTimeSlotStack = StackNavigator(
       screen: UsersChooseTimeSlotScreen,
     },
     SendHelpSessionRequest: {
-      screen: HelpSessionRequestSendScreen,
+      screen: HelpSessionSendRequestScreen,
     },
   },
   {
@@ -72,7 +61,10 @@ const ProfileStack = StackNavigator({
 
 const HelpSessionStack = StackNavigator({
   Index: {
-    screen: HelpSessionRequestIndexScreen,
+    screen: HelpSessionIndexScreen,
+  },
+  Show: {
+    screen: HelpSessionShowScreen,
   },
 });
 
