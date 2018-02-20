@@ -13,40 +13,26 @@ const styles = EStyleSheet.create({
 const defaultAvatar = 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg';
 
 class Index extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // Get data from server
-    this.getSessions();
-  }
-
-  // METEOR
-  getSessions() {
-    Meteor.call('helpSessions.get', { userId: Meteor.userId() }, (err, res) => {
-      // Do whatever you want with the response
-      this.setState({ sessions: res });
-    });
-  }
-
-  renderItem(item) {
-    return <ListItem title={item._id} />;
-  }
-
   onItemPress(params) {
     this.props.navigation.navigate('Show', params);
   }
 
   getNameToDisplayForSession(session) {
     if (Meteor.userId() == session.userId) {
-      var user = Meteor.collection('users').findOne(session.tutorId);
+      const user = Meteor.collection('users').findOne(session.tutorId);
       if (user) {
         return user.profile.name;
       }
     }
-    var user = Meteor.collection('users').findOne(session.userId);
+    const user = Meteor.collection('users').findOne(session.userId);
     if (user) {
       return user.profile.name;
     }
+    return '';
+  }
+
+  renderItem(item) {
+    return <ListItem title={item._id} />;
   }
 
   renderSessionList(sessions) {
@@ -74,7 +60,6 @@ class Index extends React.Component {
 
   render() {
     const { sessions } = this.props;
-    console.log('Sessions: ', sessions);
     return <View style={styles.container}>{this.renderSessionList(sessions)}</View>;
   }
 }

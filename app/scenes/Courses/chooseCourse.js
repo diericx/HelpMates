@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Button, FlatList, StatusBar, AsyncStorage } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Meteor, { Accounts, createContainer } from 'react-native-meteor';
+import { List, ListItem, SearchBar } from 'react-native-elements';
 
 import DataRow from '../../components/general/DataRow';
 
@@ -13,19 +14,12 @@ const styles = EStyleSheet.create({
     backgroundColor: 'white',
   },
   listContainer: {
-    marginTop: 20,
+    marginTop: -17,
     flexDirection: 'column',
     flex: 1,
   },
   list: {},
 });
-
-// Data for debugging layout
-mockCourseData = [
-  { key: 0, course_name: 'Computer Science I' },
-  { key: 1, course_name: 'Computer Science II' },
-  { key: 2, course_name: 'Computer Science III' },
-];
 
 export default class ChooseCourseScreen extends React.Component {
   static navigationOptions = {
@@ -59,6 +53,7 @@ export default class ChooseCourseScreen extends React.Component {
     this.props.navigation.navigate('ChooseTutor', params);
   }
 
+  // Custom list render
   renderCourses() {
     return (
       <View style={styles.listContainer}>
@@ -74,13 +69,32 @@ export default class ChooseCourseScreen extends React.Component {
     );
   }
 
+  // Generic list render
+  renderCoursesAsList() {
+    return (
+      <View style={styles.listContainer}>
+        <List containerStyle={{ marginBottom: 20, marginTop: 0 }}>
+          {this.state.courses.map((l, i) => (
+            <ListItem
+              onPress={() => this.onPress({ courseId: l._id })}
+              underlayColor="rgb(245,245,245)"
+              key={i}
+              title={l.title1}
+              subtitle={l.title2}
+            />
+          ))}
+        </List>
+      </View>
+    );
+  }
+
   render() {
     const { courses } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <Text> {courses} </Text>
-        {this.state.courses.length > 0 ? this.renderCourses() : console.log('loading...')}
+        {this.state.courses.length > 0 ? this.renderCoursesAsList() : console.log('loading...')}
       </View>
     );
   }

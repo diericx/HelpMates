@@ -13,6 +13,7 @@
     "import/no-unresolved": "off",
     "import/extensions": "off",
     "react/prefer-stateless-function": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "class-methods-use-this": "off"
   }
 }
