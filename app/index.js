@@ -15,7 +15,7 @@ EStyleSheet.build({
   $purple: '#cd84f1',
   $offWhite: 'rgb(252, 252, 252)',
   $offWhiteDown: 'rgb(247, 247, 247)',
-  $lightBlue: '#7efff5',
+  $lightBlue: '#18dcff',
   $lightBlueDown: '#76f2e7',
   $green: '#32ff7e',
 });

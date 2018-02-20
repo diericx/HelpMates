@@ -1,7 +1,9 @@
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, Button, FlatList, StatusBar } from 'react-native';
+import { View, Text, FlatList, StatusBar } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
+import { List, ListItem, Button, Rating } from 'react-native-elements';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import DataRow from '../../components/general/DataRow';
 
@@ -11,21 +13,24 @@ const styles = EStyleSheet.create({
     backgroundColor: 'white',
   },
   listContainer: {
-    marginTop: 20,
     flexDirection: 'column',
     flex: 1,
   },
   list: {},
+  ratingContainer: {
+    flexDirection: 'row',
+    marginLeft: 9,
+  },
+  takenCourseBtn: {
+    width: '$screenWidth',
+    height: 60,
+    backgroundColor: '$green',
+    borderColor: 'transparent',
+    marginLeft: -15,
+  },
 });
 
-// Data for debugging layout
-mockTutorData = [
-  { key: 0, tutor_name: 'Zac Holland' },
-  { key: 1, tutor_name: 'Charlie Clark' },
-  { key: 2, tutor_name: 'Kerec Spinney' },
-  { key: 3, tutor_name: 'Ben Jones' },
-  { key: 4, tutor_name: 'John Doe' },
-];
+const defaultAvatar = 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg';
 
 export default class ChooseTutorScreen extends React.Component {
   static navigationOptions = {
@@ -64,7 +69,7 @@ export default class ChooseTutorScreen extends React.Component {
 
     // bind functions
     this.takenCourseButtonOnPress = this.takenCourseButtonOnPress.bind(this);
-    this.tutorOnPress = this.tutorOnPress.bind(this);
+    this.onPress = this.onPress.bind(this);
   }
 
   takenCourseButtonOnPress() {
@@ -79,37 +84,73 @@ export default class ChooseTutorScreen extends React.Component {
     );
   }
 
-  tutorOnPress(params) {
+  onPress(params) {
     this.props.navigation.navigate('ChooseTimeSlot', params);
+  }
+
+  renderList() {
+    return (
+      <FlatList
+        style={styles.list}
+        data={this.state.available_users}
+        keyExtractor={item => item._id}
+        renderItem={({ item }) => (
+          <DataRow
+            params={{
+              userId: item._id,
+              courseId: this.state.params.courseId,
+              name: item.profile.name,
+            }}
+            title1={item.profile.name}
+            onPress={this.onPress}
+          />
+        )}
+      />
+    );
+  }
+
+  renderNativeList() {
+    return (
+      <List containerStyle={{ marginBottom: 20, marginTop: 0 }}>
+        {this.state.available_users.map((l, i) => (
+          <ListItem
+            roundAvatar
+            avatar={{ uri: defaultAvatar }}
+            onPress={() =>
+              this.onPress({
+                userId: l._id,
+                courseId: this.state.params.courseId,
+                name: l.profile.name,
+              })
+            }
+            underlayColor="rgb(245,245,245)"
+            key={i}
+            title={l.profile.name}
+            subtitle={
+              <View style={styles.ratingContainer}>
+                <Rating imageSize={20} readonly startingValue={1} />
+              </View>
+            }
+          />
+        ))}
+      </List>
+    );
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
         <Button
+          title="I've taken this course!"
+          textStyle={{ fontSize: 20 }}
+          buttonStyle={styles.takenCourseBtn}
+        />
+        {/* <Button
           onPress={this.takenCourseButtonOnPress}
           title="I have taken this course"
           color="#841584"
-        />
-        <View style={styles.listContainer}>
-          <FlatList
-            style={styles.list}
-            data={this.state.available_users}
-            keyExtractor={item => item._id}
-            renderItem={({ item }) => (
-              <DataRow
-                params={{
-                  userId: item._id,
-                  courseId: this.state.params.courseId,
-                  name: item.profile.name,
-                }}
-                title1={item.profile.name}
-                onPress={this.tutorOnPress}
-              />
-            )}
-          />
-        </View>
+        /> */}
+        <View style={styles.listContainer}>{this.renderNativeList()}</View>
       </View>
     );
   }

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button, FlatList, StatusBar, AsyncStorage } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Meteor, { Accounts, createContainer } from 'react-native-meteor';
-import { List, ListItem, SearchBar } from 'react-native-elements';
+import { List, ListItem } from 'react-native-elements';
 
 import DataRow from '../../components/general/DataRow';
 
@@ -54,7 +54,7 @@ export default class ChooseCourseScreen extends React.Component {
   }
 
   // Custom list render
-  renderCourses() {
+  renderList() {
     return (
       <View style={styles.listContainer}>
         <FlatList
@@ -70,7 +70,7 @@ export default class ChooseCourseScreen extends React.Component {
   }
 
   // Generic list render
-  renderCoursesAsList() {
+  renderNativeList() {
     return (
       <View style={styles.listContainer}>
         <List containerStyle={{ marginBottom: 20, marginTop: 0 }}>
@@ -94,7 +94,7 @@ export default class ChooseCourseScreen extends React.Component {
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <Text> {courses} </Text>
-        {this.state.courses.length > 0 ? this.renderCoursesAsList() : console.log('loading...')}
+        {this.state.courses.length > 0 ? this.renderNativeList() : console.log('loading...')}
       </View>
     );
   }

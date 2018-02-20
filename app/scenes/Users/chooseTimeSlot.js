@@ -121,8 +121,8 @@ export default class ChooseTimeSlot extends React.Component {
         }}
       >
         <View style={[styles.item, { height: item.height }]}>
-          <Text>{this.dateGet12HourTime(item.startDate)}</Text>
-          <Text>{this.dateGet12HourTime(item.endDate)}</Text>
+          <Text style={{ color: 'lightgray' }}>{this.dateGet12HourTime(item.startDate)}</Text>
+          <Text style={{ color: 'lightgray' }}>{this.dateGet12HourTime(item.endDate)}</Text>
         </View>
       </TouchableOpacity>
     );

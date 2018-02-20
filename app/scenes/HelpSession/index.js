@@ -6,7 +6,9 @@ import { List, ListItem } from 'react-native-elements';
 
 const styles = EStyleSheet.create({
   container: {
+    flex: 1,
     marginTop: -20,
+    backgroundColor: 'white',
   },
 });
 

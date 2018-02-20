@@ -5,7 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { GiftedChat } from 'react-native-gifted-chat';
 
 const styles = EStyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, backgroundColor: 'white' },
 });
 
 class Show extends React.Component {
