@@ -94,7 +94,7 @@ export default class ChooseCourseScreen extends React.Component {
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <Text> {courses} </Text>
-        {this.state.courses.length > 0 ? this.renderNativeList() : console.log('loading...')}
+        {this.state.courses ? this.renderNativeList() : console.log('loading...')}
       </View>
     );
   }
