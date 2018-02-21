@@ -7,8 +7,14 @@ import { List, ListItem } from 'react-native-elements';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    marginTop: -20,
     backgroundColor: 'white',
+  },
+  listHeaderContainer: {
+    backgroundColor: 'lightgray',
+    padding: 5,
+  },
+  listHeader: {
+    color: 'gray',
   },
 });
 
@@ -47,7 +53,7 @@ class Index extends React.Component {
     }
     // render list
     return (
-      <List containerStyle={{ marginBottom: 20 }}>
+      <List containerStyle={{ marginBottom: 0, marginTop: 0 }}>
         {sessions.map((l, i) => (
           <ListItem
             onPress={() => this.onItemPress(l)}
@@ -64,15 +70,30 @@ class Index extends React.Component {
   }
 
   render() {
+    const { sessionRequests } = this.props;
     const { sessions } = this.props;
-    return <View style={styles.container}>{this.renderSessionList(sessions)}</View>;
+    return (
+      <View style={styles.container}>
+        <View style={styles.listHeaderContainer}>
+          <Text style={styles.listHeader}> REQUESTS </Text>
+        </View>
+        {this.renderSessionList(sessionRequests)}
+        <View style={styles.listHeaderContainer}>
+          <Text style={styles.listHeader}> ACTIVE SESSIONS </Text>
+        </View>
+        {this.renderSessionList(sessions)}
+      </View>
+    );
   }
 }
 
 export default (container = createContainer((params) => {
   Meteor.subscribe('mySessions');
   return {
-    sessions: Meteor.collection('helpSessions').find(),
+    sessionRequests: Meteor.collection('helpSessions').find({
+      $or: [{ tutorAccepted: false }, { userAccepted: false }],
+    }),
+    sessions: Meteor.collection('helpSessions').find({ accepted: true }),
   };
 }, Index));
 
