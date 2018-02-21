@@ -66,8 +66,6 @@ export default class UserAgenda extends React.Component {
       const todayLocal = DateToLocalString(today);
       const dateInc = new Date(today.getUTCFullYear(), day.month - 1, 1);
 
-      console.log(this.props);
-
       while (dateInc.getMonth() + 1 == day.month) {
         const dateIncStr = DateToString(dateInc);
 

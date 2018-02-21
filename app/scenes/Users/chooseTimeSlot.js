@@ -53,7 +53,6 @@ export default class ChooseTimeSlot extends React.Component {
   }
 
   render() {
-    console.log('Availabilities: ', this.state.availabilities);
     return (
       <View style={styles.container}>
         <UserAgenda

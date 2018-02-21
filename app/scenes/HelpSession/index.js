@@ -4,6 +4,8 @@ import Meteor, { createContainer } from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { List, ListItem } from 'react-native-elements';
 
+import { GetOtherUsersNameForSession } from './helpers';
+
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
@@ -26,21 +28,6 @@ class Index extends React.Component {
     this.props.navigation.navigate('Show', params);
   }
 
-  // Figure out which user's name to display for this session
-  getNameToDisplayForSession(session) {
-    if (Meteor.userId() === session.userId) {
-      const user = Meteor.collection('users').findOne(session.tutorId);
-      if (user) {
-        return user.profile.name;
-      }
-    }
-    const user = Meteor.collection('users').findOne(session.userId);
-    if (user) {
-      return user.profile.name;
-    }
-    return '';
-  }
-
   getCourseNameToDisplayForSession(session) {
     return Meteor.collection('courses').findOne(session.courseId).title1;
   }
@@ -61,12 +48,12 @@ class Index extends React.Component {
       <List containerStyle={{ marginBottom: 0, marginTop: 0 }}>
         {sessions.map((l, i) => (
           <ListItem
-            onPress={() => this.onItemPress(l)}
+            onPress={() => this.onItemPress({ session: l })}
             underlayColor="rgb(245,245,245)"
             roundAvatar
             avatar={{ uri: defaultAvatar }}
             key={i}
-            title={this.getNameToDisplayForSession(l)}
+            title={GetOtherUsersNameForSession(l, Meteor.userId())}
             subtitle={this.getCourseNameToDisplayForSession(l)}
           />
         ))}
