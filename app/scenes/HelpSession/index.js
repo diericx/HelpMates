@@ -11,9 +11,10 @@ const styles = EStyleSheet.create({
   },
   listHeaderContainer: {
     backgroundColor: 'lightgray',
-    padding: 5,
+    padding: 4,
   },
   listHeader: {
+    fontSize: 12,
     color: 'gray',
   },
 });
@@ -40,6 +41,10 @@ class Index extends React.Component {
     return '';
   }
 
+  getCourseNameToDisplayForSession(session) {
+    return Meteor.collection('courses').findOne(session.courseId).title1;
+  }
+
   // Render the ListItem for this session
   renderItem(item) {
     return <ListItem title={item._id} />;
@@ -62,7 +67,7 @@ class Index extends React.Component {
             avatar={{ uri: defaultAvatar }}
             key={i}
             title={this.getNameToDisplayForSession(l)}
-            subtitle={l.subtitle}
+            subtitle={this.getCourseNameToDisplayForSession(l)}
           />
         ))}
       </List>
@@ -90,10 +95,8 @@ class Index extends React.Component {
 export default (container = createContainer((params) => {
   Meteor.subscribe('mySessions');
   return {
-    sessionRequests: Meteor.collection('helpSessions').find({
-      $or: [{ tutorAccepted: false }, { userAccepted: false }],
-    }),
-    sessions: Meteor.collection('helpSessions').find({ accepted: true }),
+    sessionRequests: Meteor.collection('helpSessions').find({ tutorAccepted: false }),
+    sessions: Meteor.collection('helpSessions').find({ tutorAccepted: true }),
   };
 }, Index));
 
