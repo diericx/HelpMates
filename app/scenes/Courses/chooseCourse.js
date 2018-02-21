@@ -54,20 +54,20 @@ export default class ChooseCourseScreen extends React.Component {
   }
 
   // Custom list render
-  renderList() {
-    return (
-      <View style={styles.listContainer}>
-        <FlatList
-          style={styles.list}
-          data={this.state.courses}
-          keyExtractor={item => item._id}
-          renderItem={({ item }) => (
-            <DataRow params={{ courseId: item._id }} title1={item.title1} onPress={this.onPress} />
-          )}
-        />
-      </View>
-    );
-  }
+  // renderList() {
+  //   return (
+  //     <View style={styles.listContainer}>
+  //       <FlatList
+  //         style={styles.list}
+  //         data={this.state.courses}
+  //         keyExtractor={item => item._id}
+  //         renderItem={({ item }) => (
+  //           <DataRow params={{ courseId: item._id }} title1={item.title1} onPress={this.onPress} />
+  //         )}
+  //       />
+  //     </View>
+  //   );
+  // }
 
   // Generic list render
   renderNativeList() {

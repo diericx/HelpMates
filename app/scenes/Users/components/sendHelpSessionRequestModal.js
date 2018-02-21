@@ -43,6 +43,50 @@ export default class SendHelpSessionRequestModal extends React.Component {
     this.sendRequest = this.sendRequest.bind(this);
   }
 
+  loadItems(day) {
+    setTimeout(() => {
+      const today = new Date();
+      const todayLocal = DateToLocalString(today);
+      const dateInc = new Date(today.getUTCFullYear(), day.month - 1, 1);
+
+      console.log(todayLocal);
+
+      while (dateInc.getMonth() + 1 == day.month) {
+        const dateIncStr = DateToString(dateInc);
+
+        // if this day of the month hasn't been populated yet
+        if (!this.state.items[dateIncStr]) {
+          this.state.items[dateIncStr] = [];
+          // populate it with info from availabilities
+          for (let i = 0; i < this.state.availabilities.length; i++) {
+            // get data for this availability
+            const availability = this.state.availabilities[i];
+            const availabilityDate = new Date(availability.date);
+            // if it is the same day of the week
+            if (dateInc.getUTCDay() == availabilityDate.getUTCDay()) {
+              this.state.items[dateIncStr].push({
+                startDate: availabilityDate,
+                endDate: new Date(availabilityDate.getTime() + availability.length * 60000),
+                height: 100,
+              });
+            }
+          }
+        }
+        dateInc.setDate(dateInc.getDate() + 1);
+      }
+
+      // update items with new object to give a sense of immutability
+      // this seems kinda fucked up to me
+      const newItems = {};
+      Object.keys(this.state.items).forEach((key) => {
+        newItems[key] = this.state.items[key];
+      });
+      this.setState({
+        items: newItems,
+      });
+    }, 1000);
+  }
+
   sendRequest() {
     Meteor.call(
       'helpSessions.create',

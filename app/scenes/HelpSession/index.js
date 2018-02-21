@@ -19,8 +19,9 @@ class Index extends React.Component {
     this.props.navigation.navigate('Show', params);
   }
 
+  // Figure out which user's name to display for this session
   getNameToDisplayForSession(session) {
-    if (Meteor.userId() == session.userId) {
+    if (Meteor.userId() === session.userId) {
       const user = Meteor.collection('users').findOne(session.tutorId);
       if (user) {
         return user.profile.name;
@@ -33,10 +34,12 @@ class Index extends React.Component {
     return '';
   }
 
+  // Render the ListItem for this session
   renderItem(item) {
     return <ListItem title={item._id} />;
   }
 
+  // Render the List of user's sessions
   renderSessionList(sessions) {
     if (sessions == null) {
       // render loading circle

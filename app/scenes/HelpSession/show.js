@@ -9,12 +9,14 @@ const styles = EStyleSheet.create({
 });
 
 class Show extends React.Component {
+  // When a message is sent on client
   onSend(convoId, messages = []) {
     const message = messages[0];
     message.user.name = Meteor.user().profile.name;
     this.sendMessage(convoId, message);
   }
 
+  // Send the message to the server
   sendMessage(conversationId, message) {
     Meteor.call('conversations.sendMessage', { conversationId, message }, (err, res) => {
       // Do whatever you want with the response
@@ -26,6 +28,7 @@ class Show extends React.Component {
     });
   }
 
+  // Render the chat UI element
   renderChat(conversation) {
     console.log('Conve: ', conversation);
     if (conversation) {
