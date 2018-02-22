@@ -61,7 +61,12 @@ class Index extends React.Component {
       <List containerStyle={{ marginBottom: 0, marginTop: 0 }}>
         {sessions.map((l, i) => (
           <ListItem
-            onPress={() => this.onItemPress({ session: l })}
+            onPress={() =>
+              this.onItemPress({
+                session: l,
+                otherUsersName: GetOtherUsersNameForSession(l, Meteor.userId()),
+              })
+            }
             underlayColor="rgb(245,245,245)"
             roundAvatar
             avatar={{ uri: defaultAvatar }}

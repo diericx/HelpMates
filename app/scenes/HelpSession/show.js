@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { GiftedChat } from 'react-native-gifted-chat';
@@ -16,11 +16,16 @@ const styles = EStyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
   },
-  sessionData: {
-    flex: 1,
+  sessionData: {},
+  waitingText: {
+    color: 'gray',
   },
   actionButtonsContainer: {
     flexDirection: 'row',
+  },
+  waitingForTutor: {
+    height: 65,
+    justifyContent: 'center',
   },
   sideBySideButton: {
     width: 150,
@@ -54,6 +59,7 @@ class Show extends React.Component {
     // bind
     this.acceptSession = this.acceptSession.bind(this);
     this.renderSessionDataActionButtons = this.renderSessionDataActionButtons.bind(this);
+    this.renderSessionData = this.renderSessionData.bind(this);
   }
 
   // When a message is sent on client
@@ -118,56 +124,115 @@ class Show extends React.Component {
     return <View />;
   }
 
-  renderSessionDataActionButtons() {
-    const session = this.state.navParams.session;
+  renderWaitingForTutorToAccept() {
+    return (
+      <View style={styles.waitingForTutor}>
+        <ActivityIndicator size="large" color="lightblue" />
+        <Text style={styles.waitingText}>
+          {' '}
+          Waiting for {this.state.navParams.otherUsersName} to accept your request{' '}
+        </Text>
+      </View>
+    );
+  }
+
+  renderAcceptDenyButtons() {
+    const session = this.props.session;
+    return (
+      <View style={styles.actionButtonsContainer}>
+        <Button
+          title="Accept"
+          textStyle={{ fontWeight: '700' }}
+          buttonStyle={[styles.sideBySideButton, styles.acceptButton]}
+          containerStyle={{ marginTop: 20 }}
+          onPress={this.acceptSession}
+        />
+        <Button
+          title="Deny"
+          textStyle={{ fontWeight: '700' }}
+          buttonStyle={[styles.sideBySideButton, styles.denyButton]}
+          containerStyle={{ marginTop: 20 }}
+          onPress={this.denySession}
+        />
+      </View>
+    );
+  }
+
+  renderStartCancelButtons() {
+    const session = this.props.session;
+    return (
+      <View style={styles.actionButtonsContainer}>
+        <Button
+          title="Start"
+          textStyle={{ fontWeight: '700' }}
+          buttonStyle={[styles.sideBySideButton, styles.acceptButton]}
+          containerStyle={{ marginTop: 20 }}
+          onPress={this.acceptSession}
+        />
+        <Button
+          title="Cancel"
+          textStyle={{ fontWeight: '700' }}
+          buttonStyle={[styles.sideBySideButton, styles.cancelButton]}
+          containerStyle={{ marginTop: 20 }}
+          onPress={this.denySession}
+        />
+      </View>
+    );
+  }
+
+  renderSessionData() {
+    const session = this.props.session;
     if (session.tutorId === Meteor.userId()) {
-      if (session.tutorAccepted === false) {
-        return (
-          <View style={styles.actionButtonsContainer}>
-            <Button
-              title="Accept"
-              textStyle={{ fontWeight: '700' }}
-              buttonStyle={[styles.sideBySideButton, styles.acceptButton]}
-              containerStyle={{ marginTop: 20 }}
-              onPress={this.acceptSession}
-            />
-            <Button
-              title="Deny"
-              textStyle={{ fontWeight: '700' }}
-              buttonStyle={[styles.sideBySideButton, styles.denyButton]}
-              containerStyle={{ marginTop: 20 }}
-              onPress={this.denySession}
-            />
-          </View>
-        );
+    } else if (session.tutorAccepted) {
+      // if the tutor has accepted
+      if (session.startedAt) {
+        // show the active session view
       }
-      return (
-        <View style={styles.actionButtonsContainer}>
-          <Button
-            title="Start"
-            textStyle={{ fontWeight: '700' }}
-            buttonStyle={[styles.sideBySideButton, styles.acceptButton]}
-            containerStyle={{ marginTop: 20 }}
-            onPress={this.acceptSession}
-          />
-          <Button
-            title="Cancel"
-            textStyle={{ fontWeight: '700' }}
-            buttonStyle={[styles.sideBySideButton, styles.cancelButton]}
-            containerStyle={{ marginTop: 20 }}
-            onPress={this.denySession}
-          />
-        </View>
-      );
+    } else {
+      return this.renderWaitingForTutorToAccept();
+    }
+  }
+
+  renderSessionDataActionButtons() {
+    const session = this.props.session;
+    if (session == null) {
+      return <View />;
+    }
+
+    // if this is the tutor
+    if (session.tutorId === Meteor.userId()) {
+      // if the tutor has accepted
+      if (session.tutorAccepted) {
+        if (session.startedAt) {
+          // show the active session view
+        } else {
+          // show the start and cancel buttons
+          return this.renderStartCancelButtons();
+        }
+      }
+      // if the tutor hasn't accepted, show the accept/deny buttons
+      return this.renderAcceptDenyButtons();
+    }
+
+    // if this is the student
+    if (session.tutorAccepted) {
+      // if the tutor has accepted
+      if (session.startedAt) {
+        // show the active session view
+      } else {
+        // show the start and cancel buttons
+        return this.renderStartCancelButtons();
+      }
     }
   }
 
   render() {
     const { conversation } = this.props;
+    // console.log(this.props);
     return (
       <View style={styles.container}>
         <View style={styles.sessionDataContainer}>
-          <View style={styles.sessionData} />
+          <View style={styles.sessionData}>{this.renderSessionData()}</View>
           {this.renderSessionDataActionButtons()}
         </View>
         <Divider style={{ backgroundColor: 'lightgray' }} />
@@ -177,16 +242,17 @@ class Show extends React.Component {
   }
 }
 
-export default (container = createContainer((params) => {
-  const convoId = params.navigation.state.params.session.conversationId;
-  Meteor.subscribe('thisConversation', { id: convoId });
+const container = createContainer((params) => {
+  const session = params.navigation.state.params.session;
+  Meteor.subscribe('session', { id: session._id });
   return {
-    conversation: Meteor.collection('conversations').findOne(convoId),
+    session: Meteor.collection('helpSessions').findOne(session._id),
+    conversation: Meteor.collection('conversations').findOne(session.conversationId),
   };
-}, Show));
+}, Show);
 
 container.navigationOptions = {
-  title: 'Session',
+  title: '',
   headerStyle: {
     backgroundColor: '#cd84f1',
   },
@@ -198,3 +264,5 @@ container.navigationOptions = {
     fontFamily: 'Milkshake',
   },
 };
+
+export default container;
