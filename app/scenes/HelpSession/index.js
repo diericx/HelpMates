@@ -19,6 +19,11 @@ const styles = EStyleSheet.create({
     fontSize: 12,
     color: 'gray',
   },
+  listAltText: {
+    paddingVertical: 8,
+    paddingLeft: 8,
+    color: 'gray',
+  },
 });
 
 const defaultAvatar = 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg';
@@ -29,7 +34,11 @@ class Index extends React.Component {
   }
 
   getCourseNameToDisplayForSession(session) {
-    return Meteor.collection('courses').findOne(session.courseId).title1;
+    const course = Meteor.collection('courses').findOne(session.courseId);
+    if (course) {
+      return course.title1;
+    }
+    return '';
   }
 
   // Render the ListItem for this session
@@ -38,10 +47,14 @@ class Index extends React.Component {
   }
 
   // Render the List of user's sessions
-  renderSessionList(sessions) {
-    if (sessions == null) {
+  renderSessionList(sessions, altText) {
+    if (sessions == null || sessions.length === 0) {
       // render loading circle
-      return <View />;
+      return (
+        <View>
+          <Text style={styles.listAltText}> {altText} </Text>
+        </View>
+      );
     }
     // render list
     return (
@@ -69,11 +82,11 @@ class Index extends React.Component {
         <View style={styles.listHeaderContainer}>
           <Text style={styles.listHeader}> REQUESTS </Text>
         </View>
-        {this.renderSessionList(sessionRequests)}
+        {this.renderSessionList(sessionRequests, 'You have no requests! Try lowering your rate.')}
         <View style={styles.listHeaderContainer}>
           <Text style={styles.listHeader}> ACTIVE SESSIONS </Text>
         </View>
-        {this.renderSessionList(sessions)}
+        {this.renderSessionList(sessions, 'You have no active sessions')}
       </View>
     );
   }

@@ -8,24 +8,37 @@ import { Divider, Button } from 'react-native-elements';
 const styles = EStyleSheet.create({
   container: { flex: 1, backgroundColor: 'white' },
   sessionDataContainer: {
-    height: '25%',
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'space-between',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
   sessionData: {
     flex: 1,
   },
-  sessionDataActionButtons: {
-    marginBottom: 10,
+  actionButtonsContainer: {
+    flexDirection: 'row',
   },
-  acceptButton: {
-    backgroundColor: '$green',
-    width: 300,
+  sideBySideButton: {
+    width: 150,
     height: 45,
+    marginTop: 10,
+    marginBottom: 10,
     borderColor: 'transparent',
     borderWidth: 0,
     borderRadius: 5,
+  },
+  acceptButton: {
+    backgroundColor: '$green',
+  },
+  denyButton: {
+    backgroundColor: '$red',
+  },
+  cancelButton: {
+    backgroundColor: '$orange',
   },
   chatContainer: {
     flex: 1,
@@ -75,6 +88,19 @@ class Show extends React.Component {
     });
   }
 
+  // METEOR - Deny this session
+  denySession() {
+    const sessionId = this.state.navParams.session._id;
+    Meteor.call('helpSessions.deny', { sessionId }, (err, res) => {
+      // Do whatever you want with the response
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('Denied Session!');
+      }
+    });
+  }
+
   // Render the chat UI element
   renderChat(conversation) {
     if (conversation) {
@@ -95,17 +121,44 @@ class Show extends React.Component {
   renderSessionDataActionButtons() {
     const session = this.state.navParams.session;
     if (session.tutorId === Meteor.userId()) {
-      if (session.tutorId === Meteor.userId()) {
+      if (session.tutorAccepted === false) {
         return (
+          <View style={styles.actionButtonsContainer}>
+            <Button
+              title="Accept"
+              textStyle={{ fontWeight: '700' }}
+              buttonStyle={[styles.sideBySideButton, styles.acceptButton]}
+              containerStyle={{ marginTop: 20 }}
+              onPress={this.acceptSession}
+            />
+            <Button
+              title="Deny"
+              textStyle={{ fontWeight: '700' }}
+              buttonStyle={[styles.sideBySideButton, styles.denyButton]}
+              containerStyle={{ marginTop: 20 }}
+              onPress={this.denySession}
+            />
+          </View>
+        );
+      }
+      return (
+        <View style={styles.actionButtonsContainer}>
           <Button
-            title="Accept"
+            title="Start"
             textStyle={{ fontWeight: '700' }}
-            buttonStyle={styles.acceptButton}
+            buttonStyle={[styles.sideBySideButton, styles.acceptButton]}
             containerStyle={{ marginTop: 20 }}
             onPress={this.acceptSession}
           />
-        );
-      }
+          <Button
+            title="Cancel"
+            textStyle={{ fontWeight: '700' }}
+            buttonStyle={[styles.sideBySideButton, styles.cancelButton]}
+            containerStyle={{ marginTop: 20 }}
+            onPress={this.denySession}
+          />
+        </View>
+      );
     }
   }
 
@@ -115,9 +168,7 @@ class Show extends React.Component {
       <View style={styles.container}>
         <View style={styles.sessionDataContainer}>
           <View style={styles.sessionData} />
-          <View style={styles.sessionDataActionButtons}>
-            {this.renderSessionDataActionButtons()}
-          </View>
+          {this.renderSessionDataActionButtons()}
         </View>
         <Divider style={{ backgroundColor: 'lightgray' }} />
         <View style={styles.chatContainer}>{this.renderChat(conversation)}</View>

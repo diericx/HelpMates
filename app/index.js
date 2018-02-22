@@ -17,7 +17,9 @@ EStyleSheet.build({
   $offWhiteDown: 'rgb(247, 247, 247)',
   $lightBlue: '#18dcff',
   $lightBlueDown: '#76f2e7',
-  $green: '#32ff7e',
+  $green: '#3ae374',
+  $red: '#ff4d4d',
+  $orange: '#ff9f1a',
 });
 
 class App extends React.Component {
