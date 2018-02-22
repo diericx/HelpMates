@@ -251,18 +251,21 @@ const container = createContainer((params) => {
   };
 }, Show);
 
-container.navigationOptions = {
-  title: '',
-  headerStyle: {
-    backgroundColor: '#cd84f1',
-  },
+container.navigationOptions = ({ navigation }) => {
+  const { state: { params = {} } } = navigation;
+  return {
+    title: params.otherUsersName || 'Session',
+    headerStyle: {
+      backgroundColor: '#cd84f1',
+    },
 
-  headerTintColor: '#fff',
-  headerTitleStyle: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    fontFamily: 'Milkshake',
-  },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontSize: 25,
+      fontWeight: 'bold',
+      fontFamily: 'Milkshake',
+    },
+  };
 };
 
 export default container;
