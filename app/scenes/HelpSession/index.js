@@ -107,6 +107,7 @@ export default (container = createContainer((params) => {
 
 container.navigationOptions = {
   title: 'My Sessions',
+  headerBackTitle: 'Back',
   headerStyle: {
     backgroundColor: '#cd84f1',
   },
