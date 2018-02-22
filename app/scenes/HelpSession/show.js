@@ -17,14 +17,17 @@ const styles = EStyleSheet.create({
     shadowRadius: 4,
   },
   sessionData: {},
-  waitingText: {
+  activityIndicatorContainer: {
+    paddingVertical: 10,
+  },
+  otherUserMessageText: {
     color: 'gray',
+    paddingVertical: 5,
   },
   actionButtonsContainer: {
     flexDirection: 'row',
   },
-  waitingForTutor: {
-    height: 65,
+  otherUserMessageContainer: {
     justifyContent: 'center',
   },
   sideBySideButton: {
@@ -48,6 +51,21 @@ const styles = EStyleSheet.create({
   chatContainer: {
     flex: 1,
   },
+  sessionLengthText: {
+    fontFamily: 'OpenSansLight',
+    fontSize: 40,
+    color: '$offBlack',
+  },
+  endButton: {
+    height: 45,
+    backgroundColor: '$green',
+    borderColor: 'transparent',
+    borderWidth: 0,
+    borderRadius: 5,
+    paddingVertical: 5,
+    width: '$screenWidth - 50',
+    marginBottom: 10,
+  },
 });
 
 class Show extends React.Component {
@@ -55,11 +73,23 @@ class Show extends React.Component {
     super(props);
     this.state = {
       navParams: this.props.navigation.state.params,
+      updateEverySecond: false,
+      now: new Date(),
     };
+
     // bind
     this.acceptSession = this.acceptSession.bind(this);
+    this.startSesson = this.startSesson.bind(this);
     this.renderSessionDataActionButtons = this.renderSessionDataActionButtons.bind(this);
     this.renderSessionData = this.renderSessionData.bind(this);
+    this.renderEndButton = this.renderEndButton.bind(this);
+  }
+
+  componentWillUnmount() {
+    console.log('unmount');
+    this.setState({
+      updateEverySecond: false,
+    });
   }
 
   // When a message is sent on client
@@ -107,6 +137,19 @@ class Show extends React.Component {
     });
   }
 
+  // METEOR - Start this session
+  startSesson() {
+    const sessionId = this.state.navParams.session._id;
+    Meteor.call('helpSessions.start', { sessionId }, (err, res) => {
+      // Do whatever you want with the response
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('Started Session!');
+      }
+    });
+  }
+
   // Render the chat UI element
   renderChat(conversation) {
     if (conversation) {
@@ -124,13 +167,18 @@ class Show extends React.Component {
     return <View />;
   }
 
-  renderWaitingForTutorToAccept() {
+  renderOtherUserMessage(preMessage, postMessage, showLoader) {
     return (
-      <View style={styles.waitingForTutor}>
-        <ActivityIndicator size="large" color="lightblue" />
-        <Text style={styles.waitingText}>
-          {' '}
-          Waiting for {this.state.navParams.otherUsersName} to accept your request{' '}
+      <View style={styles.otherUserMessageContainer}>
+        {showLoader ? (
+          <View style={styles.activityIndicatorContainer}>
+            <ActivityIndicator size="large" color="lightblue" />
+          </View>
+        ) : (
+          <View />
+        )}
+        <Text style={styles.otherUserMessageText}>
+          {preMessage} {this.state.navParams.otherUsersName} {postMessage}
         </Text>
       </View>
     );
@@ -167,7 +215,7 @@ class Show extends React.Component {
           textStyle={{ fontWeight: '700' }}
           buttonStyle={[styles.sideBySideButton, styles.acceptButton]}
           containerStyle={{ marginTop: 20 }}
-          onPress={this.acceptSession}
+          onPress={this.startSesson}
         />
         <Button
           title="Cancel"
@@ -180,17 +228,73 @@ class Show extends React.Component {
     );
   }
 
+  renderEndButton() {
+    return (
+      <View style={styles.actionButtonsContainer}>
+        <Button
+          title="End"
+          textStyle={{ fontWeight: '700' }}
+          buttonStyle={styles.endButton}
+          onPress={this.startSesson}
+        />
+      </View>
+    );
+  }
+
+  renderActiveSessionData(session) {
+    const startedAt = session.startedAt;
+    const hours = this.state.now.getHours() - startedAt.getHours();
+    const minutes = Math.abs(this.state.now.getMinutes() - startedAt.getMinutes('MM'));
+    const seconds = Math.abs(this.state.now.getSeconds() - startedAt.getSeconds());
+    return (
+      <View>
+        <Text style={styles.sessionLengthText}>
+          {hours}:{minutes}:{seconds}
+        </Text>
+      </View>
+    );
+  }
+
   renderSessionData() {
     const session = this.props.session;
-    if (session.tutorId === Meteor.userId()) {
-    } else if (session.tutorAccepted) {
-      // if the tutor has accepted
-      if (session.startedAt) {
-        // show the active session view
-      }
-    } else {
-      return this.renderWaitingForTutorToAccept();
+
+    // if the session has started
+    if (session.startedAt) {
+      return this.renderActiveSessionData(session);
     }
+
+    // if this is the tutor
+    if (session.tutorId === Meteor.userId()) {
+      // if neither person has not started, just show the buttons
+      if (!session.tutorStarted && !session.studentStarted) {
+        return <View />;
+      }
+      // if the tutor has started but this student has not
+      if (session.studentStarted && !session.tutorStarted) {
+        return this.renderOtherUserMessage('', 'is waiting for you to start!', false);
+      }
+      // if this tutor has started but student has not
+      if (session.tutorStarted && !session.studentStarted) {
+        return this.renderOtherUserMessage('Waiting for ', 'to start the session', true);
+      }
+    }
+
+    // if this is the student
+    if (session.tutorAccepted) {
+      // if neither person has not started, just show the buttons
+      if (!session.tutorStarted && !session.studentStarted) {
+        return <View />;
+      }
+      // if the tutor has started but this student has not
+      if (session.tutorStarted && !session.studentStarted) {
+        return this.renderOtherUserMessage('', 'is waiting for you to start!', false);
+      }
+      // if this student has started but tutor has not
+      if (session.studentStarted && !session.tutorStarted) {
+        return this.renderOtherUserMessage('Waiting for', 'to start the session', true);
+      }
+    }
+    return this.renderOtherUserMessage('Waiting for', 'to accept your request', true);
   }
 
   renderSessionDataActionButtons() {
@@ -199,27 +303,42 @@ class Show extends React.Component {
       return <View />;
     }
 
+    // if the session has started
+    if (session.startedAt) {
+      return this.renderEndButton();
+    }
+
     // if this is the tutor
     if (session.tutorId === Meteor.userId()) {
       // if the tutor has accepted
       if (session.tutorAccepted) {
-        if (session.startedAt) {
-          // show the active session view
-        } else {
-          // show the start and cancel buttons
-          return this.renderStartCancelButtons();
+        // if this tutor has started but student has not
+        if (session.tutorStarted && !session.studentStarted) {
+          // show nothing
+          return <View />;
         }
+        // if the no one has started the session
+        // show the start and cancel buttons
+        return this.renderStartCancelButtons();
       }
       // if the tutor hasn't accepted, show the accept/deny buttons
       return this.renderAcceptDenyButtons();
     }
 
     // if this is the student
-    if (session.tutorAccepted) {
-      // if the tutor has accepted
-      if (session.startedAt) {
-        // show the active session view
-      } else {
+    if (session.studentId === Meteor.userId()) {
+      // if this student has accepted
+      if (session.tutorAccepted) {
+        // if this student has started but tutor has not
+        if (session.studentStarted && !session.tutorStarted) {
+          // show nothing
+          return <View />;
+        }
+        // if the session has started
+        if (session.startedAt) {
+          return <View />;
+        }
+        // if the no one has started the session
         // show the start and cancel buttons
         return this.renderStartCancelButtons();
       }
