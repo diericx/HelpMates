@@ -101,18 +101,23 @@ export const MainNavigation = TabNavigator(
         const { routeName } = navigation.state;
         let iconName;
         if (routeName === 'GetHelp') {
-          iconName = `ios-people${focused ? '' : '-outline'}`;
+          iconName = `ios-search${focused ? '' : '-outline'}`;
         } else if (routeName === 'Profile') {
           iconName = `ios-person${focused ? '' : '-outline'}`;
         } else if (routeName === 'Sessions') {
           iconName = `ios-send${focused ? '' : '-outline'}`;
+        } else if (routeName == 'Tutor') {
+          iconName = `ios-cash${focused ? '' : '-outline'}`;
         }
 
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
-        return <Ionicons name={iconName} size={25} color={tintColor} />;
+        return <Ionicons name={iconName} size={35} color={tintColor} />;
       },
     }),
+    tabBarOptions: {
+      showLabel: false,
+    },
   },
 );
 
