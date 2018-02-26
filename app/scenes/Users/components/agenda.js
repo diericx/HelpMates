@@ -99,7 +99,7 @@ export default class UserAgenda extends React.Component {
       this.setState({
         items: newItems,
       });
-    }, 1000);
+    }, 500);
   }
 
   rowHasChanged(r1, r2) {
