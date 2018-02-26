@@ -103,27 +103,6 @@ export default class ChooseTutorScreen extends React.Component {
     this.props.navigation.navigate('ChooseTimeSlot', params);
   }
 
-  // renderList() {
-  //   return (
-  //     <FlatList
-  //       style={styles.list}
-  //       data={this.state.available_users}
-  //       keyExtractor={item => item._id}
-  //       renderItem={({ item }) => (
-  //         <DataRow
-  //           params={{
-  //             userId: item._id,
-  //             courseId: this.state.params.courseId,
-  //             name: item.profile.name,
-  //           }}
-  //           title1={item.profile.name}
-  //           onPress={this.onPress}
-  //         />
-  //       )}
-  //     />
-  //   );
-  // }
-
   renderNativeList() {
     return (
       <List containerStyle={{ marginBottom: 20, marginTop: 0 }}>

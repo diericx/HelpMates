@@ -1,5 +1,5 @@
 import React from 'react';
-import Meteor from 'react-native-meteor';
+import Meteor, { createContainer } from 'react-native-meteor';
 import update from 'immutability-helper';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { View, Text, Button, FlatList, StatusBar, TouchableOpacity } from 'react-native';
@@ -21,27 +21,13 @@ const styles = EStyleSheet.create({
   },
 });
 
-export default class ChooseTimeSlot extends React.Component {
-  static navigationOptions = {
-    title: 'Pick a time',
-    headerStyle: {
-      backgroundColor: '#cd84f1',
-    },
-
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontSize: 25,
-      fontWeight: 'bold',
-      fontFamily: 'Milkshake',
-    },
-  };
-
+class ChooseTimeSlot extends React.Component {
   constructor(props) {
     super(props);
     // params from navigation
     const { params } = this.props.navigation.state;
     this.state = {
-      params: params,
+      params,
       startDate: null,
       endDate: null,
       availabilities: [],
@@ -76,3 +62,24 @@ export default class ChooseTimeSlot extends React.Component {
     );
   }
 }
+
+const container = createContainer(params => ({}), ChooseTimeSlot);
+
+container.navigationOptions = ({ navigation }) => {
+  const { state: { params = {} } } = navigation;
+  return {
+    title: params.name || 'Choose Time Slot',
+    headerStyle: {
+      backgroundColor: '#cd84f1',
+    },
+
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontSize: 25,
+      fontWeight: 'bold',
+      fontFamily: 'Milkshake',
+    },
+  };
+};
+
+export default container;
