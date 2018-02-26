@@ -29,6 +29,11 @@ const styles = EStyleSheet.create({
 const defaultAvatar = 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg';
 
 class Index extends React.Component {
+  componentDidMount() {
+    // subscribe to meteor collections
+    Meteor.subscribe('mySessions');
+  }
+
   onItemPress(params) {
     this.props.navigation.navigate('Show', params);
   }
@@ -97,13 +102,10 @@ class Index extends React.Component {
   }
 }
 
-export default (container = createContainer((params) => {
-  Meteor.subscribe('mySessions');
-  return {
-    sessionRequests: Meteor.collection('helpSessions').find({ tutorAccepted: false }),
-    sessions: Meteor.collection('helpSessions').find({ tutorAccepted: true }),
-  };
-}, Index));
+export default (container = createContainer(params => ({
+  sessionRequests: Meteor.collection('helpSessions').find({ tutorAccepted: false }),
+  sessions: Meteor.collection('helpSessions').find({ tutorAccepted: true }),
+}), Index));
 
 container.navigationOptions = {
   title: 'My Sessions',

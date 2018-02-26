@@ -88,6 +88,10 @@ class Show extends React.Component {
   }
 
   componentDidMount() {
+    // Subscribe to meteor collection
+    const { session } = this.state.navParams;
+    Meteor.subscribe('session', { id: session._id });
+    // start timer for updating the current date every second
     timer.setInterval(
       this,
       'updateCurrentDate',
@@ -382,8 +386,7 @@ class Show extends React.Component {
 }
 
 const container = createContainer((params) => {
-  const session = params.navigation.state.params.session;
-  Meteor.subscribe('session', { id: session._id });
+  const { session } = params.navigation.state.params;
   return {
     session: Meteor.collection('helpSessions').findOne(session._id),
     conversation: Meteor.collection('conversations').findOne(session.conversationId),

@@ -11,7 +11,6 @@ const UNI_ID = 'bJ2ppiHYrMFRThfWE';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
   },
   listContainer: {
     marginTop: -17,
@@ -23,7 +22,7 @@ const styles = EStyleSheet.create({
 
 export default class ChooseCourseScreen extends React.Component {
   static navigationOptions = {
-    title: 'University of Denver',
+    title: 'Choose a Course',
     headerStyle: {
       backgroundColor: '#cd84f1',
     },

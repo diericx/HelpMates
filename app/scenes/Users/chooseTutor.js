@@ -10,7 +10,6 @@ import DataRow from '../../components/general/DataRow';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
   },
   listContainer: {
     flexDirection: 'column',

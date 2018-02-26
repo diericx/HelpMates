@@ -14,9 +14,6 @@ class Items extends Component {
   }
 }
 
-export default createContainer(() => {
-  Meteor.subscribe('courses');
-  return {
-    count: Meteor.collection('courses').find().length,
-  };
-}, Items);
+export default createContainer(() => ({
+  count: Meteor.collection('courses').find().length,
+}), Items);

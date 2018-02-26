@@ -10,6 +10,14 @@ import { DateToString, DateToLocalString, DateGet12HourTime } from './helpers';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+  },
+  userData: {
+    height: '50%',
+  },
+  agenda: {
+    flex: 1,
+    width: '100%',
   },
 });
 
@@ -55,12 +63,15 @@ export default class ChooseTimeSlot extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <UserAgenda
-          availabilities={this.state.availabilities}
-          name={this.state.params.name}
-          userId={this.state.params.userId}
-          courseId={this.state.params.courseId}
-        />
+        <View style={styles.userData} />
+        <View style={styles.agenda}>
+          <UserAgenda
+            availabilities={this.state.availabilities}
+            name={this.state.params.name}
+            userId={this.state.params.userId}
+            courseId={this.state.params.courseId}
+          />
+        </View>
       </View>
     );
   }
