@@ -23,7 +23,7 @@ const styles = EStyleSheet.create({
 
 export default class ChooseCourseScreen extends React.Component {
   static navigationOptions = {
-    title: 'Choose a Course',
+    title: 'University of Denver',
     headerStyle: {
       backgroundColor: '#cd84f1',
     },
@@ -76,7 +76,7 @@ export default class ChooseCourseScreen extends React.Component {
         <List containerStyle={{ marginBottom: 20, marginTop: 0 }}>
           {this.state.courses.map((l, i) => (
             <ListItem
-              onPress={() => this.onPress({ courseId: l._id })}
+              onPress={() => this.onPress({ courseId: l._id, courseTitle: l.title1 })}
               underlayColor="rgb(245,245,245)"
               key={i}
               title={l.title1}

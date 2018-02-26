@@ -85,13 +85,13 @@ class Index extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.listHeaderContainer}>
+          <Text style={styles.listHeader}> UPCOMMING SESSIONS </Text>
+        </View>
+        {this.renderSessionList(sessions, 'You have no active sessions')}
+        <View style={styles.listHeaderContainer}>
           <Text style={styles.listHeader}> REQUESTS </Text>
         </View>
         {this.renderSessionList(sessionRequests, 'You have no requests! Try lowering your rate.')}
-        <View style={styles.listHeaderContainer}>
-          <Text style={styles.listHeader}> ACTIVE SESSIONS </Text>
-        </View>
-        {this.renderSessionList(sessions, 'You have no active sessions')}
       </View>
     );
   }

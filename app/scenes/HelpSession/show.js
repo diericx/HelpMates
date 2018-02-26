@@ -5,6 +5,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { Divider, Button } from 'react-native-elements';
 
+const timer = require('react-native-timer');
+
 const styles = EStyleSheet.create({
   container: { flex: 1, backgroundColor: 'white' },
   sessionDataContainer: {
@@ -85,11 +87,21 @@ class Show extends React.Component {
     this.renderEndButton = this.renderEndButton.bind(this);
   }
 
+  componentDidMount() {
+    timer.setInterval(
+      this,
+      'updateCurrentDate',
+      () => {
+        this.setState({
+          now: new Date(),
+        });
+      },
+      1000,
+    );
+  }
+
   componentWillUnmount() {
-    console.log('unmount');
-    this.setState({
-      updateEverySecond: false,
-    });
+    timer.clearInterval(this);
   }
 
   // When a message is sent on client
@@ -97,6 +109,12 @@ class Show extends React.Component {
     const message = messages[0];
     message.user.name = Meteor.user().profile.name;
     this.sendMessage(convoId, message);
+  }
+
+  updateCurrentDate() {
+    this.setState({
+      now: new Date(),
+    });
   }
 
   // METEOR - Send the message to the server
@@ -242,10 +260,12 @@ class Show extends React.Component {
   }
 
   renderActiveSessionData(session) {
-    const startedAt = session.startedAt;
-    const hours = this.state.now.getHours() - startedAt.getHours();
-    const minutes = Math.abs(this.state.now.getMinutes() - startedAt.getMinutes('MM'));
-    const seconds = Math.abs(this.state.now.getSeconds() - startedAt.getSeconds());
+    const diff = this.state.now.getTime() - session.startedAt.getTime();
+    let seconds = Math.floor(diff / 1000);
+    let minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    minutes %= 60;
+    seconds %= 60;
     return (
       <View>
         <Text style={styles.sessionLengthText}>

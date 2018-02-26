@@ -30,7 +30,7 @@ const styles = EStyleSheet.create({
     backgroundColor: '$green',
   },
   sendButtonText: {
-    fontFamily: 'OpenSansLight',
+    fontFamily: 'OpenSans',
     fontSize: 23,
     color: 'rgba(0, 0, 0, 0.5)',
   },
