@@ -16,22 +16,10 @@ export default class CourseList extends React.Component {
     this.props.navigation.navigate('ShowCourse', params);
   }
 
-  filterCourses() {
-    return this.props.courses.filter((course) => {
-      const filter = this.props.filter.toLowerCase();
-      const title1 = course.title1.toLowerCase();
-      const title2 = course.title2.toLowerCase();
-      if (title1.indexOf(filter) != -1 || title2.indexOf(filter) != -1) {
-        return true;
-      }
-      return false;
-    });
-  }
-
   render() {
     return (
       <View>
-        {this.filterCourses().map((u, i) => (
+        {this.props.courses.map((u, i) => (
           <ListItem
             key={i}
             title={u.title1}

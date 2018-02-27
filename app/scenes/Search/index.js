@@ -52,9 +52,22 @@ class Index extends React.Component {
 
   onSearchClearText() {}
 
+  filterCourses(courses) {
+    return courses.filter((course) => {
+      const filter = this.state.searchText.toLowerCase();
+      const title1 = course.title1.toLowerCase();
+      const title2 = course.title2.toLowerCase();
+      if (title1.indexOf(filter) != -1 || title2.indexOf(filter) != -1) {
+        return true;
+      }
+      return false;
+    });
+  }
+
   render() {
     const { users } = this.props;
     const { courses } = this.props;
+    const filteredCourses = this.filterCourses(courses);
 
     return (
       <View style={styles.container}>
@@ -77,6 +90,7 @@ class Index extends React.Component {
 
             <UserList
               users={users}
+              courses={filteredCourses}
               filter={this.state.searchText}
               navigation={this.props.navigation}
             />
@@ -93,7 +107,7 @@ class Index extends React.Component {
             <Divider />
 
             <CourseList
-              courses={courses}
+              courses={filteredCourses}
               filter={this.state.searchText}
               navigation={this.props.navigation}
             />
