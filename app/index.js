@@ -13,6 +13,7 @@ EStyleSheet.build({
   $screenWidth: Dimensions.get('window').width,
   $black: 'black',
   $offBlack: 'rgb(60, 60, 60)',
+  $lightgray: '#f3f3f3',
   $purple: '#cd84f1',
   $offWhite: 'rgb(252, 252, 252)',
   $offWhiteDown: 'rgb(247, 247, 247)',

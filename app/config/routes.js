@@ -9,7 +9,7 @@ import AuthIndexScreen from '../scenes/Auth/index';
 import AuthLoginScreen from '../scenes/Auth/login';
 import AuthSignupScreen from '../scenes/Auth/signup';
 // User Screens
-import UsersChooseTimeSlotScreen from '../scenes/Users/chooseTimeSlot';
+import UsersShowScreen from '../scenes/Users/show';
 import UsersChooseTutorScreen from '../scenes/Users/chooseTutor';
 import UsersTutorScreen from '../scenes/Users/tutor';
 import UsersProfileScreen from '../scenes/Users/profile';
@@ -19,14 +19,28 @@ import CoursesChooseCourseScreen from '../scenes/Courses/chooseCourse';
 import HelpSessionSendRequestScreen from '../scenes/HelpSession/sendRequest';
 import HelpSessionIndexScreen from '../scenes/HelpSession/index';
 import HelpSessionShowScreen from '../scenes/HelpSession/show';
+// Search Screens
+import SearchIndex from '../scenes/Search/index';
 
-const ChooseTimeSlotStack = StackNavigator(
+// const ChooseTimeSlotStack = StackNavigator(
+//   {
+//     ChooseTimeSlot: {
+//       screen: UsersChooseTimeSlotScreen,
+//     },
+//     SendHelpSessionRequest: {
+//       screen: HelpSessionSendRequestScreen,
+//     },
+//   },
+//   {
+//     mode: 'modal',
+//     headerMode: 'none',
+//   },
+// );
+
+const ShowUserStack = StackNavigator(
   {
-    ChooseTimeSlot: {
-      screen: UsersChooseTimeSlotScreen,
-    },
-    SendHelpSessionRequest: {
-      screen: HelpSessionSendRequestScreen,
+    Show: {
+      screen: UsersShowScreen,
     },
   },
   {
@@ -36,14 +50,11 @@ const ChooseTimeSlotStack = StackNavigator(
 );
 
 const StudentStack = StackNavigator({
-  ChooseCourse: {
-    screen: CoursesChooseCourseScreen,
+  Search: {
+    screen: SearchIndex,
   },
-  ChooseTutor: {
-    screen: UsersChooseTutorScreen,
-  },
-  ChooseTimeSlot: {
-    screen: ChooseTimeSlotStack,
+  ShowUser: {
+    screen: ShowUserStack,
   },
 });
 

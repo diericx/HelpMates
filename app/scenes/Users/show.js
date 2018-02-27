@@ -21,7 +21,7 @@ const styles = EStyleSheet.create({
   },
 });
 
-class ChooseTimeSlot extends React.Component {
+class Show extends React.Component {
   constructor(props) {
     super(props);
     // params from navigation
@@ -40,7 +40,7 @@ class ChooseTimeSlot extends React.Component {
 
   // METEOR - get availabilities for this user
   getAvailabilities() {
-    Meteor.call('users.getAvailabilities', { userId: this.state.params.userId }, (err, res) => {
+    Meteor.call('users.getAvailabilities', { userId: this.state.params.id }, (err, res) => {
       // Do whatever you want with the response
       this.setState({ availabilities: res });
     });
@@ -63,12 +63,12 @@ class ChooseTimeSlot extends React.Component {
   }
 }
 
-const container = createContainer(params => ({}), ChooseTimeSlot);
+const container = createContainer(params => ({}), Show);
 
 container.navigationOptions = ({ navigation }) => {
   const { state: { params = {} } } = navigation;
   return {
-    title: params.name || 'Choose Time Slot',
+    title: params.title || 'Choose Time Slot',
     headerStyle: {
       backgroundColor: '#cd84f1',
     },

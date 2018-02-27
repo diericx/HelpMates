@@ -30,7 +30,7 @@ const styles = EStyleSheet.create({
   },
   availabilitiesListContainer: {
     width: '$screenWidth',
-    height: 80,
+    height: 10,
   },
 });
 
