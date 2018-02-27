@@ -5,6 +5,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { Divider, Button } from 'react-native-elements';
 
+import { SendMessage } from '../../Helpers/Meteor';
+
 const timer = require('react-native-timer');
 
 const styles = EStyleSheet.create({
@@ -109,24 +111,12 @@ class Show extends React.Component {
   onSend(convoId, messages = []) {
     const message = messages[0];
     message.user.name = Meteor.user().profile.name;
-    this.sendMessage(convoId, message);
+    SendMessage(convoId, message);
   }
 
   updateCurrentDate() {
     this.setState({
       now: new Date(),
-    });
-  }
-
-  // METEOR - Send the message to the server
-  sendMessage(conversationId, message) {
-    Meteor.call('conversations.sendMessage', { conversationId, message }, (err, res) => {
-      // Do whatever you want with the response
-      if (err) {
-        console.log(err);
-      } else {
-        console.log('Sent Message!');
-      }
     });
   }
 

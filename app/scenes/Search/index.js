@@ -17,10 +17,19 @@ const styles = EStyleSheet.create({
   searchInput: {
     backgroundColor: '$lightgray',
   },
-  cardTitle: {
+  cardTitleContainer: {
     paddingVertical: 5,
     paddingLeft: 5,
     backgroundColor: '$lightgray',
+  },
+  cardTitleContainerHighlighted: {
+    paddingVertical: 2,
+    backgroundColor: '$greenTrans',
+    alignItems: 'center',
+  },
+  cardTitleHighlighted: {
+    fontSize: 12,
+    color: 'rgba(0, 0, 0, 0.7)',
   },
 });
 
@@ -61,7 +70,7 @@ class Index extends React.Component {
         <ScrollView>
           {/* Users Card */}
           <Card containerStyle={{ padding: 0 }}>
-            <View style={styles.cardTitle}>
+            <View style={styles.cardTitleContainer}>
               <Text> People </Text>
             </View>
             <Divider />
@@ -75,8 +84,11 @@ class Index extends React.Component {
 
           {/* Courses Card */}
           <Card containerStyle={{ padding: 0 }}>
-            <View style={styles.cardTitle}>
+            <View style={styles.cardTitleContainer}>
               <Text> Courses </Text>
+            </View>
+            <View style={[styles.cardTitleContainer, styles.cardTitleContainerHighlighted]}>
+              <Text style={styles.cardTitleHighlighted}>Chat anonymously with other students!</Text>
             </View>
             <Divider />
 
@@ -102,7 +114,7 @@ const container = createContainer((params) => {
 }, Index);
 
 container.navigationOptions = {
-  title: 'Search',
+  title: 'HelpMates',
   headerBackTitle: 'Back',
   headerStyle: {
     backgroundColor: '#cd84f1',

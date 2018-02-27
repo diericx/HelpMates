@@ -20,6 +20,7 @@ EStyleSheet.build({
   $lightBlue: '#18dcff',
   $lightBlueDown: '#76f2e7',
   $green: '#3ae374',
+  $greenTrans: '#3ae37470',
   $red: '#ff4d4d',
   $orange: '#ff9f1a',
 });

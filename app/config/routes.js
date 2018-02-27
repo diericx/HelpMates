@@ -15,6 +15,7 @@ import UsersTutorScreen from '../scenes/Users/tutor';
 import UsersProfileScreen from '../scenes/Users/profile';
 // Course Screens
 import CoursesChooseCourseScreen from '../scenes/Courses/chooseCourse';
+import CoursesShowScreen from '../scenes/Courses/show';
 // Help Session Request
 import HelpSessionSendRequestScreen from '../scenes/HelpSession/sendRequest';
 import HelpSessionIndexScreen from '../scenes/HelpSession/index';
@@ -49,12 +50,27 @@ const ShowUserStack = StackNavigator(
   },
 );
 
+const ShowCourseStack = StackNavigator(
+  {
+    Show: {
+      screen: CoursesShowScreen,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  },
+);
+
 const StudentStack = StackNavigator({
   Search: {
     screen: SearchIndex,
   },
   ShowUser: {
     screen: ShowUserStack,
+  },
+  ShowCourse: {
+    screen: ShowCourseStack,
   },
 });
 

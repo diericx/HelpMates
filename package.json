@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "expo": "^25.0.0",
+    "faker": "^4.1.0",
     "husky": "^0.14.3",
     "immutability-helper": "^2.6.5",
     "lint-staged": "^6.1.0",

@@ -13,7 +13,7 @@ export default class CourseList extends React.Component {
 
   // on press, go to course show
   onPress(params) {
-    this.props.navigation.navigate('CoursesShow', params);
+    this.props.navigation.navigate('ShowCourse', params);
   }
 
   filterCourses() {
