@@ -16,64 +16,25 @@ const styles = EStyleSheet.create({
   container: {
     alignItems: 'center',
   },
-  rateContainer: {
-    marginTop: 25,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   title: {
     fontSize: 25,
   },
-  ratePicker: {
-    width: '$screenWidth',
-  },
   availabilitiesListContainer: {
     width: '$screenWidth',
-    height: 10,
+    height: 150,
   },
 });
 
-class Tutor extends React.Component {
-  static navigationOptions = {
-    title: 'Tutor',
-    headerStyle: {
-      backgroundColor: '#cd84f1',
-    },
-
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontSize: 25,
-      fontWeight: 'bold',
-      fontFamily: 'Milkshake',
-    },
-  };
-
+class Availability extends React.Component {
   constructor(props) {
     super(props);
-    // initialize state
+
     this.state = {
-      rate: 5,
       chosenDate: new Date(),
     };
 
     // bindings
-    this.rate = this.setRate.bind(this);
     this.addAvailability = this.addAvailability.bind(this);
-  }
-
-  // METEOR - set rate
-  setRate(rate) {
-    lastRate = this.state.rate;
-    this.setState({ rate: rate });
-    this.state.rate = rate;
-    Meteor.call('users.setRate', { rate: this.state.rate }, (err, res) => {
-      if (err) {
-        console.log('Error: ', err);
-        // reset back to old rate if server didn't update
-        this.setState({ rate: lastRate });
-      }
-    });
   }
 
   // METOER - get users availabilities
@@ -100,22 +61,6 @@ class Tutor extends React.Component {
     const { availabilities } = this.props;
     return (
       <View style={styles.container}>
-        <View style={styles.rateContainer}>
-          <Text style={styles.title}> Choose your help rate </Text>
-          <View>
-            <Picker
-              style={styles.ratePicker}
-              selectedValue={this.state.rate}
-              onValueChange={(itemValue, itemIndex) => this.setRate(itemValue)}
-            >
-              <Picker.Item label="$5" value={5} />
-              <Picker.Item label="$10" value={10} />
-              <Picker.Item label="$15" value={15} />
-              <Picker.Item label="$20" value={20} />
-            </Picker>
-          </View>
-        </View>
-
         <View>
           <Text style={styles.title}> Set Your Availabilities </Text>
           <View style={styles.availabilitiesListContainer}>
@@ -127,7 +72,7 @@ class Tutor extends React.Component {
           </View>
           <DatePickerIOS
             date={this.state.chosenDate}
-            onDateChange={newDate => {
+            onDateChange={(newDate) => {
               this.setState({ chosenDate: newDate });
             }}
           />
@@ -139,8 +84,26 @@ class Tutor extends React.Component {
 }
 
 // Bind this view to data
-export default createContainer(params => {
-  return {
+const container = createContainer(
+  params => ({
     availabilities: Meteor.user().profile.availabilities,
-  };
-}, Tutor);
+  }),
+  Availability,
+);
+
+container.navigationOptions = {
+  title: 'Availability',
+  headerBackTitle: 'Back',
+  headerStyle: {
+    backgroundColor: '#cd84f1',
+  },
+
+  headerTintColor: '#fff',
+  headerTitleStyle: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    fontFamily: 'Milkshake',
+  },
+};
+
+export default container;

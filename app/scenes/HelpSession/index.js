@@ -1,28 +1,19 @@
 import React from 'react';
-import { View, Text, Button, SectionList } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { List, ListItem } from 'react-native-elements';
+import { List, ListItem, Card, Divider } from 'react-native-elements';
 
-import { GetOtherUsersNameForSession } from './helpers';
+import SessionList from './components/SessionList/index';
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
   },
-  listHeaderContainer: {
-    backgroundColor: 'lightgray',
-    padding: 4,
-  },
-  listHeader: {
-    fontSize: 12,
-    color: 'gray',
-  },
-  listAltText: {
-    paddingVertical: 8,
-    paddingLeft: 8,
-    color: 'gray',
+  cardTitleContainer: {
+    paddingVertical: 5,
+    paddingLeft: 5,
+    backgroundColor: '$lightgray',
   },
 });
 
@@ -33,65 +24,60 @@ class Index extends React.Component {
     this.props.navigation.navigate('Show', params);
   }
 
-  getCourseNameToDisplayForSession(session) {
-    const course = Meteor.collection('courses').findOne(session.courseId);
-    if (course) {
-      return course.title1;
-    }
-    return '';
-  }
-
-  // Render the ListItem for this session
-  renderItem(item) {
-    return <ListItem title={item._id} />;
-  }
-
-  // Render the List of user's sessions
-  renderSessionList(sessions, altText) {
-    if (sessions == null || sessions.length === 0) {
-      // render loading circle
-      return (
-        <View>
-          <Text style={styles.listAltText}> {altText} </Text>
-        </View>
-      );
-    }
-    // render list
-    return (
-      <List containerStyle={{ marginBottom: 0, marginTop: 0 }}>
-        {sessions.map((l, i) => (
-          <ListItem
-            onPress={() =>
-              this.onItemPress({
-                session: l,
-                otherUsersName: GetOtherUsersNameForSession(l, Meteor.userId()),
-              })
-            }
-            underlayColor="rgb(245,245,245)"
-            roundAvatar
-            avatar={{ uri: defaultAvatar }}
-            key={i}
-            title={GetOtherUsersNameForSession(l, Meteor.userId())}
-            subtitle={this.getCourseNameToDisplayForSession(l)}
-          />
-        ))}
-      </List>
-    );
-  }
-
   render() {
-    const { sessionRequests } = this.props;
+    const { sessionRequestsReceived } = this.props;
+    const { sessionRequestsSent } = this.props;
     const { sessions } = this.props;
     return (
       <View style={styles.container}>
-        <View style={styles.listHeaderContainer}>
+        <ScrollView>
+          {/* Active Sessions */}
+          <Card containerStyle={{ padding: 0 }}>
+            <View style={styles.cardTitleContainer}>
+              <Text> Active Sessions </Text>
+            </View>
+            <Divider />
+
+            <SessionList sessions={sessions} navigation={this.props.navigation} />
+          </Card>
+
+          {/* Requests Received */}
+          <Card containerStyle={{ padding: 0 }}>
+            <View style={styles.cardTitleContainer}>
+              <Text> Requests Received </Text>
+            </View>
+            <Divider />
+
+            <SessionList
+              sessions={sessionRequestsReceived}
+              noneMessage="Try lowering your prices a bit."
+              navigation={this.props.navigation}
+            />
+          </Card>
+
+          {/* Requests Sent */}
+          <Card containerStyle={{ padding: 0 }}>
+            <View style={styles.cardTitleContainer}>
+              <Text> Requests Sent </Text>
+            </View>
+            <Divider />
+
+            <SessionList
+              sessions={sessionRequestsSent}
+              noneMessage="Need some help? Go send someone a request!"
+              navigation={this.props.navigation}
+            />
+          </Card>
+
+          {/* <View style={styles.listHeaderContainer}>
           <Text style={styles.listHeader}> UPCOMMING SESSIONS </Text>
         </View>
         {this.renderSessionList(sessions, 'You have no active sessions')}
         <View style={styles.listHeaderContainer}>
           <Text style={styles.listHeader}> REQUESTS </Text>
         </View>
-        {this.renderSessionList(sessionRequests, 'You have no requests! Try lowering your rate.')}
+        {this.renderSessionList(sessionRequests, 'You have no requests! Try lowering your rate.')} */}
+        </ScrollView>
       </View>
     );
   }
@@ -101,7 +87,14 @@ const container = createContainer((params) => {
   // subscribe to meteor collections
   Meteor.subscribe('mySessions');
   return {
-    sessionRequests: Meteor.collection('helpSessions').find({ tutorAccepted: false }),
+    sessionRequestsReceived: Meteor.collection('helpSessions').find({
+      tutorAccepted: false,
+      tutorId: Meteor.userId(),
+    }),
+    sessionRequestsSent: Meteor.collection('helpSessions').find({
+      tutorAccepted: false,
+      studentId: Meteor.userId(),
+    }),
     sessions: Meteor.collection('helpSessions').find({ tutorAccepted: true }),
   };
 }, Index);

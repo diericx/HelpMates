@@ -1,5 +1,4 @@
 import React from 'react';
-import Meteor from 'react-native-meteor';
 import { View } from 'react-native';
 import { ListItem, Rating } from 'react-native-elements';
 
@@ -21,8 +20,6 @@ export default class UserList extends React.Component {
 
   userHasCompletedOneOfTheFilteredCourses(user) {
     const completedCourseIds = user.profile.completedCourses;
-    console.log(completedCourseIds);
-    console.log(this.props.courses);
     for (let i = 0; i < this.props.courses.length; i++) {
       const course = this.props.courses[i];
       if (completedCourseIds.includes(course._id)) {

@@ -2,10 +2,25 @@ import React from 'react';
 import Meteor from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { View, Text, Button, Image } from 'react-native';
+import { List, ListItem } from 'react-native-elements';
+
+const list = [
+  {
+    title: 'Availability',
+    icon: 'av-timer',
+    screen: 'Availability',
+  },
+  {
+    title: 'Courses',
+    icon: 'book',
+    iconType: 'entypo',
+    screen: 'Courses',
+  },
+];
 
 export default class Profile extends React.Component {
   static navigationOptions = {
-    title: 'Zac Holland',
+    title: 'Profile',
     headerStyle: {
       backgroundColor: '#cd84f1',
     },
@@ -23,16 +38,32 @@ export default class Profile extends React.Component {
     this.state = {
       profilePicSource: null,
     };
+    // bind
+    this.onPress = this.onPress.bind(this);
   }
 
   logout() {
     Meteor.logout();
   }
 
+  onPress(screen) {
+    this.props.navigation.navigate(screen);
+  }
+
   render() {
     return (
       <View>
-        <Text> Profile Screen </Text>
+        <List>
+          {list.map((item, i) => (
+            <ListItem
+              key={i}
+              title={item.title}
+              leftIcon={{ name: item.icon, type: item.iconType }}
+              onPress={() => this.onPress(item.screen)}
+            />
+          ))}
+        </List>
+
         <Button onPress={this.logout} title="Logout" />
         <Image source={this.state.avatarSource} />
       </View>

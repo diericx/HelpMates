@@ -64,7 +64,7 @@ class Show extends React.Component {
   onTakenCoursePress() {
     const { id } = this.props.navigation.state.params;
     // Get available courses from server
-    Meteor.call('users.addCompletedCourse', { courseId: id }, (err, res) => {
+    Meteor.call('users.addCompletedCourse', { courseId: id, rate: 15 }, (err, res) => {
       // Do whatever you want with the response
       if (err) {
         console.log(err);
@@ -91,7 +91,7 @@ class Show extends React.Component {
 
   renderSessionData() {
     const { id } = this.props.navigation.state.params;
-    if (!Meteor.user().profile.completedCourses.includes(id)) {
+    if (!Meteor.user().profile.completedCourses[id]) {
       // if the user hasn't taken the course, show the add taken course button
       return (
         <View>

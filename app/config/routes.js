@@ -11,8 +11,10 @@ import AuthSignupScreen from '../scenes/Auth/signup';
 // User Screens
 import UsersShowScreen from '../scenes/Users/show';
 import UsersChooseTutorScreen from '../scenes/Users/chooseTutor';
-import UsersTutorScreen from '../scenes/Users/tutor';
 import UsersProfileScreen from '../scenes/Users/profile';
+// Tutor Screens
+import TutorAvailabilityScreen from '../scenes/Tutor/availability';
+import TutorCoursesScreen from '../scenes/Tutor/courses';
 // Course Screens
 import CoursesChooseCourseScreen from '../scenes/Courses/chooseCourse';
 import CoursesShowScreen from '../scenes/Courses/show';
@@ -74,15 +76,15 @@ const StudentStack = StackNavigator({
   },
 });
 
-const TutorStack = StackNavigator({
-  Home: {
-    screen: UsersTutorScreen,
-  },
-});
-
 const ProfileStack = StackNavigator({
   Profile: {
     screen: UsersProfileScreen,
+  },
+  Availability: {
+    screen: TutorAvailabilityScreen,
+  },
+  Courses: {
+    screen: TutorCoursesScreen,
   },
 });
 
@@ -107,12 +109,6 @@ export const MainNavigation = TabNavigator(
       screen: HelpSessionStack,
       navigationOptions: {
         tabBarLabel: 'Sessions',
-      },
-    },
-    Tutor: {
-      screen: TutorStack,
-      navigationOptions: {
-        tabBarLabel: 'Tutor',
       },
     },
     Profile: {
