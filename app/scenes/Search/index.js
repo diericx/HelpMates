@@ -82,7 +82,7 @@ class Index extends React.Component {
 
         <ScrollView>
           {/* Users Card */}
-          <Card containerStyle={{ padding: 0 }}>
+          <Card containerStyle={{ padding: 0, marginHorizontal: 0 }}>
             <View style={styles.cardTitleContainer}>
               <Text> People </Text>
             </View>
@@ -97,7 +97,7 @@ class Index extends React.Component {
           </Card>
 
           {/* Courses Card */}
-          <Card containerStyle={{ padding: 0 }}>
+          <Card containerStyle={{ padding: 0, marginHorizontal: 0 }}>
             <View style={styles.cardTitleContainer}>
               <Text> Courses </Text>
             </View>
