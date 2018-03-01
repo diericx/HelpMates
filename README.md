@@ -17,3 +17,5 @@ Go to the app store and download Expo
 2. Open the Expo client and scan the QR code to connect
 
 * ISSUE: DU Wifi doesn't work because of their firewall so use eduroam
+
+* ISSUE: To connect to the server, you will need to change the ip in connect.js to your current ip.
