@@ -10,16 +10,13 @@ import AuthLoginScreen from '../scenes/Auth/login';
 import AuthSignupScreen from '../scenes/Auth/signup';
 // User Screens
 import UsersShowScreen from '../scenes/Users/show';
-import UsersChooseTutorScreen from '../scenes/Users/chooseTutor';
 import UsersProfileScreen from '../scenes/Users/profile';
 // Tutor Screens
 import TutorAvailabilityScreen from '../scenes/Tutor/availability';
 import TutorCoursesScreen from '../scenes/Tutor/courses';
 // Course Screens
-import CoursesChooseCourseScreen from '../scenes/Courses/chooseCourse';
 import CoursesShowScreen from '../scenes/Courses/show';
 // Help Session Request
-import HelpSessionSendRequestScreen from '../scenes/HelpSession/sendRequest';
 import HelpSessionIndexScreen from '../scenes/HelpSession/index';
 import HelpSessionShowScreen from '../scenes/HelpSession/show';
 // Search Screens
