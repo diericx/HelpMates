@@ -60,6 +60,11 @@ const styles = EStyleSheet.create({
     fontSize: 40,
     color: '$offBlack',
   },
+  sessionCostText: {
+    fontFamily: 'OpenSansLight',
+    textAlign: 'center',
+    fontSize: 25,
+  },
   endButton: {
     height: 45,
     backgroundColor: '$green',
@@ -257,11 +262,13 @@ class Show extends React.Component {
     const hours = Math.floor(minutes / 60);
     minutes %= 60;
     seconds %= 60;
+    const cost = ((hours + minutes / 60 + seconds / 3600) * session.cost).toFixed(2);
     return (
       <View>
         <Text style={styles.sessionLengthText}>
           {hours}:{minutes}:{seconds}
         </Text>
+        <Text style={styles.sessionCostText}>${cost}</Text>
       </View>
     );
   }

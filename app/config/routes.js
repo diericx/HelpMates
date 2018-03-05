@@ -22,21 +22,6 @@ import HelpSessionShowScreen from '../scenes/HelpSession/show';
 // Search Screens
 import SearchIndex from '../scenes/Search/index';
 
-// const ChooseTimeSlotStack = StackNavigator(
-//   {
-//     ChooseTimeSlot: {
-//       screen: UsersChooseTimeSlotScreen,
-//     },
-//     SendHelpSessionRequest: {
-//       screen: HelpSessionSendRequestScreen,
-//     },
-//   },
-//   {
-//     mode: 'modal',
-//     headerMode: 'none',
-//   },
-// );
-
 const ShowUserStack = StackNavigator(
   {
     Show: {
@@ -152,15 +137,3 @@ export const AuthStack = StackNavigator({
     screen: AuthSignupScreen,
   },
 });
-
-// Root navigator
-// export default StackNavigator(
-//   {
-//     Main: {
-//       screen: MainStack,
-//     },
-//   },
-//   {
-//     headerMode: 'none',
-//   },
-// );
