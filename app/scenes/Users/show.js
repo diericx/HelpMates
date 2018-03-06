@@ -43,6 +43,9 @@ class Show extends React.Component {
     Meteor.call('users.getAvailabilities', { userId: this.state.params.id }, (err, res) => {
       // Do whatever you want with the response
       this.setState({ availabilities: res });
+      if (err) {
+        console.log(err);
+      }
     });
   }
 

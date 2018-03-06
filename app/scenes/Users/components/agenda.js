@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, FlatList, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Meteor from 'react-native-meteor';
 import { Agenda } from 'react-native-calendars';
@@ -99,7 +99,7 @@ export default class UserAgenda extends React.Component {
       this.setState({
         items: newItems,
       });
-    }, 500);
+    }, 1000);
   }
 
   rowHasChanged(r1, r2) {

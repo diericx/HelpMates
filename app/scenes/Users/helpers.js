@@ -10,7 +10,7 @@ export function DateToLocalString(date) {
     month = `0${month}`;
   }
   if (day.length == 1) {
-    day = `0${date}`;
+    day = `0${day}`;
   }
   return `${date.getUTCFullYear()}-${month}-${day}`;
 }

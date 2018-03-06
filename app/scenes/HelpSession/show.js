@@ -57,11 +57,12 @@ const styles = EStyleSheet.create({
   },
   sessionLengthText: {
     fontFamily: 'OpenSansLight',
-    fontSize: 40,
     color: '$offBlack',
+    fontSize: 40,
   },
   sessionCostText: {
     fontFamily: 'OpenSansLight',
+    color: '$offBlack',
     textAlign: 'center',
     fontSize: 25,
   },
@@ -164,6 +165,19 @@ class Show extends React.Component {
     });
   }
 
+  // METEOR - Start this session
+  endSession() {
+    const sessionId = this.state.navParams.session._id;
+    Meteor.call('helpSessions.end', { sessionId }, (err, res) => {
+      // Do whatever you want with the response
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('Ended Session!');
+      }
+    });
+  }
+
   // Render the chat UI element
   renderChat(conversation) {
     if (conversation) {
@@ -249,7 +263,7 @@ class Show extends React.Component {
           title="End"
           textStyle={{ fontWeight: '700' }}
           buttonStyle={styles.endButton}
-          onPress={this.startSesson}
+          onPress={this.endSession}
         />
       </View>
     );
