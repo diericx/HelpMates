@@ -55,7 +55,7 @@ export default class UserList extends React.Component {
             }
             avatar={{ uri: defaultAvatar }}
             containerStyle={styles.listItemContainer}
-            onPress={() => this.onPress({ id: u._id, title: u.profile.name })}
+            onPress={() => this.onPress({ userId: u._id, title: u.profile.name })}
           />
         ))}
       </View>
