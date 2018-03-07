@@ -20,7 +20,14 @@ const styles = EStyleSheet.create({
   },
   nameText: {
     fontFamily: 'OpenSansBold',
+    marginVertical: -3,
     fontSize: 25,
+  },
+  subtitleText: {
+    fontFamily: 'OpenSans',
+    fontSize: 13,
+    opacity: 0.5,
+    marginBottom: 10,
   },
 });
 
@@ -40,7 +47,9 @@ export default class ProfileCard extends React.Component {
 
         <View style={styles.profileDataContainer}>
           <Text style={styles.nameText}>{this.props.name}</Text>
-          <Rating imageSize={20} readonly startingValue={3} />
+          <Text style={styles.subtitleText}>Computer Science</Text>
+          <Rating imageSize={25} readonly startingValue={3} />
+          <Text style={styles.subtitleText}>12 Reviews</Text>
         </View>
       </View>
     );
