@@ -1,5 +1,7 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import Meteor from 'react-native-meteor';
+import { View, Text } from 'react-native';
+import IconBadge from 'react-native-icon-badge';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -105,6 +107,10 @@ export const MainNavigation = TabNavigator(
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
+        const requestsRecieved = Meteor.collection('helpSessions').find({
+          tutorAccepted: false,
+          tutorId: Meteor.userId(),
+        });
         if (routeName === 'GetHelp') {
           iconName = `ios-search${focused ? '' : '-outline'}`;
         } else if (routeName === 'Profile') {
@@ -117,7 +123,28 @@ export const MainNavigation = TabNavigator(
 
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
-        return <Ionicons name={iconName} size={35} color={tintColor} />;
+        return (
+          <Ionicons name={iconName} size={35} color={tintColor} />
+          // <IconBadge
+          //   MainElement={
+          //     <View
+          //       style={{
+          //         width: 30,
+          //         margin: 6,
+          //       }}
+          //     >
+          //       <Ionicons name={iconName} size={35} color={tintColor} />
+          //     </View>
+          //   }
+          //   BadgeElement={<Text style={{ color: '#FFFFFF' }}>{requestsRecieved.length}</Text>}
+          //   IconBadgeStyle={{
+          //     width: 20,
+          //     height: 20,
+          //     backgroundColor: 'red',
+          //   }}
+          //   Hidden={9 === 0}
+          // />
+        );
       },
     }),
     tabBarOptions: {

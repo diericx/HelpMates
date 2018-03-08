@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, AsyncStorage } from 'react-native';
 import { Button } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Meteor, { createContainer } from 'react-native-meteor';
@@ -7,11 +7,10 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import Faker from 'faker';
 import { SendMessage, GUID } from '../../Helpers/Meteor';
 
-const UNI_ID = 'bJ2ppiHYrMFRThfWE';
-
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   chat: {
     flex: 1,
@@ -30,6 +29,9 @@ const styles = EStyleSheet.create({
     color: 'gray',
     paddingVertical: 5,
   },
+  centerText: {
+    textAlign: 'center',
+  },
   takenCourseButton: {
     height: 45,
     backgroundColor: '$green',
@@ -47,15 +49,25 @@ class Show extends React.Component {
     super(props);
     this.state = {
       name: Faker.name.findName(),
-      guid: GUID(),
     };
     // bind
     this.onTakenCoursePress = this.onTakenCoursePress.bind(this);
     this.renderSessionData = this.renderSessionData.bind(this);
   }
 
+  componentWillMount() {
+    // Set anonymous key from async
+    try {
+      const anonId = AsyncStorage.getItem('@MySuperStore:anonymousKey');
+      this.setState({
+        guid: anonId,
+      });
+    } catch (error) {}
+  }
+
   // When a message is sent on client
   onSend(convoId, messages = []) {
+    console.log(messages[0]);
     const message = messages[0];
     message.user.name = this.state.name;
     SendMessage(convoId, message);
@@ -105,7 +117,9 @@ class Show extends React.Component {
     // if the user has taken the course, show the message
     return (
       <View>
-        <Text style={styles.sessionDataText}>You've taken this course!</Text>
+        <Text style={[styles.sessionDataText, styles.centerText]}>
+          You've taken this course {'\n'} Answer questions to make some money!
+        </Text>
       </View>
     );
   }

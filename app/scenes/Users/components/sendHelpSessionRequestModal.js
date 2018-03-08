@@ -1,13 +1,18 @@
 import React from 'react';
-import { View, Text, Button, FlatList, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
+import { Button } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Meteor from 'react-native-meteor';
 import Modal from 'react-native-modal';
 
+import TextBox from './TextBox/index';
+
 const styles = EStyleSheet.create({
   modalContainer: {
-    height: 400,
+    height: 250,
     width: '100%',
+    marginBottom: 300,
+    borderRadius: 8,
     backgroundColor: 'rgba(255, 255, 255, 1)',
   },
   dataContainer: {
@@ -24,23 +29,33 @@ const styles = EStyleSheet.create({
     marginTop: 20,
   },
   sendButtonContainer: {
-    height: 70,
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: 60,
+    width: '100%',
+    marginBottom: 20,
     backgroundColor: '$green',
   },
   sendButtonText: {
     fontFamily: 'OpenSans',
     fontSize: 23,
-    color: 'rgba(0, 0, 0, 0.5)',
+    color: 'rgba(255, 255, 255, 1)',
   },
 });
 
 export default class SendHelpSessionRequestModal extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      message: '',
+    };
     // bind
     this.sendRequest = this.sendRequest.bind(this);
+    this.updateMessage = this.updateMessage.bind(this);
+  }
+
+  updateMessage(text) {
+    this.setState({
+      message: text,
+    });
   }
 
   loadItems(day) {
@@ -96,6 +111,7 @@ export default class SendHelpSessionRequestModal extends React.Component {
         courseId: this.props.courseId,
         startDate: this.props.startDate,
         endDate: this.props.endDate,
+        message: this.state.message,
       },
       (err, res) => {
         if (err) {
@@ -121,17 +137,34 @@ export default class SendHelpSessionRequestModal extends React.Component {
 
   render() {
     return (
-      <Modal isVisible={this.props.isVisible} onBackdropPress={this.props.toggleModal}>
+      <Modal
+        isVisible={this.props.isVisible}
+        onBackdropPress={this.props.toggleModal}
+        animationIn="slideInDown"
+        animationOut="slideOutUp"
+      >
         <View style={styles.modalContainer}>
           <View style={styles.dataContainer}>
-            <Text style={styles.dataContainerTitle}>Get help from {this.props.name} </Text>
-            {this.renderDateRange()}
+            <Text style={styles.dataContainerTitle}>What do you need help with? </Text>
+            <TextBox message={this.message} updateMessage={this.updateMessage} />
           </View>
-          <TouchableOpacity onPress={this.sendRequest}>
+
+          <Button
+            title="Send Request"
+            disabled={this.state.message.length < 10}
+            textStyle={styles.sendButtonText}
+            buttonStyle={styles.sendButtonContainer}
+            onPress={this.sendRequest}
+          />
+          {/* <TouchableOpacity
+            onPress={this.sendRequest}
+            disabled={this.state.message === ''}
+            style={{ opacity: this.state.message === '' ? 0.7 : 1 }}
+          >
             <View style={styles.sendButtonContainer}>
               <Text style={styles.sendButtonText}> SEND REQUEST </Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </Modal>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, AsyncStorage } from 'react-native';
 import Meteor, { createContainer, View } from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Font from 'expo';
@@ -42,7 +42,36 @@ class App extends React.Component {
 
     connect();
 
+    try {
+      const value = await AsyncStorage.getItem('@MySuperStore:anonymousKey');
+      if (value !== null) {
+        // We have data!!
+        console.log('Found anonymous key: ', value);
+      } else {
+        try {
+          await AsyncStorage.setItem('@MySuperStore:anonymousKey', this.generateAnonymousKey());
+        } catch (error) {
+          // Error saving data
+          console.log(error);
+        }
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.log(error);
+    }
+
     this.setState({ isReady: true });
+  }
+
+  generateAnonymousKey() {
+    let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (let i = 0; i < 10; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return text;
   }
 
   render() {
