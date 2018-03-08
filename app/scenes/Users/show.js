@@ -6,8 +6,7 @@ import { View, ScrollView } from 'react-native';
 import { ButtonGroup, Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import UserAgenda from './components/agenda';
-import CoursePicker from './components/CoursePicker/index';
+import GetHelpCard from './components/GetHelpCard/index';
 import ProfileCard from './components/profileCard';
 
 const styles = EStyleSheet.create({
@@ -69,18 +68,20 @@ class Show extends React.Component {
       availabilities: [],
       items: {},
       isModalVisible: false,
-      selectedIndex: 0,
+      selectedGroup: 0,
       selectedCourse: null,
     };
     // get this users availabilities
     this.getAvailabilities();
     // bind
-    this.updateIndex = this.updateIndex.bind(this);
+    this.updateGroup = this.updateGroup.bind(this);
     this.onSelectCourse = this.onSelectCourse.bind(this);
   }
 
-  updateIndex(selectedIndex) {
-    this.setState({ selectedIndex });
+  onSelectCourse(courseId) {
+    this.setState({
+      selectedCourse: courseId,
+    });
   }
 
   // METEOR - get availabilities for this user
@@ -94,52 +95,34 @@ class Show extends React.Component {
     });
   }
 
-  onSelectCourse(courseId) {
-    this.setState({
-      selectedCourse: courseId,
-    });
+  updateGroup(selectedGroup) {
+    this.setState({ selectedGroup });
   }
 
   render() {
     const buttons = ['Get Help', 'Reviews'];
     const { user } = this.state.params;
-    const { selectedIndex } = this.state;
+    const { selectedGroup } = this.state;
     return (
       <View style={styles.container}>
         <ProfileCard name={user.profile.name} rating={user.profile.rating} />
         <View style={styles.buttonGroupContainer}>
           <ButtonGroup
-            onPress={this.updateIndex}
-            selectedIndex={selectedIndex}
+            onPress={this.updateGroup}
+            selectedIndex={selectedGroup}
             buttons={buttons}
             containerStyle={styles.buttonGroup}
           />
         </View>
-
-        <View style={styles.cardContainer}>
-          {!this.state.selectedCourse ? (
-            <Card containerStyle={styles.card}>
-              <ScrollView style={styles.cardScrollView}>
-                <CoursePicker
-                  courses={user.profile.completedCourses}
-                  onSelectCourse={this.onSelectCourse}
-                />
-              </ScrollView>
-            </Card>
-          ) : (
-            <Card
-              containerStyle={[styles.card, styles.agendaCard]}
-              wrapperStyle={styles.agendaCardWrapper}
-            >
-              <UserAgenda
-                availabilities={user.profile.availabilities}
-                name={this.state.params.name}
-                userId={this.state.params.userId}
-                courseId={this.state.params.courseId}
-              />
-            </Card>
-          )}
-        </View>
+        {this.state.selectedGroup == 0 ? (
+          <GetHelpCard
+            user={user}
+            onSelectCourse={this.onSelectCourse}
+            selectedCourse={this.state.selectedCourse}
+          />
+        ) : (
+          <View />
+        )}
       </View>
     );
   }
