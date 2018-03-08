@@ -8,7 +8,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     backgroundColor: 'white',
     width: '100%',
-    height: 180,
+    height: 130,
   },
   profileImageContainer: {
     justifyContent: 'center',
@@ -21,13 +21,12 @@ const styles = EStyleSheet.create({
   nameText: {
     fontFamily: 'OpenSansBold',
     marginVertical: -3,
-    fontSize: 25,
+    fontSize: 20,
   },
   subtitleText: {
     fontFamily: 'OpenSans',
     fontSize: 13,
     opacity: 0.5,
-    marginBottom: 10,
   },
 });
 
@@ -37,8 +36,8 @@ export default class ProfileCard extends React.Component {
       <View style={styles.container}>
         <View style={styles.profileImageContainer}>
           <Avatar
-            width={120}
-            height={120}
+            width={100}
+            height={100}
             rounded
             source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg' }}
             activeOpacity={1}
@@ -48,7 +47,7 @@ export default class ProfileCard extends React.Component {
         <View style={styles.profileDataContainer}>
           <Text style={styles.nameText}>{this.props.name}</Text>
           <Text style={styles.subtitleText}>Computer Science</Text>
-          <Rating imageSize={25} readonly startingValue={3} />
+          <Rating imageSize={20} readonly startingValue={3} />
           <Text style={styles.subtitleText}>12 Reviews</Text>
         </View>
       </View>

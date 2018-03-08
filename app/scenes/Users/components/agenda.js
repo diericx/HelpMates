@@ -166,6 +166,7 @@ export default class UserAgenda extends React.Component {
           renderEmptyDate={this.renderEmptyDate}
           rowHasChanged={this.rowHasChanged}
           pastScrollRange={1}
+          futureScrollRange={50}
           // onDayPress={(day) => {
           //   this.setState({ selectedDate: new Date(day.dateString) });
           // }}

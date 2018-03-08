@@ -2,26 +2,58 @@ import React from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
 import update from 'immutability-helper';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, Button, FlatList, StatusBar, TouchableOpacity } from 'react-native';
-import { ButtonGroup } from 'react-native-elements';
+import { View, ScrollView } from 'react-native';
+import { ButtonGroup, Card } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import UserAgenda from './components/agenda';
+import CoursePicker from './components/CoursePicker/index';
 import ProfileCard from './components/profileCard';
-import { DateToString, DateToLocalString, DateGet12HourTime } from './helpers';
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
   },
   agenda: {
     flex: 1,
     width: '100%',
   },
+  buttonGroupContainer: {
+    alignItems: 'center',
+    marginBottom: 5,
+  },
   buttonGroup: {
     width: '80%',
     height: 30,
-    marginTop: 20,
+    marginTop: 10,
+  },
+  cardContainer: {
+    flex: 1,
+    marginBottom: 10,
+  },
+  cardScrollView: {
+    height: '100%',
+  },
+  card: {
+    height: '100%',
+    marginTop: 0,
+    backgroundColor: 'white',
+  },
+  agendaCard: {
+    padding: 0,
+  },
+  agendaCardWrapper: {
+    flex: 1,
+    padding: 0,
+  },
+  sendRequestButton: {
+    height: 45,
+    backgroundColor: '$green',
+    borderColor: 'transparent',
+    borderWidth: 0,
+    borderRadius: 5,
+    paddingVertical: 5,
+    marginVertical: 10,
   },
 });
 
@@ -38,11 +70,13 @@ class Show extends React.Component {
       items: {},
       isModalVisible: false,
       selectedIndex: 0,
+      selectedCourse: null,
     };
     // get this users availabilities
     this.getAvailabilities();
     // bind
     this.updateIndex = this.updateIndex.bind(this);
+    this.onSelectCourse = this.onSelectCourse.bind(this);
   }
 
   updateIndex(selectedIndex) {
@@ -60,6 +94,12 @@ class Show extends React.Component {
     });
   }
 
+  onSelectCourse(courseId) {
+    this.setState({
+      selectedCourse: courseId,
+    });
+  }
+
   render() {
     const buttons = ['Get Help', 'Reviews'];
     const { user } = this.state.params;
@@ -67,7 +107,7 @@ class Show extends React.Component {
     return (
       <View style={styles.container}>
         <ProfileCard name={user.profile.name} rating={user.profile.rating} />
-        <View>
+        <View style={styles.buttonGroupContainer}>
           <ButtonGroup
             onPress={this.updateIndex}
             selectedIndex={selectedIndex}
@@ -75,13 +115,30 @@ class Show extends React.Component {
             containerStyle={styles.buttonGroup}
           />
         </View>
-        <View style={styles.agenda}>
-          {/* <UserAgenda
-            availabilities={this.state.availabilities}
-            name={this.state.params.name}
-            userId={this.state.params.userId}
-            courseId={this.state.params.courseId}
-          /> */}
+
+        <View style={styles.cardContainer}>
+          {!this.state.selectedCourse ? (
+            <Card containerStyle={styles.card}>
+              <ScrollView style={styles.cardScrollView}>
+                <CoursePicker
+                  courses={user.profile.completedCourses}
+                  onSelectCourse={this.onSelectCourse}
+                />
+              </ScrollView>
+            </Card>
+          ) : (
+            <Card
+              containerStyle={[styles.card, styles.agendaCard]}
+              wrapperStyle={styles.agendaCardWrapper}
+            >
+              <UserAgenda
+                availabilities={user.profile.availabilities}
+                name={this.state.params.name}
+                userId={this.state.params.userId}
+                courseId={this.state.params.courseId}
+              />
+            </Card>
+          )}
         </View>
       </View>
     );
