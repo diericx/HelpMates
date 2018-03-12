@@ -6,6 +6,7 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import { Divider, Button, Rating } from 'react-native-elements';
 
 import { SendMessage } from '../../Helpers/Meteor';
+import TextBox from '../Users/components/TextBox/index';
 
 const timer = require('react-native-timer');
 
@@ -25,6 +26,7 @@ const styles = EStyleSheet.create({
     paddingVertical: 10,
   },
   otherUserMessageText: {
+    fontFamily: 'OpenSans',
     color: 'gray',
     paddingVertical: 5,
   },
@@ -285,7 +287,12 @@ class Show extends React.Component {
   renderRateButtons() {
     return (
       <View>
-        <Rating imageSize={40} startingValue={0} />
+        <View>
+          <Rating imageSize={40} startingValue={0} fractions={1} />
+        </View>
+        <View>
+          <TextBox />
+        </View>
       </View>
     );
   }
@@ -310,6 +317,17 @@ class Show extends React.Component {
 
   renderSessionData() {
     const session = this.props.session;
+
+    if (session.endedAt) {
+      return (
+        <View>
+          <Text style={styles.otherUserMessageText}>
+            {' '}
+            Give {this.state.navParams.otherUsersName} some feedback!{' '}
+          </Text>
+        </View>
+      );
+    }
 
     // if the session has started
     if (session.startedAt) {
