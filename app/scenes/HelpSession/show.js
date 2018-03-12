@@ -3,7 +3,7 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { Divider, Button } from 'react-native-elements';
+import { Divider, Button, Rating } from 'react-native-elements';
 
 import { SendMessage } from '../../Helpers/Meteor';
 
@@ -90,23 +90,36 @@ class Show extends React.Component {
     // bind
     this.acceptSession = this.acceptSession.bind(this);
     this.startSesson = this.startSesson.bind(this);
+    this.endSession = this.endSession(this);
     this.renderSessionDataActionButtons = this.renderSessionDataActionButtons.bind(this);
     this.renderSessionData = this.renderSessionData.bind(this);
     this.renderEndButton = this.renderEndButton.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // start timer for updating the current date every second
-    timer.setInterval(
-      this,
-      'updateCurrentDate',
-      () => {
-        this.setState({
-          now: new Date(),
-        });
-      },
-      1000,
-    );
+    const { session } = this.props;
+    if (!session.endedAt) {
+      // start interval for counting time
+      timer.setInterval(
+        this,
+        'updateCurrentDate',
+        () => {
+          this.setState({
+            now: new Date(),
+          });
+        },
+        1000,
+      );
+    } else {
+      const endedAt = new Date(session.endedAt);
+      console.log(session.endedAt);
+      console.log(session.startedAt);
+      // set current date to the end date
+      this.setState({
+        now: new Date(session.endedAt),
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -269,6 +282,14 @@ class Show extends React.Component {
     );
   }
 
+  renderRateButtons() {
+    return (
+      <View>
+        <Rating imageSize={40} startingValue={0} />
+      </View>
+    );
+  }
+
   renderActiveSessionData(session) {
     const diff = this.state.now.getTime() - session.startedAt.getTime();
     let seconds = Math.floor(diff / 1000);
@@ -333,6 +354,11 @@ class Show extends React.Component {
     const session = this.props.session;
     if (session == null) {
       return <View />;
+    }
+
+    // if the session has ended
+    if (session.endedAt) {
+      return this.renderRateButtons();
     }
 
     // if the session has started
