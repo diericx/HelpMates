@@ -19,10 +19,11 @@ export default class UserList extends React.Component {
   }
 
   userHasCompletedOneOfTheFilteredCourses(user) {
+    console.log(user.profile);
     const completedCourseIds = user.profile.completedCourses;
     for (let i = 0; i < this.props.courses.length; i++) {
       const course = this.props.courses[i];
-      if (completedCourseIds.includes(course._id)) {
+      if (completedCourseIds[course._id]) {
         return true;
       }
     }
