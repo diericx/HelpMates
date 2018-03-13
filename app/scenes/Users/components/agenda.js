@@ -5,7 +5,7 @@ import Meteor from 'react-native-meteor';
 import { Agenda } from 'react-native-calendars';
 
 import { DateToLocalString, DateGet12HourTime, DateToString } from '../helpers';
-import SendHelpRequestModal from './sendHelpSessionRequestModal';
+import SendRequestModal from './SendRequestModal/index';
 
 const styles = EStyleSheet.create({
   container: {
@@ -147,7 +147,7 @@ export default class UserAgenda extends React.Component {
     const todayString = DateToLocalString(today);
     return (
       <View style={styles.container}>
-        <SendHelpRequestModal
+        <SendRequestModal
           name={this.props.name}
           userId={this.props.userId}
           courseId={this.props.courseId}

@@ -5,6 +5,9 @@ import { StackNavigator, TabNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+// styles
+import styles from './styles';
+
 // import AuthIndexContainer from '../containers/Auth';
 // Auth Screens
 import AuthIndexScreen from '../scenes/Auth/index';
@@ -117,14 +120,12 @@ export const MainNavigation = TabNavigator(
           iconName = `ios-person${focused ? '' : '-outline'}`;
         } else if (routeName === 'Sessions') {
           iconName = `ios-book${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Requests') {
-          iconName = `ios-send${focused ? '' : '-outline'}`;
         }
 
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
         return (
-          <View>
+          <View style={styles.tabBarIconsContainer}>
             <StatusBar barStyle="light-content" />
             <Ionicons name={iconName} size={35} color={tintColor} />
           </View>

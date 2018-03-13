@@ -9,12 +9,12 @@ export default class Index extends React.Component {
       <View style={styles.container}>
         <TextInput
           style={styles.textInput}
-          placeholder="What do you need help with?"
+          placeholder={this.props.placeholder}
           editable
           autoFocus
           maxLength={40}
           returnKeyType="done"
-          onChangeText={this.props.updateMessage}
+          onChangeText={this.props.updateInitialMessageText}
         />
       </View>
     );

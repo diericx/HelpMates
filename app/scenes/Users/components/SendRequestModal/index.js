@@ -5,56 +5,23 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Meteor from 'react-native-meteor';
 import Modal from 'react-native-modal';
 
-import TextBox from './TextBox/index';
+import styles from './styles';
+import TextBox from '../TextBox/index';
 
-const styles = EStyleSheet.create({
-  modalContainer: {
-    height: 250,
-    width: '100%',
-    marginBottom: 300,
-    borderRadius: 8,
-    backgroundColor: 'rgba(255, 255, 255, 1)',
-  },
-  dataContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  dataContainerTitle: {
-    fontFamily: 'OpenSans',
-    fontSize: 23,
-    marginTop: 30,
-  },
-  dataContainerText: {
-    fontFamily: 'OpenSansLight',
-    marginTop: 20,
-  },
-  sendButtonContainer: {
-    height: 60,
-    width: '100%',
-    marginBottom: 20,
-    backgroundColor: '$green',
-  },
-  sendButtonText: {
-    fontFamily: 'OpenSans',
-    fontSize: 23,
-    color: 'rgba(255, 255, 255, 1)',
-  },
-});
-
-export default class SendHelpSessionRequestModal extends React.Component {
+export default class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: '',
+      initialMessageText: '',
     };
     // bind
     this.sendRequest = this.sendRequest.bind(this);
-    this.updateMessage = this.updateMessage.bind(this);
+    this.updateInitialMessageText = this.updateInitialMessageText.bind(this);
   }
 
-  updateMessage(text) {
+  updateInitialMessageText(text) {
     this.setState({
-      message: text,
+      initialMessageText: text,
     });
   }
 
@@ -111,7 +78,7 @@ export default class SendHelpSessionRequestModal extends React.Component {
         courseId: this.props.courseId,
         startDate: this.props.startDate,
         endDate: this.props.endDate,
-        message: this.state.message,
+        initialMessageText: this.state.initialMessageText,
       },
       (err, res) => {
         if (err) {
@@ -146,12 +113,16 @@ export default class SendHelpSessionRequestModal extends React.Component {
         <View style={styles.modalContainer}>
           <View style={styles.dataContainer}>
             <Text style={styles.dataContainerTitle}>What do you need help with? </Text>
-            <TextBox message={this.message} updateMessage={this.updateMessage} />
+            <TextBox
+              message={this.state.initialMessageText}
+              updateInitialMessageText={this.updateInitialMessageText}
+              placeholder="Assignment 1 and studying for the midterm"
+            />
           </View>
 
           <Button
             title="Send Request"
-            disabled={this.state.message.length < 10}
+            disabled={this.state.initialMessageText.length < 10}
             textStyle={styles.sendButtonText}
             buttonStyle={styles.sendButtonContainer}
             onPress={this.sendRequest}
