@@ -3,10 +3,10 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { Divider, Button, Rating } from 'react-native-elements';
+import { Divider, Button } from 'react-native-elements';
 
 import { SendMessage } from '../../Helpers/Meteor';
-import TextBox from '../Users/components/TextBox/index';
+import RateUserView from './components/RateUserView/index';
 
 const timer = require('react-native-timer');
 
@@ -85,14 +85,13 @@ class Show extends React.Component {
     super(props);
     this.state = {
       navParams: this.props.navigation.state.params,
-      updateEverySecond: false,
       now: new Date(),
     };
 
     // bind
     this.acceptSession = this.acceptSession.bind(this);
     this.startSesson = this.startSesson.bind(this);
-    this.endSession = this.endSession(this);
+    this.endSession = this.endSession.bind(this);
     this.renderSessionDataActionButtons = this.renderSessionDataActionButtons.bind(this);
     this.renderSessionData = this.renderSessionData.bind(this);
     this.renderEndButton = this.renderEndButton.bind(this);
@@ -133,6 +132,35 @@ class Show extends React.Component {
     const message = messages[0];
     message.user.name = Meteor.user().profile.name;
     SendMessage(convoId, message);
+  }
+
+  calculateTimeAndCost(session, now) {
+    const diff = now.getTime() - session.startedAt.getTime();
+    let seconds = Math.floor(diff / 1000);
+    let minutes = Math.floor(seconds / 60);
+    let hours = Math.floor(minutes / 60);
+    // make sure none can be negative... not sure why they can in the first place
+    if (seconds < 0) {
+      seconds = 0;
+    }
+    if (minutes < 0) {
+      minutes = 0;
+    }
+    if (hours < 0) {
+      hours = 0;
+    }
+    // correct the minutes and seconds
+    minutes %= 60;
+    seconds %= 60;
+    // calculate cost
+    const cost = ((hours + minutes / 60 + seconds / 3600) * session.cost).toFixed(2);
+
+    return {
+      seconds,
+      minutes,
+      hours,
+      cost,
+    };
   }
 
   updateCurrentDate() {
@@ -284,33 +312,14 @@ class Show extends React.Component {
     );
   }
 
-  renderRateButtons() {
-    return (
-      <View>
-        <View>
-          <Rating imageSize={40} startingValue={0} fractions={1} />
-        </View>
-        <View>
-          <TextBox />
-        </View>
-      </View>
-    );
-  }
-
   renderActiveSessionData(session) {
-    const diff = this.state.now.getTime() - session.startedAt.getTime();
-    let seconds = Math.floor(diff / 1000);
-    let minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    minutes %= 60;
-    seconds %= 60;
-    const cost = ((hours + minutes / 60 + seconds / 3600) * session.cost).toFixed(2);
+    const timeAndCost = this.calculateTimeAndCost(session, this.state.now);
     return (
       <View>
         <Text style={styles.sessionLengthText}>
-          {hours}:{minutes}:{seconds}
+          {timeAndCost.hours}:{timeAndCost.minutes}:{timeAndCost.seconds}
         </Text>
-        <Text style={styles.sessionCostText}>${cost}</Text>
+        <Text style={styles.sessionCostText}>${timeAndCost.cost}</Text>
       </View>
     );
   }
@@ -374,11 +383,6 @@ class Show extends React.Component {
       return <View />;
     }
 
-    // if the session has ended
-    if (session.endedAt) {
-      return this.renderRateButtons();
-    }
-
     // if the session has started
     if (session.startedAt) {
       return this.renderEndButton();
@@ -423,7 +427,18 @@ class Show extends React.Component {
 
   render() {
     const { conversation } = this.props;
+    const { session } = this.props;
     // console.log(this.props);
+
+    if (session.endedAt) {
+      return (
+        <RateUserView
+          session={session}
+          timeAndCost={this.calculateTimeAndCost(session, this.state.now)}
+        />
+      );
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.sessionDataContainer}>

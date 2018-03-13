@@ -18,3 +18,25 @@ export function GUID() {
   }
   return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
 }
+
+export function RateUser(userId, targetUserId, courseId, sessionId, rating, message) {
+  Meteor.call(
+    'ratings.rateUser',
+    {
+      userId,
+      targetUserId,
+      courseId,
+      sessionId,
+      rating,
+      message,
+    },
+    (err, res) => {
+      // Do whatever you want with the response
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('Accepted Session!');
+      }
+    },
+  );
+}

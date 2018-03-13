@@ -15,6 +15,21 @@ export function GetOtherUsersNameForSession(session, currentUserId) {
   return '';
 }
 
+export function GetOtherUsersIdForSession(session) {
+  const currentUserId = Meteor.userId();
+  if (currentUserId === session.studentId) {
+    const user = Meteor.collection('users').findOne(session.tutorId);
+    if (user) {
+      return user._id;
+    }
+  }
+  const user = Meteor.collection('users').findOne(session.studentId);
+  if (user) {
+    return user._id;
+  }
+  return null;
+}
+
 export function IsSessionActive(session) {
   return session.tutorAccepted;
 }
