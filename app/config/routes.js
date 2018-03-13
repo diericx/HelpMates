@@ -3,6 +3,7 @@ import Meteor from 'react-native-meteor';
 import { View, StatusBar } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 // import AuthIndexContainer from '../containers/Auth';
 // Auth Screens
@@ -115,9 +116,9 @@ export const MainNavigation = TabNavigator(
         } else if (routeName === 'Profile') {
           iconName = `ios-person${focused ? '' : '-outline'}`;
         } else if (routeName === 'Sessions') {
+          iconName = `ios-book${focused ? '' : '-outline'}`;
+        } else if (routeName === 'Requests') {
           iconName = `ios-send${focused ? '' : '-outline'}`;
-        } else if (routeName == 'Tutor') {
-          iconName = `ios-cash${focused ? '' : '-outline'}`;
         }
 
         // You can return any component that you like here! We usually use an

@@ -41,42 +41,19 @@ class Index extends React.Component {
             <SessionList sessions={sessions} navigation={this.props.navigation} />
           </Card>
 
-          {/* Requests Received */}
+          {/* Requests */}
           <Card containerStyle={{ padding: 0, marginHorizontal: 0 }}>
             <View style={styles.cardTitleContainer}>
-              <Text> Requests Received </Text>
+              <Text> Requests </Text>
             </View>
             <Divider />
 
             <SessionList
-              sessions={sessionRequestsReceived}
+              sessions={sessionRequestsReceived.concat(sessionRequestsSent)}
               noneMessage="Try lowering your prices a bit."
               navigation={this.props.navigation}
             />
           </Card>
-
-          {/* Requests Sent */}
-          <Card containerStyle={{ padding: 0, marginHorizontal: 0 }}>
-            <View style={styles.cardTitleContainer}>
-              <Text> Requests Sent </Text>
-            </View>
-            <Divider />
-
-            <SessionList
-              sessions={sessionRequestsSent}
-              noneMessage="Need some help? Go send someone a request!"
-              navigation={this.props.navigation}
-            />
-          </Card>
-
-          {/* <View style={styles.listHeaderContainer}>
-          <Text style={styles.listHeader}> UPCOMMING SESSIONS </Text>
-        </View>
-        {this.renderSessionList(sessions, 'You have no active sessions')}
-        <View style={styles.listHeaderContainer}>
-          <Text style={styles.listHeader}> REQUESTS </Text>
-        </View>
-        {this.renderSessionList(sessionRequests, 'You have no requests! Try lowering your rate.')} */}
         </ScrollView>
       </View>
     );

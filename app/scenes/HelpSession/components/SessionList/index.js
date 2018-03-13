@@ -3,7 +3,7 @@ import Meteor from 'react-native-meteor';
 import { View, Text } from 'react-native';
 import { ListItem, Rating } from 'react-native-elements';
 
-import { GetOtherUsersNameForSession } from '../../helpers';
+import { GetOtherUsersNameForSession, IsSessionActive } from '../../helpers';
 
 import styles from './styles';
 
@@ -40,22 +40,33 @@ export default class SessionList extends React.Component {
     }
     return (
       <View>
-        {this.props.sessions.map((s, i) => (
-          <ListItem
-            key={i}
-            roundAvatar
-            title={GetOtherUsersNameForSession(s, Meteor.userId())}
-            subtitle={this.getCourseNameToDisplayForSession(s)}
-            avatar={{ uri: defaultAvatar }}
-            containerStyle={styles.listItemContainer}
-            onPress={() =>
-              this.onPress({
-                session: s,
-                otherUsersName: GetOtherUsersNameForSession(s, Meteor.userId()),
-              })
-            }
-          />
-        ))}
+        {this.props.sessions.map((s, i) => {
+          const otherUsersName = GetOtherUsersNameForSession(s, Meteor.userId());
+          let prefix = 'To ';
+          if (s.studentId == Meteor.user()._id) {
+            prefix = 'From ';
+          }
+          if (IsSessionActive(s)) {
+            prefix = '';
+          }
+
+          return (
+            <ListItem
+              key={i}
+              roundAvatar
+              title={prefix + otherUsersName}
+              subtitle={this.getCourseNameToDisplayForSession(s)}
+              avatar={{ uri: defaultAvatar }}
+              containerStyle={styles.listItemContainer}
+              onPress={() =>
+                this.onPress({
+                  session: s,
+                  otherUsersName,
+                })
+              }
+            />
+          );
+        })}
       </View>
     );
   }

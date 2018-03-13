@@ -14,3 +14,7 @@ export function GetOtherUsersNameForSession(session, currentUserId) {
   }
   return '';
 }
+
+export function IsSessionActive(session) {
+  return session.tutorAccepted;
+}
