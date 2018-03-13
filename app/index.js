@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, AsyncStorage } from 'react-native';
-import Meteor, { createContainer, View } from 'react-native-meteor';
+import Meteor, { createContainer } from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Font from 'expo';
 

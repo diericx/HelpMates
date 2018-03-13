@@ -1,7 +1,6 @@
 import React from 'react';
 import Meteor from 'react-native-meteor';
-import { View, Text } from 'react-native';
-import IconBadge from 'react-native-icon-badge';
+import { View, StatusBar } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -124,26 +123,10 @@ export const MainNavigation = TabNavigator(
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
         return (
-          <Ionicons name={iconName} size={35} color={tintColor} />
-          // <IconBadge
-          //   MainElement={
-          //     <View
-          //       style={{
-          //         width: 30,
-          //         margin: 6,
-          //       }}
-          //     >
-          //       <Ionicons name={iconName} size={35} color={tintColor} />
-          //     </View>
-          //   }
-          //   BadgeElement={<Text style={{ color: '#FFFFFF' }}>{requestsRecieved.length}</Text>}
-          //   IconBadgeStyle={{
-          //     width: 20,
-          //     height: 20,
-          //     backgroundColor: 'red',
-          //   }}
-          //   Hidden={9 === 0}
-          // />
+          <View>
+            <StatusBar barStyle="light-content" />
+            <Ionicons name={iconName} size={35} color={tintColor} />
+          </View>
         );
       },
     }),
