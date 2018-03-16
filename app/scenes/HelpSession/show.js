@@ -326,13 +326,20 @@ class Show extends React.Component {
 
   renderSessionData() {
     const session = this.props.session;
+    const myRating = Meteor.collection('ratings').findOne({ userId: Meteor.userId() });
 
     if (session.endedAt) {
+      if (myRating) {
+        return (
+          <View>
+            <Text style={styles.otherUserMessageText}>This session has ended</Text>
+          </View>
+        );
+      }
       return (
         <View>
           <Text style={styles.otherUserMessageText}>
-            {' '}
-            Give {this.state.navParams.otherUsersName} some feedback!{' '}
+            Give {this.state.navParams.otherUsersName} some feedback!
           </Text>
         </View>
       );
@@ -379,7 +386,9 @@ class Show extends React.Component {
 
   renderSessionDataActionButtons() {
     const session = this.props.session;
-    if (session == null) {
+    const myRating = Meteor.collection('ratings').findOne({ userId: Meteor.userId() });
+
+    if (session == null || session.endedAt) {
       return <View />;
     }
 
@@ -428,9 +437,10 @@ class Show extends React.Component {
   render() {
     const { conversation } = this.props;
     const { session } = this.props;
+    const myRating = Meteor.collection('ratings').findOne({ userId: Meteor.userId() });
     // console.log(this.props);
 
-    if (session.endedAt) {
+    if (session.endedAt && !myRating) {
       return (
         <RateUserView
           session={session}
@@ -456,9 +466,11 @@ const container = createContainer((params) => {
   const { session } = params.navigation.state.params;
   // Subscribe to meteor collection
   Meteor.subscribe('session', { id: session._id });
+  Meteor.subscribe('ratingsForSession', { id: session._id });
   return {
     session: Meteor.collection('helpSessions').findOne(session._id),
     conversation: Meteor.collection('conversations').findOne(session.conversationId),
+    ratings: Meteor.collection('ratings').find(),
   };
 }, Show);
 
