@@ -7,8 +7,6 @@ import { GetAverageRating } from '../../../../Helpers/User';
 
 import styles from './styles';
 
-const defaultAvatar = 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg';
-
 export default class UserList extends React.Component {
   constructor(props) {
     super(props);
@@ -61,7 +59,7 @@ export default class UserList extends React.Component {
                   <Rating imageSize={20} readonly startingValue={avgRating} />
                 </View>
               }
-              avatar={{ uri: defaultAvatar }}
+              avatar={{ uri: u.profile.profilePic }}
               containerStyle={styles.listItemContainer}
               onPress={() => this.onPress({ user: u })}
             />

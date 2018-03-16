@@ -3,11 +3,13 @@ import Meteor from 'react-native-meteor';
 import { View, Text } from 'react-native';
 import { ListItem, Rating } from 'react-native-elements';
 
-import { GetOtherUsersNameForSession, IsSessionActive } from '../../helpers';
+import {
+  GetOtherUsersNameForSession,
+  IsSessionActive,
+  GetOtherUsersIdForSession,
+} from '../../helpers';
 
 import styles from './styles';
-
-const defaultAvatar = 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg';
 
 export default class SessionList extends React.Component {
   constructor(props) {
@@ -42,6 +44,10 @@ export default class SessionList extends React.Component {
       <View>
         {this.props.sessions.map((s, i) => {
           const otherUsersName = GetOtherUsersNameForSession(s, Meteor.userId());
+          const otherUsersId = GetOtherUsersIdForSession(s);
+          const otherUserProfilePic = Meteor.collection('users').findOne({ _id: otherUsersId })
+            .profile.profilePic;
+
           let prefix = 'To ';
           if (s.studentId == Meteor.user()._id) {
             prefix = 'From ';
@@ -56,7 +62,7 @@ export default class SessionList extends React.Component {
               roundAvatar
               title={prefix + otherUsersName}
               subtitle={this.getCourseNameToDisplayForSession(s)}
-              avatar={{ uri: defaultAvatar }}
+              avatar={{ uri: otherUserProfilePic }}
               containerStyle={styles.listItemContainer}
               onPress={() =>
                 this.onPress({

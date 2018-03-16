@@ -40,3 +40,11 @@ export function RateUser(userId, targetUserId, courseId, sessionId, rating, mess
     },
   );
 }
+
+export function SetProfilePic(url) {
+  Meteor.call('user.setProfilePic', { url }, (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+}

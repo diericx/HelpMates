@@ -17,8 +17,6 @@ const styles = EStyleSheet.create({
   },
 });
 
-const defaultAvatar = 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg';
-
 class Index extends React.Component {
   onItemPress(params) {
     this.props.navigation.navigate('Show', params);
