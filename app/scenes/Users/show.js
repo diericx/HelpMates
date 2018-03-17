@@ -1,13 +1,12 @@
 import React from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
-import update from 'immutability-helper';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, ScrollView } from 'react-native';
-import { ButtonGroup, Card } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View } from 'react-native';
+import { ButtonGroup } from 'react-native-elements';
 
-import GetHelpCard from './components/GetHelpCard/index';
-import ProfileCard from './components/profileCard';
+import GetHelp from './components/GetHelp/index';
+import Ratings from './components/Ratings/index';
+import ProfileCard from './components/ProfileCard/index';
 
 const styles = EStyleSheet.create({
   container: {
@@ -103,9 +102,10 @@ class Show extends React.Component {
     const buttons = ['Get Help', 'Reviews'];
     const { user } = this.state.params;
     const { selectedGroup } = this.state;
+
     return (
       <View style={styles.container}>
-        <ProfileCard name={user.profile.name} rating={user.profile.rating} />
+        <ProfileCard user={user} />
         <View style={styles.buttonGroupContainer}>
           <ButtonGroup
             onPress={this.updateGroup}
@@ -114,14 +114,14 @@ class Show extends React.Component {
             containerStyle={styles.buttonGroup}
           />
         </View>
-        {this.state.selectedGroup == 0 ? (
-          <GetHelpCard
+        {this.state.selectedGroup === 0 ? (
+          <GetHelp
             user={user}
             onSelectCourse={this.onSelectCourse}
             selectedCourse={this.state.selectedCourse}
           />
         ) : (
-          <View />
+          <Ratings user={user} />
         )}
       </View>
     );

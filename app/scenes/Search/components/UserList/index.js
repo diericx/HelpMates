@@ -3,6 +3,7 @@ import Meteor from 'react-native-meteor';
 import { View } from 'react-native';
 import { ListItem, Rating } from 'react-native-elements';
 
+import UserAvatar from '../../../../components/general/UserAvatar/index';
 import { GetAverageRating } from '../../../../Helpers/User';
 
 import styles from './styles';
@@ -46,9 +47,8 @@ export default class UserList extends React.Component {
     return (
       <View>
         {this.filterUsers().map((u, i) => {
-          const ratingsForUser = Meteor.collection('ratings').find({ userId: u._id });
-          const avgRating = GetAverageRating(ratingsForUser, ratingsForUser.length, 0);
-
+          const ratingsForUser = Meteor.collection('ratings').find({ targetUserId: u._id });
+          const avgRating = GetAverageRating(ratingsForUser);
           return (
             <ListItem
               key={i}
@@ -59,7 +59,7 @@ export default class UserList extends React.Component {
                   <Rating imageSize={20} readonly startingValue={avgRating} />
                 </View>
               }
-              avatar={{ uri: u.profile.profilePic }}
+              avatar={<UserAvatar url={u.profile.profilePic} />}
               containerStyle={styles.listItemContainer}
               onPress={() => this.onPress({ user: u })}
             />

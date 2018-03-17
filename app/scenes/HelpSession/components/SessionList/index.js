@@ -3,6 +3,8 @@ import Meteor from 'react-native-meteor';
 import { View, Text } from 'react-native';
 import { ListItem, Rating } from 'react-native-elements';
 
+import UserAvatar from 'app/components/general/UserAvatar/index';
+
 import {
   GetOtherUsersNameForSession,
   IsSessionActive,
@@ -62,7 +64,7 @@ export default class SessionList extends React.Component {
               roundAvatar
               title={prefix + otherUsersName}
               subtitle={this.getCourseNameToDisplayForSession(s)}
-              avatar={{ uri: otherUserProfilePic }}
+              avatar={<UserAvatar url={otherUserProfilePic} />}
               containerStyle={styles.listItemContainer}
               onPress={() =>
                 this.onPress({
