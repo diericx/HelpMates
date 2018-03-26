@@ -15,9 +15,11 @@ export function DateToLocalString(date) {
   return `${date.getUTCFullYear()}-${month}-${day}`;
 }
 
-export function DateGet12HourTime(date) {
+export function DateTo12HourTime(date) {
   const hour = date.getHours();
-  const minutes = date.getMinutes();
+  let minutes = date.getMinutes();
+  const minutesStr = minutes.toString();
+  minutes = minutesStr.length === 1 ? `0${minutes}` : minutes;
   if (hour > 12) {
     return `${(hour - 12).toString()}:${minutes}PM`;
   }

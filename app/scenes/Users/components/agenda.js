@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Meteor from 'react-native-meteor';
 import { Agenda } from 'react-native-calendars';
 
-import { DateToLocalString, DateGet12HourTime, DateToString } from '../helpers';
+import { DateToLocalString, DateTo12HourTime, DateToString } from '../../../Helpers/Date';
 import SendRequestModal from './SendRequestModal/index';
 
 const styles = EStyleSheet.create({
@@ -115,8 +115,8 @@ export default class UserAgenda extends React.Component {
         }}
       >
         <View style={[styles.item, { height: item.height }]}>
-          <Text style={{ color: 'lightgray' }}>{DateGet12HourTime(item.startDate)}</Text>
-          <Text style={{ color: 'lightgray' }}>{DateGet12HourTime(item.endDate)}</Text>
+          <Text style={{ color: 'lightgray' }}>{DateTo12HourTime(item.startDate)}</Text>
+          <Text style={{ color: 'lightgray' }}>{DateTo12HourTime(item.endDate)}</Text>
         </View>
       </TouchableOpacity>
     );
