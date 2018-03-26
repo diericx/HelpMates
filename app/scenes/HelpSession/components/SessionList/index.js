@@ -4,7 +4,11 @@ import { View, Text } from 'react-native';
 import { ListItem, Rating } from 'react-native-elements';
 
 import UserAvatar from 'app/components/general/UserAvatar/index';
+import { CText } from 'app/components/general/CustomText';
 
+import { FullDateForSession } from 'app/Helpers/Date';
+
+import { CTextSubtitle } from 'app/components/general/CustomText';
 import {
   GetOtherUsersNameForSession,
   IsSessionActive,
@@ -63,7 +67,14 @@ export default class SessionList extends React.Component {
               key={i}
               roundAvatar
               title={prefix + otherUsersName}
-              subtitle={this.getCourseNameToDisplayForSession(s)}
+              subtitle={
+                <View>
+                  <CTextSubtitle style={[styles.listSubTitle, styles.listSubTitleLarge]}>
+                    {this.getCourseNameToDisplayForSession(s)}
+                  </CTextSubtitle>
+                  <CTextSubtitle style={styles.listSubTitle}>{FullDateForSession(s)}</CTextSubtitle>
+                </View>
+              }
               avatar={<UserAvatar url={otherUserProfilePic} />}
               containerStyle={styles.listItemContainer}
               onPress={() =>

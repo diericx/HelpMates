@@ -32,7 +32,7 @@ class Index extends React.Component {
           {/* Active Sessions */}
           <Card containerStyle={{ padding: 0, marginHorizontal: 0 }}>
             <View style={styles.cardTitleContainer}>
-              <Text> Active Sessions </Text>
+              <Text> Upcoming Sessions </Text>
             </View>
             <Divider />
 

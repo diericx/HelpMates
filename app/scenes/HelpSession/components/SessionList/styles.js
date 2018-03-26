@@ -12,4 +12,7 @@ export default EStyleSheet.create({
     color: 'gray',
     padding: 10,
   },
+  listSubTitleLarge: {
+    fontSize: 15,
+  },
 });

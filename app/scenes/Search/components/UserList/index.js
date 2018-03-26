@@ -3,6 +3,7 @@ import Meteor from 'react-native-meteor';
 import { View } from 'react-native';
 import { ListItem, Rating } from 'react-native-elements';
 
+import { CText } from 'app/components/general/CustomText';
 import UserAvatar from '../../../../components/general/UserAvatar/index';
 import { GetAverageRating } from '../../../../Helpers/User';
 
@@ -21,7 +22,6 @@ export default class UserList extends React.Component {
   }
 
   userHasCompletedOneOfTheFilteredCourses(user) {
-    console.log(user.profile);
     const completedCourseIds = user.profile.completedCourses;
     for (let i = 0; i < this.props.courses.length; i++) {
       const course = this.props.courses[i];
