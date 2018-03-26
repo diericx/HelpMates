@@ -14,6 +14,7 @@ EStyleSheet.build({
   $black: 'black',
   $offBlack: 'rgb(60, 60, 60)',
   $lightgray: '#f3f3f3',
+  $darkgray: '#3a3a3a',
   $purple: '#cd84f1',
   $offWhite: 'rgb(252, 252, 252)',
   $offWhiteDown: 'rgb(247, 247, 247)',

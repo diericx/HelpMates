@@ -13,6 +13,7 @@ const styles = EStyleSheet.create({
     fontFamily: 'OpenSansBold',
     fontSize: 16,
     marginLeft: 2,
+    color: '$darkgray',
   },
   ratingMessageContainer: {
     marginTop: 10,
