@@ -55,19 +55,26 @@ class Show extends React.Component {
     this.renderSessionData = this.renderSessionData.bind(this);
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     // Set anonymous key from async
     try {
-      const anonId = AsyncStorage.getItem('@MySuperStore:anonymousKey');
-      this.setState({
-        guid: anonId,
-      });
-    } catch (error) {}
+      const value = await AsyncStorage.getItem('@MySuperStore:anonymousKey');
+      if (value !== null) {
+        // We have data!!
+        this.setState({
+          guid: value,
+        });
+      } else {
+        console.log('No anonymous key!');
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.log(error);
+    }
   }
 
   // When a message is sent on client
   onSend(convoId, messages = []) {
-    console.log(messages[0]);
     const message = messages[0];
     message.user.name = this.state.name;
     SendMessage(convoId, message);
@@ -169,7 +176,7 @@ container.navigationOptions = ({ navigation }) => {
     headerTitleStyle: {
       fontSize: 25,
       fontWeight: 'bold',
-      fontFamily: 'Milkshake',
+      fontFamily: 'OpenSansBold',
     },
   };
 };

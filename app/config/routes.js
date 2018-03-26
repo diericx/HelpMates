@@ -25,7 +25,8 @@ import CoursesShowScreen from '../scenes/Courses/show';
 import HelpSessionIndexScreen from '../scenes/HelpSession/index';
 import HelpSessionShowScreen from '../scenes/HelpSession/show';
 // Search Screens
-import SearchIndex from '../scenes/Search/index';
+import SearchPeopleIndex from '../scenes/Search/indexPeople';
+import SearchCoursesIndex from '../scenes/Search/indexCourses';
 
 const ShowUserStack = StackNavigator(
   {
@@ -51,12 +52,18 @@ const ShowCourseStack = StackNavigator(
   },
 );
 
-const StudentStack = StackNavigator({
+const SearchPeopleStack = StackNavigator({
   Search: {
-    screen: SearchIndex,
+    screen: SearchPeopleIndex,
   },
   ShowUser: {
     screen: ShowUserStack,
+  },
+});
+
+const SearchCoursesStack = StackNavigator({
+  Search: {
+    screen: SearchCoursesIndex,
   },
   ShowCourse: {
     screen: ShowCourseStack,
@@ -87,9 +94,15 @@ const HelpSessionStack = StackNavigator({
 export const MainNavigation = TabNavigator(
   {
     GetHelp: {
-      screen: StudentStack,
+      screen: SearchPeopleStack,
       navigationOptions: {
         tabBarLabel: 'Get Help',
+      },
+    },
+    AnonymousChat: {
+      screen: SearchCoursesStack,
+      navigationOptions: {
+        tabBarLabel: 'Anonymous Chat',
       },
     },
     Sessions: {
@@ -116,6 +129,8 @@ export const MainNavigation = TabNavigator(
         });
         if (routeName === 'GetHelp') {
           iconName = `ios-search${focused ? '' : '-outline'}`;
+        } else if (routeName === 'AnonymousChat') {
+          iconName = `ios-people${focused ? '' : '-outline'}`;
         } else if (routeName === 'Profile') {
           iconName = `ios-person${focused ? '' : '-outline'}`;
         } else if (routeName === 'Sessions') {

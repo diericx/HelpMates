@@ -95,23 +95,6 @@ class Index extends React.Component {
               navigation={this.props.navigation}
             />
           </Card>
-
-          {/* Courses Card */}
-          <Card containerStyle={{ padding: 0, marginHorizontal: 0 }}>
-            <View style={styles.cardTitleContainer}>
-              <Text> Courses </Text>
-            </View>
-            <View style={[styles.cardTitleContainer, styles.cardTitleContainerHighlighted]}>
-              <Text style={styles.cardTitleHighlighted}>Chat anonymously with other students!</Text>
-            </View>
-            <Divider />
-
-            <CourseList
-              courses={filteredCourses}
-              filter={this.state.searchText}
-              navigation={this.props.navigation}
-            />
-          </Card>
         </ScrollView>
       </View>
     );

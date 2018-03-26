@@ -133,7 +133,7 @@ const container = createContainer(params => ({}), Show);
 container.navigationOptions = ({ navigation }) => {
   const { state: { params = {} } } = navigation;
   return {
-    title: params.title || 'Choose Time Slot',
+    title: params.title || 'Get Help',
     headerStyle: {
       backgroundColor: '#cd84f1',
     },
@@ -142,7 +142,7 @@ container.navigationOptions = ({ navigation }) => {
     headerTitleStyle: {
       fontSize: 25,
       fontWeight: 'bold',
-      fontFamily: 'Milkshake',
+      fontFamily: 'OpenSansBold',
     },
   };
 };
