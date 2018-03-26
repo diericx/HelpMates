@@ -5,7 +5,10 @@ export default EStyleSheet.create({
     borderBottomColor: '#e1e8ee',
   },
   ratingContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
+    // marginLeft: 9,
+  },
+  subtitleRating: {
     marginLeft: 9,
   },
 });

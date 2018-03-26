@@ -3,7 +3,7 @@ import Meteor from 'react-native-meteor';
 import { View } from 'react-native';
 import { ListItem, Rating } from 'react-native-elements';
 
-import { CText } from 'app/components/general/CustomText';
+import { CTextSubtitle } from 'app/components/general/CustomText';
 import UserAvatar from '../../../../components/general/UserAvatar/index';
 import { GetAverageRating } from '../../../../Helpers/User';
 
@@ -55,8 +55,15 @@ export default class UserList extends React.Component {
               roundAvatar
               title={u.profile.name}
               subtitle={
-                <View style={styles.ratingContainer}>
-                  <Rating imageSize={20} readonly startingValue={avgRating} />
+                <View>
+                  <View style={styles.ratingContainer}>
+                    <Rating
+                      style={styles.subtitleRating}
+                      imageSize={20}
+                      readonly
+                      startingValue={avgRating}
+                    />
+                  </View>
                 </View>
               }
               avatar={<UserAvatar url={u.profile.profilePic} />}
