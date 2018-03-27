@@ -17,6 +17,11 @@ const styles = EStyleSheet.create({
   searchInput: {
     backgroundColor: '$lightgray',
   },
+  cardContainer: {
+    margin: 0,
+    marginTop: -2,
+    padding: 0,
+  },
   cardTitleContainer: {
     paddingVertical: 5,
     paddingLeft: 5,
@@ -81,7 +86,7 @@ class Index extends React.Component {
 
         <ScrollView>
           {/* Courses Card */}
-          <Card containerStyle={{ padding: 0, marginHorizontal: 0 }}>
+          <Card containerStyle={styles.cardContainer}>
             <View style={styles.cardTitleContainer}>
               <Text> Courses </Text>
             </View>

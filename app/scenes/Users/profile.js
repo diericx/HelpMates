@@ -42,7 +42,7 @@ export default class Profile extends React.Component {
     headerTitleStyle: {
       fontSize: 25,
       fontWeight: 'bold',
-      fontFamily: 'Milkshake',
+      fontFamily: 'OpenSansBold',
     },
   };
 
