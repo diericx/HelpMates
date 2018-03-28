@@ -24,7 +24,7 @@ EStyleSheet.build({
   $green: '#3ae374',
   $greenTrans: '#3ae37470',
   $red: '#ff4d4d',
-  $orange: '#ff9f1a',
+  $orange: '#ffb349',
 });
 
 class App extends React.Component {

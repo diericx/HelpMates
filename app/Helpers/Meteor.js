@@ -21,7 +21,7 @@ export function GUID() {
 
 /**
 |--------------------------------------------------
-| User Calls
+| USER
 |--------------------------------------------------
 */
 
@@ -65,6 +65,64 @@ export function SetProfilePic(url) {
   Meteor.call('user.setProfilePic', { url }, (err, res) => {
     if (err) {
       console.log(err);
+    }
+  });
+}
+
+/**
+|--------------------------------------------------
+| SESSION
+|--------------------------------------------------
+*/
+
+// Accept this session
+export function AcceptSession(session) {
+  const sessionId = session._id;
+  Meteor.call('helpSessions.accept', { sessionId }, (err, res) => {
+    // Do whatever you want with the response
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Accepted Session!');
+    }
+  });
+}
+
+// Deny this session
+export function DenySession(session) {
+  const sessionId = session._id;
+  Meteor.call('helpSessions.deny', { sessionId }, (err, res) => {
+    // Do whatever you want with the response
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Denied Session!');
+    }
+  });
+}
+
+// Start this session
+export function StartSesson(session) {
+  const sessionId = session._id;
+  Meteor.call('helpSessions.start', { sessionId }, (err, res) => {
+    // Do whatever you want with the response
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Started Session!');
+    }
+  });
+}
+
+// End this session
+export function EndSession(session) {
+  const sessionId = session._id;
+  Meteor.call('helpSessions.end', { sessionId }, (err, res) => {
+    // Do whatever you want with the response
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Ended Session!');
     }
   });
 }

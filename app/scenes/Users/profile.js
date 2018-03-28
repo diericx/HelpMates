@@ -46,7 +46,6 @@ export default class Profile extends React.Component {
   }
 
   componentDidMount() {
-    console.log(Meteor.user().profile);
     this.setState({
       profilePic: Meteor.user().profile.profilePic,
     });
@@ -95,8 +94,6 @@ export default class Profile extends React.Component {
       allowsEditing: true,
       aspect: [1, 1],
     });
-
-    console.log(result);
 
     if (!result.cancelled) {
       this.setState({ profilePic: result.uri });

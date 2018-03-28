@@ -23,7 +23,7 @@ import TutorCoursesScreen from '../scenes/Tutor/courses';
 import CoursesShowScreen from '../scenes/Courses/show';
 // Help Session Request
 import HelpSessionIndexScreen from '../scenes/HelpSession/index';
-import HelpSessionShowScreen from '../scenes/HelpSession/show';
+import HelpSessionShowScreen from '../scenes/HelpSession/Show/index';
 // Search Screens
 import SearchPeopleIndex from '../scenes/Search/indexPeople';
 import SearchCoursesIndex from '../scenes/Search/indexCourses';
@@ -57,17 +57,6 @@ const ShowUserStack = StackNavigator(
   },
 );
 
-const ShowCourseStack = StackNavigator(
-  {
-    Show: {
-      screen: CoursesShowScreen,
-    },
-  },
-  {
-    navigationOptions: defaultNavigationOptions,
-  },
-);
-
 const SearchPeopleStack = StackNavigator(
   {
     Search: {
@@ -88,7 +77,7 @@ const SearchCoursesStack = StackNavigator(
       screen: SearchCoursesIndex,
     },
     ShowCourse: {
-      screen: ShowCourseStack,
+      screen: CoursesShowScreen,
     },
   },
   {
@@ -164,7 +153,6 @@ const TabNavigation = TabNavigator(
     },
   },
   {
-    initialRouteName: 'GetHelp',
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
