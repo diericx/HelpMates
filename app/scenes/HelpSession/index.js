@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { List, ListItem, Card, Divider } from 'react-native-elements';
+import { Card, Divider } from 'react-native-elements';
 
 import SessionList from './components/SessionList/index';
 

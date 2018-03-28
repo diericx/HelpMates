@@ -4,11 +4,11 @@ import { View, Text } from 'react-native';
 import { ListItem, Rating } from 'react-native-elements';
 
 import UserAvatar from 'app/components/general/UserAvatar/index';
-import { CText } from 'app/components/general/CustomText';
 
 import { FullDateForSession } from 'app/Helpers/Date';
 
-import { CTextSubtitle } from 'app/components/general/CustomText';
+import { CTextSubtitle, CText } from 'app/components/general/CustomText';
+
 import {
   GetOtherUsersNameForSession,
   IsSessionActive,
