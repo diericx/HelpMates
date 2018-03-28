@@ -11,6 +11,9 @@ const styles = EStyleSheet.create({
   container: {
     flex: 1,
   },
+  searchBarContainer: {
+    backgroundColor: 'red',
+  },
   searchContainer: {
     backgroundColor: 'white',
   },
@@ -45,6 +48,8 @@ class Index extends React.Component {
       searchText: '',
     };
 
+    this.props.test = 'asdf';
+
     // bind
     this.onSearchChangeText = this.onSearchChangeText.bind(this);
   }
@@ -76,14 +81,16 @@ class Index extends React.Component {
 
     return (
       <View style={styles.container}>
-        <SearchBar
-          lightTheme
-          containerStyle={styles.searchContainer}
-          inputStyle={styles.searchInput}
-          onChangeText={this.onSearchChangeText}
-          onClearText={this.onSearchClearText}
-          placeholder="Search for a person or a course"
-        />
+        <View style={styles.searchBarContainer}>
+          <SearchBar
+            lightTheme
+            containerStyle={styles.searchContainer}
+            inputStyle={styles.searchInput}
+            onChangeText={this.onSearchChangeText}
+            onClearText={this.onSearchClearText}
+            placeholder="Search for a person or a course"
+          />
+        </View>
 
         <ScrollView>
           {/* Users Card */}
@@ -115,8 +122,9 @@ const container = createContainer((params) => {
   };
 }, Index);
 
-// container.navigationOptions = {
-//   title: 'StudyBuddies',
-// };
+// Set the header to be a null so we can create our own
+container.navigationOptions = {
+  // header: null,
+};
 
 export default container;

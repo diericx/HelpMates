@@ -134,16 +134,6 @@ container.navigationOptions = ({ navigation }) => {
   const { state: { params = {} } } = navigation;
   return {
     title: params.title || 'Get Help',
-    headerStyle: {
-      backgroundColor: '#cd84f1',
-    },
-
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontSize: 25,
-      fontWeight: 'bold',
-      fontFamily: 'OpenSansBold',
-    },
   };
 };
 

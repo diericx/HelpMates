@@ -111,19 +111,4 @@ const container = createContainer((params) => {
   };
 }, Index);
 
-container.navigationOptions = {
-  title: 'Anonymous Chat',
-  headerBackTitle: 'Back',
-  headerStyle: {
-    backgroundColor: '#cd84f1',
-  },
-
-  headerTintColor: '#fff',
-  headerTitleStyle: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    fontFamily: 'OpenSansBold',
-  },
-};
-
 export default container;

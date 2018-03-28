@@ -34,16 +34,6 @@ const list = [
 export default class Profile extends React.Component {
   static navigationOptions = {
     title: 'Profile',
-    headerStyle: {
-      backgroundColor: '#cd84f1',
-    },
-
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontSize: 25,
-      fontWeight: 'bold',
-      fontFamily: 'OpenSansBold',
-    },
   };
 
   constructor(props) {

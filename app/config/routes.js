@@ -28,6 +28,23 @@ import HelpSessionShowScreen from '../scenes/HelpSession/show';
 import SearchPeopleIndex from '../scenes/Search/indexPeople';
 import SearchCoursesIndex from '../scenes/Search/indexCourses';
 
+// the default settings for the header of each stack
+const defaultNavigationOptions = {
+  title: 'StudyBuddies',
+  headerBackTitle: 'Back',
+  headerStyle: {
+    backgroundColor: 'white',
+    height: 50,
+  },
+
+  headerTintColor: '#2b2b2b',
+  headerTitleStyle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    fontFamily: 'Milkshake',
+  },
+};
+
 const ShowUserStack = StackNavigator(
   {
     Show: {
@@ -40,52 +57,86 @@ const ShowUserStack = StackNavigator(
   },
 );
 
-const ShowCourseStack = StackNavigator({
-  Show: {
-    screen: CoursesShowScreen,
+const ShowCourseStack = StackNavigator(
+  {
+    Show: {
+      screen: CoursesShowScreen,
+    },
   },
-});
+  {
+    navigationOptions: defaultNavigationOptions,
+  },
+);
 
-const SearchPeopleStack = StackNavigator({
-  Search: {
-    screen: SearchPeopleIndex,
+const SearchPeopleStack = StackNavigator(
+  {
+    Search: {
+      screen: SearchPeopleIndex,
+    },
+    ShowUser: {
+      screen: ShowUserStack,
+    },
   },
-  ShowUser: {
-    screen: ShowUserStack,
+  {
+    navigationOptions: defaultNavigationOptions,
   },
-});
+);
 
-const SearchCoursesStack = StackNavigator({
-  Search: {
-    screen: SearchCoursesIndex,
+const SearchCoursesStack = StackNavigator(
+  {
+    Search: {
+      screen: SearchCoursesIndex,
+    },
+    ShowCourse: {
+      screen: ShowCourseStack,
+    },
   },
-  ShowCourse: {
-    screen: ShowCourseStack,
+  {
+    navigationOptions: {
+      ...defaultNavigationOptions,
+      headerTitle: 'Anonymous Chat',
+    },
   },
-});
+);
 
-const ProfileStack = StackNavigator({
-  Profile: {
-    screen: UsersProfileScreen,
+const ProfileStack = StackNavigator(
+  {
+    Profile: {
+      screen: UsersProfileScreen,
+    },
+    Availability: {
+      screen: TutorAvailabilityScreen,
+    },
+    Courses: {
+      screen: TutorCoursesScreen,
+    },
   },
-  Availability: {
-    screen: TutorAvailabilityScreen,
+  {
+    navigationOptions: {
+      ...defaultNavigationOptions,
+      headerTitle: 'Profile',
+    },
   },
-  Courses: {
-    screen: TutorCoursesScreen,
-  },
-});
+);
 
-const HelpSessionStack = StackNavigator({
-  Index: {
-    screen: HelpSessionIndexScreen,
+const HelpSessionStack = StackNavigator(
+  {
+    Index: {
+      screen: HelpSessionIndexScreen,
+    },
+    Show: {
+      screen: HelpSessionShowScreen,
+    },
   },
-  Show: {
-    screen: HelpSessionShowScreen,
+  {
+    navigationOptions: {
+      ...defaultNavigationOptions,
+      headerTitle: 'My Sessions',
+    },
   },
-});
+);
 
-export const TabBarNavigation = TabNavigator(
+const TabNavigation = TabNavigator(
   {
     GetHelp: {
       screen: SearchPeopleStack,
@@ -115,12 +166,6 @@ export const TabBarNavigation = TabNavigator(
   {
     initialRouteName: 'GetHelp',
     navigationOptions: ({ navigation }) => ({
-      headerTintColor: 'black',
-      headerStyle: {
-        backgroundColor: 'red',
-        shadowColor: 'white',
-        elevation: 0,
-      },
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
@@ -154,24 +199,18 @@ export const TabBarNavigation = TabNavigator(
   },
 );
 
-export const MainStack = StackNavigator({
-  Index: {
-    screen: TabBarNavigation,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#cd84f1',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        fontFamily: 'OpenSansBold',
-      },
+export const MainNavigation = StackNavigator(
+  {
+    Index: {
+      screen: TabNavigation,
     },
   },
-});
+  {
+    headerMode: 'none',
+  },
+);
 
-export const AuthStack = StackNavigator({
+export const AuthNavigation = StackNavigator({
   Index: {
     screen: AuthIndexScreen,
   },
