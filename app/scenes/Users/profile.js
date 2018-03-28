@@ -33,6 +33,14 @@ const list = [
     title: 'FAQ',
     screen: 'FAQ',
   },
+  {
+    title: 'Report a problem',
+    screen: 'ProblemReporting',
+  },
+  {
+    title: 'Legal Notices',
+    screen: 'Legal',
+  }
 ];
 
 export default class Profile extends React.Component {
