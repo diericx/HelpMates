@@ -62,7 +62,7 @@ class Availability extends React.Component {
     return (
       <View style={styles.container}>
         <View>
-          <Text style={styles.title}> Set Your Availabilities </Text>
+          <Text style={styles.title}> Set Your Availability </Text>
           <View style={styles.availabilitiesListContainer}>
             <ListView
               enableEmptySections

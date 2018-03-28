@@ -29,6 +29,10 @@ const list = [
     iconType: 'entypo',
     screen: 'Courses',
   },
+  {
+    title: 'FAQ',
+    screen: 'FAQ',
+  },
 ];
 
 export default class Profile extends React.Component {

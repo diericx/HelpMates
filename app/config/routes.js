@@ -21,6 +21,8 @@ import TutorAvailabilityScreen from '../scenes/Tutor/availability';
 import TutorCoursesScreen from '../scenes/Tutor/courses';
 // Course Screens
 import CoursesShowScreen from '../scenes/Courses/show';
+// FAQ Screens
+import FAQPageShowScreen from '../scenes/FAQPage/FAQindex';
 // Help Session Request
 import HelpSessionIndexScreen from '../scenes/HelpSession/index';
 import HelpSessionShowScreen from '../scenes/HelpSession/show';
@@ -52,6 +54,18 @@ const ShowCourseStack = StackNavigator(
   },
 );
 
+const ShowFAQStack = StackNavigator(
+  {
+    Show: {
+      screen: FAQPageShowScreen,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  },
+)
+
 const SearchPeopleStack = StackNavigator({
   Search: {
     screen: SearchPeopleIndex,
@@ -80,6 +94,9 @@ const ProfileStack = StackNavigator({
   Courses: {
     screen: TutorCoursesScreen,
   },
+  FAQ: {
+    screen: FAQPageShowScreen,
+  }
 });
 
 const HelpSessionStack = StackNavigator({
