@@ -10,23 +10,25 @@ import styles from './styles';
 
 // import AuthIndexContainer from '../containers/Auth';
 // Auth Screens
-import AuthIndexScreen from '../scenes/Auth/index';
+import AuthHomeScreen from '../scenes/Auth/index';
 import AuthLoginScreen from '../scenes/Auth/login';
 import AuthSignupScreen from '../scenes/Auth/signup';
+// Profile screens
+import ProfileHomeScreen from '../scenes/Profile/Home/index';
+import ProfileCoursesScreen from '../scenes/Profile/Courses/index';
+import ProfileAvailabilityScreen from '../scenes/Profile/Availability/index';
 // User Screens
-import UsersShowScreen from '../scenes/Users/show';
-import UsersProfileScreen from '../scenes/Users/profile';
+import UsersShowScreen from '../scenes/People/Show/index';
 // Tutor Screens
-import TutorAvailabilityScreen from '../scenes/Tutor/availability';
-import TutorCoursesScreen from '../scenes/Tutor/courses';
+
 // Course Screens
-import CoursesShowScreen from '../scenes/Courses/show';
+import CoursesShowScreen from '../scenes/Courses/Show/index';
+import CoursesHomeScreen from '../scenes/Courses/Home/index';
 // Help Session Request
-import HelpSessionIndexScreen from '../scenes/HelpSession/index';
+import HelpSessionHomeScreen from '../scenes/HelpSession/Home/index';
 import HelpSessionShowScreen from '../scenes/HelpSession/Show/index';
-// Search Screens
-import SearchPeopleIndex from '../scenes/Search/indexPeople';
-import SearchCoursesIndex from '../scenes/Search/indexCourses';
+// People Screen
+import PeopleHomeScreen from '../scenes/People/Home/index';
 
 // the default settings for the header of each stack
 const defaultNavigationOptions = {
@@ -60,7 +62,7 @@ const ShowUserStack = StackNavigator(
 const SearchPeopleStack = StackNavigator(
   {
     Search: {
-      screen: SearchPeopleIndex,
+      screen: PeopleHomeScreen,
     },
     ShowUser: {
       screen: ShowUserStack,
@@ -71,10 +73,10 @@ const SearchPeopleStack = StackNavigator(
   },
 );
 
-const SearchCoursesStack = StackNavigator(
+const CoursesStack = StackNavigator(
   {
     Search: {
-      screen: SearchCoursesIndex,
+      screen: CoursesHomeScreen,
     },
     ShowCourse: {
       screen: CoursesShowScreen,
@@ -91,13 +93,16 @@ const SearchCoursesStack = StackNavigator(
 const ProfileStack = StackNavigator(
   {
     Profile: {
-      screen: UsersProfileScreen,
+      screen: ProfileHomeScreen,
     },
     Availability: {
-      screen: TutorAvailabilityScreen,
+      screen: ProfileAvailabilityScreen,
     },
     Courses: {
-      screen: TutorCoursesScreen,
+      screen: ProfileCoursesScreen,
+      // navigationOptions: {
+      //   headerTitle: 'asdfsaf',
+      // },
     },
   },
   {
@@ -111,7 +116,7 @@ const ProfileStack = StackNavigator(
 const HelpSessionStack = StackNavigator(
   {
     Index: {
-      screen: HelpSessionIndexScreen,
+      screen: HelpSessionHomeScreen,
     },
     Show: {
       screen: HelpSessionShowScreen,
@@ -134,7 +139,7 @@ const TabNavigation = TabNavigator(
       },
     },
     AnonymousChat: {
-      screen: SearchCoursesStack,
+      screen: CoursesStack,
       navigationOptions: {
         tabBarLabel: 'Anonymous Chat',
       },
@@ -200,7 +205,7 @@ export const MainNavigation = StackNavigator(
 
 export const AuthNavigation = StackNavigator({
   Index: {
-    screen: AuthIndexScreen,
+    screen: AuthHomeScreen,
   },
   Login: {
     screen: AuthLoginScreen,

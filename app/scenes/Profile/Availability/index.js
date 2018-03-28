@@ -1,29 +1,8 @@
 import React from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import {
-  View,
-  Text,
-  Button,
-  FlatList,
-  StatusBar,
-  Picker,
-  ListView,
-  DatePickerIOS,
-} from 'react-native';
+import { View, Text, Button, ListView, DatePickerIOS } from 'react-native';
 
-const styles = EStyleSheet.create({
-  container: {
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 25,
-  },
-  availabilitiesListContainer: {
-    width: '$screenWidth',
-    height: 150,
-  },
-});
+import styles from './styles';
 
 class Availability extends React.Component {
   constructor(props) {
@@ -92,18 +71,7 @@ const container = createContainer(
 );
 
 container.navigationOptions = {
-  title: 'Availability',
-  headerBackTitle: 'Back',
-  headerStyle: {
-    backgroundColor: '#cd84f1',
-  },
-
-  headerTintColor: '#fff',
-  headerTitleStyle: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    fontFamily: 'Milkshake',
-  },
+  headerTitle: 'My Availability',
 };
 
 export default container;

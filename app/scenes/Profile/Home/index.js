@@ -6,7 +6,7 @@ import { List, ListItem } from 'react-native-elements';
 import { RNS3 } from 'react-native-aws3';
 import { ImagePicker } from 'expo';
 
-import { SetProfilePic } from '../../Helpers/Meteor';
+import { SetProfilePic } from 'app/Helpers/Meteor';
 
 const options = {
   keyPrefix: 'uploads/',

@@ -6,8 +6,8 @@ import Meteor from 'react-native-meteor';
 import Modal from 'react-native-modal';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
-import { DateTo12HourTime } from '../../../../Helpers/Date';
-import { CText, CTextBold } from '../../../../components/general/CustomText';
+import { DateTo12HourTime } from 'app/Helpers/Date';
+import { CText, CTextBold } from 'app/components/general/CustomText';
 
 import styles from './styles';
 import TextBox from '../TextBox/index';

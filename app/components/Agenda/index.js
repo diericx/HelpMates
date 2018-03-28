@@ -1,33 +1,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import Meteor from 'react-native-meteor';
 import { Agenda } from 'react-native-calendars';
 
-import { DateToLocalString, DateTo12HourTime, DateToString } from '../../../Helpers/Date';
-import SendRequestModal from './SendRequestModal/index';
+import { DateToLocalString, DateTo12HourTime, DateToString } from 'app/Helpers/Date';
+import SendRequestModal from '../SendRequestModal/index';
 
-const styles = EStyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  item: {
-    backgroundColor: 'white',
-    flex: 1,
-    justifyContent: 'space-between',
-    flexDirection: 'column',
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17,
-    height: 100,
-  },
-  emptyDate: {
-    height: 15,
-    flex: 1,
-    paddingTop: 30,
-  },
-});
+import styles from './styles';
 
 export default class UserAgenda extends React.Component {
   constructor(props) {

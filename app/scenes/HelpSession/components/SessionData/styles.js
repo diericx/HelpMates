@@ -22,6 +22,10 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
     fontFamily: 'OpenSans',
   },
+  alertText: {
+    color: 'white',
+    fontFamily: 'OpenSansBold',
+  },
   activityIndicatorContainer: {
     paddingVertical: 10,
   },

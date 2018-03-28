@@ -1,21 +1,11 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { Card, Divider } from 'react-native-elements';
 
-import SessionList from './components/SessionList/index';
+import SessionList from '../components/SessionList/index';
 
-const styles = EStyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  cardTitleContainer: {
-    paddingVertical: 5,
-    paddingLeft: 5,
-    backgroundColor: '$lightgray',
-  },
-});
+import styles from './styles';
 
 class Index extends React.Component {
   onItemPress(params) {

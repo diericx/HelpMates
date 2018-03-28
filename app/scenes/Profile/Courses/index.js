@@ -1,40 +1,9 @@
 import React from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, ScrollView, Picker } from 'react-native';
+import { View, ScrollView, Picker } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 
-const styles = EStyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  rateContainer: {
-    marginTop: 25,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  courseCardContainer: {
-    width: '100%',
-  },
-  title: {
-    fontSize: 25,
-  },
-  availabilitiesListContainer: {
-    width: '$screenWidth',
-    height: 10,
-  },
-  removeCourseButton: {
-    height: 45,
-    backgroundColor: '$red',
-    borderColor: 'transparent',
-    borderWidth: 0,
-    borderRadius: 5,
-    paddingVertical: 10,
-    marginTop: 10,
-    marginBottom: 10,
-  },
-});
+import styles from './styles';
 
 class Courses extends React.Component {
   constructor(props) {
@@ -139,18 +108,7 @@ const container = createContainer(
 );
 
 container.navigationOptions = {
-  title: 'Courses',
-  headerBackTitle: 'Back',
-  headerStyle: {
-    backgroundColor: '#cd84f1',
-  },
-
-  headerTintColor: '#fff',
-  headerTitleStyle: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    fontFamily: 'Milkshake',
-  },
+  headerTitle: 'My Courses',
 };
 
 export default container;

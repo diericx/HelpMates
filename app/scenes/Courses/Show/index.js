@@ -1,48 +1,12 @@
 import React from 'react';
 import { View, Text, AsyncStorage } from 'react-native';
 import { Button } from 'react-native-elements';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import Meteor, { createContainer } from 'react-native-meteor';
 import { GiftedChat } from 'react-native-gifted-chat';
 import Faker from 'faker';
-import { SendMessage, GUID } from '../../Helpers/Meteor';
+import { SendMessage } from 'app/Helpers/Meteor';
 
-const styles = EStyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  chat: {
-    flex: 1,
-  },
-  sessionDataContainer: {
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
-  sessionData: {},
-  sessionDataText: {
-    color: 'gray',
-    paddingVertical: 5,
-  },
-  centerText: {
-    textAlign: 'center',
-  },
-  takenCourseButton: {
-    height: 45,
-    backgroundColor: '$green',
-    borderColor: 'transparent',
-    borderWidth: 0,
-    borderRadius: 5,
-    paddingVertical: 5,
-    width: '$screenWidth - 50',
-    marginBottom: 10,
-  },
-});
+import styles from './styles';
 
 class Show extends React.Component {
   constructor(props) {
@@ -167,7 +131,7 @@ const container = createContainer((params) => {
 container.navigationOptions = ({ navigation }) => {
   const { state: { params = {} } } = navigation;
   return {
-    title: params.title || 'Course Chat',
+    headerTitle: params.title || 'Course Chat',
   };
 };
 

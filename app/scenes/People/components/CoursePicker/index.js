@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Picker } from 'react-native';
+import { View } from 'react-native';
 import Meteor from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ListItem } from 'react-native-elements';
@@ -41,17 +41,6 @@ export default class Index extends React.Component {
           );
         })}
       </View>
-      // <View style={styles.container}>
-      //   <Picker
-      //     selectedValue={this.state.selected}
-      //     onValueChange={(itemValue, itemIndex) => this.changeSelected(itemIndex)}
-      //   >
-      //     {Object.keys(courses).map((courseId, index) => {
-      //       const courseName = Meteor.collection('courses').findOne({ _id: courseId }).title1;
-      //       return <Picker.Item key={index} label={courseName} value={courseId} />;
-      //     })}
-      //   </Picker>
-      // </View>
     );
   }
 }

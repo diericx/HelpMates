@@ -51,7 +51,7 @@ export default class Index extends React.Component {
       if (myRating && IsCurrentUserStudent(session)) {
         return (
           <View style={styles.alertDataContainer}>
-            <Text style={styles.sessionWaitingText}>
+            <Text style={[styles.sessionWaitingText, styles.alertText]}>
               You owe {otherUsersName} ${CalculateTimeAndCost(session, session.endedAt).cost} {'\n'}
               Venmo @Zac-Holland
             </Text>

@@ -1,42 +1,11 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { Card, SearchBar, Divider } from 'react-native-elements';
 
-import UserList from './components/UserList/index';
-import CourseList from './components/CourseList/index';
+import UserList from '../components/UserList/index';
 
-const styles = EStyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  searchContainer: {
-    backgroundColor: 'white',
-  },
-  searchInput: {
-    backgroundColor: '$lightgray',
-  },
-  cardContainer: {
-    margin: 0,
-    marginTop: -2,
-    padding: 0,
-  },
-  cardTitleContainer: {
-    paddingVertical: 5,
-    paddingLeft: 5,
-    backgroundColor: '$lightgray',
-  },
-  cardTitleContainerHighlighted: {
-    paddingVertical: 2,
-    backgroundColor: '$greenTrans',
-    alignItems: 'center',
-  },
-  cardTitleHighlighted: {
-    fontSize: 12,
-    color: 'rgba(0, 0, 0, 0.7)',
-  },
-});
+import styles from './styles';
 
 class Index extends React.Component {
   constructor(props) {
@@ -44,6 +13,8 @@ class Index extends React.Component {
     this.state = {
       searchText: '',
     };
+
+    this.props.test = 'asdf';
 
     // bind
     this.onSearchChangeText = this.onSearchChangeText.bind(this);
@@ -70,29 +41,33 @@ class Index extends React.Component {
   }
 
   render() {
+    const { users } = this.props;
     const { courses } = this.props;
     const filteredCourses = this.filterCourses(courses);
 
     return (
       <View style={styles.container}>
-        <SearchBar
-          lightTheme
-          containerStyle={styles.searchContainer}
-          inputStyle={styles.searchInput}
-          onChangeText={this.onSearchChangeText}
-          onClearText={this.onSearchClearText}
-          placeholder="Search for a person or a course"
-        />
+        <View style={styles.searchBarContainer}>
+          <SearchBar
+            lightTheme
+            containerStyle={styles.searchContainer}
+            inputStyle={styles.searchInput}
+            onChangeText={this.onSearchChangeText}
+            onClearText={this.onSearchClearText}
+            placeholder="Search for a person or a course"
+          />
+        </View>
 
         <ScrollView>
-          {/* Courses Card */}
+          {/* Users Card */}
           <Card containerStyle={styles.cardContainer}>
             <View style={styles.cardTitleContainer}>
-              <Text> Courses </Text>
+              <Text> People </Text>
             </View>
             <Divider />
 
-            <CourseList
+            <UserList
+              users={users}
               courses={filteredCourses}
               filter={this.state.searchText}
               navigation={this.props.navigation}
@@ -106,9 +81,16 @@ class Index extends React.Component {
 
 const container = createContainer((params) => {
   Meteor.subscribe('courses');
+  Meteor.subscribe('tutors');
   return {
+    users: Meteor.collection('users').find({ _id: { $ne: Meteor.userId() } }),
     courses: Meteor.collection('courses').find(),
   };
 }, Index);
+
+// Set the header to be a null so we can create our own
+container.navigationOptions = {
+  // header: null,
+};
 
 export default container;

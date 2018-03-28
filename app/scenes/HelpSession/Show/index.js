@@ -122,7 +122,7 @@ const container = createContainer((params) => {
 container.navigationOptions = ({ navigation }) => {
   const { state: { params = {} } } = navigation;
   return {
-    title: params.otherUsersName || 'Session',
+    headerTitle: params.otherUsersName || 'Session',
   };
 };
 

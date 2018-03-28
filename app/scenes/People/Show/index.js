@@ -1,59 +1,13 @@
 import React from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { View } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
 
-import GetHelp from './components/GetHelp/index';
-import Ratings from './components/Ratings/index';
-import ProfileCard from './components/ProfileCard/index';
+import GetHelp from '../components/GetHelp/index';
+import Ratings from '../components/Ratings/index';
+import ProfileCard from '../components/ProfileCard/index';
 
-const styles = EStyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  agenda: {
-    flex: 1,
-    width: '100%',
-  },
-  buttonGroupContainer: {
-    alignItems: 'center',
-    marginBottom: 5,
-  },
-  buttonGroup: {
-    width: '80%',
-    height: 30,
-    marginTop: 10,
-  },
-  cardContainer: {
-    flex: 1,
-    marginBottom: 10,
-  },
-  cardScrollView: {
-    height: '100%',
-  },
-  card: {
-    height: '100%',
-    marginTop: 0,
-    backgroundColor: 'white',
-  },
-  agendaCard: {
-    padding: 0,
-  },
-  agendaCardWrapper: {
-    flex: 1,
-    padding: 0,
-  },
-  sendRequestButton: {
-    height: 45,
-    backgroundColor: '$green',
-    borderColor: 'transparent',
-    borderWidth: 0,
-    borderRadius: 5,
-    paddingVertical: 5,
-    marginVertical: 10,
-  },
-});
+import styles from './styles';
 
 class Show extends React.Component {
   constructor(props) {
@@ -130,11 +84,8 @@ class Show extends React.Component {
 
 const container = createContainer(params => ({}), Show);
 
-container.navigationOptions = ({ navigation }) => {
-  const { state: { params = {} } } = navigation;
-  return {
-    title: params.title || 'Get Help',
-  };
+container.navigationOptions = {
+  headerTitle: 'Get Help',
 };
 
 export default container;
