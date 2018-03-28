@@ -108,7 +108,7 @@ const HelpSessionStack = StackNavigator({
   },
 });
 
-export const MainNavigation = TabNavigator(
+export const TabBarNavigation = TabNavigator(
   {
     GetHelp: {
       screen: SearchPeopleStack,
@@ -136,7 +136,14 @@ export const MainNavigation = TabNavigator(
     },
   },
   {
+    initialRouteName: 'GetHelp',
     navigationOptions: ({ navigation }) => ({
+      headerTintColor: 'black',
+      headerStyle: {
+        backgroundColor: 'red',
+        shadowColor: 'white',
+        elevation: 0,
+      },
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
@@ -169,6 +176,23 @@ export const MainNavigation = TabNavigator(
     },
   },
 );
+
+export const MainStack = StackNavigator({
+  Index: {
+    screen: TabBarNavigation,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#cd84f1',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        fontFamily: 'OpenSansBold',
+      },
+    },
+  },
+});
 
 export const AuthStack = StackNavigator({
   Index: {

@@ -39,6 +39,11 @@ const styles = EStyleSheet.create({
 });
 
 class Index extends React.Component {
+  // static navigationOptions = {
+  //   title: 'Home',
+  //   /* No more header config here! */
+  // };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -115,19 +120,19 @@ const container = createContainer((params) => {
   };
 }, Index);
 
-container.navigationOptions = {
-  title: 'StudyBuddies',
-  headerBackTitle: 'Back',
-  headerStyle: {
-    backgroundColor: '#cd84f1',
-  },
+// container.navigationOptions = {
+//   title: 'StudyBuddies',
+//   headerBackTitle: 'Back',
+//   headerStyle: {
+//     backgroundColor: '#cd84f1',
+//   },
 
-  headerTintColor: '#fff',
-  headerTitleStyle: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    fontFamily: 'Milkshake',
-  },
-};
+//   headerTintColor: '#fff',
+//   headerTitleStyle: {
+//     fontSize: 30,
+//     fontWeight: 'bold',
+//     fontFamily: 'Milkshake',
+//   },
+// };
 
 export default container;
