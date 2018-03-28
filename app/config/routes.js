@@ -40,17 +40,11 @@ const ShowUserStack = StackNavigator(
   },
 );
 
-const ShowCourseStack = StackNavigator(
-  {
-    Show: {
-      screen: CoursesShowScreen,
-    },
+const ShowCourseStack = StackNavigator({
+  Show: {
+    screen: CoursesShowScreen,
   },
-  {
-    mode: 'modal',
-    headerMode: 'none',
-  },
-);
+});
 
 const SearchPeopleStack = StackNavigator({
   Search: {
