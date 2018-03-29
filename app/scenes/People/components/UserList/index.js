@@ -1,7 +1,7 @@
 import React from 'react';
 import Meteor from 'react-native-meteor';
-import { View } from 'react-native';
-import { ListItem, Rating } from 'react-native-elements';
+import { View, SectionList, Text } from 'react-native';
+import { List, ListItem, Rating } from 'react-native-elements';
 
 import UserAvatar from 'app/components/general/UserAvatar/index';
 import { GetAverageRating } from 'app/Helpers/User';
@@ -18,6 +18,27 @@ export default class UserList extends React.Component {
   // on press, go to course show
   onPress(params) {
     this.props.navigation.navigate('ShowUser', params);
+  }
+
+  formatData(users) {
+    return users.reduce((acc, user) => {
+      // get meta data for user
+      const ratingsForUser = Meteor.collection('ratings').find({ targetUserId: user._id });
+      const avgRating = GetAverageRating(ratingsForUser);
+      // put user into acc
+      const foundIndex = acc.findIndex(element => element.key === 'People');
+      if (foundIndex === -1) {
+        return [
+          ...acc,
+          {
+            key: 'People',
+            data: [{ ...user, avgRating }],
+          },
+        ];
+      }
+      acc[foundIndex].data = [...acc[foundIndex].data, { ...user, avgRating }];
+      return acc;
+    }, []);
   }
 
   userHasCompletedOneOfTheFilteredCourses(user) {
@@ -42,17 +63,26 @@ export default class UserList extends React.Component {
     });
   }
 
-  render() {
+  renderSectionHeader(section) {
     return (
-      <View>
-        {this.filterUsers().map((u, i) => {
-          const ratingsForUser = Meteor.collection('ratings').find({ targetUserId: u._id });
-          const avgRating = GetAverageRating(ratingsForUser);
-          return (
+      <View style={styles.sectionHeaderContainer}>
+        <Text style={styles.sectionHeaderText}> {section.key} </Text>
+      </View>
+    );
+  }
+
+  render() {
+    // Get users to display based off the filter text, then format the data
+    const users = this.formatData(this.filterUsers());
+    return (
+      <List containerStyle={styles.container}>
+        <SectionList
+          renderItem={({ item }) => (
             <ListItem
-              key={i}
+              containerStyle={styles.listItemContainer}
               roundAvatar
-              title={u.profile.name}
+              avatar={<UserAvatar url={item.profile.profilePic} />}
+              title={item.profile.name}
               subtitle={
                 <View>
                   <View style={styles.ratingContainer}>
@@ -60,18 +90,44 @@ export default class UserList extends React.Component {
                       style={styles.subtitleRating}
                       imageSize={20}
                       readonly
-                      startingValue={avgRating}
+                      startingValue={item.avgRating}
                     />
                   </View>
                 </View>
               }
-              avatar={<UserAvatar url={u.profile.profilePic} />}
-              containerStyle={styles.listItemContainer}
-              onPress={() => this.onPress({ user: u })}
+              onPress={() => this.onPress({ user: item })}
             />
-          );
-        })}
-      </View>
+          )}
+          renderSectionHeader={({ section }) => this.renderSectionHeader(section)}
+          keyExtractor={item => item._id}
+          sections={users}
+          ListFooterComponent={() => <View style={styles.listFooter} />}
+        />
+      </List>
+      // <View>
+      //   {this.filterUsers().map((u, i) => (
+      //     <ListItem
+      //       key={i}
+      //       roundAvatar
+      //       title={u.profile.name}
+      //       subtitle={
+      //         <View>
+      //           <View style={styles.ratingContainer}>
+      //             <Rating
+      //               style={styles.subtitleRating}
+      //               imageSize={20}
+      //               readonly
+      //               startingValue={avgRating}
+      //             />
+      //           </View>
+      //         </View>
+      //       }
+      //       avatar={<UserAvatar url={u.profile.profilePic} />}
+      //       containerStyle={styles.listItemContainer}
+      //       onPress={() => this.onPress({ user: u })}
+      //     />
+      //   ))}
+      // </View>
     );
   }
 }

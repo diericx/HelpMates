@@ -55,23 +55,12 @@ class Index extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.searchBarContainer} />
-
-        <ScrollView>
-          {/* Users Card */}
-          <Card containerStyle={styles.cardContainer}>
-            <View style={styles.cardTitleContainer}>
-              <Text> People </Text>
-            </View>
-            <Divider />
-
-            <UserList
-              users={users}
-              courses={filteredCourses}
-              filter={this.state.searchText}
-              navigation={this.props.navigation}
-            />
-          </Card>
-        </ScrollView>
+        <UserList
+          users={users}
+          courses={filteredCourses}
+          filter={this.state.searchText}
+          navigation={this.props.navigation}
+        />
       </View>
     );
   }
