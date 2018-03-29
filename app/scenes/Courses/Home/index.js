@@ -3,7 +3,7 @@ import { View, ActivityIndicator } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
 import { Card, SearchBar, Divider } from 'react-native-elements';
 
-import CourseList from '../components/CourseList/index';
+import CourseList from 'app/components/CourseList/index';
 
 import styles from './styles';
 
@@ -16,6 +16,7 @@ class Index extends React.Component {
 
     // bind
     this.onSearchChangeText = this.onSearchChangeText.bind(this);
+    this.onCoursePress = this.onCoursePress.bind(this);
   }
 
   // Set onChangeText in nav params so tab bar can see it
@@ -25,12 +26,20 @@ class Index extends React.Component {
     });
   }
 
+  // update states text variable when the search text changes
   onSearchChangeText(text) {
     this.setState({
       searchText: text,
     });
   }
 
+  // When a course row is pressed from the course list,
+  // transition to the show course screen.
+  onCoursePress(params) {
+    this.props.navigation.navigate('ShowCourse', params);
+  }
+
+  // Filter the course data using the search input
   filterCourses(courses) {
     return courses.filter((course) => {
       const filter = this.state.searchText.toLowerCase();
@@ -59,6 +68,7 @@ class Index extends React.Component {
           courses={filteredCourses}
           filter={this.state.searchText}
           navigation={this.props.navigation}
+          onPress={this.onCoursePress}
         />
       </View>
     );

@@ -5,18 +5,6 @@ import { List, ListItem } from 'react-native-elements';
 import styles from './styles';
 
 export default class CourseList extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(props.courses);
-    // bind
-    this.onPress = this.onPress.bind(this);
-  }
-
-  // on press, go to course show
-  onPress(params) {
-    this.props.navigation.navigate('ShowCourse', params);
-  }
-
   formatData() {
     const { courses } = this.props;
     return courses.reduce((acc, course) => {
@@ -52,7 +40,7 @@ export default class CourseList extends React.Component {
               containerStyle={styles.listItemContainer}
               title={item.title1}
               subtitle={item.title2}
-              onPress={() => this.onPress({ course: item })}
+              onPress={() => this.props.onPress({ course: item })}
             />
           )}
           renderSectionHeader={({ section }) => this.renderSectionHeader(section)}

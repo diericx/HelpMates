@@ -35,7 +35,7 @@ export default class UserList extends React.Component {
     return this.props.users.filter((user) => {
       const filter = this.props.filter.toLowerCase();
       const name = user.profile.name.toLowerCase();
-      if (name.indexOf(filter) != -1 || this.userHasCompletedOneOfTheFilteredCourses(user)) {
+      if (name.indexOf(filter) !== -1 || this.userHasCompletedOneOfTheFilteredCourses(user)) {
         return true;
       }
       return false;
