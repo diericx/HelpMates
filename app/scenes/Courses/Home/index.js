@@ -18,13 +18,18 @@ class Index extends React.Component {
     this.onSearchChangeText = this.onSearchChangeText.bind(this);
   }
 
+  // Set onChangeText in nav params so tab bar can see it
+  componentDidMount() {
+    this.props.navigation.setParams({
+      onChangeText: this.onSearchChangeText,
+    });
+  }
+
   onSearchChangeText(text) {
     this.setState({
       searchText: text,
     });
   }
-
-  onSearchClearText() {}
 
   filterCourses(courses) {
     return courses.filter((course) => {
@@ -44,15 +49,6 @@ class Index extends React.Component {
 
     return (
       <View style={styles.container}>
-        <SearchBar
-          lightTheme
-          containerStyle={styles.searchContainer}
-          inputStyle={styles.searchInput}
-          onChangeText={this.onSearchChangeText}
-          onClearText={this.onSearchClearText}
-          placeholder="Search for a person or a course"
-        />
-
         <ScrollView>
           {/* Courses Card */}
           <Card containerStyle={styles.cardContainer}>
@@ -79,5 +75,31 @@ const container = createContainer((params) => {
     courses: Meteor.collection('courses').find(),
   };
 }, Index);
+
+container.navigationOptions = ({ navigation }) => {
+  const { params } = navigation.state;
+
+  return {
+    // header: null,
+    headerTitle: (
+      <SearchBar
+        lightTheme
+        containerStyle={{
+          backgroundColor: 'transparent',
+          borderBottomColor: 'transparent',
+          borderTopColor: 'transparent',
+        }}
+        inputStyle={{
+          backgroundColor: '#eaeaea',
+          borderRadius: 8,
+          height: 35,
+          width: 330,
+        }}
+        onChangeText={text => params.onChangeText(text)}
+        placeholder="Search for a person or a course"
+      />
+    ),
+  };
+};
 
 export default container;

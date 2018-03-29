@@ -13,7 +13,6 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   sessionDataTitle: {
-    fontFamily: 'OpenSansBold',
     fontSize: 20,
   },
   submitButton: {

@@ -48,7 +48,7 @@ export default class Index extends React.Component {
     const myRating = Meteor.collection('ratings').findOne({ userId: Meteor.userId() });
     const otherUsersName = GetOtherUsersNameForSession(session);
     if (session.endedAt) {
-      if (myRating && IsCurrentUserStudent(session)) {
+      if (IsCurrentUserStudent(session)) {
         return (
           <View style={styles.alertDataContainer}>
             <Text style={[styles.sessionWaitingText, styles.alertText]}>

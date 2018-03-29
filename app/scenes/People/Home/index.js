@@ -1,23 +1,30 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
-import { Card, SearchBar, Divider } from 'react-native-elements';
+import { Card, SearchBar, Divider, Icon } from 'react-native-elements';
 
 import UserList from '../components/UserList/index';
 
 import styles from './styles';
 
 class Index extends React.Component {
+  static onChangeText = this.onSearchChangeText;
+
   constructor(props) {
     super(props);
     this.state = {
       searchText: '',
     };
 
-    this.props.test = 'asdf';
-
     // bind
     this.onSearchChangeText = this.onSearchChangeText.bind(this);
+  }
+
+  // Set onChangeText in nav params so tab bar can see it
+  componentDidMount() {
+    this.props.navigation.setParams({
+      onChangeText: this.onSearchChangeText,
+    });
   }
 
   onSearchChangeText(text) {
@@ -29,11 +36,11 @@ class Index extends React.Component {
   onSearchClearText() {}
 
   filterCourses(courses) {
-    return courses.filter((course) => {
+    return courses.filter(course => {
       const filter = this.state.searchText.toLowerCase();
       const title1 = course.title1.toLowerCase();
       const title2 = course.title2.toLowerCase();
-      if (title1.indexOf(filter) != -1 || title2.indexOf(filter) != -1) {
+      if (title1.indexOf(filter) !== -1 || title2.indexOf(filter) !== -1) {
         return true;
       }
       return false;
@@ -47,16 +54,7 @@ class Index extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.searchBarContainer}>
-          <SearchBar
-            lightTheme
-            containerStyle={styles.searchContainer}
-            inputStyle={styles.searchInput}
-            onChangeText={this.onSearchChangeText}
-            onClearText={this.onSearchClearText}
-            placeholder="Search for a person or a course"
-          />
-        </View>
+        <View style={styles.searchBarContainer} />
 
         <ScrollView>
           {/* Users Card */}
@@ -79,7 +77,7 @@ class Index extends React.Component {
   }
 }
 
-const container = createContainer((params) => {
+const container = createContainer(params => {
   Meteor.subscribe('courses');
   Meteor.subscribe('tutors');
   return {
@@ -88,9 +86,25 @@ const container = createContainer((params) => {
   };
 }, Index);
 
-// Set the header to be a null so we can create our own
-container.navigationOptions = {
-  // header: null,
+container.navigationOptions = ({ navigation }) => {
+  const { params } = navigation.state;
+
+  return {
+    // header: null,
+    headerTitle: (
+      <SearchBar
+        lightTheme
+        containerStyle={{
+          backgroundColor: 'transparent',
+          borderBottomColor: 'transparent',
+          borderTopColor: 'transparent',
+        }}
+        inputStyle={{ backgroundColor: '#eaeaea', borderRadius: 8, height: 35, width: 330 }}
+        onChangeText={text => params.onChangeText(text)}
+        placeholder="Search for a person or a course"
+      />
+    ),
+  };
 };
 
 export default container;

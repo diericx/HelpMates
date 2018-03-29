@@ -20,22 +20,18 @@ const styles = EStyleSheet.create({
     color: 'gray',
     paddingVertical: 5,
     textAlign: 'center',
-    fontFamily: 'OpenSans',
   },
   alertText: {
     color: 'white',
-    fontFamily: 'OpenSansBold',
   },
   activityIndicatorContainer: {
     paddingVertical: 10,
   },
   sessionLengthText: {
-    fontFamily: 'OpenSansLight',
     color: '$offBlack',
     fontSize: 40,
   },
   sessionCostText: {
-    fontFamily: 'OpenSansLight',
     color: '$offBlack',
     textAlign: 'center',
     fontSize: 25,

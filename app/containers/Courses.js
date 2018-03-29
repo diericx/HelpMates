@@ -13,7 +13,6 @@ const NAV_OPTIONS = {
   headerTitleStyle: {
     fontSize: 25,
     fontWeight: 'bold',
-    fontFamily: 'OpenSansBold',
   },
 };
 

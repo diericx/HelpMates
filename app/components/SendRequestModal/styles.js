@@ -13,12 +13,10 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   dataContainerTitle: {
-    fontFamily: 'OpenSans',
     fontSize: 23,
     marginTop: 30,
   },
   dataContainerText: {
-    fontFamily: 'OpenSansLight',
     marginTop: 20,
   },
   sendButtonContainer: {
@@ -28,7 +26,6 @@ const styles = EStyleSheet.create({
     backgroundColor: '$green',
   },
   sendButtonText: {
-    fontFamily: 'OpenSans',
     fontSize: 23,
     color: 'rgba(255, 255, 255, 1)',
   },

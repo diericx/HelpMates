@@ -3,7 +3,6 @@ import Meteor from 'react-native-meteor';
 import { View } from 'react-native';
 import { ListItem, Rating } from 'react-native-elements';
 
-import { CTextSubtitle } from 'app/components/general/CustomText';
 import UserAvatar from 'app/components/general/UserAvatar/index';
 import { GetAverageRating } from 'app/Helpers/User';
 

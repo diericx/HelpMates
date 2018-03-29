@@ -4,12 +4,8 @@ import { Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const styles = EStyleSheet.create({
-  normal: {
-    fontFamily: 'OpenSans',
-  },
-  bold: {
-    fontFamily: 'OpenSansBold',
-  },
+  normal: {},
+  bold: {},
   listSubtitle: {
     marginLeft: 10,
     color: '$gray',

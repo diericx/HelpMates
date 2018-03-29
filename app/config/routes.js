@@ -35,7 +35,7 @@ const defaultNavigationOptions = {
   title: 'StudyBuddies',
   headerBackTitle: 'Back',
   headerStyle: {
-    backgroundColor: 'white',
+    backgroundColor: '#F7F7F7',
     height: 50,
   },
 
@@ -43,7 +43,7 @@ const defaultNavigationOptions = {
   headerTitleStyle: {
     fontSize: 30,
     fontWeight: 'bold',
-    fontFamily: 'Milkshake',
+    fontFamily: 'OpenSans',
   },
 };
 
@@ -100,9 +100,6 @@ const ProfileStack = StackNavigator(
     },
     Courses: {
       screen: ProfileCoursesScreen,
-      // navigationOptions: {
-      //   headerTitle: 'asdfsaf',
-      // },
     },
   },
   {
@@ -115,7 +112,7 @@ const ProfileStack = StackNavigator(
 
 const HelpSessionStack = StackNavigator(
   {
-    Index: {
+    Home: {
       screen: HelpSessionHomeScreen,
     },
     Show: {
@@ -135,13 +132,13 @@ const TabNavigation = TabNavigator(
     GetHelp: {
       screen: SearchPeopleStack,
       navigationOptions: {
-        tabBarLabel: 'Get Help',
+        tabBarLabel: 'Help',
       },
     },
     AnonymousChat: {
       screen: CoursesStack,
       navigationOptions: {
-        tabBarLabel: 'Anonymous Chat',
+        tabBarLabel: 'Anonymous',
       },
     },
     Sessions: {
@@ -166,28 +163,30 @@ const TabNavigation = TabNavigator(
           tutorAccepted: false,
           tutorId: Meteor.userId(),
         });
-        if (routeName === 'GetHelp') {
-          iconName = `ios-search${focused ? '' : '-outline'}`;
-        } else if (routeName === 'AnonymousChat') {
+        if (routeName === 'AnonymousChat') {
           iconName = `ios-people${focused ? '' : '-outline'}`;
         } else if (routeName === 'Profile') {
           iconName = `ios-person${focused ? '' : '-outline'}`;
         } else if (routeName === 'Sessions') {
           iconName = `ios-book${focused ? '' : '-outline'}`;
+        } else if (routeName === 'GetHelp') {
+          iconName = `ios-search${focused ? '' : '-outline'}`;
         }
 
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
         return (
           <View style={styles.tabBarIconsContainer}>
-            <StatusBar barStyle="light-content" />
             <Ionicons name={iconName} size={35} color={tintColor} />
           </View>
         );
       },
     }),
     tabBarOptions: {
-      showLabel: false,
+      showLabel: true,
+      style: {
+        height: 55,
+      },
     },
   },
 );

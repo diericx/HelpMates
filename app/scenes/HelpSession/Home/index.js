@@ -20,7 +20,7 @@ class Index extends React.Component {
       <View style={styles.container}>
         <ScrollView>
           {/* Active Sessions */}
-          <Card containerStyle={{ padding: 0, marginHorizontal: 0 }}>
+          <Card containerStyle={{ padding: 0, margin: 0, marginHorizontal: 0 }}>
             <View style={styles.cardTitleContainer}>
               <Text> Upcoming Sessions </Text>
             </View>
@@ -30,7 +30,7 @@ class Index extends React.Component {
           </Card>
 
           {/* Requests */}
-          <Card containerStyle={{ padding: 0, marginHorizontal: 0 }}>
+          <Card containerStyle={{ padding: 0, margin: 0, marginHorizontal: 0 }}>
             <View style={styles.cardTitleContainer}>
               <Text> Requests </Text>
             </View>

@@ -4,15 +4,15 @@ const styles = EStyleSheet.create({
   container: {
     flex: 1,
   },
-  searchBarContainer: {
-    backgroundColor: 'red',
-  },
-  searchContainer: {
-    backgroundColor: 'white',
-  },
-  searchInput: {
-    backgroundColor: '$lightgray',
-  },
+  // searchBarContainer: {
+  //   backgroundColor: 'red',
+  // },
+  // searchContainer: {
+  //   backgroundColor: 'red',
+  // },
+  // searchInput: {
+  //   backgroundColor: '$lightgray',
+  // },
   cardContainer: {
     margin: 0,
     marginTop: -1,

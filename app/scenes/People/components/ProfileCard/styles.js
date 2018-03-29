@@ -16,12 +16,10 @@ const styles = EStyleSheet.create({
     marginLeft: 30,
   },
   nameText: {
-    fontFamily: 'OpenSansBold',
     marginVertical: -3,
     fontSize: 20,
   },
   subtitleText: {
-    fontFamily: 'OpenSans',
     fontSize: 13,
     opacity: 0.5,
   },

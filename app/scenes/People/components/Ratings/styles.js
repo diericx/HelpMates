@@ -10,7 +10,6 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
   },
   nameText: {
-    fontFamily: 'OpenSansBold',
     fontSize: 16,
     marginLeft: 2,
     color: '$darkgray',
