@@ -25,7 +25,7 @@ export default class CourseList extends React.Component {
             title={u.title1}
             subtitle={u.title2}
             containerStyle={styles.listItemContainer}
-            onPress={() => this.onPress({ id: u._id, title: u.title1 })}
+            onPress={() => this.onPress({ id: u._id, title: u.title2 })}
           />
         ))}
       </View>

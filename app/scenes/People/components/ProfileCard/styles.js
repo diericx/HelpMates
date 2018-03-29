@@ -9,7 +9,7 @@ const styles = EStyleSheet.create({
   },
   profileImageContainer: {
     justifyContent: 'center',
-    marginLeft: 60,
+    marginLeft: 20,
   },
   profileDataContainer: {
     justifyContent: 'center',
@@ -17,7 +17,7 @@ const styles = EStyleSheet.create({
   },
   nameText: {
     marginVertical: -3,
-    fontSize: 20,
+    fontSize: 25,
   },
   subtitleText: {
     fontSize: 13,

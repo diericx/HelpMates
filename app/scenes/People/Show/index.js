@@ -16,11 +16,6 @@ class Show extends React.Component {
     const { params } = this.props.navigation.state;
     this.state = {
       params,
-      startDate: null,
-      endDate: null,
-      availabilities: [],
-      items: {},
-      isModalVisible: false,
       selectedGroup: 0,
       selectedCourse: null,
     };
@@ -85,7 +80,7 @@ class Show extends React.Component {
 const container = createContainer(params => ({}), Show);
 
 container.navigationOptions = {
-  headerTitle: 'Get Help',
+  headerTitle: '',
 };
 
 export default container;

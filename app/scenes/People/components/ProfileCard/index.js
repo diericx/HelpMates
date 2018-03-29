@@ -13,18 +13,19 @@ export default class ProfileCard extends React.Component {
     const ratingsForUser = Meteor.collection('ratings').find({ targetUserId: user._id });
     const ratingCount = ratingsForUser.length;
     const avgRating = GetAverageRating(ratingsForUser);
+    console.log('CCourses: ', user.profile.completedCourses);
     return (
       <View style={styles.container}>
         <View style={styles.profileImageContainer}>
-          <UserAvatar url={user.profile.profilePic} size={100} />
+          <UserAvatar url={user.profile.profilePic} size={110} />
         </View>
 
         <View style={styles.profileDataContainer}>
           <Text style={styles.nameText}>{user.profile.name}</Text>
-          <Text style={styles.subtitleText}>Computer Science</Text>
-          <Rating imageSize={20} readonly startingValue={avgRating} />
+          <Text style={styles.subtitleText}>Majoring in Computer Science</Text>
+          <Rating imageSize={22} readonly startingValue={avgRating} />
           <Text style={styles.subtitleText}>
-            {ratingCount} {ratingCount == 1 ? 'Review' : 'Reviews'}
+            {ratingCount} {ratingCount === 1 ? 'Review' : 'Reviews'}
           </Text>
         </View>
       </View>
