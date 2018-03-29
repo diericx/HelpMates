@@ -4,7 +4,7 @@ const styles = EStyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: 'white',
-    width: '100%',
+    width: '70%',
     height: 130,
   },
   profileImageContainer: {
@@ -16,12 +16,18 @@ const styles = EStyleSheet.create({
     marginLeft: 30,
   },
   nameText: {
-    marginVertical: -3,
+    marginVertical: -2,
     fontSize: 25,
   },
   subtitleText: {
+    marginVertical: 3,
     fontSize: 13,
     opacity: 0.5,
+  },
+  detailsText: {
+    marginVertical: 3,
+    fontSize: 16,
+    opacity: 0.7,
   },
 });
 

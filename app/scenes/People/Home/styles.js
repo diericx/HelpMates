@@ -3,16 +3,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
-  // searchBarContainer: {
-  //   backgroundColor: 'red',
-  // },
-  // searchContainer: {
-  //   backgroundColor: 'red',
-  // },
-  // searchInput: {
-  //   backgroundColor: '$lightgray',
-  // },
   cardContainer: {
     margin: 0,
     marginTop: -1,
