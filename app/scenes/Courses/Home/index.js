@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
 import { Card, SearchBar, Divider } from 'react-native-elements';
 
@@ -44,34 +44,31 @@ class Index extends React.Component {
   }
 
   render() {
-    const { courses } = this.props;
+    const { courses, coursesReady } = this.props;
     const filteredCourses = this.filterCourses(courses);
 
+    // if the data isn't here yet, render activityIndicator
+    if (!coursesReady) {
+      return <ActivityIndicator animating size="large" />;
+    }
+
+    // if the data is here and ready, load the list
     return (
       <View style={styles.container}>
-        <ScrollView>
-          {/* Courses Card */}
-          <Card containerStyle={styles.cardContainer}>
-            <View style={styles.cardTitleContainer}>
-              <Text> Courses </Text>
-            </View>
-            <Divider />
-
-            <CourseList
-              courses={filteredCourses}
-              filter={this.state.searchText}
-              navigation={this.props.navigation}
-            />
-          </Card>
-        </ScrollView>
+        <CourseList
+          courses={filteredCourses}
+          filter={this.state.searchText}
+          navigation={this.props.navigation}
+        />
       </View>
     );
   }
 }
 
 const container = createContainer((params) => {
-  Meteor.subscribe('courses');
+  const handle = Meteor.subscribe('courses');
   return {
+    coursesReady: handle.ready(),
     courses: Meteor.collection('courses').find(),
   };
 }, Index);
@@ -96,7 +93,7 @@ container.navigationOptions = ({ navigation }) => {
           width: 330,
         }}
         onChangeText={text => params.onChangeText(text)}
-        placeholder="Search for a person or a course"
+        placeholder="Search for a course"
       />
     ),
   };

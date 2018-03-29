@@ -1,12 +1,13 @@
 import React from 'react';
-import { View } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { View, SectionList, ActivityIndicator, Text } from 'react-native';
+import { List, ListItem } from 'react-native-elements';
 
 import styles from './styles';
 
 export default class CourseList extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props.courses);
     // bind
     this.onPress = this.onPress.bind(this);
   }
@@ -16,19 +17,42 @@ export default class CourseList extends React.Component {
     this.props.navigation.navigate('ShowCourse', params);
   }
 
+  formatData() {
+    const { courses } = this.props;
+    return courses.reduce((acc, course) => {
+      const foundIndex = acc.findIndex(element => element.key === course.subject);
+      if (foundIndex === -1) {
+        return [
+          ...acc,
+          {
+            key: course.subject,
+            data: [{ ...course }],
+          },
+        ];
+      }
+      acc[foundIndex].data = [...acc[foundIndex].data, { ...course }];
+      return acc;
+    }, []);
+  }
+
+  renderSectionHeader(section) {
+    return (
+      <View style={styles.sectionHeaderContainer}>
+        <Text style={styles.sectionHeaderText}> {section.key} </Text>
+      </View>
+    );
+  }
+
   render() {
     return (
-      <View>
-        {this.props.courses.map((u, i) => (
-          <ListItem
-            key={i}
-            title={u.title1}
-            subtitle={u.title2}
-            containerStyle={styles.listItemContainer}
-            onPress={() => this.onPress({ id: u._id, title: u.title2 })}
-          />
-        ))}
-      </View>
+      <List containerStyle={styles.container}>
+        <SectionList
+          renderItem={({ item }) => <ListItem title={`${item.title1}`} subtitle="Something cool" />}
+          renderSectionHeader={({ section }) => this.renderSectionHeader(section)}
+          keyExtractor={item => item.title2}
+          sections={this.formatData()}
+        />
+      </List>
     );
   }
 }

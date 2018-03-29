@@ -101,7 +101,7 @@ container.navigationOptions = ({ navigation }) => {
         }}
         inputStyle={{ backgroundColor: '#eaeaea', borderRadius: 8, height: 35, width: 330 }}
         onChangeText={text => params.onChangeText(text)}
-        placeholder="Search for a person or a course"
+        placeholder="Search for a person"
       />
     ),
   };
