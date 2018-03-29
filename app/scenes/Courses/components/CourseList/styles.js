@@ -21,6 +21,13 @@ export default EStyleSheet.create({
     marginLeft: 4,
   },
   listItemContainer: {
-    borderBottomColor: '#e1e8ee',
+    marginTop: -1,
+    borderTopColor: '#e1e8ee',
+    borderTopWidth: 1,
+    borderBottomWidth: 0,
+  },
+  listFooter: {
+    height: 4,
+    backgroundColor: '$lightgray',
   },
 });

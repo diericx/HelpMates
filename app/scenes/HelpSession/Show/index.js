@@ -7,6 +7,7 @@ import { Divider } from 'react-native-elements';
 import { SendMessage } from 'app/Helpers/Meteor';
 import { GetOtherUsersNameForSession } from 'app/scenes/HelpSession/helpers';
 import { CalculateTimeAndCost } from 'app/Helpers/Session';
+import ActivityIndicator from 'app/components/general/ActivityIndicator';
 
 import RateUserView from '../components/RateUserView/index';
 import SessionData from '../components/SessionData/index';
@@ -76,6 +77,7 @@ class Show extends React.Component {
           user={{
             _id: Meteor.userId(),
           }}
+          renderLoading={() => <ActivityIndicator size="large" marginTop={35} />}
         />
       );
     }

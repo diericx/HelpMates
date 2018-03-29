@@ -4,6 +4,7 @@ import { Button } from 'react-native-elements';
 import Meteor, { createContainer } from 'react-native-meteor';
 import { GiftedChat } from 'react-native-gifted-chat';
 import Faker from 'faker';
+import ActivityIndicator from 'app/components/general/ActivityIndicator';
 import { SendMessage } from 'app/Helpers/Meteor';
 
 import styles from './styles';
@@ -66,6 +67,7 @@ class Show extends React.Component {
           user={{
             _id: this.state.guid,
           }}
+          renderLoading={() => <ActivityIndicator size="large" marginTop={35} />}
         />
       );
     }
@@ -121,8 +123,8 @@ class Show extends React.Component {
 }
 
 const container = createContainer((params) => {
-  const { id } = params.navigation.state.params;
-  Meteor.subscribe('courseChat', { id });
+  const { course } = params.navigation.state.params;
+  Meteor.subscribe('getConversation', { id: course.conversationId });
   return {
     conversation: Meteor.collection('conversations').findOne(),
   };
