@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, StatusBar } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
-import { Card, SearchBar, Divider } from 'react-native-elements';
+import { Card, Divider } from 'react-native-elements';
 
 import CourseList from 'app/components/CourseList/index';
+import SearchBar from 'app/components/SearchBar/index';
 
 import styles from './styles';
 
@@ -64,6 +65,7 @@ class Index extends React.Component {
     // if the data is here and ready, load the list
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
         <CourseList
           courses={filteredCourses}
           filter={this.state.searchText}
@@ -90,20 +92,8 @@ container.navigationOptions = ({ navigation }) => {
     // header: null,
     headerTitle: (
       <SearchBar
-        lightTheme
-        containerStyle={{
-          backgroundColor: 'transparent',
-          borderBottomColor: 'transparent',
-          borderTopColor: 'transparent',
-        }}
-        inputStyle={{
-          backgroundColor: '#eaeaea',
-          borderRadius: 8,
-          height: 35,
-          width: 330,
-        }}
-        onChangeText={text => params.onChangeText(text)}
         placeholder="Search for a course"
+        onChangeText={text => params.onChangeText(text)}
       />
     ),
   };

@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
-import { Card, SearchBar, Divider, Icon } from 'react-native-elements';
+import { Card, Divider, Icon } from 'react-native-elements';
 
 import UserList from '../components/UserList/index';
+import SearchBar from 'app/components/SearchBar/index';
 
 import styles from './styles';
 
@@ -82,18 +83,11 @@ container.navigationOptions = ({ navigation }) => {
     // header: null,
     headerTitle: (
       <SearchBar
-        lightTheme
-        containerStyle={{
-          backgroundColor: 'transparent',
-          borderBottomColor: 'transparent',
-          borderTopColor: 'transparent',
-        }}
-        inputStyle={{ backgroundColor: '#eaeaea', borderRadius: 8, height: 35, width: 330 }}
-        onChangeText={text => params.onChangeText(text)}
         placeholder="Search for a person"
+        onChangeText={text => params.onChangeText(text)}
       />
     ),
   };
 };
-
+//#eaeaea
 export default container;

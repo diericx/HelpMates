@@ -1,7 +1,7 @@
 import React from 'react';
 import Meteor from 'react-native-meteor';
 import { View, StatusBar } from 'react-native';
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -35,17 +35,20 @@ const defaultNavigationOptions = {
   title: 'StudyBuddies',
   headerBackTitle: 'Back',
   headerStyle: {
-    backgroundColor: '#F7F7F7',
-    height: 50,
+    backgroundColor: '#18dcff',
+    height: 55,
+    borderBottomWidth: 3,
+    borderBottomColor: '#13d2f4',
   },
 
-  headerTintColor: '#2b2b2b',
+  headerTintColor: 'white',
   headerTitleStyle: {
     fontSize: 30,
     fontWeight: 'bold',
-    fontFamily: 'OpenSans',
   },
 };
+
+// old tint #2b2b2b
 
 const ShowUserStack = StackNavigator(
   {
@@ -85,6 +88,10 @@ const CoursesStack = StackNavigator(
   {
     navigationOptions: {
       ...defaultNavigationOptions,
+      // headerStyle: {
+      //   ...defaultNavigationOptions.headerStyle,
+      //   backgroundColor: '#2b2b2b',
+      // },
       headerTitle: 'Anonymous Chat',
     },
   },
@@ -182,8 +189,16 @@ const TabNavigation = TabNavigator(
         );
       },
     }),
+    // tabBarComponent: (props) => {
+    //   const backgroundColor = props.position.interpolate({
+    //     inputRange: [0, 1, 2],
+    //     outputRange: ['white', '#2b2b2b', 'white'],
+    //   });
+    //   return <TabBarBottom {...props} style={{ backgroundColor }} />;
+    // },
     tabBarOptions: {
       showLabel: true,
+      activeTintColor: '#17c0eb',
       style: {
         height: 55,
       },
