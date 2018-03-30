@@ -6,14 +6,14 @@ import Font from 'expo';
 
 import connect from './connect';
 
-import { MainStack, AuthStack } from './config/routes';
+import { MainNavigation, AuthNavigation } from './config/routes';
 
 // Build global stylesheet variables
 EStyleSheet.build({
   $screenWidth: Dimensions.get('window').width,
   $black: 'black',
   $offBlack: 'rgb(60, 60, 60)',
-  $lightgray: '#f3f3f3',
+  $lightgray: '#F3F3F3',
   $gray: '#888E92',
   $darkgray: '#3a3a3a',
   $purple: '#cd84f1',
@@ -24,7 +24,7 @@ EStyleSheet.build({
   $green: '#3ae374',
   $greenTrans: '#3ae37470',
   $red: '#ff4d4d',
-  $orange: '#ff9f1a',
+  $orange: '#ffb349',
 });
 
 class App extends React.Component {
@@ -81,9 +81,9 @@ class App extends React.Component {
     if (!this.state.isReady) {
       return <Expo.AppLoading />;
     } else if (user == null) {
-      return <AuthStack user={user} loggingIn={loggingIn} onNavigationStateChange={null} />;
+      return <AuthNavigation user={user} loggingIn={loggingIn} onNavigationStateChange={null} />;
     }
-    return <MainStack onNavigationStateChange={null} />;
+    return <MainNavigation onNavigationStateChange={null} />;
   }
 }
 

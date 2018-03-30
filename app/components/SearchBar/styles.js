@@ -1,12 +1,11 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const styles = EStyleSheet.create({
-  tabBarIconsContainer: {
-    marginTop: 5,
+  placeholderColor: {
+    color: 'rgba(255, 255, 255, 0.7)',
   },
-  defaultHeaderStyles: {
-    backgroundColor: '#F7F7F7',
-    height: 200,
+  icon: {
+    marginTop: 1,
   },
 });
 

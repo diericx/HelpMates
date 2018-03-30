@@ -10,7 +10,6 @@ const api = manifest.packagerOpts.dev
   : 'localhost:3000/websocket';
 
 export default function () {
-  console.log(api);
   const url = `ws://${api}`;
   Meteor.connect(url);
 }

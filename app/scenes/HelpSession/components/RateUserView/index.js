@@ -3,9 +3,9 @@ import Meteor from 'react-native-meteor';
 import { View, Text } from 'react-native';
 import { Rating, Button } from 'react-native-elements';
 
-import TextBox from '../../../Users/components/TextBox/index';
+import TextBox from 'app/components/TextBox/index';
 import { GetOtherUsersNameForSession, GetOtherUsersIdForSession } from '../../helpers';
-import { RateUser } from '../../../../Helpers/Meteor';
+import { RateUser } from 'app/Helpers/Meteor';
 
 import styles from './styles';
 
