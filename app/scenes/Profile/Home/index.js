@@ -29,7 +29,7 @@ const list = [
     title: 'Courses',
     icon: 'book',
     iconType: 'entypo',
-    screen: 'Courses',
+    screen: 'MyCourses',
   },
   {
     title: 'FAQ',

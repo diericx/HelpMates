@@ -1,9 +1,9 @@
 import React from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
-import { View, ScrollView, Picker } from 'react-native';
+import { View, ScrollView, Picker, Text } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 
-// import styles from './styles';
+import styles from './styles';
 
 class Index extends React.Component {
   render() {

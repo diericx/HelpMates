@@ -8,19 +8,36 @@ import List from 'app/components/List/index';
 import styles from './styles';
 
 class Index extends React.Component {
-  static navigationOptions = {
-    headerTitle: 'My Courses',
-    headerRight: (
-      <Icon
-        iconStyle={{ marginRight: 15 }}
-        name="plus"
-        type="font-awesome"
-        color="white"
-        size={35}
-        onPress={() => console.log('hello')}
-      />
-    ),
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: 'My Courses',
+      headerRight: (
+        <Icon
+          iconStyle={{ marginRight: 0, marginTop: 8 }}
+          name="plus"
+          type="entypo"
+          color="white"
+          size={38}
+          onPress={() => navigation.navigate('SelectCourseModal')}
+        />
+      ),
+    };
   };
+
+  constructor(props) {
+    super(props);
+    // bind
+    // this.onAddCourseButtonPress = this.onAddCourseButtonPress.bind(this);
+  }
+
+  // componentWillMount() {
+  //   this.props.navigation.setParams({ onAddCourseButtonPress: this.onAddCourseButtonPress });
+  // }
+
+  // onAddCourseButtonPress() {
+  //   console.log(this.props.navigation);
+  //   this.props.navigation.navigate('AddCourse');
+  // }
 
   // // METEOR - remove course
   // onRemoveCoursePress(courseId) {

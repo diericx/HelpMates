@@ -102,6 +102,18 @@ const CoursesStack = StackNavigator(
   },
 );
 
+const SelectCourseStack = StackNavigator(
+  {
+    Main: {
+      screen: CoursesHomeScreen,
+    },
+  },
+  {
+    navigationOptions: defaultNavigationOptions,
+    mode: 'modal',
+  },
+);
+
 const ProfileStack = StackNavigator(
   {
     Profile: {
@@ -110,12 +122,8 @@ const ProfileStack = StackNavigator(
     Availability: {
       screen: ProfileAvailabilityScreen,
     },
-    Courses: {
+    MyCourses: {
       screen: ProfileCompletedCoursesScreen,
-    },
-    AddCourse: {
-      screen: ProfileAddCompletedCoursesScreen,
-      mode: 'modal',
     },
     FAQ: {
       screen: FAQPageShowScreen,
@@ -229,9 +237,14 @@ export const MainNavigation = StackNavigator(
     Index: {
       screen: TabNavigation,
     },
+    SelectCourseModal: {
+      screen: SelectCourseStack,
+    },
   },
   {
+    navigationOptions: defaultNavigationOptions,
     headerMode: 'none',
+    mode: 'modal',
   },
 );
 
