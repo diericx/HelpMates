@@ -7,28 +7,11 @@ export default EStyleSheet.create({
     borderTopWidth: 0,
     borderBottomWidth: 0,
   },
-  sectionHeaderContainer: {
-    marginTop: -1,
-    height: 28,
-    justifyContent: 'center',
-    backgroundColor: '$lightgray',
-    borderTopWidth: 0.5,
-    borderBottomWidth: 0.5,
-    borderColor: '#d1d1d1',
-  },
-  sectionHeaderText: {
-    fontSize: 14,
-    marginLeft: 4,
-  },
   listItemContainer: {
     marginTop: -1,
     borderTopColor: '#e1e8ee',
     borderTopWidth: 1,
     borderBottomWidth: 0,
-  },
-  listFooter: {
-    height: 4,
-    backgroundColor: '$lightgray',
   },
   ratingContainer: {
     flexDirection: 'column',
