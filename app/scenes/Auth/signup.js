@@ -38,20 +38,6 @@ export default class Signup extends Component {
     };
 
     this.signupHandler = this.signupHandler.bind(this);
-
-    stripe.accounts.create(
-      {
-        type: 'standard',
-        country: 'US',
-        email: 'bob@example.com',
-      },
-      function(err, account) {
-        // asynchronously called
-        if (err) {
-          console.log(err);
-        }
-      },
-    );
   }
 
   // Check if the username and password are valid
