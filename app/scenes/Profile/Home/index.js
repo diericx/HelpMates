@@ -39,6 +39,10 @@ const list = [
 
 const helpList = [
   {
+    title: 'Chat With Us!',
+    screen: 'AdminChat',
+  },
+  {
     title: 'FAQ',
     icon: 'help',
     iconType: 'entypo',

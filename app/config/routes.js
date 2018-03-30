@@ -29,6 +29,8 @@ import FAQPageShowScreen from '../scenes/Profile/FAQPage/index';
 import ProblemReportingShowScreen from '../scenes/Profile/ProblemReporting/index';
 // Legal Screen
 import LegalShowScreen from '../scenes/Profile/Legal/index';
+//Chat with an Admin Screen
+import AdminChatScreen from '../scenes/Profile/AdminChat/index';
 // Help Session Request
 import HelpSessionHomeScreen from '../scenes/HelpSession/Home/index';
 import HelpSessionShowScreen from '../scenes/HelpSession/Show/index';
@@ -125,6 +127,9 @@ const ProfileStack = StackNavigator(
     },
     Legal: {
       screen: LegalShowScreen,
+    },
+    AdminChat: {
+      screen: AdminChatScreen,
     },
   },
   {
