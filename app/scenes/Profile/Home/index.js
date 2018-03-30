@@ -30,6 +30,13 @@ const list = [
     screen: 'Courses',
   },
   {
+    title: 'Legal Notices',
+    screen: 'Legal',
+  }
+];
+
+const helpList = [
+  {
     title: 'FAQ',
     icon: 'help',
     iconType: 'entypo',
@@ -38,10 +45,6 @@ const list = [
   {
     title: 'Report a problem',
     screen: 'ProblemReporting',
-  },
-  {
-    title: 'Legal Notices',
-    screen: 'Legal',
   }
 ];
 
@@ -133,6 +136,13 @@ export default class Profile extends React.Component {
             />
           ))}
         </List>
+
+        <Text>
+          {"\n"}
+          Need help?
+        </Text>
+
+
 
         <Button onPress={this.logout} title="Logout" />
         <Image source={this.state.avatarSource} />
