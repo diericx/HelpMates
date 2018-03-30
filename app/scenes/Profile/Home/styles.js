@@ -5,6 +5,16 @@ const styles = EStyleSheet.create({
     flex: 1,
     backgroundColor: '$bgColor',
   },
+  listItem: {
+    borderBottomWidth: 0,
+  },
+  list: {
+    borderTopWidth: 0,
+    borderBottomWidth: 1,
+  },
+  text: {
+    fontWeight: 'bold',
+  }
 });
 
 export default styles;

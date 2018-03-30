@@ -128,23 +128,39 @@ export default class Profile extends React.Component {
         <Button title="Pick an image from camera roll" onPress={this._pickImage} />
         {profilePic && <Image source={{ uri: profilePic }} style={{ width: 200, height: 200 }} />}
 
-        <List>
+        <Text style={styles.text}>
+          {"\n"}
+          PROFILE
+        </Text>
+
+        <List containerStyle={styles.list}>
           {list.map((item, i) => (
             <ListItem
               key={i}
               title={item.title}
               leftIcon={{ name: item.icon, type: item.iconType }}
               onPress={() => this.onPress(item.screen)}
+              containerStyle={styles.listItem}
             />
           ))}
         </List>
 
-        <Text>
+        <Text style={styles.text}>
           {"\n"}
-          Need help?
+          SUPPORT
         </Text>
 
-
+        <List containerStyle={styles.list}>
+          {helpList.map((item, i) => (
+            <ListItem
+              key={i}
+              title={item.title}
+              leftIcon={{ name: item.icon, type: item.iconType }}
+              onPress={() => this.onPress(item.screen)}
+              containerStyle={styles.listItem}
+            />
+          ))}
+        </List>
 
         <Button onPress={this.logout} title="Logout" />
         <Image source={this.state.avatarSource} />
