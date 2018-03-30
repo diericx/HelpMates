@@ -14,6 +14,6 @@ export default class Index extends React.Component {
       <View>
         <Text>Legal Testing</Text>
       </View>
-    )
-  };
-};
+    );
+  }
+}

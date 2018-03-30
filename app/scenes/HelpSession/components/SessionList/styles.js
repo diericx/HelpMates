@@ -2,7 +2,10 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   listItemContainer: {
-    borderBottomColor: '#e1e8ee',
+    marginTop: -1,
+    borderTopColor: '#e1e8ee',
+    borderTopWidth: 1,
+    borderBottomWidth: 0,
   },
   ratingContainer: {
     flexDirection: 'row',

@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, SectionList, Text } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
+
+import List from '../List/index';
 
 import styles from './styles';
 
@@ -23,32 +25,7 @@ export default class CourseList extends React.Component {
     }, []);
   }
 
-  renderSectionHeader(section) {
-    return (
-      <View style={styles.sectionHeaderContainer}>
-        <Text style={styles.sectionHeaderText}> {section.key} </Text>
-      </View>
-    );
-  }
-
   render() {
-    return (
-      <List containerStyle={styles.container}>
-        <SectionList
-          renderItem={({ item }) => (
-            <ListItem
-              containerStyle={styles.listItemContainer}
-              title={item.title1}
-              subtitle={item.title2}
-              onPress={() => this.props.onPress({ course: item })}
-            />
-          )}
-          renderSectionHeader={({ section }) => this.renderSectionHeader(section)}
-          keyExtractor={item => item.title2}
-          sections={this.formatData()}
-          ListFooterComponent={() => <View style={styles.listFooter} />}
-        />
-      </List>
-    );
+    return <List data={this.formatData()} onPress={this.props.onPress} />;
   }
 }

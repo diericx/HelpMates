@@ -8,6 +8,8 @@ import { ImagePicker } from 'expo';
 
 import { SetProfilePic } from 'app/Helpers/Meteor';
 
+import styles from './styles';
+
 const options = {
   keyPrefix: 'uploads/',
   bucket: 'helpmatesmedia',
@@ -122,7 +124,7 @@ export default class Profile extends React.Component {
     let { profilePic } = this.state;
 
     return (
-      <View>
+      <View style={styles.container}>
         <Button title="Pick an image from camera roll" onPress={this._pickImage} />
         {profilePic && <Image source={{ uri: profilePic }} style={{ width: 200, height: 200 }} />}
 

@@ -1,9 +1,10 @@
 import React from 'react';
 import Meteor from 'react-native-meteor';
 import { View, SectionList, Text } from 'react-native';
-import { List, ListItem, Rating } from 'react-native-elements';
+import { ListItem, Rating } from 'react-native-elements';
 
 import UserAvatar from 'app/components/general/UserAvatar/index';
+import List from 'app/components/List/index';
 import { GetAverageRating } from 'app/Helpers/User';
 
 import styles from './styles';
@@ -13,6 +14,7 @@ export default class UserList extends React.Component {
     super(props);
     // bind
     this.onPress = this.onPress.bind(this);
+    this.renderItem = this.renderItem.bind(this);
   }
 
   // on press, go to course show
@@ -63,71 +65,33 @@ export default class UserList extends React.Component {
     });
   }
 
-  renderSectionHeader(section) {
+  renderItem(item) {
     return (
-      <View style={styles.sectionHeaderContainer}>
-        <Text style={styles.sectionHeaderText}> {section.key} </Text>
-      </View>
+      <ListItem
+        containerStyle={styles.listItemContainer}
+        roundAvatar
+        avatar={<UserAvatar url={item.profile.profilePic} />}
+        title={item.profile.name}
+        subtitle={
+          <View>
+            <View style={styles.ratingContainer}>
+              <Rating
+                style={styles.subtitleRating}
+                imageSize={20}
+                readonly
+                startingValue={item.avgRating}
+              />
+            </View>
+          </View>
+        }
+        onPress={() => this.onPress({ user: item })}
+      />
     );
   }
 
   render() {
     // Get users to display based off the filter text, then format the data
     const users = this.formatData(this.filterUsers());
-    return (
-      <List containerStyle={styles.container}>
-        <SectionList
-          renderItem={({ item }) => (
-            <ListItem
-              containerStyle={styles.listItemContainer}
-              roundAvatar
-              avatar={<UserAvatar url={item.profile.profilePic} />}
-              title={item.profile.name}
-              subtitle={
-                <View>
-                  <View style={styles.ratingContainer}>
-                    <Rating
-                      style={styles.subtitleRating}
-                      imageSize={20}
-                      readonly
-                      startingValue={item.avgRating}
-                    />
-                  </View>
-                </View>
-              }
-              onPress={() => this.onPress({ user: item })}
-            />
-          )}
-          renderSectionHeader={({ section }) => this.renderSectionHeader(section)}
-          keyExtractor={item => item._id}
-          sections={users}
-          ListFooterComponent={() => <View style={styles.listFooter} />}
-        />
-      </List>
-      // <View>
-      //   {this.filterUsers().map((u, i) => (
-      //     <ListItem
-      //       key={i}
-      //       roundAvatar
-      //       title={u.profile.name}
-      //       subtitle={
-      //         <View>
-      //           <View style={styles.ratingContainer}>
-      //             <Rating
-      //               style={styles.subtitleRating}
-      //               imageSize={20}
-      //               readonly
-      //               startingValue={avgRating}
-      //             />
-      //           </View>
-      //         </View>
-      //       }
-      //       avatar={<UserAvatar url={u.profile.profilePic} />}
-      //       containerStyle={styles.listItemContainer}
-      //       onPress={() => this.onPress({ user: u })}
-      //     />
-      //   ))}
-      // </View>
-    );
+    return <List renderItem={this.renderItem} data={users} />;
   }
 }
