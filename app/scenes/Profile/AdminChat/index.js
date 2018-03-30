@@ -17,7 +17,7 @@ class Show extends React.Component {
   // When a message is sent on client
   onSend(convoId, messages = []) {
     const message = messages[0];
-    message.user.name = this.state.name;
+    message.user.name = Meteor.user().profile.name;
     SendMessage(convoId, message);
   }
 
