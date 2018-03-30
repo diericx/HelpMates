@@ -21,7 +21,7 @@ class Index extends Component {
                 <UserAvatar url={ratingAuthor.profile.profilePic} size={50} />
                 <View style={styles.headerRightContainer}>
                   <Text style={styles.nameText}>{user.profile.name}</Text>
-                  <Rating imageSize={23} readonly startingValue={rating.rating} />
+                  <Rating imageSize={23} readonly startingValue={rating.rating} color="red" />
                 </View>
               </View>
               <Divider />
