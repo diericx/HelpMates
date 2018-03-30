@@ -6,7 +6,7 @@ import styles from './styles';
 
 export default class Index extends React.Component {
   static navigationOptions = {
-    title: 'Report A Problem'
+    headerTitle: 'Report A Problem'
   };
 
   render() {
