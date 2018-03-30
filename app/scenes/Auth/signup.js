@@ -8,7 +8,7 @@ import LoginForm from './components/LoginForm';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '$bgColor',
     alignItems: 'center',
     paddingTop: 70,
   },

@@ -4,10 +4,9 @@ import { View, Text } from 'react-native';
 import { ListItem, Rating } from 'react-native-elements';
 
 import UserAvatar from 'app/components/general/UserAvatar/index';
-
 import { FullDateForSession } from 'app/Helpers/Date';
-
 import { CTextSubtitle, CText } from 'app/components/general/CustomText';
+import List from 'app/components/List/index';
 
 import {
   GetOtherUsersNameForSession,
@@ -22,6 +21,7 @@ export default class SessionList extends React.Component {
     super(props);
     // bind
     this.onPress = this.onPress.bind(this);
+    this.renderItem = this.renderItem.bind(this);
   }
 
   // on press, go to course show
@@ -37,7 +37,67 @@ export default class SessionList extends React.Component {
     return '';
   }
 
-  renderSessionList() {
+  formatData() {
+    const { sessions } = this.props;
+    return sessions.reduce((acc, session) => {
+      let section = session.tutorId === Meteor.userId() ? 'Received' : 'Sent';
+      if (session.tutorAccepted) {
+        section = 'Active';
+      }
+      const foundIndex = acc.findIndex(element => element.key === section);
+      if (foundIndex === -1) {
+        return [
+          ...acc,
+          {
+            key: section,
+            data: [{ ...session }],
+          },
+        ];
+      }
+      acc[foundIndex].data = [...acc[foundIndex].data, { ...session }];
+      return acc;
+    }, []);
+  }
+
+  renderItem(item) {
+    const otherUsersName = GetOtherUsersNameForSession(item, Meteor.userId());
+    const otherUsersId = GetOtherUsersIdForSession(item);
+    const otherUserProfilePic = Meteor.collection('users').findOne({ _id: otherUsersId }).profile
+      .profilePic;
+
+    let prefix = 'To ';
+    if (item.studentId === Meteor.user()._id) {
+      prefix = 'From ';
+    }
+    if (IsSessionActive(item)) {
+      prefix = '';
+    }
+    return (
+      <ListItem
+        key={item._id}
+        roundAvatar
+        title={prefix + otherUsersName}
+        subtitle={
+          <View>
+            <CTextSubtitle style={[styles.listSubTitle, styles.listSubTitleLarge]}>
+              {this.getCourseNameToDisplayForSession(item)}
+            </CTextSubtitle>
+            <CTextSubtitle style={styles.listSubTitle}>{FullDateForSession(item)}</CTextSubtitle>
+          </View>
+        }
+        avatar={<UserAvatar url={otherUserProfilePic} />}
+        containerStyle={styles.listItemContainer}
+        onPress={() =>
+          this.onPress({
+            session: item,
+            otherUsersName,
+          })
+        }
+      />
+    );
+  }
+
+  render() {
     const { sessions } = this.props;
     if (sessions === 'undefined' || sessions.length === 0) {
       return (
@@ -46,51 +106,6 @@ export default class SessionList extends React.Component {
         </View>
       );
     }
-    return (
-      <View>
-        {this.props.sessions.map((s, i) => {
-          const otherUsersName = GetOtherUsersNameForSession(s, Meteor.userId());
-          const otherUsersId = GetOtherUsersIdForSession(s);
-          const otherUserProfilePic = Meteor.collection('users').findOne({ _id: otherUsersId })
-            .profile.profilePic;
-
-          let prefix = 'To ';
-          if (s.studentId == Meteor.user()._id) {
-            prefix = 'From ';
-          }
-          if (IsSessionActive(s)) {
-            prefix = '';
-          }
-
-          return (
-            <ListItem
-              key={i}
-              roundAvatar
-              title={prefix + otherUsersName}
-              subtitle={
-                <View>
-                  <CTextSubtitle style={[styles.listSubTitle, styles.listSubTitleLarge]}>
-                    {this.getCourseNameToDisplayForSession(s)}
-                  </CTextSubtitle>
-                  <CTextSubtitle style={styles.listSubTitle}>{FullDateForSession(s)}</CTextSubtitle>
-                </View>
-              }
-              avatar={<UserAvatar url={otherUserProfilePic} />}
-              containerStyle={styles.listItemContainer}
-              onPress={() =>
-                this.onPress({
-                  session: s,
-                  otherUsersName,
-                })
-              }
-            />
-          );
-        })}
-      </View>
-    );
-  }
-
-  render() {
-    return <View>{this.renderSessionList()}</View>;
+    return <List data={this.formatData()} renderItem={this.renderItem} />;
   }
 }

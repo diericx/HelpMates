@@ -11,6 +11,7 @@ import { MainNavigation, AuthNavigation } from './config/routes';
 // Build global stylesheet variables
 EStyleSheet.build({
   $screenWidth: Dimensions.get('window').width,
+  $bgColor: 'white',
   $black: 'black',
   $offBlack: 'rgb(60, 60, 60)',
   $lightgray: '#F3F3F3',

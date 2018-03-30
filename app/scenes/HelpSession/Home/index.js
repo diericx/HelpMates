@@ -13,36 +13,15 @@ class Index extends React.Component {
   }
 
   render() {
-    const { sessionRequestsReceived } = this.props;
-    const { sessionRequestsSent } = this.props;
+    const { sessionRequests } = this.props;
     const { sessions } = this.props;
     return (
       <View style={styles.container}>
-        <ScrollView>
-          {/* Active Sessions */}
-          <Card containerStyle={{ padding: 0, margin: 0, marginHorizontal: 0 }}>
-            <View style={styles.cardTitleContainer}>
-              <Text> Upcoming Sessions </Text>
-            </View>
-            <Divider />
-
-            <SessionList sessions={sessions} navigation={this.props.navigation} />
-          </Card>
-
-          {/* Requests */}
-          <Card containerStyle={{ padding: 0, margin: 0, marginHorizontal: 0 }}>
-            <View style={styles.cardTitleContainer}>
-              <Text> Requests </Text>
-            </View>
-            <Divider />
-
-            <SessionList
-              sessions={sessionRequestsReceived.concat(sessionRequestsSent)}
-              noneMessage="Try lowering your prices a bit."
-              navigation={this.props.navigation}
-            />
-          </Card>
-        </ScrollView>
+        <SessionList
+          sessions={sessionRequests}
+          noneMessage="Try lowering your prices a bit."
+          navigation={this.props.navigation}
+        />
       </View>
     );
   }
@@ -52,14 +31,7 @@ const container = createContainer((params) => {
   // subscribe to meteor collections
   Meteor.subscribe('mySessions');
   return {
-    sessionRequestsReceived: Meteor.collection('helpSessions').find({
-      tutorAccepted: false,
-      tutorId: Meteor.userId(),
-    }),
-    sessionRequestsSent: Meteor.collection('helpSessions').find({
-      tutorAccepted: false,
-      studentId: Meteor.userId(),
-    }),
+    sessionRequests: Meteor.collection('helpSessions').find(),
     sessions: Meteor.collection('helpSessions').find({ tutorAccepted: true }),
   };
 }, Index);
