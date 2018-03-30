@@ -23,6 +23,7 @@ class Show extends React.Component {
 
   // Render the chat UI element
   renderChat(conversation) {
+    console.log("meeeeeeep", conversation)
     if (conversation) {
       return (
         <GiftedChat
@@ -30,7 +31,7 @@ class Show extends React.Component {
           bottomOffset={50}
           onSend={messages => this.onSend(conversation._id, messages)}
           user={{
-            _id: this.state.guid,
+            _id: Meteor.userId()
           }}
           renderLoading={() => <ActivityIndicator size="large" marginTop={35} />}
         />
@@ -50,8 +51,7 @@ class Show extends React.Component {
 }
 
 const container = createContainer((params) => {
-  // const { course } = params.navigation.state.params;
-  // Meteor.subscribe('getConversation', { id: course.conversationId });
+  Meteor.subscribe('getConversation', { id: Meteor.user().profile.supportConversationId });
   return {
     conversation: Meteor.collection('conversations').findOne(),
   };
