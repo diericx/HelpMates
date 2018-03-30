@@ -31,6 +31,8 @@ const list = [
   },
   {
     title: 'FAQ',
+    icon: 'help',
+    iconType: 'entypo',
     screen: 'FAQ',
   },
   {
