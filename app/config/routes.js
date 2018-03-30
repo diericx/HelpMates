@@ -23,11 +23,11 @@ import UsersShowScreen from '../scenes/People/Show/index';
 import CoursesShowScreen from '../scenes/Courses/Show/index';
 import CoursesHomeScreen from '../scenes/Courses/Home/index';
 // FAQ Screens
-import FAQPageShowScreen from '../scenes/FAQPage/FAQindex';
+import FAQPageShowScreen from '../scenes/Profile/FAQPage/index';
 // Problem Reporting Screen
-import ProblemReportingShowScreen from '../scenes/ProblemReporting/ProblemReportingIndex'
+import ProblemReportingShowScreen from '../scenes/Profile/ProblemReporting/index'
 // Legal Screen
-import LegalShowScreen from '../scenes/Legal/LegalIndex'
+import LegalShowScreen from '../scenes/Profile/Legal/index'
 // Help Session Request
 import HelpSessionHomeScreen from '../scenes/HelpSession/Home/index';
 import HelpSessionShowScreen from '../scenes/HelpSession/Show/index';
@@ -112,6 +112,15 @@ const ProfileStack = StackNavigator(
     Courses: {
       screen: ProfileCoursesScreen,
     },
+    FAQ: {
+      screen: FAQPageShowScreen,
+    },
+    ProblemReporting: {
+      screen: ProblemReportingShowScreen,
+    },
+    Legal: {
+      screen: LegalShowScreen,
+    }
   },
   {
     navigationOptions: {
@@ -119,15 +128,6 @@ const ProfileStack = StackNavigator(
       headerTitle: 'Profile',
     },
   },
-  FAQ: {
-    screen: FAQPageShowScreen,
-  },
-  ProblemReporting: {
-    screen: ProblemReportingShowScreen,
-  },
-  Legal: {
-    screen: LegalShowScreen,
-  }
 );
 
 const HelpSessionStack = StackNavigator(
