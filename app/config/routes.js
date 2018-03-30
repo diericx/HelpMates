@@ -15,7 +15,8 @@ import AuthLoginScreen from '../scenes/Auth/login';
 import AuthSignupScreen from '../scenes/Auth/signup';
 // Profile screens
 import ProfileHomeScreen from '../scenes/Profile/Home/index';
-import ProfileCoursesScreen from '../scenes/Profile/Courses/index';
+import ProfileCompletedCoursesScreen from '../scenes/Profile/CompletedCourses/index';
+import ProfileAddCompletedCoursesScreen from '../scenes/Profile/AddCompletedCourse/index';
 import ProfileAvailabilityScreen from '../scenes/Profile/Availability/index';
 // User Screens
 import UsersShowScreen from '../scenes/People/Show/index';
@@ -25,9 +26,9 @@ import CoursesHomeScreen from '../scenes/Courses/Home/index';
 // FAQ Screens
 import FAQPageShowScreen from '../scenes/Profile/FAQPage/index';
 // Problem Reporting Screen
-import ProblemReportingShowScreen from '../scenes/Profile/ProblemReporting/index'
+import ProblemReportingShowScreen from '../scenes/Profile/ProblemReporting/index';
 // Legal Screen
-import LegalShowScreen from '../scenes/Profile/Legal/index'
+import LegalShowScreen from '../scenes/Profile/Legal/index';
 // Help Session Request
 import HelpSessionHomeScreen from '../scenes/HelpSession/Home/index';
 import HelpSessionShowScreen from '../scenes/HelpSession/Show/index';
@@ -110,7 +111,11 @@ const ProfileStack = StackNavigator(
       screen: ProfileAvailabilityScreen,
     },
     Courses: {
-      screen: ProfileCoursesScreen,
+      screen: ProfileCompletedCoursesScreen,
+    },
+    AddCourse: {
+      screen: ProfileAddCompletedCoursesScreen,
+      mode: 'modal',
     },
     FAQ: {
       screen: FAQPageShowScreen,
@@ -120,7 +125,7 @@ const ProfileStack = StackNavigator(
     },
     Legal: {
       screen: LegalShowScreen,
-    }
+    },
   },
   {
     navigationOptions: {

@@ -5,6 +5,11 @@ const styles = EStyleSheet.create({
     flex: 1,
     backgroundColor: '$bgColor',
   },
+  plusIconContainer: {
+    flex: 1,
+    paddingRight: 10,
+    marginRight: 100,
+  },
   rateContainer: {
     marginTop: 25,
     flexDirection: 'column',

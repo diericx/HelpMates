@@ -24,6 +24,9 @@ export default class CourseList extends React.Component {
   // }
 
   renderSectionHeader(section) {
+    if (section.key === 'NONE') {
+      return <View />;
+    }
     return (
       <View style={styles.sectionHeaderContainer}>
         <Text style={styles.sectionHeaderText}> {section.key} </Text>
