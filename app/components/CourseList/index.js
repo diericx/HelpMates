@@ -26,6 +26,12 @@ export default class CourseList extends React.Component {
   }
 
   render() {
-    return <List data={this.formatData()} onPress={this.props.onPress} />;
+    return (
+      <List
+        data={this.formatData()}
+        onPress={this.props.onPress}
+        hideChevron={this.props.hideChevron}
+      />
+    );
   }
 }

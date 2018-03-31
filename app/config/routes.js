@@ -16,7 +16,7 @@ import AuthSignupScreen from '../scenes/Auth/signup';
 // Profile screens
 import ProfileHomeScreen from '../scenes/Profile/Home/index';
 import ProfileCompletedCoursesScreen from '../scenes/Profile/CompletedCourses/index';
-import ProfileAddCompletedCoursesScreen from '../scenes/Profile/AddCompletedCourse/index';
+import ProfileSelectCourseScreen from '../scenes/Profile/SelectCourse/index';
 import ProfileAvailabilityScreen from '../scenes/Profile/Availability/index';
 // User Screens
 import UsersShowScreen from '../scenes/People/Show/index';
@@ -105,7 +105,7 @@ const CoursesStack = StackNavigator(
 const SelectCourseStack = StackNavigator(
   {
     Main: {
-      screen: CoursesHomeScreen,
+      screen: ProfileSelectCourseScreen,
     },
   },
   {

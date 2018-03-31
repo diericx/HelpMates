@@ -8,22 +8,6 @@ import List from 'app/components/List/index';
 import styles from './styles';
 
 class Index extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerTitle: 'My Courses',
-      headerRight: (
-        <Icon
-          iconStyle={{ marginRight: 0, marginTop: 8 }}
-          name="plus"
-          type="entypo"
-          color="white"
-          size={38}
-          onPress={() => navigation.navigate('SelectCourseModal')}
-        />
-      ),
-    };
-  };
-
   constructor(props) {
     super(props);
     // bind
@@ -133,7 +117,8 @@ class Index extends React.Component {
   formatData() {
     const { completedCourses } = Meteor.user().profile;
     const completedCourseKeys = Object.keys(completedCourses);
-    const courses = Meteor.collection('courses').find({ _id: { $in: completedCourseKeys } });
+    const courses = this.props.courses;
+    console.log(courses);
 
     return [{ data: courses, key: 'NONE' }];
   }
@@ -166,4 +151,27 @@ class Index extends React.Component {
   }
 }
 
-export default Index;
+const container = createContainer((params) => {
+  // subscribe to meteor collections
+  const handle = Meteor.subscribe('myCourses');
+  const courseIds = Object.keys(Meteor.user().profile.completedCourses);
+  return {
+    courses: Meteor.collection('courses').find({ _id: { $in: courseIds } }),
+  };
+}, Index);
+
+container.navigationOptions = ({ navigation }) => ({
+  headerTitle: 'My Courses',
+  headerRight: (
+    <Icon
+      iconStyle={{ marginRight: 0, marginTop: 8 }}
+      name="plus"
+      type="entypo"
+      color="white"
+      size={38}
+      onPress={() => navigation.navigate('SelectCourseModal')}
+    />
+  ),
+});
+
+export default container;

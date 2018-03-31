@@ -47,6 +47,7 @@ export default class CourseList extends React.Component {
                 title={item.title1}
                 subtitle={item.title2}
                 onPress={() => this.props.onPress({ course: item })}
+                hideChevron={this.props.hideChevron}
               />
             ))
           }

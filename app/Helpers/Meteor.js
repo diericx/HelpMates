@@ -126,3 +126,18 @@ export function EndSession(session) {
     }
   });
 }
+
+/**
+|--------------------------------------------------
+| COURSES
+|--------------------------------------------------
+*/
+
+export function AddCompletedCourse(courseId) {
+  Meteor.call('users.addCompletedCourse', { courseId, rate: 15 }, (err, res) => {
+    // Do whatever you want with the response
+    if (err) {
+      console.log(err);
+    }
+  });
+}
