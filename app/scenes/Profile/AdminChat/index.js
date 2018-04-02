@@ -23,7 +23,6 @@ class Show extends React.Component {
 
   // Render the chat UI element
   renderChat(conversation) {
-    console.log("meeeeeeep", conversation)
     if (conversation) {
       return (
         <GiftedChat
