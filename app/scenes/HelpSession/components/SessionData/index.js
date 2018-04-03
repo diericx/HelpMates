@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import Meteor from 'react-native-meteor';
 
-import { GetOtherUsersNameForSession } from 'app/scenes/HelpSession/helpers';
-import { CalculateTimeAndCost, IsCurrentUserStudent } from 'app/Helpers/Session';
+import { GetOtherUsersNameForSession } from '../../../../scenes/HelpSession/helpers';
+import { CalculateTimeAndCost, IsCurrentUserStudent } from '../../../../Helpers/Session';
 import SessionActionButtons from '../SessionActionButtons/index';
 
 import styles from './styles';

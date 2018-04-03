@@ -4,7 +4,7 @@ import { Card } from 'react-native-elements';
 
 import styles from './styles';
 
-import UserAgenda from 'app/components/Agenda';
+import UserAgenda from '../../../../components/Agenda';
 import CoursePicker from '../CoursePicker/index';
 
 export default class Index extends React.Component {

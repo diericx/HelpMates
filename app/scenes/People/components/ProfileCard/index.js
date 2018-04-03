@@ -3,8 +3,8 @@ import Meteor from 'react-native-meteor';
 import { View, Text } from 'react-native';
 import { Avatar, Rating } from 'react-native-elements';
 
-import UserAvatar from 'app/components/general/UserAvatar/index';
-import { GetAverageRating } from 'app/Helpers/User';
+import UserAvatar from '../../../../components/general/UserAvatar/index';
+import { GetAverageRating } from '../../../../Helpers/User';
 import styles from './styles';
 
 export default class ProfileCard extends React.Component {

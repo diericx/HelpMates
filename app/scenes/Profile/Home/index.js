@@ -3,10 +3,10 @@ import Meteor from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { View, Text, Button, Image } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
-import { RNS3 } from 'react-native-aws3';
+// import { RNS3 } from 'react-native-aws3';
 import { ImagePicker } from 'expo';
 
-import { SetProfilePic } from 'app/Helpers/Meteor';
+import { SetProfilePic } from '../../../Helpers/Meteor';
 
 import styles from './styles';
 
@@ -87,20 +87,20 @@ export default class Profile extends React.Component {
     };
 
     // upload image
-    RNS3.put(file, options).then(response => {
-      if (response.status !== 201) throw new Error('Failed to upload image to S3');
-      SetProfilePic(response.body.postResponse.location);
-      /**
-       * {
-       *   postResponse: {
-       *     bucket: "your-bucket",
-       *     etag : "9f620878e06d28774406017480a59fd4",
-       *     key: "uploads/image.png",
-       *     location: "https://your-bucket.s3.amazonaws.com/uploads%2Fimage.png"
-       *   }
-       * }
-       */
-    });
+    // RNS3.put(file, options).then(response => {
+    //   if (response.status !== 201) throw new Error('Failed to upload image to S3');
+    //   SetProfilePic(response.body.postResponse.location);
+    //   /**
+    //    * {
+    //    *   postResponse: {
+    //    *     bucket: "your-bucket",
+    //    *     etag : "9f620878e06d28774406017480a59fd4",
+    //    *     key: "uploads/image.png",
+    //    *     location: "https://your-bucket.s3.amazonaws.com/uploads%2Fimage.png"
+    //    *   }
+    //    * }
+    //    */
+    // });
   }
 
   _pickImage = async () => {

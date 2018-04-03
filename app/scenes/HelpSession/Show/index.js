@@ -4,10 +4,10 @@ import Meteor, { createContainer } from 'react-native-meteor';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { Divider } from 'react-native-elements';
 
-import { SendMessage } from 'app/Helpers/Meteor';
-import { GetOtherUsersNameForSession } from 'app/scenes/HelpSession/helpers';
-import { CalculateTimeAndCost } from 'app/Helpers/Session';
-import ActivityIndicator from 'app/components/general/ActivityIndicator';
+import { SendMessage } from '../../../Helpers/Meteor';
+import { GetOtherUsersNameForSession } from '../../../scenes/HelpSession/helpers';
+import { CalculateTimeAndCost } from '../../../Helpers/Session';
+import ActivityIndicator from '../../../components/general/ActivityIndicator';
 
 import RateUserView from '../components/RateUserView/index';
 import SessionData from '../components/SessionData/index';

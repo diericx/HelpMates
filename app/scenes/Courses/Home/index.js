@@ -3,8 +3,8 @@ import { View, ActivityIndicator, StatusBar } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
 import { Card, Divider } from 'react-native-elements';
 
-import CourseList from 'app/components/CourseList/index';
-import SearchBar from 'app/components/SearchBar/index';
+import CourseList from '../../../components/CourseList/index';
+import SearchBar from '../../../components/SearchBar/index';
 
 import styles from './styles';
 

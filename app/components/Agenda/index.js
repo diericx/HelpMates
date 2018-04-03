@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Agenda } from 'react-native-calendars';
 
-import { DateToLocalString, DateTo12HourTime, DateToString } from 'app/Helpers/Date';
+import { DateToLocalString, DateTo12HourTime, DateToString } from '../../Helpers/Date';
 import SendRequestModal from '../SendRequestModal/index';
 
 import styles from './styles';

@@ -3,9 +3,9 @@ import Meteor from 'react-native-meteor';
 import { View, SectionList, Text } from 'react-native';
 import { ListItem, Rating } from 'react-native-elements';
 
-import UserAvatar from 'app/components/general/UserAvatar/index';
-import List from 'app/components/List/index';
-import { GetAverageRating } from 'app/Helpers/User';
+import UserAvatar from '../../../../components/general/UserAvatar/index';
+import List from '../../../../components/List/index';
+import { GetAverageRating } from '../../../../Helpers/User';
 
 import styles from './styles';
 

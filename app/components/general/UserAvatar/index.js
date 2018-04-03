@@ -16,13 +16,21 @@ export default class Index extends Component {
     const size = this.props.size ? this.props.size : this.defaultSize;
 
     return (
+      this.props.url ? 
       <Avatar
         rounded
         width={size}
         height={size}
-        source={{ uri: this.props.url }}
+        source={this.props.url ? { uri: this.props.url } : null}
         containerStyle={styles.container}
       />
+      : <Avatar
+      rounded
+      width={size}
+      height={size}
+      title="MT"
+      containerStyle={styles.container}
+    />
     );
   }
 }

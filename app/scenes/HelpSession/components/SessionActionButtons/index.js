@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Button } from 'react-native-elements';
 import Meteor from 'react-native-meteor';
 
-import { AcceptSession, DenySession, StartSesson, EndSession } from 'app/Helpers/Meteor';
+import { AcceptSession, DenySession, StartSesson, EndSession } from '../../../../Helpers/Meteor';
 
 import RateUserView from '../../components/RateUserView/index';
 import SessionData from '../../components/SessionData/index';

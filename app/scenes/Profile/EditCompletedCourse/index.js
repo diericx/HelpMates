@@ -1,9 +1,7 @@
 import React from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
-import { View, FlatList, Button } from 'react-native';
-import { Card, ListItem, Icon } from 'react-native-elements';
-
-import List from '../../../components/List/index';
+import { View, FlatList, Button, Text, TextInput } from 'react-native';
+import { Input } from 'react-native-elements';
 
 import styles from './styles';
 
@@ -11,36 +9,31 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     // bind
-    this.renderItem = this.renderItem.bind(this);
     // this.onAddCourseButtonPress = this.onAddCourseButtonPress.bind(this);
   }
-
-  // componentWillMount() {
-  //   this.props.navigation.setParams({ onAddCourseButtonPress: this.onAddCourseButtonPress });
-  // }
 
   // onAddCourseButtonPress() {
   //   console.log(this.props.navigation);
   //   this.props.navigation.navigate('AddCourse');
   // }
 
-  // // METEOR - remove course
-  // onRemoveCoursePress(courseId) {
-  //   Meteor.call('users.removeCompletedCourse', { courseId }, (err, res) => {
-  //     if (err) {
-  //       console.log('Error: ', err);
-  //     }
-  //   });
-  // }
+  // METEOR - remove course
+  onRemoveCoursePress(courseId) {
+    Meteor.call('users.removeCompletedCourse', { courseId }, (err, res) => {
+      if (err) {
+        console.log('Error: ', err);
+      }
+    });
+  }
 
-  // // METEOR - set rate
-  // setRateForCourse(courseId, rate) {
-  //   Meteor.call('users.setRateForCourse', { courseId, rate }, (err, res) => {
-  //     if (err) {
-  //       console.log('Error: ', err);
-  //     }
-  //   });
-  // }
+  // METEOR - set rate
+  setRateForCourse(courseId, rate) {
+    Meteor.call('users.setRateForCourse', { courseId, rate }, (err, res) => {
+      if (err) {
+        console.log('Error: ', err);
+      }
+    });
+  }
 
   // getCourseData(completedCourses) {
   //   const newCompletedCourses = completedCourses;
@@ -109,65 +102,34 @@ class Index extends React.Component {
   //   );
   // }
 
-  // When a course row is pressed from the course list,
-  // transition to the show course screen.
-  onCoursePress(params) {
-    this.props.navigation.navigate('EditCompletedCourse', params);
-  }
-
-  formatData() {
-    const { completedCourses } = Meteor.user().profile;
-    const completedCourseKeys = Object.keys(completedCourses);
-    const courses = this.props.courses;
-
-    return [{ data: courses, key: 'NONE' }];
-  }
-
-  renderItem(item) {
-    const { completedCourses } = Meteor.user().profile;
-    return (
-      <ListItem
-        containerStyle={styles.listItemContainer}
-        title={item.title1}
-        subtitle={`$${completedCourses[item._id]}/hr`}
-        onPress={() => this.onCoursePress({ course: item })}
-      />
-    );
-  }
-
   render() {
-    const { completedCourses } = Meteor.user().profile;
-
+    const { course } = this.props;
+    console.log(course);
     // if the data is here and ready, load the list
     return (
       <View style={styles.container}>
-        <List data={this.formatData(completedCourses)} renderItem={this.renderItem} />
+        <Input
+          placeholder="Enter your rate for this course"
+          value={course.rate}
+          number-pad
+          numeric
+        />
       </View>
     );
   }
 }
 
 const container = createContainer((params) => {
+  const { course } = params.navigation.state.params;
   // subscribe to meteor collections
-  const handle = Meteor.subscribe('myCourses');
-  const courseIds = Object.keys(Meteor.user().profile.completedCourses);
+  Meteor.subscribe('course', { _id: course._id });
   return {
-    courses: Meteor.collection('courses').find({ _id: { $in: courseIds } }),
+    course: Meteor.collection('courses').find({ _id: course._id }),
   };
 }, Index);
 
 container.navigationOptions = ({ navigation }) => ({
-  headerTitle: 'My Courses',
-  headerRight: (
-    <Icon
-      iconStyle={{ marginRight: 0, marginTop: 8 }}
-      name="plus"
-      type="entypo"
-      color="white"
-      size={38}
-      onPress={() => navigation.navigate('SelectCourseModal')}
-    />
-  ),
+  headerTitle: 'Edit',
 });
 
 export default container;

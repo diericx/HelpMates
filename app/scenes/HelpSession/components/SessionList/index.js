@@ -3,10 +3,10 @@ import Meteor from 'react-native-meteor';
 import { View, Text } from 'react-native';
 import { ListItem, Rating } from 'react-native-elements';
 
-import UserAvatar from 'app/components/general/UserAvatar/index';
-import { FullDateForSession } from 'app/Helpers/Date';
-import { CTextSubtitle, CText } from 'app/components/general/CustomText';
-import List from 'app/components/List/index';
+import UserAvatar from '../../../../components/general/UserAvatar/index';
+import { FullDateForSession } from '../../../../Helpers/Date';
+import { CTextSubtitle, CText } from '../../../../components/general/CustomText';
+import List from '../../../../components/List/index';
 
 import {
   GetOtherUsersNameForSession,
@@ -62,8 +62,7 @@ export default class SessionList extends React.Component {
   renderItem(item) {
     const otherUsersName = GetOtherUsersNameForSession(item, Meteor.userId());
     const otherUsersId = GetOtherUsersIdForSession(item);
-    const otherUserProfilePic = Meteor.collection('users').findOne({ _id: otherUsersId }).profile
-      .profilePic;
+    const otherUserProfilePic = Meteor.collection('users').findOne({ _id: otherUsersId }).profile.profilePic;
 
     let prefix = 'To ';
     if (item.studentId === Meteor.user()._id) {

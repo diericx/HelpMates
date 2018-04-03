@@ -4,7 +4,7 @@ import Meteor, { createContainer } from 'react-native-meteor';
 import { Card, Divider, Icon } from 'react-native-elements';
 
 import UserList from '../components/UserList/index';
-import SearchBar from 'app/components/SearchBar/index';
+import SearchBar from '../../../components/SearchBar/index';
 
 import styles from './styles';
 

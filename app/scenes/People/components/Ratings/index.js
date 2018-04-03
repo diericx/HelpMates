@@ -3,7 +3,7 @@ import Meteor from 'react-native-meteor';
 import { View, ScrollView, Text } from 'react-native';
 import { Card, Rating, Divider } from 'react-native-elements';
 
-import UserAvatar from 'app/components/general/UserAvatar/index';
+import UserAvatar from '../../../../components/general/UserAvatar/index';
 import styles from './styles';
 
 class Index extends Component {

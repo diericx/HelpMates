@@ -2,10 +2,10 @@ import React from 'react';
 import { View, ActivityIndicator, StatusBar } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
 
-import { AddCompletedCourse } from 'app/Helpers/Meteor';
+import { AddCompletedCourse } from '../../../Helpers/Meteor';
 
-import CourseList from 'app/components/CourseList/index';
-import SearchBar from 'app/components/SearchBar/index';
+import CourseList from '../../../components/CourseList/index';
+import SearchBar from '../../../components/SearchBar/index';
 
 import styles from './styles';
 
