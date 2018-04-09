@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, SectionList, Text } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
+import React from "react";
+import { View, SectionList, Text } from "react-native";
+import { List, ListItem } from "react-native-elements";
 
-import styles from './styles';
+import styles from "./styles";
 
 export default class CourseList extends React.Component {
   // formatData() {
@@ -24,7 +24,7 @@ export default class CourseList extends React.Component {
   // }
 
   renderSectionHeader(section) {
-    if (section.key === 'NONE') {
+    if (section.key === "NONE") {
       return <View />;
     }
     return (
@@ -39,7 +39,7 @@ export default class CourseList extends React.Component {
       <List containerStyle={styles.container}>
         <SectionList
           renderItem={({ item }) =>
-            (this.props.renderItem ? (
+            this.props.renderItem ? (
               this.props.renderItem(item)
             ) : (
               <ListItem
@@ -49,9 +49,11 @@ export default class CourseList extends React.Component {
                 onPress={() => this.props.onPress({ course: item })}
                 hideChevron={this.props.hideChevron}
               />
-            ))
+            )
           }
-          renderSectionHeader={({ section }) => this.renderSectionHeader(section)}
+          renderSectionHeader={({ section }) =>
+            this.renderSectionHeader(section)
+          }
           keyExtractor={item => item._id}
           sections={this.props.data}
           ListFooterComponent={() => <View style={styles.listFooter} />}
