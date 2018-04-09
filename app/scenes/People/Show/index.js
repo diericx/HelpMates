@@ -1,13 +1,13 @@
-import React from 'react';
-import Meteor, { createContainer } from 'react-native-meteor';
-import { View } from 'react-native';
-import { ButtonGroup } from 'react-native-elements';
+import React from "react";
+import Meteor, { createContainer } from "react-native-meteor";
+import { View } from "react-native";
+import { ButtonGroup } from "react-native-elements";
 
-import GetHelp from '../components/GetHelp/index';
-import Ratings from '../components/Ratings/index';
-import ProfileCard from '../components/ProfileCard/index';
+import GetHelp from "../components/GetHelp/index";
+import Ratings from "../components/Ratings/index";
+import ProfileCard from "../components/ProfileCard/index";
 
-import styles from './styles';
+import styles from "./styles";
 
 class Show extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class Show extends React.Component {
     this.state = {
       params,
       selectedGroup: 0,
-      selectedCourse: null,
+      selectedCourse: null
     };
     // get this users availabilities
     this.getAvailabilities();
@@ -28,19 +28,23 @@ class Show extends React.Component {
 
   onSelectCourse(courseId) {
     this.setState({
-      selectedCourse: courseId,
+      selectedCourse: courseId
     });
   }
 
   // METEOR - get availabilities for this user
   getAvailabilities() {
-    Meteor.call('users.getAvailabilities', { userId: this.state.params.userId }, (err, res) => {
-      // Do whatever you want with the response
-      this.setState({ availabilities: res });
-      if (err) {
-        console.log(err);
+    Meteor.call(
+      "users.getAvailabilities",
+      { userId: this.state.params.userId },
+      (err, res) => {
+        // Do whatever you want with the response
+        this.setState({ availabilities: res });
+        if (err) {
+          console.log(err);
+        }
       }
-    });
+    );
   }
 
   updateGroup(selectedGroup) {
@@ -48,7 +52,7 @@ class Show extends React.Component {
   }
 
   render() {
-    const buttons = ['Get Help', 'Reviews'];
+    const buttons = ["Get Help", "Reviews"];
     const { user } = this.state.params;
     const { selectedGroup } = this.state;
 
@@ -82,7 +86,7 @@ const container = createContainer(params => ({}), Show);
 container.navigationOptions = ({ navigation }) => {
   const { state: { params = {} } } = navigation;
   return {
-    headerTitle: params.user.profile.name || '',
+    headerTitle: params.user.profile.name || ""
   };
 };
 

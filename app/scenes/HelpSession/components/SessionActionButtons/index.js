@@ -1,14 +1,20 @@
-import React from 'react';
-import { View } from 'react-native';
-import { Button } from 'react-native-elements';
-import Meteor from 'react-native-meteor';
+import React from "react";
+import { View } from "react-native";
+import { Button } from "react-native-elements";
+import Meteor from "react-native-meteor";
 
-import { AcceptSession, DenySession, StartSesson, EndSession } from '../../../../Helpers/Meteor';
+import {
+  AcceptSession,
+  DenySession,
+  StartSesson,
+  EndSession
+} from "../../../../Helpers/Meteor";
+import { HasCurrentUserEnded } from "../../../../scenes/HelpSession/helpers";
 
-import RateUserView from '../../components/RateUserView/index';
-import SessionData from '../../components/SessionData/index';
+import RateUserView from "../../components/RateUserView/index";
+import SessionData from "../../components/SessionData/index";
 
-import styles from './styles';
+import styles from "./styles";
 
 export default class Index extends React.Component {
   renderAcceptDenyButtons() {
@@ -17,14 +23,14 @@ export default class Index extends React.Component {
       <View style={styles.actionButtonsContainer}>
         <Button
           title="Accept"
-          textStyle={{ fontWeight: '700' }}
+          textStyle={{ fontWeight: "700" }}
           buttonStyle={[styles.sideBySideButton, styles.acceptButton]}
           containerStyle={{ marginTop: 20 }}
           onPress={() => AcceptSession(session)}
         />
         <Button
           title="Deny"
-          textStyle={{ fontWeight: '700' }}
+          textStyle={{ fontWeight: "700" }}
           buttonStyle={[styles.sideBySideButton, styles.denyButton]}
           containerStyle={{ marginTop: 20 }}
           onPress={() => DenySession(session)}
@@ -39,14 +45,14 @@ export default class Index extends React.Component {
       <View style={styles.actionButtonsContainer}>
         <Button
           title="Start"
-          textStyle={{ fontWeight: '700' }}
+          textStyle={{ fontWeight: "700" }}
           buttonStyle={[styles.sideBySideButton, styles.acceptButton]}
           containerStyle={{ marginTop: 20 }}
           onPress={() => StartSesson(session)}
         />
         <Button
           title="Cancel"
-          textStyle={{ fontWeight: '700' }}
+          textStyle={{ fontWeight: "700" }}
           buttonStyle={[styles.sideBySideButton, styles.cancelButton]}
           containerStyle={{ marginTop: 20 }}
           onPress={() => DenySession(session)}
@@ -57,13 +63,25 @@ export default class Index extends React.Component {
 
   renderEndButton() {
     const { session } = this.props;
+    const currentUserId = Meteor.userId();
+    let title = "End";
+    let loading = false;
+    let disabled = false;
+
+    if (HasCurrentUserEnded(session)) {
+      title = "";
+      loading = true;
+      disabled = true;
+    }
     return (
       <View style={styles.actionButtonsContainer}>
         <Button
-          title="End"
-          textStyle={{ fontWeight: '700' }}
+          title={title}
+          textStyle={{ fontWeight: "700" }}
           buttonStyle={styles.endButton}
           onPress={() => EndSession(session)}
+          loading={loading}
+          disabled={disabled}
         />
       </View>
     );
@@ -71,7 +89,9 @@ export default class Index extends React.Component {
 
   renderSessionActionButtons() {
     const session = this.props.session;
-    const myRating = Meteor.collection('ratings').findOne({ userId: Meteor.userId() });
+    const myRating = Meteor.collection("ratings").findOne({
+      userId: Meteor.userId()
+    });
 
     if (session == null || session.endedAt) {
       return <View />;

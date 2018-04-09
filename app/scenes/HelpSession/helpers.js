@@ -33,3 +33,11 @@ export function GetOtherUsersIdForSession(session) {
 export function IsSessionActive(session) {
   return session.tutorAccepted;
 }
+
+export function HasCurrentUserEnded(session) {
+  const userId = Meteor.userId();
+  return (
+    (userId == session.tutorId && session.tutorEnded) ||
+    (userId == session.studentId && session.studentEnded)
+  );
+}

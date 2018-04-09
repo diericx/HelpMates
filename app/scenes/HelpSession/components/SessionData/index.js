@@ -1,12 +1,15 @@
-import React from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
-import Meteor from 'react-native-meteor';
+import React from "react";
+import { View, Text, ActivityIndicator } from "react-native";
+import Meteor from "react-native-meteor";
 
-import { GetOtherUsersNameForSession } from '../../../../scenes/HelpSession/helpers';
-import { CalculateTimeAndCost, IsCurrentUserStudent } from '../../../../Helpers/Session';
-import SessionActionButtons from '../SessionActionButtons/index';
+import { GetOtherUsersNameForSession } from "../../../../scenes/HelpSession/helpers";
+import {
+  CalculateTimeAndCost,
+  IsCurrentUserStudent
+} from "../../../../Helpers/Session";
+import SessionActionButtons from "../SessionActionButtons/index";
 
-import styles from './styles';
+import styles from "./styles";
 
 export default class Index extends React.Component {
   // Render a message about the current session
@@ -45,14 +48,19 @@ export default class Index extends React.Component {
 
   renderSessionData() {
     const { session } = this.props;
-    const myRating = Meteor.collection('ratings').findOne({ userId: Meteor.userId() });
+    const myRating = Meteor.collection("ratings").findOne({
+      userId: Meteor.userId()
+    });
     const otherUsersName = GetOtherUsersNameForSession(session);
     if (session.endedAt) {
       if (IsCurrentUserStudent(session)) {
         return (
           <View style={styles.alertDataContainer}>
             <Text style={[styles.sessionWaitingText, styles.alertText]}>
-              You owe {otherUsersName} ${CalculateTimeAndCost(session, session.endedAt).cost} {'\n'}
+              You owe {otherUsersName} ${
+                CalculateTimeAndCost(session, session.endedAt).cost
+              }{" "}
+              {"\n"}
               Venmo @Zac-Holland
             </Text>
           </View>
@@ -74,11 +82,19 @@ export default class Index extends React.Component {
       }
       // if the tutor has started but this student has not
       if (session.studentStarted && !session.tutorStarted) {
-        return this.renderSessionWaitingMessage('', 'is waiting for you to start!', false);
+        return this.renderSessionWaitingMessage(
+          "",
+          "is waiting for you to start!",
+          false
+        );
       }
       // if this tutor has started but student has not
       if (session.tutorStarted && !session.studentStarted) {
-        return this.renderSessionWaitingMessage('Waiting for ', 'to start the session', true);
+        return this.renderSessionWaitingMessage(
+          "Waiting for ",
+          "to start the session",
+          true
+        );
       }
     }
 
@@ -90,23 +106,34 @@ export default class Index extends React.Component {
       }
       // if the tutor has started but this student has not
       if (session.tutorStarted && !session.studentStarted) {
-        return this.renderSessionWaitingMessage('', 'is waiting for you to start!', false);
+        return this.renderSessionWaitingMessage(
+          "",
+          "is waiting for you to start!",
+          false
+        );
       }
       // if this student has started but tutor has not
       if (session.studentStarted && !session.tutorStarted) {
-        return this.renderSessionWaitingMessage('Waiting for', 'to start the session', true);
+        return this.renderSessionWaitingMessage(
+          "Waiting for",
+          "to start the session",
+          true
+        );
       }
     }
-    return this.renderSessionWaitingMessage('Waiting for', 'to accept your request', true);
+    return this.renderSessionWaitingMessage(
+      "Waiting for",
+      "to accept your request",
+      true
+    );
   }
 
   render() {
     const { session } = this.props;
-    const sessionEnded = session.endedAt == null;
     return (
       <View
         style={
-          sessionEnded != null && IsCurrentUserStudent(session)
+          session.endedAt != null && IsCurrentUserStudent(session)
             ? [styles.sessionDataContainer, styles.alertSessionDataContainer]
             : styles.sessionDataContainer
         }
