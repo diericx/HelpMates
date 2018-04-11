@@ -1,19 +1,20 @@
-import React from 'react';
-import { View, ActivityIndicator, StatusBar } from 'react-native';
-import Meteor, { createContainer } from 'react-native-meteor';
+import React from "react";
+import { View, ActivityIndicator, StatusBar } from "react-native";
+import { Icon } from "react-native-elements";
+import Meteor, { createContainer } from "react-native-meteor";
 
-import { AddCompletedCourse } from '../../../Helpers/Meteor';
+import { AddCompletedCourse } from "../../../Helpers/Meteor";
 
-import CourseList from '../../../components/CourseList/index';
-import SearchBar from '../../../components/SearchBar/index';
+import CourseList from "../../../components/CourseList/index";
+import SearchBar from "../../../components/SearchBar/index";
 
-import styles from './styles';
+import styles from "./styles";
 
 class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchText: '',
+      searchText: ""
     };
 
     // bind
@@ -24,14 +25,14 @@ class Index extends React.Component {
   // Set onChangeText in nav params so tab bar can see it
   componentDidMount() {
     this.props.navigation.setParams({
-      onChangeText: this.onSearchChangeText,
+      onChangeText: this.onSearchChangeText
     });
   }
 
   // update states text variable when the search text changes
   onSearchChangeText(text) {
     this.setState({
-      searchText: text,
+      searchText: text
     });
   }
 
@@ -44,7 +45,7 @@ class Index extends React.Component {
 
   // Filter the course data using the search input
   filterCourses(courses) {
-    return courses.filter((course) => {
+    return courses.filter(course => {
       const filter = this.state.searchText.toLowerCase();
       const title1 = course.title1.toLowerCase();
       const title2 = course.title2.toLowerCase();
@@ -80,14 +81,16 @@ class Index extends React.Component {
   }
 }
 
-const container = createContainer((params) => {
-  const handle = Meteor.subscribe('courses');
-  const completedCourseIds = Object.keys(Meteor.user().profile.completedCourses);
+const container = createContainer(params => {
+  const handle = Meteor.subscribe("courses");
+  const completedCourseIds = Object.keys(
+    Meteor.user().profile.completedCourses
+  );
   return {
     coursesReady: handle.ready(),
-    courses: Meteor.collection('courses').find({
-      _id: { $not: { $in: completedCourseIds } },
-    }),
+    courses: Meteor.collection("courses").find({
+      _id: { $not: { $in: completedCourseIds } }
+    })
   };
 }, Index);
 
@@ -97,11 +100,21 @@ container.navigationOptions = ({ navigation }) => {
   return {
     // header: null,
     headerTitle: (
-      <SearchBar
-        placeholder="Search for a course"
-        onChangeText={text => params.onChangeText(text)}
-      />
-    ),
+      <View style={styles.headerTitleContainer}>
+        <Icon
+          iconStyle={styles.headerTitleIcon}
+          name="cross"
+          type="entypo"
+          color="white"
+          size={45}
+          onPress={() => navigation.goBack(null)}
+        />
+        <SearchBar
+          placeholder="Search for a course"
+          onChangeText={text => params.onChangeText(text)}
+        />
+      </View>
+    )
   };
 };
 

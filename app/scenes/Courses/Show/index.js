@@ -1,19 +1,19 @@
-import React from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
-import { Button } from 'react-native-elements';
-import Meteor, { createContainer } from 'react-native-meteor';
-import { GiftedChat } from 'react-native-gifted-chat';
-import Faker from 'faker';
-import ActivityIndicator from '../../../components/general/ActivityIndicator';
-import { SendMessage } from '../../../Helpers/Meteor';
+import React from "react";
+import { View, Text, AsyncStorage } from "react-native";
+import { Button } from "react-native-elements";
+import Meteor, { createContainer } from "react-native-meteor";
+import { GiftedChat } from "react-native-gifted-chat";
+import Faker from "faker";
+import ActivityIndicator from "../../../components/general/ActivityIndicator";
+import { SendMessage } from "../../../Helpers/Meteor";
 
-import styles from './styles';
+import styles from "./styles";
 
 class Show extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: Faker.name.findName(),
+      name: Faker.name.findName()
     };
     // bind
     this.onTakenCoursePress = this.onTakenCoursePress.bind(this);
@@ -23,14 +23,14 @@ class Show extends React.Component {
   async componentWillMount() {
     // Set anonymous key from async
     try {
-      const value = await AsyncStorage.getItem('@MySuperStore:anonymousKey');
+      const value = await AsyncStorage.getItem("@MySuperStore:anonymousKey");
       if (value !== null) {
         // We have data!!
         this.setState({
-          guid: value,
+          guid: value
         });
       } else {
-        console.log('No anonymous key!');
+        console.log("No anonymous key!");
       }
     } catch (error) {
       // Error retrieving data
@@ -48,12 +48,16 @@ class Show extends React.Component {
   onTakenCoursePress() {
     const { id } = this.props.navigation.state.params;
     // Get available courses from server
-    Meteor.call('users.addCompletedCourse', { courseId: id, rate: 15 }, (err, res) => {
-      // Do whatever you want with the response
-      if (err) {
-        console.log(err);
+    Meteor.call(
+      "users.addCompletedCourse",
+      { courseId: id, rate: 15 },
+      (err, res) => {
+        // Do whatever you want with the response
+        if (err) {
+          console.log(err);
+        }
       }
-    });
+    );
   }
 
   // Render the chat UI element
@@ -65,9 +69,11 @@ class Show extends React.Component {
           bottomOffset={50}
           onSend={messages => this.onSend(conversation._id, messages)}
           user={{
-            _id: this.state.guid,
+            _id: this.state.guid
           }}
-          renderLoading={() => <ActivityIndicator size="large" marginTop={35} />}
+          renderLoading={() => (
+            <ActivityIndicator size="large" marginTop={35} />
+          )}
         />
       );
     }
@@ -81,9 +87,9 @@ class Show extends React.Component {
       return (
         <View>
           <Text style={styles.sessionDataText}>
-            Let everyone know you can help them with this class!
+            This is an anonymous chat. Have a question you were too embarresed
+            to ask in class? Then get help here!
           </Text>
-          {this.renderSessionDataActionButtons()}
         </View>
       );
     }
@@ -91,21 +97,9 @@ class Show extends React.Component {
     return (
       <View>
         <Text style={[styles.sessionDataText, styles.centerText]}>
-          You've taken this course {'\n'} Answer questions to make some money!
+          You've taken this course {"\n"} Answer questions to make some money!
         </Text>
       </View>
-    );
-  }
-
-  renderSessionDataActionButtons() {
-    return (
-      <Button
-        title="I've taken this course"
-        textStyle={{ fontWeight: '700' }}
-        buttonStyle={styles.takenCourseButton}
-        containerStyle={{ marginTop: 20 }}
-        onPress={this.onTakenCoursePress}
-      />
     );
   }
 
@@ -122,18 +116,18 @@ class Show extends React.Component {
   }
 }
 
-const container = createContainer((params) => {
+const container = createContainer(params => {
   const { course } = params.navigation.state.params;
-  Meteor.subscribe('getConversation', { id: course.conversationId });
+  Meteor.subscribe("getConversation", { id: course.conversationId });
   return {
-    conversation: Meteor.collection('conversations').findOne(),
+    conversation: Meteor.collection("conversations").findOne()
   };
 }, Show);
 
 container.navigationOptions = ({ navigation }) => {
   const { state: { params = {} } } = navigation;
   return {
-    headerTitle: params.title || 'Course Chat',
+    headerTitle: params.title || "Course Chat"
   };
 };
 
