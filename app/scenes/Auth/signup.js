@@ -1,40 +1,40 @@
-import React, { Component } from 'react';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, Dimensions } from 'react-native';
-import Meteor, { Accounts } from 'react-native-meteor';
+import React, { Component } from "react";
+import EStyleSheet from "react-native-extended-stylesheet";
+import { View, Text, Dimensions } from "react-native";
+import Meteor, { Accounts } from "react-native-meteor";
 
-import LoginForm from './components/LoginForm';
+import LoginForm from "./components/LoginForm";
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '$bgColor',
-    alignItems: 'center',
-    paddingTop: 70,
+    backgroundColor: "$bgColor",
+    alignItems: "center",
+    paddingTop: 70
   },
   headerContainer: {
-    alignItems: 'center',
+    alignItems: "center"
   },
   headerText: {
-    fontSize: 30,
+    fontSize: 30
   },
   error: {
-    color: 'red',
-  },
+    color: "red"
+  }
 });
 
 export default class Signup extends Component {
   static navigationOptions = {
-    header: false,
+    header: false
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      name: '',
-      error: null,
+      email: "",
+      password: "",
+      name: "",
+      error: null
     };
 
     this.signupHandler = this.signupHandler.bind(this);
@@ -45,16 +45,24 @@ export default class Signup extends Component {
     const { email, password, name } = this.state;
     let valid = false;
 
+    // make sure email is a valid edu email
+    let emailTail = email.substr(email.length - 3, 3);
+    if (emailTail != "edu") {
+      this.setState({ error: "You must enter a valid school email address" });
+      return false;
+    }
+
+    // make sure password and emial is long enough
     if (email.length > 0 && password.length > 0) {
       valid = true;
     }
 
     if (email.length === 0) {
-      this.setState({ error: 'You must enter an email address' });
+      this.setState({ error: "You must enter an email address" });
     } else if (password.length === 0) {
-      this.setState({ error: 'You must enter a password' });
+      this.setState({ error: "You must enter a password" });
     } else if (name.length === 0) {
-      this.setState({ error: 'You must enter your full name' });
+      this.setState({ error: "You must enter your full name" });
     }
 
     return valid;
@@ -64,7 +72,7 @@ export default class Signup extends Component {
   signupHandler() {
     // get email and password from state
     const { email, password, name } = this.state;
-    // check validity of e and p
+    // check validity of email and password
     if (this.isValid()) {
       Accounts.createUser({ email, password, name }, error => {
         if (error) {
@@ -85,7 +93,7 @@ export default class Signup extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.headerContainer}>
-          <Text style={styles.headerText}> Log In </Text>
+          <Text style={styles.headerText}> Sign Up </Text>
           <Text style={styles.error}> {this.state.error} </Text>
         </View>
         <View style={styles.form}>

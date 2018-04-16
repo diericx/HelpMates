@@ -1,29 +1,29 @@
-import React, { Component } from 'react';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import React, { Component } from "react";
+import EStyleSheet from "react-native-extended-stylesheet";
+import { View, TextInput, TouchableOpacity, Text } from "react-native";
 
 const styles = EStyleSheet.create({
   container: {
     padding: 20,
-    width: '$screenWidth',
+    width: "$screenWidth"
   },
   input: {
-    color: 'black',
-    backgroundColor: 'rgba(230,230,230,0.8)',
+    color: "black",
+    backgroundColor: "rgba(230,230,230,0.8)",
     height: 45,
     marginBottom: 18,
-    paddingHorizontal: 10,
+    paddingHorizontal: 10
   },
   buttonContainer: {
-    backgroundColor: '#32ff7e',
-    paddingVertical: 15,
+    backgroundColor: "#32ff7e",
+    paddingVertical: 15
   },
   buttonText: {
-    color: 'white',
-    fontWeight: '700',
+    color: "white",
+    fontWeight: "700",
     fontSize: 15,
-    textAlign: 'center',
-  },
+    textAlign: "center"
+  }
 });
 
 export default class LoginForm extends Component {
@@ -32,7 +32,7 @@ export default class LoginForm extends Component {
       <View style={styles.container}>
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder="School Email"
           keyboardType="email-address"
           returnKeyType="next"
           placeholderTextColor="rgba(190,190,190,0.7)"
@@ -47,7 +47,10 @@ export default class LoginForm extends Component {
           onChangeText={text => this.props.passwordHandler(text)}
         />
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={this.props.onSubmit}>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={this.props.onSubmit}
+        >
           <Text style={styles.buttonText}> LOGIN </Text>
         </TouchableOpacity>
       </View>
@@ -66,7 +69,7 @@ export default class LoginForm extends Component {
         />
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder="School Email"
           keyboardType="email-address"
           returnKeyType="done"
           placeholderTextColor="rgba(190,190,190,0.7)"
@@ -81,7 +84,10 @@ export default class LoginForm extends Component {
           onChangeText={text => this.props.passwordHandler(text)}
         />
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={this.props.onSubmit}>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={this.props.onSubmit}
+        >
           <Text style={styles.buttonText}> SIGN UP </Text>
         </TouchableOpacity>
       </View>
@@ -89,9 +95,9 @@ export default class LoginForm extends Component {
   }
 
   render() {
-    if (this.props.form === 'login') {
+    if (this.props.form === "login") {
       return this.renderLogin();
-    } else if (this.props.form === 'signup') {
+    } else if (this.props.form === "signup") {
       return this.renderSignUp();
     }
   }

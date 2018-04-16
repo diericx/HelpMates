@@ -33,7 +33,7 @@ class Index extends React.Component {
       return (
         <SessionList
           sessions={sessions}
-          noneMessage="Try lowering your prices a bit."
+          noneMessage="You don't have any active sessions."
           navigation={this.props.navigation}
         />
       );
@@ -41,7 +41,7 @@ class Index extends React.Component {
       return (
         <SessionList
           sessions={sessionRequests}
-          noneMessage="Try lowering your prices a bit."
+          noneMessage="You don't have any requests. Try lowering your prices!"
           navigation={this.props.navigation}
         />
       );
@@ -49,7 +49,7 @@ class Index extends React.Component {
       return (
         <SessionList
           sessions={endedSessions}
-          noneMessage="Try lowering your prices a bit."
+          noneMessage="You haven't had any sessions recently."
           navigation={this.props.navigation}
         />
       );
