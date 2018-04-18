@@ -1,19 +1,24 @@
 import React, { Component } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { View, Text, Dimensions } from "react-native";
+import { View, Text, Dimensions, KeyboardAvoidingView } from "react-native";
+import { Avatar } from "react-native-elements";
 import Meteor, { Accounts } from "react-native-meteor";
 
 import LoginForm from "./components/LoginForm";
+import ChooseAvatarPhoto from "../../components/ChooseAvatarPhoto/index";
+import { UploadProfilePic } from "../../Helpers/S3";
+import { SetProfilePic } from "../../Helpers/Meteor";
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "$bgColor",
     alignItems: "center",
-    paddingTop: 70
+    justifyContent: "space-between",
+    paddingTop: 10
   },
   headerContainer: {
-    alignItems: "center"
+    // alignItems: "center"
   },
   headerText: {
     fontSize: 30
@@ -34,15 +39,31 @@ export default class Signup extends Component {
       email: "",
       password: "",
       name: "",
+      profilePicURI: "",
+      profilePicURL: "",
       error: null
     };
 
+    // bind
     this.signupHandler = this.signupHandler.bind(this);
+    this.onProfilePicUpload = this.onProfilePicUpload.bind(this);
+    this.onChoosePhoto = this.onChoosePhoto.bind(this);
+  }
+
+  onProfilePicUpload(url) {
+    // set the profile pic for this user in Meteor
+    SetProfilePic(url);
+  }
+
+  onChoosePhoto(uri) {
+    this.setState({
+      profilePicURI: uri
+    });
   }
 
   // Check if the username and password are valid
   isValid() {
-    const { email, password, name } = this.state;
+    const { email, password, name, profilePicURI } = this.state;
     let valid = false;
 
     // make sure email is a valid edu email
@@ -53,7 +74,12 @@ export default class Signup extends Component {
     }
 
     // make sure password and emial is long enough
-    if (email.length > 0 && password.length > 0) {
+    if (
+      name.length > 0 &&
+      email.length > 0 &&
+      password.length > 0 &&
+      profilePicURI.length > 0
+    ) {
       valid = true;
     }
 
@@ -63,6 +89,8 @@ export default class Signup extends Component {
       this.setState({ error: "You must enter a password" });
     } else if (name.length === 0) {
       this.setState({ error: "You must enter your full name" });
+    } else if (profilePicURI.length == 0) {
+      this.setState({ error: "You must provide a profile picture" });
     }
 
     return valid;
@@ -71,10 +99,10 @@ export default class Signup extends Component {
   // attempt to login to server
   signupHandler() {
     // get email and password from state
-    const { email, password, name } = this.state;
+    const { email, password, name, profilePicURL } = this.state;
     // check validity of email and password
     if (this.isValid()) {
-      Accounts.createUser({ email, password, name }, error => {
+      Accounts.createUser({ email, password, name, profilePicURL }, error => {
         if (error) {
           this.setState({ error: error.reason });
         } else {
@@ -82,6 +110,11 @@ export default class Signup extends Component {
             if (error) {
               this.setState({ error: error.reason });
             } else {
+              // upload the profile pic and set it for this user
+              UploadProfilePic(
+                this.state.profilePicURI,
+                this.onProfilePicUpload
+              );
             }
           });
         }
@@ -91,21 +124,27 @@ export default class Signup extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerText}> Sign Up </Text>
-          <Text style={styles.error}> {this.state.error} </Text>
-        </View>
-        <View style={styles.form}>
-          <LoginForm
-            form="signup"
-            emailHandler={email => this.setState({ email })}
-            passwordHandler={password => this.setState({ password })}
-            nameHandler={name => this.setState({ name })}
-            onSubmit={this.signupHandler}
+      <KeyboardAvoidingView style={styles.container} behavior="position">
+        <View style={styles.container}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}> Sign Up </Text>
+            <Text style={styles.error}> {this.state.error} </Text>
+          </View>
+          <ChooseAvatarPhoto
+            onChoosePhoto={this.onChoosePhoto}
+            profilePicURI={this.state.profilePicURI}
           />
+          <View style={styles.form}>
+            <LoginForm
+              form="signup"
+              emailHandler={email => this.setState({ email })}
+              passwordHandler={password => this.setState({ password })}
+              nameHandler={name => this.setState({ name })}
+              onSubmit={this.signupHandler}
+            />
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

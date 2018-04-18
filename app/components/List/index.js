@@ -35,6 +35,14 @@ export default class CourseList extends React.Component {
   }
 
   render() {
+    const { data } = this.props;
+    if (!data || data.length === 0) {
+      return (
+        <View>
+          <Text style={styles.noneMessageText}> {this.props.noneMessage} </Text>
+        </View>
+      );
+    }
     return (
       <List containerStyle={styles.container}>
         <SectionList

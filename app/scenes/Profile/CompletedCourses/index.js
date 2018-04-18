@@ -1,6 +1,6 @@
 import React from "react";
 import Meteor, { createContainer } from "react-native-meteor";
-import { View, FlatList, Button } from "react-native";
+import { View, FlatList, Button, Text } from "react-native";
 import { Card, ListItem, Icon } from "react-native-elements";
 
 import List from "../../../components/List/index";
@@ -25,7 +25,9 @@ class Index extends React.Component {
     const { completedCourses } = Meteor.user().profile;
     const completedCourseKeys = Object.keys(completedCourses);
     const courses = this.props.courses;
-
+    if (courses.length == 0) {
+      return [];
+    }
     return [{ data: courses, key: "NONE" }];
   }
 
@@ -48,13 +50,12 @@ class Index extends React.Component {
 
   render() {
     const { completedCourses } = Meteor.user().profile;
-
-    // if the data is here and ready, load the list
     return (
       <View style={styles.container}>
         <List
           data={this.formatData(completedCourses)}
           renderItem={this.renderItem}
+          noneMessage={"You haven't added any completed courses yet"}
         />
       </View>
     );

@@ -1,55 +1,61 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, KeyboardAvoidingView, StatusBar, TouchableOpacity } from 'react-native';
-import Meteor from 'react-native-meteor';
+import React from "react";
+import PropTypes from "prop-types";
+import EStyleSheet from "react-native-extended-stylesheet";
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  StatusBar,
+  TouchableOpacity
+} from "react-native";
+import Meteor from "react-native-meteor";
 
-import LoginForm from './components/LoginForm';
+import LoginForm from "./components/LoginForm";
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '$purple',
+    backgroundColor: "$purple"
   },
   input: {
-    color: 'black',
-    backgroundColor: 'gray',
+    color: "black",
+    backgroundColor: "gray",
     marginTop: 20,
-    marginBottom: 20,
+    marginBottom: 20
   },
   logoContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     flexGrow: 1,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start"
   },
   logo: {
     fontSize: 55,
-    color: 'white',
-    fontFamily: 'Milkshake',
-    paddingTop: 50,
+    color: "white",
+    fontFamily: "Milkshake",
+    paddingTop: 50
   },
 
   buttonContainer: {
-    paddingVertical: 25,
+    paddingVertical: 25
   },
   buttonText: {
-    color: 'white',
-    fontWeight: '700',
+    color: "white",
+    fontWeight: "700",
     fontSize: 24,
-    textAlign: 'center',
+    textAlign: "center"
   },
   signupButton: {
-    backgroundColor: '#32ff7e',
+    backgroundColor: "#32ff7e"
   },
   loginButton: {
-    backgroundColor: '#ff9f1a',
-  },
+    backgroundColor: "#ff9f1a"
+  }
 });
 
 class AuthScreen extends React.Component {
   // Naviagation options
   static navigationOptions = {
-    header: false,
+    header: false
   };
 
   // constructor
@@ -57,11 +63,11 @@ class AuthScreen extends React.Component {
     super(props);
 
     this.state = {
-      email: 'zac@gmail.com',
-      password: 'dash2233',
+      email: "zac@gmail.com",
+      password: "dash2233",
       error: null,
       user: props.user,
-      loggingIn: props.loggingIn,
+      loggingIn: props.loggingIn
     };
 
     this.goToLoginScreen = this.goToLoginScreen.bind(this);
@@ -69,11 +75,11 @@ class AuthScreen extends React.Component {
   }
 
   goToLoginScreen() {
-    this.props.navigation.navigate('Login');
+    this.props.navigation.navigate("Login");
   }
 
   goToSignupScreen() {
-    this.props.navigation.navigate('Signup');
+    this.props.navigation.navigate("Signup");
   }
 
   renderLoggingIn() {
@@ -82,7 +88,7 @@ class AuthScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <View behavior="padding" style={styles.container}>
         <StatusBar barStyle="light-content" hidden />
         <View style={styles.logoContainer}>
           <Text style={styles.logo}> HelpMates </Text>
@@ -104,7 +110,7 @@ class AuthScreen extends React.Component {
         {/* {!this.state.loggingIn && !this.state.user
           ? this.renderLoginForm()
           : this.renderLoggingIn()} */}
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }

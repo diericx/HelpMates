@@ -126,15 +126,13 @@ export default class SessionList extends React.Component {
   }
 
   render() {
-    const { sessions } = this.props;
-    if (!sessions || sessions.length === 0) {
-      return (
-        <View>
-          <Text style={styles.noneMessageText}> {this.props.noneMessage} </Text>
-        </View>
-      );
-    }
     const data = this.formatData();
-    return <List data={this.formatData()} renderItem={this.renderItem} />;
+    return (
+      <List
+        data={this.formatData()}
+        renderItem={this.renderItem}
+        noneMessage={this.props.noneMessage}
+      />
+    );
   }
 }
