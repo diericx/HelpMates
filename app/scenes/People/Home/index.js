@@ -1,12 +1,12 @@
-import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
-import Meteor, { createContainer } from 'react-native-meteor';
-import { Card, Divider, Icon } from 'react-native-elements';
+import React from "react";
+import { View, Text, ScrollView } from "react-native";
+import Meteor, { createContainer } from "react-native-meteor";
+import { Card, Divider, Icon } from "react-native-elements";
 
-import UserList from '../components/UserList/index';
-import SearchBar from '../../../components/SearchBar/index';
+import UserList from "../components/UserList/index";
+import SearchBar from "../../../components/SearchBar/index";
 
-import styles from './styles';
+import styles from "./styles";
 
 class Index extends React.Component {
   static onChangeText = this.onSearchChangeText;
@@ -14,7 +14,7 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchText: '',
+      searchText: ""
     };
 
     // bind
@@ -24,13 +24,13 @@ class Index extends React.Component {
   // Set onChangeText in nav params so tab bar can see it
   componentDidMount() {
     this.props.navigation.setParams({
-      onChangeText: this.onSearchChangeText,
+      onChangeText: this.onSearchChangeText
     });
   }
 
   onSearchChangeText(text) {
     this.setState({
-      searchText: text,
+      searchText: text
     });
   }
 
@@ -68,11 +68,11 @@ class Index extends React.Component {
 }
 
 const container = createContainer(params => {
-  Meteor.subscribe('courses');
-  Meteor.subscribe('tutors');
+  Meteor.subscribe("courses");
+  Meteor.subscribe("tutors");
   return {
-    users: Meteor.collection('users').find({ _id: { $ne: Meteor.userId() } }),
-    courses: Meteor.collection('courses').find(),
+    users: Meteor.collection("users").find({ _id: { $ne: Meteor.userId() } }),
+    courses: Meteor.collection("courses").find()
   };
 }, Index);
 
@@ -86,7 +86,7 @@ container.navigationOptions = ({ navigation }) => {
         placeholder="Search for a person"
         onChangeText={text => params.onChangeText(text)}
       />
-    ),
+    )
   };
 };
 //#eaeaea

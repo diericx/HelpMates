@@ -1,13 +1,17 @@
-import Meteor from 'react-native-meteor';
+import Meteor from "react-native-meteor";
 
 // METEOR - Send the message to the server
 export function SendMessage(conversationId, message) {
-  Meteor.call('conversations.sendMessage', { conversationId, message }, (err, res) => {
-    // Do whatever you want with the response
-    if (err) {
-      console.log(err);
+  Meteor.call(
+    "conversations.sendMessage",
+    { conversationId, message },
+    (err, res) => {
+      // Do whatever you want with the response
+      if (err) {
+        console.log(err);
+      }
     }
-  });
+  );
 }
 
 export function GUID() {
@@ -26,31 +30,38 @@ export function GUID() {
 */
 
 // rate a specific user
-export function RateUser(userId, targetUserId, courseId, sessionId, rating, message) {
+export function RateUser(
+  userId,
+  targetUserId,
+  courseId,
+  sessionId,
+  rating,
+  message
+) {
   Meteor.call(
-    'ratings.rateUser',
+    "ratings.rateUser",
     {
       userId,
       targetUserId,
       courseId,
       sessionId,
       rating,
-      message,
+      message
     },
     (err, res) => {
       // Do whatever you want with the response
       if (err) {
         console.log(err);
       } else {
-        console.log('Accepted Session!');
+        console.log("Accepted Session!");
       }
-    },
+    }
   );
 }
 
 // get all tutors
 export function getAllTutors() {
-  Meteor.call('users.getAllTutors', {}, (err, res) => {
+  Meteor.call("users.getAllTutors", {}, (err, res) => {
     // Do whatever you want with the response
     if (err) {
       console.log(err);
@@ -62,11 +73,27 @@ export function getAllTutors() {
 
 // set the current user's profile picture
 export function SetProfilePic(url) {
-  Meteor.call('user.setProfilePic', { url }, (err, res) => {
+  Meteor.call("user.setProfilePic", { url }, (err, res) => {
     if (err) {
       console.log(err);
     }
   });
+}
+
+// set the current user's push notification token
+export function SetPushNotificationToken(token) {
+  let userId = Meteor.user()._id;
+  Meteor.call(
+    "user.setPushNotificationToken",
+    { token, userId },
+    (err, res) => {
+      if (err) {
+        console.log(err);
+        return false;
+      }
+      return true;
+    }
+  );
 }
 
 /**
@@ -78,12 +105,12 @@ export function SetProfilePic(url) {
 // Accept this session
 export function AcceptSession(session) {
   const sessionId = session._id;
-  Meteor.call('helpSessions.accept', { sessionId }, (err, res) => {
+  Meteor.call("helpSessions.accept", { sessionId }, (err, res) => {
     // Do whatever you want with the response
     if (err) {
       console.log(err);
     } else {
-      console.log('Accepted Session!');
+      console.log("Accepted Session!");
     }
   });
 }
@@ -91,12 +118,12 @@ export function AcceptSession(session) {
 // Deny this session
 export function DenySession(session) {
   const sessionId = session._id;
-  Meteor.call('helpSessions.deny', { sessionId }, (err, res) => {
+  Meteor.call("helpSessions.deny", { sessionId }, (err, res) => {
     // Do whatever you want with the response
     if (err) {
       console.log(err);
     } else {
-      console.log('Denied Session!');
+      console.log("Denied Session!");
     }
   });
 }
@@ -104,12 +131,12 @@ export function DenySession(session) {
 // Start this session
 export function StartSesson(session) {
   const sessionId = session._id;
-  Meteor.call('helpSessions.start', { sessionId }, (err, res) => {
+  Meteor.call("helpSessions.start", { sessionId }, (err, res) => {
     // Do whatever you want with the response
     if (err) {
       console.log(err);
     } else {
-      console.log('Started Session!');
+      console.log("Started Session!");
     }
   });
 }
@@ -117,12 +144,12 @@ export function StartSesson(session) {
 // End this session
 export function EndSession(session) {
   const sessionId = session._id;
-  Meteor.call('helpSessions.end', { sessionId }, (err, res) => {
+  Meteor.call("helpSessions.end", { sessionId }, (err, res) => {
     // Do whatever you want with the response
     if (err) {
       console.log(err);
     } else {
-      console.log('Ended Session!');
+      console.log("Ended Session!");
     }
   });
 }
@@ -134,10 +161,14 @@ export function EndSession(session) {
 */
 
 export function AddCompletedCourse(courseId) {
-  Meteor.call('users.addCompletedCourse', { courseId, rate: 15 }, (err, res) => {
-    // Do whatever you want with the response
-    if (err) {
-      console.log(err);
+  Meteor.call(
+    "users.addCompletedCourse",
+    { courseId, rate: 15 },
+    (err, res) => {
+      // Do whatever you want with the response
+      if (err) {
+        console.log(err);
+      }
     }
-  });
+  );
 }

@@ -1,59 +1,62 @@
-import React from 'react';
-import Meteor from 'react-native-meteor';
-import { View, StatusBar } from 'react-native';
-import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import React from "react";
+import Meteor from "react-native-meteor";
+import { View, StatusBar, Text } from "react-native";
+import PropTypes from "prop-types";
+import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+// import Badge from "react-native-smart-badge";
+import IconBadge from "react-native-icon-badge";
 
 // styles
-import styles from './styles';
+import styles from "./styles";
 
 // import AuthIndexContainer from '../containers/Auth';
 // Auth Screens
-import AuthHomeScreen from '../scenes/Auth/index';
-import AuthLoginScreen from '../scenes/Auth/login';
-import AuthSignupScreen from '../scenes/Auth/signup';
+import AuthHomeScreen from "../scenes/Auth/index";
+import AuthLoginScreen from "../scenes/Auth/login";
+import AuthSignupScreen from "../scenes/Auth/signup";
 // Profile screens
-import ProfileHomeScreen from '../scenes/Profile/Home/index';
-import ProfileCompletedCoursesScreen from '../scenes/Profile/CompletedCourses/index';
-import ProfileEditCompletedCourseScreen from '../scenes/Profile/EditCompletedCourse/index';
-import ProfileSelectCourseScreen from '../scenes/Profile/SelectCourse/index';
-import ProfileAvailabilityScreen from '../scenes/Profile/Availability/index';
+import ProfileHomeScreen from "../scenes/Profile/Home/index";
+import ProfileCompletedCoursesScreen from "../scenes/Profile/CompletedCourses/index";
+import ProfileEditCompletedCourseScreen from "../scenes/Profile/EditCompletedCourse/index";
+import ProfileSelectCourseScreen from "../scenes/Profile/SelectCourse/index";
+import ProfileAvailabilityScreen from "../scenes/Profile/Availability/index";
 // User Screens
-import UsersShowScreen from '../scenes/People/Show/index';
+import UsersShowScreen from "../scenes/People/Show/index";
 // Tutor Screens
-import CoursesShowScreen from '../scenes/Courses/Show/index';
-import CoursesHomeScreen from '../scenes/Courses/Home/index';
+import CoursesShowScreen from "../scenes/Courses/Show/index";
+import CoursesHomeScreen from "../scenes/Courses/Home/index";
 // FAQ Screens
-import FAQPageShowScreen from '../scenes/Profile/FAQPage/index';
+import FAQPageShowScreen from "../scenes/Profile/FAQPage/index";
 // Problem Reporting Screen
-import ProblemReportingShowScreen from '../scenes/Profile/ProblemReporting/index';
+import ProblemReportingShowScreen from "../scenes/Profile/ProblemReporting/index";
 // Legal Screen
-import LegalShowScreen from '../scenes/Profile/Legal/index';
+import LegalShowScreen from "../scenes/Profile/Legal/index";
 //Chat with an Admin Screen
-import AdminChatScreen from '../scenes/Profile/AdminChat/index';
+import AdminChatScreen from "../scenes/Profile/AdminChat/index";
 // Help Session Request
-import HelpSessionHomeScreen from '../scenes/HelpSession/Home/index';
-import HelpSessionShowScreen from '../scenes/HelpSession/Show/index';
+import HelpSessionHomeScreen from "../scenes/HelpSession/Home/index";
+import HelpSessionShowScreen from "../scenes/HelpSession/Show/index";
 // People Screen
-import PeopleHomeScreen from '../scenes/People/Home/index';
+import PeopleHomeScreen from "../scenes/People/Home/index";
 
 // the default settings for the header of each stack
 const defaultNavigationOptions = {
-  title: 'StudyBuddies',
-  headerBackTitle: 'Back',
+  title: "StudyBuddies",
+  headerBackTitle: "Back",
   headerStyle: {
-    backgroundColor: '#18dcff',
+    backgroundColor: "#18dcff",
     height: 55,
     borderBottomWidth: 3,
-    borderBottomColor: '#13d2f4',
+    borderBottomColor: "#13d2f4"
   },
 
-  headerTintColor: 'white',
+  headerTintColor: "white",
   headerTitleStyle: {
     fontSize: 30,
-    fontWeight: 'bold',
-  },
+    fontWeight: "bold"
+  }
 };
 
 // old tint #2b2b2b
@@ -61,37 +64,37 @@ const defaultNavigationOptions = {
 const ShowUserStack = StackNavigator(
   {
     Show: {
-      screen: UsersShowScreen,
-    },
+      screen: UsersShowScreen
+    }
   },
   {
-    mode: 'modal',
-    headerMode: 'none',
-  },
+    mode: "modal",
+    headerMode: "none"
+  }
 );
 
 const SearchPeopleStack = StackNavigator(
   {
     Search: {
-      screen: PeopleHomeScreen,
+      screen: PeopleHomeScreen
     },
     ShowUser: {
-      screen: ShowUserStack,
-    },
+      screen: ShowUserStack
+    }
   },
   {
-    navigationOptions: defaultNavigationOptions,
-  },
+    navigationOptions: defaultNavigationOptions
+  }
 );
 
 const CoursesStack = StackNavigator(
   {
     Search: {
-      screen: CoursesHomeScreen,
+      screen: CoursesHomeScreen
     },
     ShowCourse: {
-      screen: CoursesShowScreen,
-    },
+      screen: CoursesShowScreen
+    }
   },
   {
     navigationOptions: {
@@ -100,73 +103,73 @@ const CoursesStack = StackNavigator(
       //   ...defaultNavigationOptions.headerStyle,
       //   backgroundColor: '#2b2b2b',
       // },
-      headerTitle: 'Anonymous Chat',
-    },
-  },
+      headerTitle: "Anonymous Chat"
+    }
+  }
 );
 
 const SelectCourseStack = StackNavigator(
   {
     Main: {
-      screen: ProfileSelectCourseScreen,
-    },
+      screen: ProfileSelectCourseScreen
+    }
   },
   {
     navigationOptions: defaultNavigationOptions,
-    mode: 'modal',
-  },
+    mode: "modal"
+  }
 );
 
 const ProfileStack = StackNavigator(
   {
     Profile: {
-      screen: ProfileHomeScreen,
+      screen: ProfileHomeScreen
     },
     Availability: {
-      screen: ProfileAvailabilityScreen,
+      screen: ProfileAvailabilityScreen
     },
     MyCourses: {
-      screen: ProfileCompletedCoursesScreen,
+      screen: ProfileCompletedCoursesScreen
     },
     EditCompletedCourse: {
-      screen: ProfileEditCompletedCourseScreen,
+      screen: ProfileEditCompletedCourseScreen
     },
     FAQ: {
-      screen: FAQPageShowScreen,
+      screen: FAQPageShowScreen
     },
     ProblemReporting: {
-      screen: ProblemReportingShowScreen,
+      screen: ProblemReportingShowScreen
     },
     Legal: {
-      screen: LegalShowScreen,
+      screen: LegalShowScreen
     },
     AdminChat: {
-      screen: AdminChatScreen,
-    },
+      screen: AdminChatScreen
+    }
   },
   {
     navigationOptions: {
       ...defaultNavigationOptions,
-      headerTitle: 'Profile',
-    },
-  },
+      headerTitle: "Profile"
+    }
+  }
 );
 
 const HelpSessionStack = StackNavigator(
   {
     Home: {
-      screen: HelpSessionHomeScreen,
+      screen: HelpSessionHomeScreen
     },
     Show: {
-      screen: HelpSessionShowScreen,
-    },
+      screen: HelpSessionShowScreen
+    }
   },
   {
     navigationOptions: {
       ...defaultNavigationOptions,
-      headerTitle: 'My Sessions',
-    },
-  },
+      headerTitle: "My Sessions"
+    }
+  }
 );
 
 const TabNavigation = TabNavigator(
@@ -174,45 +177,45 @@ const TabNavigation = TabNavigator(
     GetHelp: {
       screen: SearchPeopleStack,
       navigationOptions: {
-        tabBarLabel: 'Help',
-      },
+        tabBarLabel: "Help"
+      }
     },
     AnonymousChat: {
       screen: CoursesStack,
       navigationOptions: {
-        tabBarLabel: 'Anonymous',
-      },
+        tabBarLabel: "Anonymous"
+      }
     },
     Sessions: {
       screen: HelpSessionStack,
       navigationOptions: {
-        tabBarLabel: 'Sessions',
-      },
+        tabBarLabel: "Sessions"
+      }
     },
     Profile: {
       screen: ProfileStack,
       navigationOptions: {
-        tabBarLabel: 'Profile',
-      },
-    },
+        tabBarLabel: "Profile"
+      }
+    }
   },
   {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
-        const requestsRecieved = Meteor.collection('helpSessions').find({
+        const requestsRecieved = Meteor.collection("helpSessions").find({
           tutorAccepted: false,
-          tutorId: Meteor.userId(),
+          tutorId: Meteor.userId()
         });
-        if (routeName === 'AnonymousChat') {
-          iconName = `ios-people${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Profile') {
-          iconName = `ios-person${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Sessions') {
-          iconName = `ios-book${focused ? '' : '-outline'}`;
-        } else if (routeName === 'GetHelp') {
-          iconName = `ios-search${focused ? '' : '-outline'}`;
+        if (routeName === "AnonymousChat") {
+          iconName = `ios-people${focused ? "" : "-outline"}`;
+        } else if (routeName === "Profile") {
+          iconName = `ios-person${focused ? "" : "-outline"}`;
+        } else if (routeName === "Sessions") {
+          iconName = `ios-book${focused ? "" : "-outline"}`;
+        } else if (routeName === "GetHelp") {
+          iconName = `ios-search${focused ? "" : "-outline"}`;
         }
 
         // You can return any component that you like here! We usually use an
@@ -220,9 +223,22 @@ const TabNavigation = TabNavigator(
         return (
           <View style={styles.tabBarIconsContainer}>
             <Ionicons name={iconName} size={35} color={tintColor} />
+            {/* <IconBadge
+              MainElement={
+                <Ionicons name={iconName} size={35} color={tintColor} />
+              }
+              BadgeElement={<Text style={{ color: "#FFFFFF" }}>{127}</Text>}
+              IconBadgeStyle={{
+                right: -15,
+                minWidth: 20,
+                height: 20,
+                backgroundColor: "#FF00EE"
+              }}
+              Hidden={10 == 0}
+            /> */}
           </View>
         );
-      },
+      }
     }),
     // tabBarComponent: (props) => {
     //   const backgroundColor = props.position.interpolate({
@@ -233,38 +249,38 @@ const TabNavigation = TabNavigator(
     // },
     tabBarOptions: {
       showLabel: true,
-      activeTintColor: '#17c0eb',
+      activeTintColor: "#17c0eb",
       style: {
-        height: 55,
-      },
-    },
-  },
+        height: 55
+      }
+    }
+  }
 );
 
 export const MainNavigation = StackNavigator(
   {
     Index: {
-      screen: TabNavigation,
+      screen: TabNavigation
     },
     SelectCourseModal: {
-      screen: SelectCourseStack,
-    },
+      screen: SelectCourseStack
+    }
   },
   {
     navigationOptions: defaultNavigationOptions,
-    headerMode: 'none',
-    mode: 'modal',
-  },
+    headerMode: "none",
+    mode: "modal"
+  }
 );
 
 export const AuthNavigation = StackNavigator({
   Index: {
-    screen: AuthHomeScreen,
+    screen: AuthHomeScreen
   },
   Login: {
-    screen: AuthLoginScreen,
+    screen: AuthLoginScreen
   },
   Signup: {
-    screen: AuthSignupScreen,
-  },
+    screen: AuthSignupScreen
+  }
 });
