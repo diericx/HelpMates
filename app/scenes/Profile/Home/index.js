@@ -32,17 +32,26 @@ const list = [
     screen: 'MyCourses',
   },
   {
+    title: 'Legal Notices',
+    screen: 'Legal',
+  }
+];
+
+const helpList = [
+  {
+    title: 'Chat With Us!',
+    screen: 'AdminChat',
+  },
+  {
     title: 'FAQ',
+    icon: 'help',
+    iconType: 'entypo',
     screen: 'FAQ',
   },
   {
     title: 'Report a problem',
     screen: 'ProblemReporting',
-  },
-  {
-    title: 'Legal Notices',
-    screen: 'Legal',
-  },
+  }
 ];
 
 export default class Profile extends React.Component {
@@ -123,13 +132,36 @@ export default class Profile extends React.Component {
         <Button title="Pick an image from camera roll" onPress={this._pickImage} />
         {profilePic && <Image source={{ uri: profilePic }} style={{ width: 200, height: 200 }} />}
 
-        <List>
+        <Text style={styles.text}>
+          {"\n"}
+          PROFILE
+        </Text>
+
+        <List containerStyle={styles.list}>
           {list.map((item, i) => (
             <ListItem
               key={i}
               title={item.title}
               leftIcon={{ name: item.icon, type: item.iconType }}
               onPress={() => this.onPress(item.screen)}
+              containerStyle={styles.listItem}
+            />
+          ))}
+        </List>
+
+        <Text style={styles.text}>
+          {"\n"}
+          SUPPORT
+        </Text>
+
+        <List containerStyle={styles.list}>
+          {helpList.map((item, i) => (
+            <ListItem
+              key={i}
+              title={item.title}
+              leftIcon={{ name: item.icon, type: item.iconType }}
+              onPress={() => this.onPress(item.screen)}
+              containerStyle={styles.listItem}
             />
           ))}
         </List>
