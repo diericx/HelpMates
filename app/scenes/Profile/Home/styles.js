@@ -1,19 +1,29 @@
-import EStyleSheet from 'react-native-extended-stylesheet';
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '$bgColor',
+    backgroundColor: "$bgColor"
+  },
+  profilePicContainer: {
+    marginTop: 20,
+    marginBottom: 10
   },
   listItem: {
-    borderBottomWidth: 0,
+    borderBottomWidth: 0
   },
   list: {
     borderTopWidth: 0,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0,
+    marginTop: 0
   },
-  text: {
-    fontWeight: 'bold',
+  header: {
+    fontWeight: "bold",
+    margin: 10,
+    marginTop: 18
+  },
+  divider: {
+    backgroundColor: "lightgray"
   }
 });
 

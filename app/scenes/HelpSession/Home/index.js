@@ -73,6 +73,8 @@ class Index extends React.Component {
           />
         </View>
 
+        <Divider style={styles.divider} />
+
         {this.renderSessionListForSelectedGroup(
           sessions,
           sessionRequests,

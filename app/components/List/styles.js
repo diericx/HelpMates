@@ -32,6 +32,7 @@ export default EStyleSheet.create({
   },
   noneMessageText: {
     color: "gray",
-    padding: 10
+    padding: 10,
+    textAlign: "center"
   }
 });

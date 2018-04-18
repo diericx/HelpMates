@@ -88,7 +88,7 @@ class Show extends React.Component {
         <View>
           <Text style={styles.sessionDataText}>
             This is an anonymous chat. Have a question you were too embarresed
-            to ask in class? Then get help here!
+            to ask in class? Try getting help here!
           </Text>
         </View>
       );
@@ -125,7 +125,9 @@ const container = createContainer(params => {
 }, Show);
 
 container.navigationOptions = ({ navigation }) => {
-  const { state: { params = {} } } = navigation;
+  const {
+    state: { params = {} }
+  } = navigation;
   return {
     headerTitle: params.title || "Course Chat"
   };

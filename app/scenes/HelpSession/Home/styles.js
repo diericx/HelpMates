@@ -18,6 +18,9 @@ const styles = EStyleSheet.create({
     width: "80%",
     height: 30,
     marginTop: 10
+  },
+  divider: {
+    backgroundColor: "lightgray"
   }
 });
 
