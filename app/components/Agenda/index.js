@@ -1,11 +1,14 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Agenda } from 'react-native-calendars';
+import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { Agenda } from "react-native-calendars";
 
-import { DateToLocalString, DateTo12HourTime, DateToString } from '../../Helpers/Date';
-import SendRequestModal from '../SendRequestModal/index';
+import {
+  DateToLocalString,
+  DateTo12HourTime,
+  DateToString
+} from "../../Helpers/Date";
 
-import styles from './styles';
+import styles from "./styles";
 
 export default class UserAgenda extends React.Component {
   constructor(props) {
@@ -15,7 +18,7 @@ export default class UserAgenda extends React.Component {
       items: {},
       startDate: null,
       endDate: null,
-      isModalVisible: false,
+      isModalVisible: false
     };
     // bindings
     this.loadItems = this.loadItems.bind(this);
@@ -28,7 +31,7 @@ export default class UserAgenda extends React.Component {
   onTimeSlotPress(startDate, endDate) {
     this.setState({
       startDate,
-      endDate,
+      endDate
     });
     this._toggleModal();
   }
@@ -59,8 +62,10 @@ export default class UserAgenda extends React.Component {
             if (dateInc.getUTCDay() == availabilityDate.getUTCDay()) {
               this.state.items[dateIncStr].push({
                 startDate: availabilityDate,
-                endDate: new Date(availabilityDate.getTime() + availability.length * 60000),
-                height: 100,
+                endDate: new Date(
+                  availabilityDate.getTime() + availability.length * 60000
+                ),
+                height: 100
               });
             }
           }
@@ -71,11 +76,11 @@ export default class UserAgenda extends React.Component {
       // update items with new object to give a sense of immutability
       // this seems kinda fucked up to me
       const newItems = {};
-      Object.keys(this.state.items).forEach((key) => {
+      Object.keys(this.state.items).forEach(key => {
         newItems[key] = this.state.items[key];
       });
       this.setState({
-        items: newItems,
+        items: newItems
       });
     }, 1000);
   }
@@ -93,8 +98,12 @@ export default class UserAgenda extends React.Component {
         }}
       >
         <View style={[styles.item, { height: item.height }]}>
-          <Text style={{ color: 'lightgray' }}>{DateTo12HourTime(item.startDate)}</Text>
-          <Text style={{ color: 'lightgray' }}>{DateTo12HourTime(item.endDate)}</Text>
+          <Text style={{ color: "lightgray" }}>
+            {DateTo12HourTime(item.startDate)}
+          </Text>
+          <Text style={{ color: "lightgray" }}>
+            {DateTo12HourTime(item.endDate)}
+          </Text>
         </View>
       </TouchableOpacity>
     );
@@ -125,7 +134,7 @@ export default class UserAgenda extends React.Component {
     const todayString = DateToLocalString(today);
     return (
       <View style={styles.container}>
-        <SendRequestModal
+        <this.props.modal
           name={this.props.name}
           userId={this.props.userId}
           courseId={this.props.courseId}

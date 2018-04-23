@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ActivityIndicator, StatusBar } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { Icon } from "react-native-elements";
 import Meteor, { createContainer } from "react-native-meteor";
 
@@ -68,7 +68,6 @@ class Index extends React.Component {
     // if the data is here and ready, load the list
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
         <CourseList
           courses={filteredCourses}
           filter={this.state.searchText}

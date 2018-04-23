@@ -1,26 +1,26 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { Button } from 'react-native-elements';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import Meteor from 'react-native-meteor';
-import Modal from 'react-native-modal';
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import React from "react";
+import { View, Text } from "react-native";
+import { Button } from "react-native-elements";
+import EStyleSheet from "react-native-extended-stylesheet";
+import Meteor from "react-native-meteor";
+import Modal from "react-native-modal";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
 
-import { DateTo12HourTime } from '../../Helpers/Date';
-import { CText, CTextBold } from '../../components/general/CustomText';
+import { DateTo12HourTime } from "../../../Helpers/Date";
+import { CText, CTextBold } from "../../general/CustomText";
 
-import styles from './styles';
-import TextBox from '../TextBox/index';
+import styles from "./styles";
+import TextBox from "../../TextBox/index";
 
 export default class Index extends React.Component {
   constructor(props) {
     super(props);
     // get start and end dates as objects from props
     this.state = {
-      initialMessageText: '',
+      initialMessageText: "",
       multiSliderValue: [0, 100],
       multiSliderMin: 0,
-      multiSliderMax: 100,
+      multiSliderMax: 100
     };
     // bind
     this.sendRequest = this.sendRequest.bind(this);
@@ -34,7 +34,7 @@ export default class Index extends React.Component {
       this.setState({
         multiSliderValue: [props.startDate.getTime(), props.endDate.getTime()],
         multiSliderMin: props.startDate.getTime(),
-        multiSliderMax: props.endDate.getTime(),
+        multiSliderMax: props.endDate.getTime()
       });
     }
   }
@@ -42,26 +42,26 @@ export default class Index extends React.Component {
   // Update the intial message the user will send in the state
   updateInitialMessageText(text) {
     this.setState({
-      initialMessageText: text,
+      initialMessageText: text
     });
   }
 
   multiSliderValuesChange = values => {
     this.setState({
-      multiSliderValue: values,
+      multiSliderValue: values
     });
   };
 
   sendRequest(startDate, endDate) {
     Meteor.call(
-      'helpSessions.create',
+      "helpSessions.create",
       {
         studentId: Meteor.userId(),
         tutorId: this.props.userId,
         courseId: this.props.courseId,
         startDate: startDate,
         endDate: endDate,
-        initialMessageText: this.state.initialMessageText,
+        initialMessageText: this.state.initialMessageText
       },
       (err, res) => {
         if (err) {
@@ -70,7 +70,7 @@ export default class Index extends React.Component {
           this.props.toggleModal();
         }
         // Do whatever you want with the response
-      },
+      }
     );
   }
 
@@ -79,10 +79,10 @@ export default class Index extends React.Component {
   renderSelectedDateRangeText(startDate, endDate) {
     return (
       <View style={styles.dateRangeContainer}>
-        <View style={{ flexDirection: 'column' }}>
+        <View style={{ flexDirection: "column" }}>
           <CTextBold>{DateTo12HourTime(startDate)}</CTextBold>
         </View>
-        <View style={{ flexDirection: 'column' }}>
+        <View style={{ flexDirection: "column" }}>
           <CTextBold>{DateTo12HourTime(endDate)}</CTextBold>
         </View>
       </View>
@@ -98,10 +98,12 @@ export default class Index extends React.Component {
       const startDateMilliseconds = new Date(this.props.startDate).getTime();
       const endDateMilliseconds = new Date(this.props.endDate).getTime();
       selectedStartDate = new Date(
-        startDateMilliseconds + (this.state.multiSliderValue[0] - startDateMilliseconds),
+        startDateMilliseconds +
+          (this.state.multiSliderValue[0] - startDateMilliseconds)
       );
       selectedEndDate = new Date(
-        endDateMilliseconds + (this.state.multiSliderValue[1] - endDateMilliseconds),
+        endDateMilliseconds +
+          (this.state.multiSliderValue[1] - endDateMilliseconds)
       );
     }
 
@@ -114,7 +116,9 @@ export default class Index extends React.Component {
       >
         <View style={styles.modalContainer}>
           <View style={styles.dataContainer}>
-            <Text style={styles.dataContainerTitle}>What do you need help with? </Text>
+            <Text style={styles.dataContainerTitle}>
+              What do you need help with?{" "}
+            </Text>
             <TextBox
               message={this.state.initialMessageText}
               updateInitialMessageText={this.updateInitialMessageText}
@@ -125,12 +129,18 @@ export default class Index extends React.Component {
             <View>
               {selectedStartDate === null && selectedEndDate === null
                 ? null
-                : this.renderSelectedDateRangeText(selectedStartDate, selectedEndDate)}
+                : this.renderSelectedDateRangeText(
+                    selectedStartDate,
+                    selectedEndDate
+                  )}
             </View>
 
             <View style={styles.multiSliderContainer}>
               <MultiSlider
-                values={[this.state.multiSliderValue[0], this.state.multiSliderValue[1]]}
+                values={[
+                  this.state.multiSliderValue[0],
+                  this.state.multiSliderValue[1]
+                ]}
                 sliderLength={250}
                 onValuesChange={this.multiSliderValuesChange}
                 min={this.state.multiSliderMin}

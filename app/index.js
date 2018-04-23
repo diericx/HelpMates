@@ -1,10 +1,11 @@
 import React from "react";
-import { Dimensions, AsyncStorage } from "react-native";
+import { Dimensions, AsyncStorage, View, StatusBar } from "react-native";
 import Meteor, { createContainer } from "react-native-meteor";
 import EStyleSheet from "react-native-extended-stylesheet";
 import Font from "expo";
 import { Permissions, Notifications } from "expo";
 
+import Intro from "./scenes/Intro/index";
 import connect from "./connect";
 
 import { MainNavigation, AuthNavigation } from "./config/routes";
@@ -28,6 +29,12 @@ EStyleSheet.build({
   $greenTrans: "#3ae37470",
   $red: "#ff4d4d",
   $orange: "#ffb349"
+});
+
+const styles = EStyleSheet.create({
+  container: {
+    flex: 1
+  }
 });
 
 async function registerForPushNotificationsAsync() {
@@ -61,6 +68,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isReady: false };
+    const hasSeenIntro = this.getHasSeenIntro();
+
+    // bind
+    this.setHasSeenIntro = this.setHasSeenIntro.bind(this);
   }
 
   async componentWillMount() {
@@ -98,6 +109,35 @@ class App extends React.Component {
     this.setState({ isReady: true });
   }
 
+  async getHasSeenIntro() {
+    try {
+      const value = await AsyncStorage.getItem("@MySuperStore:hasSeenIntro");
+      if (value == null) {
+        value = false;
+      } else {
+        value = true;
+      }
+      this.setState({
+        hasSeenIntro: value
+      });
+    } catch (error) {
+      // Error retrieving data
+      console.log(error);
+    }
+  }
+
+  async setHasSeenIntro(value) {
+    try {
+      await AsyncStorage.setItem("@MySuperStore:hasSeenIntro", value);
+      this.setState({
+        hasSeenIntro: value
+      });
+    } catch (error) {
+      // Error saving data
+      console.log(error);
+    }
+  }
+
   generateAnonymousKey() {
     let text = "";
     const possible =
@@ -112,6 +152,8 @@ class App extends React.Component {
 
   render() {
     const { user, loggingIn } = this.props;
+    const { hasSeenIntro } = this.state;
+    console.log("INTRO: ", hasSeenIntro);
     if (!this.state.isReady) {
       return <Expo.AppLoading />;
     } else if (user == null) {
@@ -126,15 +168,28 @@ class App extends React.Component {
     if (!loggingIn && user) {
       // Register this device for push notifications
       registerForPushNotificationsAsync();
-      return <MainNavigation onNavigationStateChange={null} />;
+      return (
+        <View style={styles.container}>
+          <StatusBar barStyle="light-content" />
+          {/* {hasSeenIntro ? (
+            <MainNavigation onNavigationStateChange={null} />
+          ) : (
+            <Intro onCompleteIntro={() => this.setHasSeenIntro(true)} />
+          )} */}
+          <MainNavigation onNavigationStateChange={null} />
+        </View>
+      );
+      // return <MainNavigation onNavigationStateChange={null} />;
     }
   }
 }
 
-export default createContainer(
-  params => ({
+export default createContainer(params => {
+  // Global Subscribes
+  Meteor.subscribe("courses");
+
+  return {
     loggingIn: Meteor.loggingIn(),
     user: Meteor.user()
-  }),
-  App
-);
+  };
+}, App);

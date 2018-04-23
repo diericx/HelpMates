@@ -68,7 +68,6 @@ class Index extends React.Component {
 }
 
 const container = createContainer(params => {
-  Meteor.subscribe("courses");
   Meteor.subscribe("tutors");
   return {
     users: Meteor.collection("users").find({ _id: { $ne: Meteor.userId() } }),
