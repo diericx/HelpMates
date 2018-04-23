@@ -96,6 +96,30 @@ export function SetPushNotificationToken(token) {
   );
 }
 
+// METOER - get users availabilities
+export function ConvertAvailabilitiesToArray(availabilities) {
+  const ds = new ListView.DataSource({
+    rowHasChanged: (r1, r2) => r1 !== r2
+  });
+  availabilities_array = availabilities.map(availability =>
+    availability.date.toString()
+  );
+  return ds.cloneWithRows(availabilities_array);
+}
+
+// METEOR - add availability to profile
+export function AddAvailability(chosenDate) {
+  Meteor.call(
+    "users.addAvailability",
+    { date: chosenDate, length: "60", repeats: true },
+    (err, res) => {
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
+}
+
 /**
 |--------------------------------------------------
 | SESSION
