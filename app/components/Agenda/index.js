@@ -47,7 +47,7 @@ export default class UserAgenda extends React.Component {
       const todayLocal = DateToLocalString(today);
       const dateInc = new Date(today.getUTCFullYear(), day.month - 1, 1);
 
-      while (dateInc.getMonth() + 1 == day.month) {
+      while (dateInc.getMonth() + 1 <= day.month + 1) {
         const dateIncStr = DateToString(dateInc);
 
         // if this day of the month hasn't been populated yet
