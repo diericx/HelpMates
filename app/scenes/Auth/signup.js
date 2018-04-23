@@ -15,7 +15,7 @@ const styles = EStyleSheet.create({
     backgroundColor: "$bgColor",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 10
+    paddingTop: 20
   },
   headerContainer: {
     // alignItems: "center"

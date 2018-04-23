@@ -34,7 +34,7 @@ export default class LoginForm extends Component {
           style={styles.input}
           placeholder="School Email"
           keyboardType="email-address"
-          returnKeyType="next"
+          returnKeyType="done"
           placeholderTextColor="rgba(190,190,190,0.7)"
           onChangeText={text => this.props.emailHandler(text)}
         />
@@ -42,7 +42,7 @@ export default class LoginForm extends Component {
           style={styles.input}
           placeholder="Password"
           secureTextEntry
-          returnKeyType="go"
+          returnKeyType="done"
           placeholderTextColor="rgba(190,190,190,0.7)"
           onChangeText={text => this.props.passwordHandler(text)}
         />

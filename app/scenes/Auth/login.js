@@ -1,39 +1,39 @@
-import React, { Component } from 'react';
-import Meteor from 'react-native-meteor';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import { View, Text, Dimensions } from 'react-native';
+import React, { Component } from "react";
+import Meteor from "react-native-meteor";
+import EStyleSheet from "react-native-extended-stylesheet";
+import { View, Text, Dimensions } from "react-native";
 
-import LoginForm from './components/LoginForm';
+import LoginForm from "./components/LoginForm";
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '$bgColor',
-    alignItems: 'center',
-    paddingTop: 70,
+    backgroundColor: "$bgColor",
+    alignItems: "center",
+    paddingTop: 40
   },
   headerContainer: {
-    alignItems: 'center',
+    alignItems: "center"
   },
   headerText: {
-    fontSize: 30,
+    fontSize: 30
   },
   error: {
-    color: 'red',
-  },
+    color: "red"
+  }
 });
 
 export default class Login extends Component {
   static navigationOptions = {
-    header: false,
+    header: false
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      error: null,
+      email: "",
+      password: "",
+      error: null
     };
 
     this.loginHandler = this.loginHandler.bind(this);
@@ -49,9 +49,9 @@ export default class Login extends Component {
     }
 
     if (email.length === 0) {
-      this.setState({ error: 'You must enter an email address' });
+      this.setState({ error: "You must enter an email address" });
     } else if (password.length === 0) {
-      this.setState({ error: 'You must enter a password' });
+      this.setState({ error: "You must enter a password" });
     }
 
     return valid;
@@ -72,7 +72,7 @@ export default class Login extends Component {
         }
       });
     } else {
-      console.log('not valid');
+      console.log("not valid");
     }
   }
 

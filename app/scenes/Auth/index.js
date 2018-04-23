@@ -63,8 +63,8 @@ class AuthScreen extends React.Component {
     super(props);
 
     this.state = {
-      email: "zac@gmail.com",
-      password: "dash2233",
+      email: "",
+      password: "",
       error: null,
       user: props.user,
       loggingIn: props.loggingIn

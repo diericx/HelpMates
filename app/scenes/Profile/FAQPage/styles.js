@@ -1,31 +1,30 @@
-import EStyleSheet from 'react-native-extended-stylesheet';
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const styles = EStyleSheet.create({
-
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "$bgColor"
   },
   chat: {
-    flex: 1,
+    flex: 1
   },
   sessionDataContainer: {
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    shadowColor: '#000',
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "space-between",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
-    shadowRadius: 4,
+    shadowRadius: 4
   },
   sessionData: {},
   sessionDataText: {
-    color: 'gray',
-    paddingVertical: 5,
+    color: "gray",
+    paddingVertical: 5
   },
   centerText: {
-    textAlign: 'center',
-  },
+    textAlign: "center"
+  }
 });
 
 export default styles;
