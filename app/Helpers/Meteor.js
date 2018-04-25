@@ -1,6 +1,6 @@
 import Meteor from "react-native-meteor";
 
-// METEOR - Send the message to the server
+// Send the message to a course conversation
 export function SendMessageToCourse(courseId, message) {
   Meteor.call("courses.sendMessage", { courseId, message }, (err, res) => {
     // Do whatever you want with the response
@@ -8,6 +8,20 @@ export function SendMessageToCourse(courseId, message) {
       console.log(err);
     }
   });
+}
+
+// Send the message to a helpsession conversation
+export function SendMessageToHelpSession(sessionId, message) {
+  Meteor.call(
+    "helpSessions.sendMessage",
+    { sessionId, message },
+    (err, res) => {
+      // Do whatever you want with the response
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
 }
 
 export function GUID() {

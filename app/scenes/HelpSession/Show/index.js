@@ -1,26 +1,26 @@
-import React from 'react';
-import { View } from 'react-native';
-import Meteor, { createContainer } from 'react-native-meteor';
-import { GiftedChat } from 'react-native-gifted-chat';
-import { Divider } from 'react-native-elements';
+import React from "react";
+import { View } from "react-native";
+import Meteor, { createContainer } from "react-native-meteor";
+import { GiftedChat } from "react-native-gifted-chat";
+import { Divider } from "react-native-elements";
 
-import { SendMessage } from '../../../Helpers/Meteor';
-import { GetOtherUsersNameForSession } from '../../../scenes/HelpSession/helpers';
-import { CalculateTimeAndCost } from '../../../Helpers/Session';
-import ActivityIndicator from '../../../components/general/ActivityIndicator';
+import { SendMessageToHelpSession } from "../../../Helpers/Meteor";
+import { GetOtherUsersNameForSession } from "../../../scenes/HelpSession/helpers";
+import { CalculateTimeAndCost } from "../../../Helpers/Session";
+import ActivityIndicator from "../../../components/general/ActivityIndicator";
 
-import RateUserView from '../components/RateUserView/index';
-import SessionData from '../components/SessionData/index';
+import RateUserView from "../components/RateUserView/index";
+import SessionData from "../components/SessionData/index";
 
-import styles from './styles';
+import styles from "./styles";
 
-const timer = require('react-native-timer');
+const timer = require("react-native-timer");
 
 class Show extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      now: new Date(),
+      now: new Date()
     };
   }
 
@@ -31,19 +31,19 @@ class Show extends React.Component {
       // start interval for counting time
       timer.setInterval(
         this,
-        'updateCurrentDate',
+        "updateCurrentDate",
         () => {
           this.setState({
-            now: new Date(),
+            now: new Date()
           });
         },
-        1000,
+        1000
       );
     } else {
       const endedAt = new Date(session.endedAt);
       // set current date to the end date
       this.setState({
-        now: new Date(session.endedAt),
+        now: new Date(session.endedAt)
       });
     }
   }
@@ -54,15 +54,16 @@ class Show extends React.Component {
 
   // When a message is sent on client
   onSend(convoId, messages = []) {
+    const { session } = this.props;
     const message = messages[0];
     message.user.name = Meteor.user().profile.name;
-    SendMessage(convoId, message);
+    SendMessageToHelpSession(session._id, message);
   }
 
   // Update the now attribute of state to the current date/time
   updateCurrentDate() {
     this.setState({
-      now: new Date(),
+      now: new Date()
     });
   }
 
@@ -75,9 +76,11 @@ class Show extends React.Component {
           bottomOffset={50}
           onSend={messages => this.onSend(conversation._id, messages)}
           user={{
-            _id: Meteor.userId(),
+            _id: Meteor.userId()
           }}
-          renderLoading={() => <ActivityIndicator size="large" marginTop={35} />}
+          renderLoading={() => (
+            <ActivityIndicator size="large" marginTop={35} />
+          )}
         />
       );
     }
@@ -85,9 +88,10 @@ class Show extends React.Component {
   }
 
   render() {
-    const { conversation } = this.props;
     const { session } = this.props;
-    const myRating = Meteor.collection('ratings').findOne({ userId: Meteor.userId() });
+    const myRating = Meteor.collection("ratings").findOne({
+      userId: Meteor.userId()
+    });
     if (session.endedAt && !myRating) {
       return (
         <RateUserView
@@ -101,30 +105,33 @@ class Show extends React.Component {
       <View style={styles.container}>
         <SessionData session={session} now={this.state.now} />
 
-        <Divider style={{ backgroundColor: 'lightgray' }} />
+        <Divider style={{ backgroundColor: "lightgray" }} />
 
-        <View style={styles.chatContainer}>{this.renderChat(conversation)}</View>
+        <View style={styles.chatContainer}>
+          {this.renderChat(session.conversation)}
+        </View>
       </View>
     );
   }
 }
 
-const container = createContainer((params) => {
+const container = createContainer(params => {
   const { session } = params.navigation.state.params;
   // Subscribe to meteor collection
-  Meteor.subscribe('session', { id: session._id });
-  Meteor.subscribe('ratingsForSession', { id: session._id });
+  Meteor.subscribe("session", { id: session._id });
+  Meteor.subscribe("ratingsForSession", { id: session._id });
   return {
-    session: Meteor.collection('helpSessions').findOne(session._id),
-    conversation: Meteor.collection('conversations').findOne(session.conversationId),
-    ratings: Meteor.collection('ratings').find(),
+    session: Meteor.collection("helpSessions").findOne(session._id),
+    ratings: Meteor.collection("ratings").find()
   };
 }, Show);
 
 container.navigationOptions = ({ navigation }) => {
-  const { state: { params = {} } } = navigation;
+  const {
+    state: { params = {} }
+  } = navigation;
   return {
-    headerTitle: params.otherUsersName || 'Session',
+    headerTitle: params.otherUsersName || "Session"
   };
 };
 

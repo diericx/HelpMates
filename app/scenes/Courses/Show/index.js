@@ -39,10 +39,11 @@ class Show extends React.Component {
   }
 
   // When a message is sent on client
-  onSend(courseId, messages = []) {
+  onSend(messages = []) {
+    const { course } = this.props;
     const message = messages[0];
     message.user.name = this.state.name;
-    SendMessageToCourse(courseId, message);
+    SendMessageToCourse(course._id, message);
   }
 
   onTakenCoursePress() {
@@ -62,13 +63,12 @@ class Show extends React.Component {
 
   // Render the chat UI element
   renderChat(conversation) {
-    const { course } = this.props;
     if (conversation) {
       return (
         <GiftedChat
           messages={conversation.messages.reverse()}
           bottomOffset={50}
-          onSend={messages => this.onSend(course._id, messages)}
+          onSend={messages => this.onSend(messages)}
           user={{
             _id: this.state.guid
           }}
