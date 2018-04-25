@@ -58,7 +58,12 @@ class Index extends React.Component {
 
   render() {
     const { groupButtons, selectedGroup } = this.state;
-    const { sessions, sessionRequests, endedSessions } = this.props;
+    const {
+      sessions,
+      sessionRequests,
+      endedSessions,
+      sessionsWithNotifications
+    } = this.props;
     if (sessionRequests == null || sessions == null) {
       return <View />;
     }
@@ -86,8 +91,7 @@ class Index extends React.Component {
 }
 
 const container = createContainer(params => {
-  // subscribe to meteor collections
-  Meteor.subscribe("mySessions");
+  // subscribe to myHelpSessions is in main index
   return {
     sessionRequests: Meteor.collection("helpSessions").find({
       tutorAccepted: false

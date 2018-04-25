@@ -62,11 +62,11 @@ class Show extends React.Component {
   }
 
   // Render the chat UI element
-  renderChat(conversation) {
-    if (conversation) {
+  renderChat(messages) {
+    if (messages) {
       return (
         <GiftedChat
-          messages={conversation.messages.reverse()}
+          messages={messages.reverse()}
           bottomOffset={50}
           onSend={messages => this.onSend(messages)}
           user={{
@@ -111,7 +111,7 @@ class Show extends React.Component {
         <View style={styles.sessionDataContainer}>
           <View style={styles.sessionData}>{this.renderSessionData()}</View>
         </View>
-        <View style={styles.chat}>{this.renderChat(course.conversation)}</View>
+        <View style={styles.chat}>{this.renderChat(course.messages)}</View>
       </View>
     );
   }

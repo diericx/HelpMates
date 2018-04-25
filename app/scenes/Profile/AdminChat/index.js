@@ -5,7 +5,7 @@ import Meteor, { createContainer } from "react-native-meteor";
 import { GiftedChat } from "react-native-gifted-chat";
 import Faker from "faker";
 import ActivityIndicator from "app/components/general/ActivityIndicator";
-import { SendMessage } from "app/Helpers/Meteor";
+import { SendMessageToSupport } from "app/Helpers/Meteor";
 
 import styles from "./styles";
 
@@ -15,20 +15,20 @@ class Show extends React.Component {
   }
 
   // When a message is sent on client
-  onSend(convoId, messages = []) {
+  onSend(messages = []) {
     const message = messages[0];
     message.user.name = Meteor.user().profile.name;
-    SendMessage(convoId, message);
+    SendMessageToSupport(Meteor.userId(), message);
   }
 
   // Render the chat UI element
-  renderChat(conversation) {
-    if (conversation) {
+  renderChat(messages) {
+    if (messages) {
       return (
         <GiftedChat
-          messages={conversation.messages.reverse()}
+          messages={messages.reverse()}
           bottomOffset={50}
-          onSend={messages => this.onSend(conversation._id, messages)}
+          onSend={messages => this.onSend(messages)}
           user={{
             _id: Meteor.userId()
           }}
@@ -42,24 +42,17 @@ class Show extends React.Component {
   }
 
   render() {
-    const { conversation } = this.props;
+    const { messages } = Meteor.user();
     return (
       <View style={styles.container}>
-        <View style={styles.chat}>{this.renderChat(conversation)}</View>
+        <View style={styles.chat}>{this.renderChat(messages)}</View>
       </View>
     );
   }
 }
 
 const container = createContainer(params => {
-  Meteor.subscribe("getConversation", {
-    id: Meteor.user().profile.supportConversationId
-  });
-  return {
-    conversation: Meteor.collection("conversations").findOne({
-      _id: Meteor.user().profile.supportConversationId
-    })
-  };
+  return {};
 }, Show);
 
 container.navigationOptions = ({ navigation }) => {

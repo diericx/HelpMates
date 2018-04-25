@@ -200,14 +200,10 @@ const TabNavigation = TabNavigator(
     }
   },
   {
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: ({ navigation, screenProps }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
-        const requestsRecieved = Meteor.collection("helpSessions").find({
-          tutorAccepted: false,
-          tutorId: Meteor.userId()
-        });
         if (routeName === "AnonymousChat") {
           iconName = `ios-people${focused ? "" : "-outline"}`;
         } else if (routeName === "Profile") {
@@ -222,20 +218,26 @@ const TabNavigation = TabNavigator(
         // icon component from react-native-vector-icons
         return (
           <View style={styles.tabBarIconsContainer}>
-            <Ionicons name={iconName} size={35} color={tintColor} />
-            {/* <IconBadge
+            {/* <Ionicons name={iconName} size={35} color={tintColor} /> */}
+            <IconBadge
               MainElement={
                 <Ionicons name={iconName} size={35} color={tintColor} />
               }
-              BadgeElement={<Text style={{ color: "#FFFFFF" }}>{127}</Text>}
+              BadgeElement={
+                <Text style={{ color: "#FFFFFF" }}>
+                  {screenProps.notifications["Sessions"]}
+                </Text>
+              }
               IconBadgeStyle={{
                 right: -15,
                 minWidth: 20,
-                height: 20,
-                backgroundColor: "#FF00EE"
+                height: 20
               }}
-              Hidden={10 == 0}
-            /> */}
+              Hidden={
+                !screenProps.notifications[routeName] ||
+                screenProps.notifications == 0
+              }
+            />
           </View>
         );
       }

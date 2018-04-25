@@ -27,6 +27,9 @@ class Show extends React.Component {
   componentWillMount() {
     // start timer for updating the current date every second
     const { session } = this.props;
+    if (!session) {
+      return;
+    }
     if (!session.endedAt) {
       // start interval for counting time
       timer.setInterval(
@@ -53,7 +56,7 @@ class Show extends React.Component {
   }
 
   // When a message is sent on client
-  onSend(convoId, messages = []) {
+  onSend(messages = []) {
     const { session } = this.props;
     const message = messages[0];
     message.user.name = Meteor.user().profile.name;
@@ -68,13 +71,13 @@ class Show extends React.Component {
   }
 
   // Render the chat UI element
-  renderChat(conversation) {
-    if (conversation) {
+  renderChat(messages) {
+    if (messages) {
       return (
         <GiftedChat
-          messages={conversation.messages.reverse()}
+          messages={messages.reverse()}
           bottomOffset={50}
-          onSend={messages => this.onSend(conversation._id, messages)}
+          onSend={messages => this.onSend(messages)}
           user={{
             _id: Meteor.userId()
           }}
@@ -108,7 +111,7 @@ class Show extends React.Component {
         <Divider style={{ backgroundColor: "lightgray" }} />
 
         <View style={styles.chatContainer}>
-          {this.renderChat(session.conversation)}
+          {this.renderChat(session.messages)}
         </View>
       </View>
     );
@@ -121,7 +124,7 @@ const container = createContainer(params => {
   Meteor.subscribe("session", { id: session._id });
   Meteor.subscribe("ratingsForSession", { id: session._id });
   return {
-    session: Meteor.collection("helpSessions").findOne(session._id),
+    session: Meteor.collection("helpSessions").findOne({ _id: session._id }),
     ratings: Meteor.collection("ratings").find()
   };
 }, Show);

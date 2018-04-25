@@ -24,6 +24,33 @@ export function SendMessageToHelpSession(sessionId, message) {
   );
 }
 
+// Send the message to a user's support conversation
+export function SendMessageToSupport(userId, message) {
+  Meteor.call("users.sendMessageToSupport", { userId, message }, (err, res) => {
+    // Do whatever you want with the response
+    if (err) {
+      console.log(err);
+    }
+  });
+}
+
+// Get all session notifications for this user
+export function GetSessionNotificationCount(sessionsWithNotifications) {
+  // if the data is null or hasn't loaded, return 0
+  if (!sessionsWithNotifications) {
+    return 0;
+  }
+  var count = 0;
+  for (var i = 0; i < sessionsWithNotifications.length; i++) {
+    const notificationCountForUser =
+      sessionsWithNotifications[i].notifications[Meteor.userId()];
+    if (notificationCountForUser) {
+      count += notificationCountForUser;
+    }
+  }
+  return count;
+}
+
 export function GUID() {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)

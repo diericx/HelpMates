@@ -9,7 +9,10 @@ import Intro from "./scenes/Intro/index";
 import connect from "./connect";
 
 import { MainNavigation, AuthNavigation } from "./config/routes";
-import { SetPushNotificationToken } from "./Helpers/Meteor";
+import {
+  SetPushNotificationToken,
+  GetSessionNotificationCount
+} from "./Helpers/Meteor";
 
 // Build global stylesheet variables
 EStyleSheet.build({
@@ -151,9 +154,11 @@ class App extends React.Component {
   }
 
   render() {
-    const { user, loggingIn } = this.props;
+    const { user, loggingIn, sessionsWithNotifications } = this.props;
     const { hasSeenIntro } = this.state;
-    console.log("INTRO: ", hasSeenIntro);
+
+    console.log("HAS SEEN INTRO: ", hasSeenIntro);
+
     if (!this.state.isReady) {
       return <Expo.AppLoading />;
     } else if (user == null) {
@@ -176,7 +181,14 @@ class App extends React.Component {
           ) : (
             <Intro onCompleteIntro={() => this.setHasSeenIntro(true)} />
           )} */}
-          <MainNavigation onNavigationStateChange={null} />
+          <MainNavigation
+            onNavigationStateChange={null}
+            screenProps={{
+              notifications: {
+                Sessions: GetSessionNotificationCount(sessionsWithNotifications)
+              }
+            }}
+          />
         </View>
       );
       // return <MainNavigation onNavigationStateChange={null} />;
@@ -187,9 +199,16 @@ class App extends React.Component {
 export default createContainer(params => {
   // Global Subscribes
   Meteor.subscribe("courses");
+  Meteor.subscribe("mySessions");
+  // Get notifications for this user
+  // Meteor.subscribe("helpSessions.withNotifications");
+  const notificationLocation = `notifications.${Meteor.userId()}`;
 
   return {
     loggingIn: Meteor.loggingIn(),
-    user: Meteor.user()
+    user: Meteor.user(),
+    sessionsWithNotifications: Meteor.collection("helpSessions").find({
+      [notificationLocation]: { $ne: 0 }
+    })
   };
 }, App);
