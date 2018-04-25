@@ -43,7 +43,7 @@ export default class SessionList extends React.Component {
   formatData() {
     const { sessions } = this.props;
     const formattedData = sessions.reduce((acc, session) => {
-      let section = session.tutorId === Meteor.userId() ? "Received" : "Sent";
+      let section = session.tutorId === Meteor.userId() ? "Sent" : "Received";
       // If the tutor has accepted, it is active
       if (session.tutorAccepted) {
         section = "Active Session";
@@ -89,9 +89,9 @@ export default class SessionList extends React.Component {
       _id: otherUsersId
     }).profile.profilePic;
 
-    let prefix = "To ";
+    let prefix = "→ ";
     if (item.studentId === Meteor.user()._id) {
-      prefix = "From ";
+      prefix = "← ";
     }
     if (IsSessionActive(item)) {
       prefix = "";
