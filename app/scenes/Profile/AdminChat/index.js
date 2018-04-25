@@ -1,13 +1,13 @@
-import React from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
-import { Button } from 'react-native-elements';
-import Meteor, { createContainer } from 'react-native-meteor';
-import { GiftedChat } from 'react-native-gifted-chat';
-import Faker from 'faker';
-import ActivityIndicator from 'app/components/general/ActivityIndicator';
-import { SendMessage } from 'app/Helpers/Meteor';
+import React from "react";
+import { View, Text, AsyncStorage } from "react-native";
+import { Button } from "react-native-elements";
+import Meteor, { createContainer } from "react-native-meteor";
+import { GiftedChat } from "react-native-gifted-chat";
+import Faker from "faker";
+import ActivityIndicator from "app/components/general/ActivityIndicator";
+import { SendMessage } from "app/Helpers/Meteor";
 
-import styles from './styles';
+import styles from "./styles";
 
 class Show extends React.Component {
   constructor(props) {
@@ -32,7 +32,9 @@ class Show extends React.Component {
           user={{
             _id: Meteor.userId()
           }}
-          renderLoading={() => <ActivityIndicator size="large" marginTop={35} />}
+          renderLoading={() => (
+            <ActivityIndicator size="large" marginTop={35} />
+          )}
         />
       );
     }
@@ -49,17 +51,23 @@ class Show extends React.Component {
   }
 }
 
-const container = createContainer((params) => {
-  Meteor.subscribe('getConversation', { id: Meteor.user().profile.supportConversationId });
+const container = createContainer(params => {
+  Meteor.subscribe("getConversation", {
+    id: Meteor.user().profile.supportConversationId
+  });
   return {
-    conversation: Meteor.collection('conversations').findOne(),
+    conversation: Meteor.collection("conversations").findOne({
+      _id: Meteor.user().profile.supportConversationId
+    })
   };
 }, Show);
 
 container.navigationOptions = ({ navigation }) => {
-  const { state: { params = {} } } = navigation;
+  const {
+    state: { params = {} }
+  } = navigation;
   return {
-    headerTitle: params.title || 'Admin Chat',
+    headerTitle: params.title || "Admin Chat"
   };
 };
 

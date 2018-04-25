@@ -120,7 +120,9 @@ const container = createContainer(params => {
   const { course } = params.navigation.state.params;
   Meteor.subscribe("getConversation", { id: course.conversationId });
   return {
-    conversation: Meteor.collection("conversations").findOne()
+    conversation: Meteor.collection("conversations").findOne({
+      _id: course.conversationId
+    })
   };
 }, Show);
 
