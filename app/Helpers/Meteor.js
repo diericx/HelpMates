@@ -1,17 +1,13 @@
 import Meteor from "react-native-meteor";
 
 // METEOR - Send the message to the server
-export function SendMessage(conversationId, message) {
-  Meteor.call(
-    "conversations.sendMessage",
-    { conversationId, message },
-    (err, res) => {
-      // Do whatever you want with the response
-      if (err) {
-        console.log(err);
-      }
+export function SendMessageToCourse(courseId, message) {
+  Meteor.call("courses.sendMessage", { courseId, message }, (err, res) => {
+    // Do whatever you want with the response
+    if (err) {
+      console.log(err);
     }
-  );
+  });
 }
 
 export function GUID() {

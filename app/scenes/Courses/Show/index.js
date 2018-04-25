@@ -5,7 +5,7 @@ import Meteor, { createContainer } from "react-native-meteor";
 import { GiftedChat } from "react-native-gifted-chat";
 import Faker from "faker";
 import ActivityIndicator from "../../../components/general/ActivityIndicator";
-import { SendMessage } from "../../../Helpers/Meteor";
+import { SendMessageToCourse } from "../../../Helpers/Meteor";
 
 import styles from "./styles";
 
@@ -39,10 +39,10 @@ class Show extends React.Component {
   }
 
   // When a message is sent on client
-  onSend(convoId, messages = []) {
+  onSend(courseId, messages = []) {
     const message = messages[0];
     message.user.name = this.state.name;
-    SendMessage(convoId, message);
+    SendMessageToCourse(courseId, message);
   }
 
   onTakenCoursePress() {
@@ -62,12 +62,13 @@ class Show extends React.Component {
 
   // Render the chat UI element
   renderChat(conversation) {
+    const { course } = this.props;
     if (conversation) {
       return (
         <GiftedChat
           messages={conversation.messages.reverse()}
           bottomOffset={50}
-          onSend={messages => this.onSend(conversation._id, messages)}
+          onSend={messages => this.onSend(course._id, messages)}
           user={{
             _id: this.state.guid
           }}
@@ -104,13 +105,13 @@ class Show extends React.Component {
   }
 
   render() {
-    const { conversation } = this.props;
+    const { course } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.sessionDataContainer}>
           <View style={styles.sessionData}>{this.renderSessionData()}</View>
         </View>
-        <View style={styles.chat}>{this.renderChat(conversation)}</View>
+        <View style={styles.chat}>{this.renderChat(course.conversation)}</View>
       </View>
     );
   }
@@ -118,10 +119,10 @@ class Show extends React.Component {
 
 const container = createContainer(params => {
   const { course } = params.navigation.state.params;
-  Meteor.subscribe("getConversation", { id: course.conversationId });
+  Meteor.subscribe("course", { courseId: course._id });
   return {
-    conversation: Meteor.collection("conversations").findOne({
-      _id: course.conversationId
+    course: Meteor.collection("courses").findOne({
+      _id: course._id
     })
   };
 }, Show);
@@ -131,7 +132,7 @@ container.navigationOptions = ({ navigation }) => {
     state: { params = {} }
   } = navigation;
   return {
-    headerTitle: params.title || "Course Chat"
+    headerTitle: params.course.title2 || "Course Chat"
   };
 };
 
