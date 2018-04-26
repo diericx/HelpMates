@@ -40,15 +40,29 @@ export function GetSessionNotificationCount(sessionsWithNotifications) {
   if (!sessionsWithNotifications) {
     return 0;
   }
-  var count = 0;
+
+  // create object for result
+  var result = {
+    total: 0,
+    sessions: 0,
+    requests: 0
+  };
+
   for (var i = 0; i < sessionsWithNotifications.length; i++) {
-    const notificationCountForUser =
-      sessionsWithNotifications[i].notifications[Meteor.userId()];
+    const session = sessionsWithNotifications[i];
+    const notificationCountForUser = session.notifications[Meteor.userId()];
+    // add to total
     if (notificationCountForUser) {
-      count += notificationCountForUser;
+      result.total += notificationCountForUser;
+    }
+    // add to requests
+    if (!session.tutorAccepted) {
+      result.requests += 1;
+    } else if (session.tutorAccepted && !session.endedAt) {
+      result.sessions += 1;
     }
   }
-  return count;
+  return result;
 }
 
 export function GUID() {

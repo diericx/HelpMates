@@ -2,8 +2,10 @@ import React from "react";
 import { View, Text, ScrollView } from "react-native";
 import Meteor, { createContainer } from "react-native-meteor";
 import { Card, Divider, ButtonGroup } from "react-native-elements";
+import IconBadge from "react-native-icon-badge";
 
 import SessionList from "../components/SessionList/index";
+import BGButton from "../components/BGButton/index";
 
 import styles from "./styles";
 
@@ -11,8 +13,7 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedGroup: 0,
-      groupButtons: ["Sessions", "Requests", "History"]
+      selectedGroup: 0
     };
 
     // bind
@@ -57,13 +58,45 @@ class Index extends React.Component {
   }
 
   render() {
-    const { groupButtons, selectedGroup } = this.state;
+    const { selectedGroup } = this.state;
     const {
       sessions,
       sessionRequests,
       endedSessions,
-      sessionsWithNotifications
+      notificationLocation,
+      requestsWithNotifications
     } = this.props;
+    const { notifications } = this.props.screenProps;
+
+    const groupButtons = [
+      {
+        element: () => (
+          <BGButton
+            text={"Sessions"}
+            highlighted={notifications.Sessions.sessions > 0}
+          />
+        )
+      },
+      {
+        element: () => (
+          <BGButton
+            text={"Requests"}
+            highlighted={notifications.Sessions.requests > 0}
+          />
+        )
+      },
+      {
+        element: () => (
+          <BGButton
+            text={"History"}
+            highlighted={notifications.Sessions.history > 0}
+          />
+        )
+      }
+    ];
+
+    console.log(notifications);
+
     if (sessionRequests == null || sessions == null) {
       return <View />;
     }
@@ -75,6 +108,11 @@ class Index extends React.Component {
             selectedIndex={selectedGroup}
             buttons={groupButtons}
             containerStyle={styles.buttonGroup}
+            buttonStyle={{
+              flex: 1,
+              margin: 0,
+              padding: 0
+            }}
           />
         </View>
 

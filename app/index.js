@@ -26,8 +26,8 @@ EStyleSheet.build({
   $purple: "#cd84f1",
   $offWhite: "rgb(252, 252, 252)",
   $offWhiteDown: "rgb(247, 247, 247)",
-  $lightBlue: "#18dcff",
-  $lightBlueDown: "#76f2e7",
+  $lightblue: "#18dcff",
+  $lightblueDown: "#76f2e7",
   $green: "#3ae374",
   $greenTrans: "#3ae37470",
   $red: "#ff4d4d",
@@ -207,6 +207,7 @@ export default createContainer(params => {
   return {
     loggingIn: Meteor.loggingIn(),
     user: Meteor.user(),
+    notificationLocation,
     sessionsWithNotifications: Meteor.collection("helpSessions").find({
       [notificationLocation]: { $ne: 0 }
     })

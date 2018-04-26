@@ -213,6 +213,7 @@ const TabNavigation = TabNavigator(
         } else if (routeName === "GetHelp") {
           iconName = `ios-search${focused ? "" : "-outline"}`;
         }
+        console.log(screenProps);
 
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
@@ -225,7 +226,9 @@ const TabNavigation = TabNavigator(
               }
               BadgeElement={
                 <Text style={{ color: "#FFFFFF" }}>
-                  {screenProps.notifications["Sessions"]}
+                  {screenProps.notifications[routeName]
+                    ? screenProps.notifications[routeName].total
+                    : 0}
                 </Text>
               }
               IconBadgeStyle={{
@@ -235,7 +238,7 @@ const TabNavigation = TabNavigator(
               }}
               Hidden={
                 !screenProps.notifications[routeName] ||
-                screenProps.notifications == 0
+                screenProps.notifications[routeName].total == 0
               }
             />
           </View>
