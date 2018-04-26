@@ -7,6 +7,9 @@ export default EStyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 0
   },
+  listItemHighlightedContainer: {
+    backgroundColor: "$lightblueTrans"
+  },
   ratingContainer: {
     flexDirection: "row",
     marginLeft: 9

@@ -68,6 +68,8 @@ class Index extends React.Component {
     } = this.props;
     const { notifications } = this.props.screenProps;
 
+    console.log(notifications.Sessions.sessions);
+
     const groupButtons = [
       {
         element: () => (
@@ -108,11 +110,6 @@ class Index extends React.Component {
             selectedIndex={selectedGroup}
             buttons={groupButtons}
             containerStyle={styles.buttonGroup}
-            buttonStyle={{
-              flex: 1,
-              margin: 0,
-              padding: 0
-            }}
           />
         </View>
 

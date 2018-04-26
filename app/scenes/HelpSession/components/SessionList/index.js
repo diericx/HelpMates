@@ -43,7 +43,7 @@ export default class SessionList extends React.Component {
   formatData() {
     const { sessions } = this.props;
     const formattedData = sessions.reduce((acc, session) => {
-      let section = session.tutorId === Meteor.userId() ? "Sent" : "Received";
+      let section = session.tutorId === Meteor.userId() ? "Received" : "Sent";
       // If the tutor has accepted, it is active
       if (session.tutorAccepted) {
         section = "Active Session";
@@ -82,19 +82,30 @@ export default class SessionList extends React.Component {
   renderItem(item) {
     const otherUsersName = GetOtherUsersNameForSession(item, Meteor.userId());
     const otherUsersId = GetOtherUsersIdForSession(item);
+    var highlightedStyle = {};
+
+    // Make sure the other users ID exists
     if (otherUsersId == null) {
       return <View />;
     }
+    // Get the other users's profile pic URL
     const otherUserProfilePic = Meteor.collection("users").findOne({
       _id: otherUsersId
     }).profile.profilePic;
-
-    let prefix = "→ ";
+    // See if this was sent or received
+    let prefix = "← ";
     if (item.studentId === Meteor.user()._id) {
-      prefix = "← ";
+      prefix = "→ ";
     }
     if (IsSessionActive(item)) {
       prefix = "";
+    }
+    // If there are notifications, highlight it
+    if (
+      item.notifications[Meteor.userId()] &&
+      item.notifications[Meteor.userId()] > 0
+    ) {
+      highlightedStyle = styles.listItemHighlightedContainer;
     }
     return (
       <ListItem
@@ -114,7 +125,7 @@ export default class SessionList extends React.Component {
           </View>
         }
         avatar={<UserAvatar url={otherUserProfilePic} />}
-        containerStyle={styles.listItemContainer}
+        containerStyle={[styles.listItemContainer, highlightedStyle]}
         onPress={() =>
           this.onPress({
             session: item,

@@ -4,7 +4,10 @@ import Meteor, { createContainer } from "react-native-meteor";
 import { GiftedChat } from "react-native-gifted-chat";
 import { Divider } from "react-native-elements";
 
-import { SendMessageToHelpSession } from "../../../Helpers/Meteor";
+import {
+  SendMessageToHelpSession,
+  ClearUsersNotificationsForSession
+} from "../../../Helpers/Meteor";
 import { GetOtherUsersNameForSession } from "../../../scenes/HelpSession/helpers";
 import { CalculateTimeAndCost } from "../../../Helpers/Session";
 import ActivityIndicator from "../../../components/general/ActivityIndicator";
@@ -102,6 +105,14 @@ class Show extends React.Component {
           timeAndCost={CalculateTimeAndCost(session, this.state.now)}
         />
       );
+    }
+
+    // clear notifications because we are viewing them
+    if (
+      session.notifications[Meteor.userId()] &&
+      session.notifications[Meteor.userId()] > 0
+    ) {
+      ClearUsersNotificationsForSession(session);
     }
 
     return (

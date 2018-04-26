@@ -34,6 +34,26 @@ export function SendMessageToSupport(userId, message) {
   });
 }
 
+// Send the message to a user's support conversation
+export function ClearUsersNotificationsForSession(session) {
+  Meteor.call(
+    "helpSessions.clearNotificationsForUser",
+    { sessionId: session._id },
+    (err, res) => {
+      // Do whatever you want with the response
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
+  // Meteor.collection("helpSessions").update(
+  //   { _id: session._id },
+  //   {
+  //     $set: { notificationsPath: 0 }
+  //   }
+  // );
+}
+
 // Get all session notifications for this user
 export function GetSessionNotificationCount(sessionsWithNotifications) {
   // if the data is null or hasn't loaded, return 0
