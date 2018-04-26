@@ -46,12 +46,6 @@ export function ClearUsersNotificationsForSession(session) {
       }
     }
   );
-  // Meteor.collection("helpSessions").update(
-  //   { _id: session._id },
-  //   {
-  //     $set: { notificationsPath: 0 }
-  //   }
-  // );
 }
 
 // Get all session notifications for this user
