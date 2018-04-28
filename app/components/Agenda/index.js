@@ -60,10 +60,15 @@ export default class UserAgenda extends React.Component {
             const availabilityDate = new Date(availability.date);
             // if it is the same day of the week
             if (dateInc.getUTCDay() == availabilityDate.getUTCDay()) {
+              // create new date on dateInc day, with availability time
+              var updatedDate = new Date(dateInc);
+              updatedDate.setHours(availabilityDate.getHours());
+              updatedDate.setMinutes(availabilityDate.getMinutes());
+
               this.state.items[dateIncStr].push({
-                startDate: availabilityDate,
+                startDate: updatedDate,
                 endDate: new Date(
-                  availabilityDate.getTime() + availability.length * 60000
+                  updatedDate.getTime() + availability.length * 60000
                 ),
                 height: 100
               });

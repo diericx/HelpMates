@@ -65,18 +65,8 @@ export default class SessionList extends React.Component {
       acc[foundIndex].data = [...acc[foundIndex].data, { ...session }];
       return acc;
     }, []);
-    // Sort the sections
-    const sortedData = formattedData.sort(function(a, b) {
-      if (a.section == "Active Sessions") {
-        return 1;
-      }
-      if (a.section == "Received") {
-        return 1;
-      }
-      return -1;
-    });
     // Return final data
-    return sortedData;
+    return formattedData;
   }
 
   renderItem(item) {

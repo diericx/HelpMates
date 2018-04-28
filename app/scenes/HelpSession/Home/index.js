@@ -28,12 +28,42 @@ class Index extends React.Component {
     this.props.navigation.navigate("Show", params);
   }
 
+  sortSessionsByDate(sessions) {
+    // Sort the sections
+    const sortedSessions = sessions.sort(function(a, b) {
+      if (a.startDate < b.startDate) {
+        return -1;
+      }
+      if (a.section > b.startDate) {
+        return 1;
+      }
+      return 0;
+    });
+    return sortedSessions;
+  }
+
+  // sortSessionsByNotifications(sessions) {
+  //   // Sort the sections
+  //   const sortedSessions = sessions.sort(function(a, b) {
+  //     const notifA = a.notifications[Meteor.userId()]
+  //     const notifB = b.notifications[Meteor.userId()]
+  //     if (a.startDate < b.startDate) {
+  //       return -1;
+  //     }
+  //     if (a.section > b.startDate) {
+  //       return 1;
+  //     }
+  //     return 0;
+  //   });
+  //   return sortedSessions;
+  // }
+
   renderSessionListForSelectedGroup(sessions, sessionRequests, endedSessions) {
     const { selectedGroup } = this.state;
     if (selectedGroup == 0) {
       return (
         <SessionList
-          sessions={sessions}
+          sessions={this.sortSessionsByDate(sessions)}
           noneMessage="You don't have any active sessions."
           navigation={this.props.navigation}
         />
@@ -41,7 +71,7 @@ class Index extends React.Component {
     } else if (selectedGroup == 1) {
       return (
         <SessionList
-          sessions={sessionRequests}
+          sessions={sessionRequests.reverse()}
           noneMessage="You don't have any requests. Try lowering your prices!"
           navigation={this.props.navigation}
         />
