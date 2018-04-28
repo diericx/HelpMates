@@ -1,13 +1,14 @@
-import React from 'react';
-import Meteor from 'react-native-meteor';
-import { View, SectionList, Text } from 'react-native';
-import { ListItem, Rating } from 'react-native-elements';
+import React from "react";
+import Meteor from "react-native-meteor";
+import { View, SectionList, Text } from "react-native";
+import { ListItem } from "react-native-elements";
+import { Rating, AirbnbRating } from "react-native-ratings";
 
-import UserAvatar from '../../../../components/general/UserAvatar/index';
-import List from '../../../../components/List/index';
-import { GetAverageRating } from '../../../../Helpers/User';
+import UserAvatar from "../../../../components/general/UserAvatar/index";
+import List from "../../../../components/List/index";
+import { GetAverageRating } from "../../../../Helpers/User";
 
-import styles from './styles';
+import styles from "./styles";
 
 export default class UserList extends React.Component {
   constructor(props) {
@@ -19,26 +20,23 @@ export default class UserList extends React.Component {
 
   // on press, go to course show
   onPress(params) {
-    this.props.navigation.navigate('ShowUser', params);
+    this.props.navigation.navigate("ShowUser", params);
   }
 
   formatData(users) {
     return users.reduce((acc, user) => {
-      // get meta data for user
-      const ratingsForUser = Meteor.collection('ratings').find({ targetUserId: user._id });
-      const avgRating = GetAverageRating(ratingsForUser);
       // put user into acc
-      const foundIndex = acc.findIndex(element => element.key === 'People');
+      const foundIndex = acc.findIndex(element => element.key === "People");
       if (foundIndex === -1) {
         return [
           ...acc,
           {
-            key: 'People',
-            data: [{ ...user, avgRating }],
-          },
+            key: "People",
+            data: [{ ...user }]
+          }
         ];
       }
-      acc[foundIndex].data = [...acc[foundIndex].data, { ...user, avgRating }];
+      acc[foundIndex].data = [...acc[foundIndex].data, { ...user }];
       return acc;
     }, []);
   }
@@ -55,10 +53,13 @@ export default class UserList extends React.Component {
   }
 
   filterUsers() {
-    return this.props.users.filter((user) => {
+    return this.props.users.filter(user => {
       const filter = this.props.filter.toLowerCase();
       const name = user.profile.name.toLowerCase();
-      if (name.indexOf(filter) !== -1 || this.userHasCompletedOneOfTheFilteredCourses(user)) {
+      if (
+        name.indexOf(filter) !== -1 ||
+        this.userHasCompletedOneOfTheFilteredCourses(user)
+      ) {
         return true;
       }
       return false;
@@ -66,6 +67,12 @@ export default class UserList extends React.Component {
   }
 
   renderItem(item) {
+    // get meta data for user
+    const ratingsForUser = Meteor.collection("ratings").find({
+      targetUserId: item._id
+    });
+    const avgRating = GetAverageRating(ratingsForUser);
+    console.log("USER LIST-RAtings for usr: ", avgRating);
     return (
       <ListItem
         containerStyle={styles.listItemContainer}
@@ -73,16 +80,13 @@ export default class UserList extends React.Component {
         avatar={<UserAvatar url={item.profile.profilePic} />}
         title={item.profile.name}
         subtitle={
-          <View>
-            <View style={styles.ratingContainer}>
-              <Rating
-                style={styles.subtitleRating}
-                imageSize={20}
-                readonly
-                startingValue={item.avgRating}
-              />
-            </View>
-          </View>
+          <Rating
+            style={styles.subtitleRating}
+            fractions={2}
+            startingValue={avgRating}
+            imageSize={20}
+            readonly
+          />
         }
         onPress={() => this.onPress({ user: item })}
       />
