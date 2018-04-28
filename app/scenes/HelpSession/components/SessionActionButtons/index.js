@@ -17,6 +17,20 @@ import SessionData from "../../components/SessionData/index";
 import styles from "./styles";
 
 export default class Index extends React.Component {
+  constructor(props) {
+    super(props);
+    //bind
+    this.onPressEndSession = this.onPressEndSession.bind(this);
+  }
+  // When the End Session button is pressed, send the message to meteor and
+  // end the timer
+  onPressEndSession() {
+    // Send meteor message
+    EndSession(session);
+    // End timer
+    this.props.onPressEndSession();
+  }
+
   renderAcceptDenyButtons() {
     const { session } = this.props;
     return (
@@ -79,7 +93,7 @@ export default class Index extends React.Component {
           title={title}
           textStyle={{ fontWeight: "700" }}
           buttonStyle={styles.endButton}
-          onPress={() => EndSession(session)}
+          onPress={this.onPressEndSession}
           loading={loading}
           disabled={disabled}
         />

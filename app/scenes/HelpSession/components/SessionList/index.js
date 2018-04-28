@@ -46,7 +46,7 @@ export default class SessionList extends React.Component {
       let section = session.tutorId === Meteor.userId() ? "Received" : "Sent";
       // If the tutor has accepted, it is active
       if (session.tutorAccepted) {
-        section = "Active Session";
+        section = "Upcomming Sessions";
       }
       // If the session has ended
       if (session.endedAt) {

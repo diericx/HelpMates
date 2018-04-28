@@ -1,29 +1,30 @@
-import EStyleSheet from 'react-native-extended-stylesheet';
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '$bgColor',
-    justifyContent: 'center',
+    backgroundColor: "$bgColor",
+    paddingTop: 30
+    // justifyContent: "center"
   },
   ratingContainer: {
-    alignItems: 'center',
+    alignItems: "center"
   },
   sessionDataContainer: {
-    alignItems: 'center',
+    alignItems: "center"
   },
   sessionDataTitle: {
-    fontSize: 20,
+    fontSize: 20
   },
   submitButton: {
     height: 45,
     marginTop: 10,
     marginBottom: 10,
-    borderColor: 'transparent',
+    borderColor: "transparent",
     borderWidth: 0,
     borderRadius: 5,
-    backgroundColor: '$green',
-  },
+    backgroundColor: "$green"
+  }
 });
 
 export default styles;

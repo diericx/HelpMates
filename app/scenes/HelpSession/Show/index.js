@@ -66,6 +66,11 @@ class Show extends React.Component {
     SendMessageToHelpSession(session._id, message);
   }
 
+  // When the end session button is pressed, stop the timer
+  onPressEndSession() {
+    timer.clearInterval(this);
+  }
+
   // Update the now attribute of state to the current date/time
   updateCurrentDate() {
     this.setState({
@@ -95,34 +100,36 @@ class Show extends React.Component {
 
   render() {
     const { session } = this.props;
+    // get this user's rating for this session
     const myRating = Meteor.collection("ratings").findOne({
       userId: Meteor.userId()
     });
-    if (session.endedAt && !myRating) {
-      return (
-        <RateUserView
-          session={session}
-          timeAndCost={CalculateTimeAndCost(session, this.state.now)}
-        />
-      );
-    }
+    const sessionEndedAndUserHasntRated = session.endedAt && !myRating;
 
-    // clear notifications because we are viewing them
-    if (
-      session.notifications[Meteor.userId()] &&
-      session.notifications[Meteor.userId()] > 0
-    ) {
+    // If there are notifications, clear them because we are viewing them
+    if (session.notifications[Meteor.userId()] > 0) {
       ClearUsersNotificationsForSession(session);
     }
 
     return (
       <View style={styles.container}>
-        <SessionData session={session} now={this.state.now} />
+        <SessionData
+          session={session}
+          now={this.state.now}
+          onPressEndSession={this.onPressEndSession}
+        />
 
         <Divider style={{ backgroundColor: "lightgray" }} />
 
         <View style={styles.chatContainer}>
-          {this.renderChat(session.messages)}
+          {sessionEndedAndUserHasntRated ? (
+            <RateUserView
+              session={session}
+              timeAndCost={CalculateTimeAndCost(session, this.state.now)}
+            />
+          ) : (
+            this.renderChat(session.messages)
+          )}
         </View>
       </View>
     );

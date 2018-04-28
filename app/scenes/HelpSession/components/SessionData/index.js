@@ -52,6 +52,7 @@ export default class Index extends React.Component {
       userId: Meteor.userId()
     });
     const otherUsersName = GetOtherUsersNameForSession(session);
+    // if the session has ended, show the payment alert message
     if (session.endedAt) {
       if (IsCurrentUserStudent(session)) {
         return (
@@ -139,7 +140,10 @@ export default class Index extends React.Component {
         }
       >
         <View style={styles.sessionData}>{this.renderSessionData()}</View>
-        <SessionActionButtons session={this.props.session} />
+        <SessionActionButtons
+          session={this.props.session}
+          onPressEndSession={this.props.onPressEndSession}
+        />
       </View>
     );
   }
