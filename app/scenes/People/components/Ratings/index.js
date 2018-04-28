@@ -12,12 +12,13 @@ class Index extends Component {
     const ratingAuthor = Meteor.collection("users").findOne({
       _id: rating.userId
     });
+
     return (
-      <Card key={i}>
+      <Card key={rating._id}>
         <View style={styles.headerContainer}>
           <UserAvatar url={ratingAuthor.profile.profilePic} size={50} />
           <View style={styles.headerRightContainer}>
-            <Text style={styles.nameText}>{user.profile.name}</Text>
+            <Text style={styles.nameText}>{ratingAuthor.profile.name}</Text>
             <Rating
               imageSize={23}
               readonly
@@ -48,37 +49,15 @@ class Index extends Component {
     });
 
     return (
-      <View>
+      <View style={styles.container}>
         <List
           data={this.formatData(ratingsForUser)}
           renderItem={this.renderItem}
+          footer={false}
           noneMessage={"No Reviews"}
         />
       </View>
     );
-    //   return (
-    //     <ScrollView>
-    //       {ratingsForUser.map((rating, i) => {
-    //         const ratingAuthor = Meteor.collection('users').findOne({ _id: rating.userId });
-    //         return (
-    //           <Card key={i}>
-    //             <View style={styles.headerContainer}>
-    //               <UserAvatar url={ratingAuthor.profile.profilePic} size={50} />
-    //               <View style={styles.headerRightContainer}>
-    //                 <Text style={styles.nameText}>{user.profile.name}</Text>
-    //                 <Rating imageSize={23} readonly startingValue={rating.rating} color="red" />
-    //               </View>
-    //             </View>
-    //             <Divider />
-    //             <View style={styles.ratingMessageContainer}>
-    //               <Text>{rating.message}</Text>
-    //             </View>
-    //           </Card>
-    //         );
-    //       })}
-    //     </ScrollView>
-    //   );
-    // }
   }
 }
 

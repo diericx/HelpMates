@@ -98,8 +98,6 @@ class Index extends React.Component {
     } = this.props;
     const { notifications } = this.props.screenProps;
 
-    console.log(notifications.Sessions.sessions);
-
     const groupButtons = [
       {
         element: () => (
@@ -126,8 +124,6 @@ class Index extends React.Component {
         )
       }
     ];
-
-    console.log(notifications);
 
     if (sessionRequests == null || sessions == null) {
       return <View />;

@@ -5,24 +5,6 @@ import { List, ListItem } from "react-native-elements";
 import styles from "./styles";
 
 export default class CourseList extends React.Component {
-  // formatData() {
-  //   const { courses } = this.props;
-  //   return courses.reduce((acc, course) => {
-  //     const foundIndex = acc.findIndex(element => element.key === course.subject);
-  //     if (foundIndex === -1) {
-  //       return [
-  //         ...acc,
-  //         {
-  //           key: course.subject,
-  //           data: [{ ...course }],
-  //         },
-  //       ];
-  //     }
-  //     acc[foundIndex].data = [...acc[foundIndex].data, { ...course }];
-  //     return acc;
-  //   }, []);
-  // }
-
   renderSectionHeader(section) {
     if (section.key === "NONE") {
       return <View />;
@@ -64,7 +46,13 @@ export default class CourseList extends React.Component {
           }
           keyExtractor={item => item._id}
           sections={this.props.data}
-          ListFooterComponent={() => <View style={styles.listFooter} />}
+          ListFooterComponent={() =>
+            this.props.footer == false ? (
+              <View />
+            ) : (
+              <View style={styles.listFooter} />
+            )
+          }
         />
       </List>
     );

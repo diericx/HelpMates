@@ -213,7 +213,6 @@ const TabNavigation = TabNavigator(
         } else if (routeName === "GetHelp") {
           iconName = `ios-search${focused ? "" : "-outline"}`;
         }
-        console.log(screenProps);
 
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
