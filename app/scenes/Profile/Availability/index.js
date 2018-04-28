@@ -38,7 +38,7 @@ class Availability extends React.Component {
             }}
           />
           <Button
-            onPress={() => this.addAvailability(this.state.chosenDate)}
+            onPress={() => AddAvailability(this.state.chosenDate)}
             title="Add Availability"
           />
         </View>

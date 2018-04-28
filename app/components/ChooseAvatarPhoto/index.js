@@ -2,7 +2,7 @@ import React from "react";
 import { View, TextInput, Button } from "react-native";
 import Meteor from "react-native-meteor";
 import { Avatar } from "react-native-elements";
-import { ImagePicker } from "expo";
+import { ImagePicker, Permissions } from "expo";
 import styles from "./styles";
 
 export default class Index extends React.Component {
@@ -13,6 +13,7 @@ export default class Index extends React.Component {
   }
 
   _pickImage = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [1, 1]

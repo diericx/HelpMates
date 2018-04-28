@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 import { ListItem, Rating } from "react-native-elements";
 
 import UserAvatar from "../../../../components/general/UserAvatar/index";
-import { FullDateForSession } from "../../../../Helpers/Date";
+import { FullDateForSession_Words } from "../../../../Helpers/Date";
 import {
   CTextSubtitle,
   CText
@@ -110,7 +110,7 @@ export default class SessionList extends React.Component {
               {this.getCourseNameToDisplayForSession(item)}
             </CTextSubtitle>
             <CTextSubtitle style={styles.listSubTitle}>
-              {FullDateForSession(item)}
+              {FullDateForSession_Words(item)}
             </CTextSubtitle>
           </View>
         }

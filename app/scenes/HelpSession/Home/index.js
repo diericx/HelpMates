@@ -42,22 +42,6 @@ class Index extends React.Component {
     return sortedSessions;
   }
 
-  // sortSessionsByNotifications(sessions) {
-  //   // Sort the sections
-  //   const sortedSessions = sessions.sort(function(a, b) {
-  //     const notifA = a.notifications[Meteor.userId()]
-  //     const notifB = b.notifications[Meteor.userId()]
-  //     if (a.startDate < b.startDate) {
-  //       return -1;
-  //     }
-  //     if (a.section > b.startDate) {
-  //       return 1;
-  //     }
-  //     return 0;
-  //   });
-  //   return sortedSessions;
-  // }
-
   renderSessionListForSelectedGroup(sessions, sessionRequests, endedSessions) {
     const { selectedGroup } = this.state;
     if (selectedGroup == 0) {
