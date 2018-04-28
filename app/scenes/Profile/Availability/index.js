@@ -21,6 +21,7 @@ class Availability extends React.Component {
 
   render() {
     const { availabilities } = this.props;
+    const { chosenDate } = this.state;
     return (
       <View style={styles.container}>
         <View>
@@ -38,7 +39,14 @@ class Availability extends React.Component {
             }}
           />
           <Button
-            onPress={() => AddAvailability(this.state.chosenDate)}
+            onPress={() =>
+              AddAvailability(
+                this.state.chosenDate.getDay(),
+                this.state.chosenDate.getHours(),
+                this.state.chosenDate.getMinutes(),
+                60
+              )
+            }
             title="Add Availability"
           />
         </View>

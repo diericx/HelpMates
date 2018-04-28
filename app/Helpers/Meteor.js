@@ -173,11 +173,10 @@ export function ConvertAvailabilitiesToArray(availabilities) {
 }
 
 // METEOR - add availability to profile
-export function AddAvailability(chosenDate) {
-  console.log(chosenDate);
+export function AddAvailability(dayOfWeek, hours, minutes, duration) {
   Meteor.call(
     "users.addAvailability",
-    { date: chosenDate, length: "60", repeats: true },
+    { dayOfWeek, hours, minutes, duration },
     (err, res) => {
       if (err) {
         console.log(err);

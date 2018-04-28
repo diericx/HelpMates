@@ -53,26 +53,27 @@ export default class UserAgenda extends React.Component {
         // if this day of the month hasn't been populated yet
         if (!this.state.items[dateIncStr]) {
           this.state.items[dateIncStr] = [];
-          // populate it with info from availabilities
-          for (let i = 0; i < this.props.availabilities.length; i++) {
+          // get all availabilities for this day of the week
+          const availTimesForDay = this.props.availabilities[dateInc.getDay()];
+          // loop over all availabilities for this day of the week
+          for (let i = 0; i < availTimesForDay.length; i++) {
             // get data for this availability
-            const availability = this.props.availabilities[i];
-            const availabilityDate = new Date(availability.date);
+            const availability = availTimesForDay[i];
+            // const availability = this.props.availabilities[i];
+            // const availabilityDate = new Date(availability.date);
             // if it is the same day of the week
-            if (dateInc.getDay() == availabilityDate.getDay()) {
-              // create new date on dateInc day, with availability time
-              var updatedDate = new Date(dateInc);
-              updatedDate.setHours(availabilityDate.getHours());
-              updatedDate.setMinutes(availabilityDate.getMinutes());
+            // create new date on dateInc day, with availability time
+            var availabilityDate = new Date(dateInc);
+            availabilityDate.setHours(availability.hours);
+            availabilityDate.setMinutes(availability.minutes);
 
-              this.state.items[dateIncStr].push({
-                startDate: updatedDate,
-                endDate: new Date(
-                  updatedDate.getTime() + availability.length * 60000
-                ),
-                height: 100
-              });
-            }
+            this.state.items[dateIncStr].push({
+              startDate: availabilityDate,
+              endDate: new Date(
+                availabilityDate.getTime() + availability.duration * 60000
+              ),
+              height: 100
+            });
           }
         }
         dateInc.setDate(dateInc.getDate() + 1);
