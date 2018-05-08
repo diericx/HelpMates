@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Agenda } from "react-native-calendars";
+import moment from "moment";
 
 import {
   DateToLocalString,
@@ -21,10 +22,21 @@ export default class UserAgenda extends React.Component {
       isModalVisible: false
     };
     // bindings
-    this.loadItems = this.loadItems.bind(this);
+    this.loadItemsForMonth = this.loadItemsForMonth.bind(this);
     this.renderItem = this.renderItem.bind(this);
     this.renderEmptyDate = this.renderEmptyDate.bind(this);
     this._toggleModal = this._toggleModal.bind(this);
+    this.rowHasChanged = this.rowHasChanged.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps, oldProps) {
+    this.loadItemsForMonth({
+      dateString: "2018-05-07",
+      day: 7,
+      month: 5,
+      timestamp: 1525651200000,
+      year: 2018
+    });
   }
 
   // When a time slot is pressed
@@ -41,58 +53,49 @@ export default class UserAgenda extends React.Component {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   }
 
-  loadItems(day) {
+  loadItemsForMonth(day) {
+    const items = {};
+    this.selectedDay = day;
+    console.log(day);
+    const month = moment(`${day.year}-${day.month}-${day.day}`, "YYYY-MM-DD");
+
     setTimeout(() => {
-      const today = new Date();
-      const todayLocal = DateToLocalString(today);
-      const dateInc = new Date(today.getUTCFullYear(), day.month - 1, 1);
+      for (let j = 0; j <= 64; j += 1) {
+        items[`${month.format("YYYY-MM-DD")}`] = [];
 
-      while (dateInc.getMonth() + 1 <= day.month + 1) {
-        const dateIncStr = DateToString(dateInc);
+        const availTimesForDay = this.props.availabilities[month.weekday()];
+        console.log("AVAIL: ", availTimesForDay);
+        for (let i = 0; i < availTimesForDay.length; i++) {
+          // get data for this availability
+          const availability = availTimesForDay[i];
+          // const availability = this.props.availabilities[i];
+          // const availabilityDate = new Date(availability.date);
+          // if it is the same day of the week
+          // create new date on dateInc day, with availability time
+          var availabilityDate = new Date(month);
+          availabilityDate.setHours(availability.hours);
+          availabilityDate.setMinutes(availability.minutes);
 
-        // if this day of the month hasn't been populated yet
-        if (!this.state.items[dateIncStr]) {
-          this.state.items[dateIncStr] = [];
-          // get all availabilities for this day of the week
-          const availTimesForDay = this.props.availabilities[dateInc.getDay()];
-          // loop over all availabilities for this day of the week
-          for (let i = 0; i < availTimesForDay.length; i++) {
-            // get data for this availability
-            const availability = availTimesForDay[i];
-            // const availability = this.props.availabilities[i];
-            // const availabilityDate = new Date(availability.date);
-            // if it is the same day of the week
-            // create new date on dateInc day, with availability time
-            var availabilityDate = new Date(dateInc);
-            availabilityDate.setHours(availability.hours);
-            availabilityDate.setMinutes(availability.minutes);
-
-            this.state.items[dateIncStr].push({
-              startDate: availabilityDate,
-              endDate: new Date(
-                availabilityDate.getTime() + availability.duration * 60000
-              ),
-              height: 100
-            });
-          }
+          items[`${month.format("YYYY-MM-DD")}`].push({
+            startDate: availabilityDate,
+            endDate: new Date(
+              availabilityDate.getTime() + availability.duration * 60000
+            ),
+            height: 100
+          });
         }
-        dateInc.setDate(dateInc.getDate() + 1);
+
+        month.add(1, "days");
       }
 
-      // update items with new object to give a sense of immutability
-      // this seems kinda fucked up to me
-      const newItems = {};
-      Object.keys(this.state.items).forEach(key => {
-        newItems[key] = this.state.items[key];
-      });
       this.setState({
-        items: newItems
+        items
       });
     }, 1000);
   }
 
   rowHasChanged(r1, r2) {
-    return r1.name !== r2.name;
+    return r1 != r2;
   }
 
   // Render a time slot
@@ -151,7 +154,7 @@ export default class UserAgenda extends React.Component {
         />
         <Agenda
           items={this.state.items}
-          loadItemsForMonth={this.loadItems}
+          loadItemsForMonth={day => this.loadItemsForMonth(day)}
           selected={todayString}
           minDate={todayString}
           renderItem={this.renderItem}

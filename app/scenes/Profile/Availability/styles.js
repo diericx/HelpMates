@@ -5,6 +5,10 @@ const styles = EStyleSheet.create({
     flex: 1,
     backgroundColor: "$bgColor"
   },
+  addAvailabilityContainer: {
+    backgroundColor: "#f9f9f9",
+    paddingBottom: 10
+  },
   title: {
     fontSize: 25
   },
