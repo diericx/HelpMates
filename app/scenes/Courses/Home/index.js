@@ -55,6 +55,7 @@ class Index extends React.Component {
 
   render() {
     const { courses } = this.props;
+    console.log("Courses: ", courses);
     const filteredCourses = this.filterCourses(courses);
 
     // if the data isn't here yet, render activityIndicator

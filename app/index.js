@@ -117,9 +117,8 @@ class App extends React.Component {
     try {
       const value = await AsyncStorage.getItem("@MySuperStore:hasSeenIntro");
       if (value == null) {
-        value = false;
-      } else {
-        value = true;
+        await AsyncStorage.setItem("@MySuperStore:hasSeenIntro", "false");
+        value = "false";
       }
       this.setState({
         hasSeenIntro: value
@@ -130,11 +129,11 @@ class App extends React.Component {
     }
   }
 
-  async setHasSeenIntro(value) {
+  async setHasSeenIntro() {
     try {
-      await AsyncStorage.setItem("@MySuperStore:hasSeenIntro", value);
+      await AsyncStorage.setItem("@MySuperStore:hasSeenIntro", "true");
       this.setState({
-        hasSeenIntro: value
+        hasSeenIntro: "true"
       });
     } catch (error) {
       // Error saving data
@@ -177,19 +176,20 @@ class App extends React.Component {
       return (
         <View style={styles.container}>
           <StatusBar barStyle="light-content" />
-          {/* {hasSeenIntro ? (
-            <MainNavigation onNavigationStateChange={null} />
+          {hasSeenIntro && hasSeenIntro == "true" ? (
+            <MainNavigation
+              onNavigationStateChange={null}
+              screenProps={{
+                notifications: {
+                  Sessions: GetSessionNotificationCount(
+                    sessionsWithNotifications
+                  )
+                }
+              }}
+            />
           ) : (
-            <Intro onCompleteIntro={() => this.setHasSeenIntro(true)} />
-          )} */}
-          <MainNavigation
-            onNavigationStateChange={null}
-            screenProps={{
-              notifications: {
-                Sessions: GetSessionNotificationCount(sessionsWithNotifications)
-              }
-            }}
-          />
+            <Intro _onDone={this.setHasSeenIntro} />
+          )}
         </View>
       );
       // return <MainNavigation onNavigationStateChange={null} />;
@@ -199,6 +199,7 @@ class App extends React.Component {
 
 export default createContainer(params => {
   // Global Subscribes
+  Meteor.subscribe("universities");
   Meteor.subscribe("courses");
   Meteor.subscribe("mySessions");
   // Get notifications for this user

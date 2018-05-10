@@ -172,7 +172,7 @@ export function ConvertAvailabilitiesToArray(availabilities) {
   return ds.cloneWithRows(availabilities_array);
 }
 
-// METEOR - add availability to profile
+// add availability to profile
 export function AddAvailability(dayOfWeek, hours, minutes, duration) {
   Meteor.call(
     "users.addAvailability",
@@ -183,6 +183,15 @@ export function AddAvailability(dayOfWeek, hours, minutes, duration) {
       }
     }
   );
+}
+
+// remove availability from profile
+export function RemoveAvailability(dayOfWeek, index) {
+  Meteor.call("users.removeAvailability", { dayOfWeek, index }, (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+  });
 }
 
 /**

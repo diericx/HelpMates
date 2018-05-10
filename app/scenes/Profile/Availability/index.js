@@ -7,7 +7,8 @@ import Agenda from "../../../components/Agenda";
 import SendRequestModal from "../../../components/modals/SendRequestModal/index";
 import {
   ConvertAvailabilitiesToArray,
-  AddAvailability
+  AddAvailability,
+  RemoveAvailability
 } from "../../../Helpers/Meteor";
 import styles from "./styles";
 
@@ -22,6 +23,25 @@ class Availability extends React.Component {
     // bind
     this.onAddAvailabilityButtonPress = this.onAddAvailabilityButtonPress.bind(
       this
+    );
+  }
+
+  // When a user presses a time slot, remove it after alert
+  onTimeSlotPress(item) {
+    Alert.alert(
+      "Are you sure you want to remove this time slot?",
+      "",
+      [
+        {
+          text: "Yes",
+          onPress: () => RemoveAvailability(item.startDate.getDay(), item.index)
+        },
+        {
+          text: "Cancel",
+          style: "cancel"
+        }
+      ],
+      { cancelable: true }
     );
   }
 
@@ -57,10 +77,11 @@ class Availability extends React.Component {
           />
         </View>
         <Agenda
-          modal={SendRequestModal}
+          onTimeSlotPress={item => this.onTimeSlotPress(item)}
           availabilities={availabilities}
           name={Meteor.user().profile.name}
           userId={Meteor.userId()}
+          note={"Tap to Remove"}
         />
       </View>
     );

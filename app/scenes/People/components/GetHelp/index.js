@@ -13,15 +13,15 @@ export default class Index extends React.Component {
     return (
       <View style={styles.cardContainer}>
         {!this.props.selectedCourse ? (
-          <Card containerStyle={styles.card}>
-            <ScrollView style={styles.cardScrollView}>
-              <CoursePicker
-                courses={this.props.user.profile.completedCourses}
-                onSelectCourse={this.props.onSelectCourse}
-              />
-            </ScrollView>
-          </Card>
+          // <Card containerStyle={styles.card}>
+          <ScrollView style={styles.cardScrollView}>
+            <CoursePicker
+              courses={this.props.user.profile.completedCourses}
+              onSelectCourse={this.props.onSelectCourse}
+            />
+          </ScrollView>
         ) : (
+          // </Card>
           <Card
             containerStyle={[styles.card, styles.agendaCard]}
             wrapperStyle={styles.agendaCardWrapper}

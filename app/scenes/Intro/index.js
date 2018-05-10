@@ -4,30 +4,7 @@ import { StyleSheet, View, Text, Image } from "react-native";
 import { LinearGradient } from "expo";
 import AppIntroSlider from "react-native-app-intro-slider";
 
-const styles = StyleSheet.create({
-  mainContent: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "space-around"
-  },
-  image: {
-    width: 320,
-    height: 320
-  },
-  text: {
-    color: "rgba(255, 255, 255, 0.8)",
-    backgroundColor: "transparent",
-    textAlign: "center",
-    paddingHorizontal: 16
-  },
-  title: {
-    fontSize: 22,
-    color: "white",
-    backgroundColor: "transparent",
-    textAlign: "center",
-    marginBottom: 16
-  }
-});
+import styles from "./styles";
 
 const slides = [
   {
@@ -99,6 +76,7 @@ export default class App extends React.Component {
       <AppIntroSlider
         slides={slides}
         renderItem={this._renderItem}
+        onDone={this.props._onDone}
         bottomButton
       />
     );

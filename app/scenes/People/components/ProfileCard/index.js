@@ -24,7 +24,6 @@ export default class ProfileCard extends React.Component {
 
         <View style={styles.profileDataContainer}>
           {/* <Text style={styles.nameText}>{user.profile.name}</Text> */}
-          <Text style={styles.detailsText}>Computer Science Major</Text>
 
           <Rating imageSize={35} readonly startingValue={avgRating} />
           <Text style={styles.subtitleText}>

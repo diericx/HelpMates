@@ -30,22 +30,23 @@ export default class UserAgenda extends React.Component {
   }
 
   componentWillReceiveProps(nextProps, oldProps) {
-    this.loadItemsForMonth({
-      dateString: "2018-05-07",
-      day: 7,
-      month: 5,
-      timestamp: 1525651200000,
-      year: 2018
-    });
+    this.loadItemsForMonth({});
   }
 
   // When a time slot is pressed
-  onTimeSlotPress(startDate, endDate) {
+  onTimeSlotPress(item) {
+    let { startDate, endDate, index } = item;
     this.setState({
       startDate,
       endDate
     });
-    this._toggleModal();
+    if (this.props.modal) {
+      this._toggleModal();
+    } else {
+      if (this.props.onTimeSlotPress) {
+        this.props.onTimeSlotPress(item);
+      }
+    }
   }
 
   // Toggle the modal
@@ -55,16 +56,17 @@ export default class UserAgenda extends React.Component {
 
   loadItemsForMonth(day) {
     const items = {};
-    this.selectedDay = day;
-    console.log(day);
-    const month = moment(`${day.year}-${day.month}-${day.day}`, "YYYY-MM-DD");
-
+    var today = new Date();
+    const month = moment(
+      `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`,
+      "YYYY-MM-DD"
+    );
+    console.log("MONTH: ", `${month.format("DD")}`);
     setTimeout(() => {
       for (let j = 0; j <= 64; j += 1) {
         items[`${month.format("YYYY-MM-DD")}`] = [];
 
         const availTimesForDay = this.props.availabilities[month.weekday()];
-        console.log("AVAIL: ", availTimesForDay);
         for (let i = 0; i < availTimesForDay.length; i++) {
           // get data for this availability
           const availability = availTimesForDay[i];
@@ -81,7 +83,8 @@ export default class UserAgenda extends React.Component {
             endDate: new Date(
               availabilityDate.getTime() + availability.duration * 60000
             ),
-            height: 100
+            height: availability.duration / 2,
+            index: i
           });
         }
 
@@ -103,35 +106,26 @@ export default class UserAgenda extends React.Component {
     return (
       <TouchableOpacity
         onPress={() => {
-          this.onTimeSlotPress(item.startDate, item.endDate);
+          this.onTimeSlotPress(item);
         }}
       >
         <View style={[styles.item, { height: item.height }]}>
-          <Text style={{ color: "lightgray" }}>
-            {DateTo12HourTime(item.startDate)}
-          </Text>
-          <Text style={{ color: "lightgray" }}>
-            {DateTo12HourTime(item.endDate)}
-          </Text>
+          <View style={styles.itemTimes}>
+            <Text style={{ color: "lightgray" }}>
+              {DateTo12HourTime(item.startDate)}
+            </Text>
+
+            <Text style={{ color: "lightgray" }}>
+              {DateTo12HourTime(item.endDate)}
+            </Text>
+          </View>
+          <View style={styles.itemNote}>
+            <Text style={{ color: "lightgray" }}>{this.props.note}</Text>
+          </View>
         </View>
       </TouchableOpacity>
     );
   }
-
-  // Render the day
-  // renderDay(day, item) {
-  //   if (day) {
-  //     if (day.dateString == DateToString(this.state.selectedDate)) {
-  //       return (
-  //         <View>
-  //           <Text> {day.dateString} </Text>
-  //         </View>
-  //       );
-  //     }
-  //   }
-  //   console.log(day);
-  //   // console.log(item);
-  // }
 
   // Render a day with no time slots
   renderEmptyDate() {
@@ -143,15 +137,18 @@ export default class UserAgenda extends React.Component {
     const todayString = DateToLocalString(today);
     return (
       <View style={styles.container}>
-        <this.props.modal
-          name={this.props.name}
-          userId={this.props.userId}
-          courseId={this.props.courseId}
-          startDate={this.state.startDate}
-          endDate={this.state.endDate}
-          isVisible={this.state.isModalVisible}
-          toggleModal={this._toggleModal}
-        />
+        {this.props.modal ? (
+          <this.props.modal
+            name={this.props.name}
+            userId={this.props.userId}
+            courseId={this.props.courseId}
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+            isVisible={this.state.isModalVisible}
+            toggleModal={this._toggleModal}
+          />
+        ) : null}
+
         <Agenda
           items={this.state.items}
           loadItemsForMonth={day => this.loadItemsForMonth(day)}
