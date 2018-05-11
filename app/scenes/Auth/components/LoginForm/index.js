@@ -1,30 +1,10 @@
 import React, { Component } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { View, TextInput, TouchableOpacity, Text } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { Input, Button } from "react-native-elements";
 
-const styles = EStyleSheet.create({
-  container: {
-    padding: 20,
-    width: "$screenWidth"
-  },
-  input: {
-    color: "black",
-    backgroundColor: "rgba(230,230,230,0.8)",
-    height: 45,
-    marginBottom: 18,
-    paddingHorizontal: 10
-  },
-  buttonContainer: {
-    backgroundColor: "#32ff7e",
-    paddingVertical: 15
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 15,
-    textAlign: "center"
-  }
-});
+import styles from "./styles";
 
 export default class LoginForm extends Component {
   renderLogin() {
@@ -62,7 +42,7 @@ export default class LoginForm extends Component {
       <View style={styles.container}>
         <TextInput
           style={styles.input}
-          placeholder="Full Name"
+          placeholder="First and Last Name"
           returnKeyType="done"
           placeholderTextColor="rgba(190,190,190,0.7)"
           onChangeText={text => this.props.nameHandler(text)}
@@ -70,6 +50,14 @@ export default class LoginForm extends Component {
         <TextInput
           style={styles.input}
           placeholder="School Email"
+          keyboardType="email-address"
+          returnKeyType="done"
+          placeholderTextColor="rgba(190,190,190,0.7)"
+          onChangeText={text => this.props.emailHandler(text)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Venmo handle"
           keyboardType="email-address"
           returnKeyType="done"
           placeholderTextColor="rgba(190,190,190,0.7)"

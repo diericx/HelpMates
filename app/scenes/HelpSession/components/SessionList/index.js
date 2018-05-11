@@ -97,6 +97,7 @@ export default class SessionList extends React.Component {
     ) {
       highlightedStyle = styles.listItemHighlightedContainer;
     }
+
     return (
       <ListItem
         key={item._id}
@@ -115,7 +116,11 @@ export default class SessionList extends React.Component {
           </View>
         }
         avatar={<UserAvatar url={otherUserProfilePic} />}
-        containerStyle={[styles.listItemContainer, highlightedStyle]}
+        containerStyle={
+          item.endedAt && item.hasStudentPayed
+            ? styles.listItemContainer
+            : [styles.listItemContainer, styles.lightRedBackground]
+        }
         onPress={() =>
           this.onPress({
             session: item,

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Meteor from "react-native-meteor";
 
-import LoginForm from "./components/LoginForm";
+import LoginForm from "./components/LoginForm/index";
 
 const styles = EStyleSheet.create({
   container: {

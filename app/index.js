@@ -32,7 +32,9 @@ EStyleSheet.build({
   $green: "#3ae374",
   $greenTrans: "#3ae37470",
   $red: "#ff4d4d",
-  $orange: "#ffb349"
+  $lightred: "#ff4d4d22",
+  $orange: "#ffb349",
+  $turquoise: "#67e6dc"
 });
 
 const styles = EStyleSheet.create({

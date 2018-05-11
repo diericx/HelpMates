@@ -28,14 +28,15 @@ class Index extends React.Component {
     this.props.navigation.navigate("Show", params);
   }
 
+  // Sort sessions by date
   sortSessionsByDate(sessions) {
-    // Sort the sections
+    // Sort the sessions
     const sortedSessions = sessions.sort(function(a, b) {
       if (a.startDate < b.startDate) {
-        return -1;
-      }
-      if (a.section > b.startDate) {
         return 1;
+      }
+      if (a.startDate > b.startDate) {
+        return -1;
       }
       return 0;
     });
@@ -63,7 +64,7 @@ class Index extends React.Component {
     } else if (selectedGroup == 2) {
       return (
         <SessionList
-          sessions={endedSessions}
+          sessions={this.sortSessionsByDate(endedSessions)}
           noneMessage="You haven't had any sessions recently."
           navigation={this.props.navigation}
         />
