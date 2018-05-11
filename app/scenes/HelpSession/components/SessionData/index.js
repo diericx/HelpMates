@@ -52,17 +52,32 @@ export default class Index extends React.Component {
       userId: Meteor.userId()
     });
     const otherUsersName = GetOtherUsersNameForSession(session);
-    // if the session has ended, show the payment alert message
-    if (session.endedAt) {
+    if (session.endedAt && session.hasStudentPayed) {
+      return null;
+    }
+    // if the session has ended and student hasn't payed, show the payment alert message
+    if (session.endedAt && !session.hasStudentPayed) {
       if (IsCurrentUserStudent(session)) {
+        // Show alert for student
         return (
-          <View style={styles.alertDataContainer}>
+          <View>
             <Text style={[styles.sessionWaitingText, styles.alertText]}>
               You owe {otherUsersName} ${
                 CalculateTimeAndCost(session, session.endedAt).cost
               }{" "}
               {"\n"}
               Venmo @Zac-Holland
+            </Text>
+          </View>
+        );
+      } else {
+        // Show alert for tutor
+        return (
+          <View>
+            <Text style={[styles.sessionWaitingText, styles.alertText]}>
+              {otherUsersName} owes you ${
+                CalculateTimeAndCost(session, session.endedAt).cost
+              }
             </Text>
           </View>
         );
@@ -134,8 +149,14 @@ export default class Index extends React.Component {
     return (
       <View
         style={
-          session.endedAt != null && IsCurrentUserStudent(session)
-            ? [styles.sessionDataContainer, styles.alertSessionDataContainer]
+          session.endedAt != null
+            ? IsCurrentUserStudent(session)
+              ? [styles.sessionDataContainer, styles.alertSessionDataContainer]
+              : [
+                  styles.sessionDataContainer,
+                  styles.alertSessionDataContainer,
+                  styles.redAlertContainer
+                ]
             : styles.sessionDataContainer
         }
       >

@@ -53,6 +53,7 @@ export default class Index extends React.Component {
   };
 
   sendRequest(startDate, endDate) {
+    this.props.toggleModal();
     Meteor.call(
       "helpSessions.create",
       {
@@ -67,7 +68,6 @@ export default class Index extends React.Component {
         if (err) {
           console.log(err);
         } else {
-          this.props.toggleModal();
         }
         // Do whatever you want with the response
       }

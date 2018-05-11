@@ -252,6 +252,19 @@ export function EndSession(session) {
   });
 }
 
+// End this session
+export function ConfirmPaymentForSession(session) {
+  const sessionId = session._id;
+  Meteor.call("helpSessions.confirmPayment", { sessionId }, (err, res) => {
+    // Do whatever you want with the response
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Payment is confirmed!");
+    }
+  });
+}
+
 /**
 |--------------------------------------------------
 | COURSES

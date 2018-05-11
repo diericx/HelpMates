@@ -1,41 +1,44 @@
-import EStyleSheet from 'react-native-extended-stylesheet';
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const styles = EStyleSheet.create({
   sessionDataContainer: {
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    shadowColor: '#000',
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "space-between",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
-    shadowRadius: 4,
+    shadowRadius: 4
   },
   alertSessionDataContainer: {
-    backgroundColor: '$orange',
+    backgroundColor: "$orange"
+  },
+  redAlertContainer: {
+    backgroundColor: "$red"
   },
   sessionWaitingContainer: {
-    justifyContent: 'center',
+    justifyContent: "center"
   },
   sessionWaitingText: {
-    color: 'gray',
+    color: "gray",
     paddingVertical: 5,
-    textAlign: 'center',
+    textAlign: "center"
   },
   alertText: {
-    color: 'white',
+    color: "white"
   },
   activityIndicatorContainer: {
-    paddingVertical: 10,
+    paddingVertical: 10
   },
   sessionLengthText: {
-    color: '$offBlack',
-    fontSize: 40,
+    color: "$offBlack",
+    fontSize: 40
   },
   sessionCostText: {
-    color: '$offBlack',
-    textAlign: 'center',
-    fontSize: 25,
-  },
+    color: "$offBlack",
+    textAlign: "center",
+    fontSize: 25
+  }
 });
 
 export default styles;

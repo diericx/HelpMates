@@ -7,7 +7,8 @@ import {
   AcceptSession,
   DenySession,
   StartSesson,
-  EndSession
+  EndSession,
+  ConfirmPaymentForSession
 } from "../../../../Helpers/Meteor";
 import { HasCurrentUserEnded } from "../../../../scenes/HelpSession/helpers";
 
@@ -15,6 +16,7 @@ import RateUserView from "../../components/RateUserView/index";
 import SessionData from "../../components/SessionData/index";
 
 import styles from "./styles";
+import { IsCurrentUserStudent } from "app/Helpers/Session";
 
 export default class Index extends React.Component {
   constructor(props) {
@@ -76,6 +78,21 @@ export default class Index extends React.Component {
     );
   }
 
+  renderConfirmPaymentButton() {
+    const { session } = this.props;
+    return (
+      <View style={styles.actionButtonsContainer}>
+        <Button
+          title="I've been payed!"
+          textStyle={{ fontWeight: "700" }}
+          buttonStyle={[styles.sideBySideButton, styles.acceptButton]}
+          containerStyle={{ marginTop: 20 }}
+          onPress={() => ConfirmPaymentForSession(session)}
+        />
+      </View>
+    );
+  }
+
   renderEndButton() {
     const { session } = this.props;
     const currentUserId = Meteor.userId();
@@ -108,8 +125,20 @@ export default class Index extends React.Component {
       userId: Meteor.userId()
     });
 
-    if (session == null || session.endedAt) {
+    if (session == null || (session.endedAt && session.hasStudentPayed)) {
       return <View />;
+    }
+
+    // If the session ended and this is the tutor
+    // show the "I have been payed" button
+    if (session.endedAt && !IsCurrentUserStudent(session)) {
+      return this.renderConfirmPaymentButton();
+    }
+
+    // If the session ended and this is the student
+    // show no action buttons
+    if (session.endedAt && IsCurrentUserStudent(session)) {
+      return null;
     }
 
     // if the session has started

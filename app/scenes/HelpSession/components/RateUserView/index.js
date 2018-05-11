@@ -1,13 +1,16 @@
-import React from 'react';
-import Meteor from 'react-native-meteor';
-import { View, Text } from 'react-native';
-import { Rating, Button } from 'react-native-elements';
+import React from "react";
+import Meteor from "react-native-meteor";
+import { View, Text } from "react-native";
+import { Rating, Button } from "react-native-elements";
 
-import TextBox from '../../../../components/TextBox/index';
-import { GetOtherUsersNameForSession, GetOtherUsersIdForSession } from '../../helpers';
-import { RateUser } from '../../../../Helpers/Meteor';
+import TextBox from "../../../../components/TextBox/index";
+import {
+  GetOtherUsersNameForSession,
+  GetOtherUsersIdForSession
+} from "../../helpers";
+import { RateUser } from "../../../../Helpers/Meteor";
 
-import styles from './styles';
+import styles from "./styles";
 
 export default class Index extends React.Component {
   constructor(props) {
@@ -15,7 +18,7 @@ export default class Index extends React.Component {
 
     this.state = {
       rating: 0,
-      message: '',
+      message: ""
     };
     // bind
     this.onPress = this.onPress.bind(this);
@@ -25,30 +28,36 @@ export default class Index extends React.Component {
 
   // on press, go to course show
   onPress(params) {
-    this.props.navigation.navigate('Show', params);
+    this.props.navigation.navigate("Show", params);
   }
 
   updateMessage(value) {
     this.setState({
-      message: value,
+      message: value
     });
   }
 
   updateRating(value) {
     this.setState({
-      rating: value,
+      rating: value
     });
   }
 
   render() {
     const { timeAndCost } = this.props;
     const { session } = this.props;
-    const otherUsersName = GetOtherUsersNameForSession(session, Meteor.userId());
+    const otherUsersName = GetOtherUsersNameForSession(
+      session,
+      Meteor.userId()
+    );
     return (
       <View style={styles.container}>
         <View style={styles.sessionDataContainer}>
-          <Text style={styles.sessionDataTitle}> Give {otherUsersName} some feedback! </Text>
-          <Text> ${timeAndCost.cost} + 5% fee </Text>
+          <Text style={styles.sessionDataTitle}>
+            {" "}
+            Give {otherUsersName} some feedback!{" "}
+          </Text>
+          <Text> ${timeAndCost.cost} </Text>
         </View>
 
         <View style={styles.ratingContainer}>
@@ -65,7 +74,7 @@ export default class Index extends React.Component {
 
         <Button
           title="Submit"
-          textStyle={{ fontWeight: '700' }}
+          textStyle={{ fontWeight: "700" }}
           buttonStyle={styles.submitButton}
           containerStyle={{ marginTop: 20 }}
           onPress={() =>
@@ -75,7 +84,7 @@ export default class Index extends React.Component {
               session.courseId,
               session._id,
               this.state.rating,
-              this.state.message,
+              this.state.message
             )
           }
         />

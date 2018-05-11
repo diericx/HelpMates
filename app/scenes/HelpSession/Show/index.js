@@ -111,8 +111,6 @@ class Show extends React.Component {
       ClearUsersNotificationsForSession(session);
     }
 
-    console.log(session);
-
     return (
       <View style={styles.container}>
         <SessionData
