@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { View, Text, Dimensions, KeyboardAvoidingView } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback
+} from "react-native";
 import { Avatar } from "react-native-elements";
 import Meteor, { Accounts } from "react-native-meteor";
 
@@ -18,7 +25,7 @@ const styles = EStyleSheet.create({
     paddingTop: 20
   },
   headerContainer: {
-    // alignItems: "center"
+    alignItems: "center"
   },
   headerText: {
     fontSize: 30
@@ -98,6 +105,7 @@ export default class Signup extends Component {
 
   // attempt to login to server
   signupHandler() {
+    Keyboard.dismiss();
     // get email and password from state
     const { email, password, name, profilePicURL } = this.state;
     // check validity of email and password
@@ -125,25 +133,27 @@ export default class Signup extends Component {
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="position">
-        <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            <Text style={styles.headerText}> Sign Up </Text>
-            <Text style={styles.error}> {this.state.error} </Text>
-          </View>
-          <ChooseAvatarPhoto
-            onChoosePhoto={this.onChoosePhoto}
-            profilePicURI={this.state.profilePicURI}
-          />
-          <View style={styles.form}>
-            <LoginForm
-              form="signup"
-              emailHandler={email => this.setState({ email })}
-              passwordHandler={password => this.setState({ password })}
-              nameHandler={name => this.setState({ name })}
-              onSubmit={this.signupHandler}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerText}> Sign Up </Text>
+              <Text style={styles.error}> {this.state.error} </Text>
+            </View>
+            <ChooseAvatarPhoto
+              onChoosePhoto={this.onChoosePhoto}
+              profilePicURI={this.state.profilePicURI}
             />
+            <View style={styles.form}>
+              <LoginForm
+                form="signup"
+                emailHandler={email => this.setState({ email })}
+                passwordHandler={password => this.setState({ password })}
+                nameHandler={name => this.setState({ name })}
+                onSubmit={this.signupHandler}
+              />
+            </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     );
   }

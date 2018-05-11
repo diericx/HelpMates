@@ -25,6 +25,7 @@ export default class Index extends React.Component {
   // When the End Session button is pressed, send the message to meteor and
   // end the timer
   onPressEndSession() {
+    const { session } = this.props;
     // Send meteor message
     EndSession(session);
     // End timer

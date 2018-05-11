@@ -1,5 +1,6 @@
 import Meteor from "react-native-meteor";
 import { RNS3 } from "react-native-aws3";
+import moment from "moment";
 
 const options = {
   keyPrefix: "uploads/",
@@ -12,6 +13,8 @@ const options = {
 
 // upload profile pic to S3
 export function UploadProfilePic(uri, onComplete) {
+  var msString = new Date().getTime().toString();
+
   if (!uri || !Meteor.userId()) {
     return null;
   }
@@ -22,7 +25,7 @@ export function UploadProfilePic(uri, onComplete) {
   const file = {
     // `uri` can also be a file system path (i.e. file://)
     uri: uri,
-    name: "profilePic-" + Meteor.userId() + imageFileType,
+    name: "profilePic-" + Meteor.userId() + imageFileType + msString,
     type: "image"
   };
 

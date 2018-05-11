@@ -19,7 +19,7 @@ export default class TimePicker extends React.Component {
         // callback for parent
         if (this.props.onTimeChanged) {
           this.props.onTimeChanged({
-            hours: this.state.hours + this.state.AMPM * 12,
+            hours: this.state.hours,
             minutes: this.state.minutes,
             AMPM: this.state.AMPM
           });

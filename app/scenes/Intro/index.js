@@ -17,7 +17,7 @@ const slides = [
   },
   {
     key: "somethun1",
-    title: "Get help with you classes!",
+    title: "Get help with your classes!",
     text: (
       <Text>
         <Text>

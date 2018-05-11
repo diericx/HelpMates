@@ -141,7 +141,7 @@ export default class Index extends React.Component {
       >
         <View style={styles.sessionData}>{this.renderSessionData()}</View>
         <SessionActionButtons
-          session={this.props.session}
+          session={session}
           onPressEndSession={this.props.onPressEndSession}
         />
       </View>

@@ -1,10 +1,18 @@
 import React from "react";
 import Meteor from "react-native-meteor";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { View, Text, Button, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  Image,
+  ScrollView,
+  AsyncStorage
+} from "react-native";
 import { List, ListItem, Divider } from "react-native-elements";
 // import { RNS3 } from 'react-native-aws3';
 import { ImagePicker } from "expo";
+import { UploadProfilePic } from "../../../Helpers/S3";
 
 import { SetProfilePic } from "../../../Helpers/Meteor";
 import ChooseAvatarPhoto from "../../../components/ChooseAvatarPhoto/index";
@@ -68,6 +76,9 @@ export default class Profile extends React.Component {
     };
     // bind
     this.onPress = this.onPress.bind(this);
+    this.logout = this.logout.bind(this);
+    this.onChoosePhoto = this.onChoosePhoto.bind(this);
+    this.onProfilePicUpload = this.onProfilePicUpload.bind(this);
   }
 
   componentDidMount() {
@@ -76,7 +87,39 @@ export default class Profile extends React.Component {
     });
   }
 
+  onChoosePhoto(uri) {
+    UploadProfilePic(uri, this.onProfilePicUpload);
+  }
+
+  onProfilePicUpload(url) {
+    console.log("On Profile pic upload: ", url);
+    // set the profile pic for this user in Meteor
+    SetProfilePic(url);
+    this.setState({
+      profilePicURL: url
+    });
+  }
+
+  async resetAnonymousKey() {
+    try {
+      const value = await AsyncStorage.getItem("@MySuperStore:anonymousKey");
+      if (value == null) {
+      }
+      try {
+        await AsyncStorage.removeItem("@MySuperStore:anonymousKey", null);
+      } catch (error) {
+        console.log("Error resetting anon key");
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.log(error);
+    }
+  }
+
   logout() {
+    // Reset anon key
+    this.resetAnonymousKey();
+    // Logout
     Meteor.logout();
   }
 
@@ -84,34 +127,9 @@ export default class Profile extends React.Component {
     this.props.navigation.navigate(screen);
   }
 
-  uploadImage(type) {
-    // setup image to upload
-    const { profilePic } = this.state;
-    if (!profilePic) {
-      return;
-    }
-    const file = {
-      // `uri` can also be a file system path (i.e. file://)
-      uri: profilePic,
-      name: "profilePic-" + Meteor.userId() + ".png",
-      type: type
-    };
-  }
-
-  _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [1, 1]
-    });
-
-    if (!result.cancelled) {
-      this.setState({ profilePic: result.uri });
-      this.uploadImage(result.type);
-    }
-  };
-
   render() {
     let { profilePicURL } = this.state;
+    console.log(Meteor.user().profile.profilePic);
 
     return (
       <View style={styles.container}>
@@ -127,7 +145,10 @@ export default class Profile extends React.Component {
             />
           )} */}
           <View style={styles.profilePicContainer}>
-            <ChooseAvatarPhoto profilePicURI={this.state.profilePicURL} />
+            <ChooseAvatarPhoto
+              profilePicURI={Meteor.user().profile.profilePic}
+              onChoosePhoto={this.onChoosePhoto}
+            />
           </View>
 
           <Divider style={styles.divider} />

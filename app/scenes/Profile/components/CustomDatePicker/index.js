@@ -41,6 +41,13 @@ class Index extends React.Component {
     }
   }
 
+  selectedTimeTo24Hour(time) {
+    if (time.AMPM == 1 && time.hours != 12) {
+      time.hours = time.hours + 12;
+    }
+    return time;
+  }
+
   render() {
     const dayButtons = ["S", "M", "T", "W", "T", "F", "S"];
     const { selectedDay } = this.state;
@@ -84,7 +91,9 @@ class Index extends React.Component {
 
         <Button
           onPress={() => {
-            const { selectedDay, startTime, endTime } = this.state;
+            let { selectedDay, startTime, endTime } = this.state;
+            startTime = this.selectedTimeTo24Hour(startTime);
+            endTime = this.selectedTimeTo24Hour(endTime);
             var startHours = startTime.hours;
             var endHours = endTime.hours;
             var duration =

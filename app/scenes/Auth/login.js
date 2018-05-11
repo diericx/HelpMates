@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import Meteor from "react-native-meteor";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { View, Text, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  TouchableWithoutFeedback,
+  Keyboard
+} from "react-native";
 
 import LoginForm from "./components/LoginForm";
 
@@ -49,7 +55,7 @@ export default class Login extends Component {
     }
 
     if (email.length === 0) {
-      this.setState({ error: "You must enter an email address" });
+      this.setState({ error: "Enter a valid school email address" });
     } else if (password.length === 0) {
       this.setState({ error: "You must enter a password" });
     }
@@ -59,6 +65,7 @@ export default class Login extends Component {
 
   // attempt to login to server
   loginHandler() {
+    Keyboard.dismiss();
     // get email and password from state
     const { email, password } = this.state;
     // check validity of e and p
@@ -78,20 +85,22 @@ export default class Login extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerText}> Log In </Text>
-          <Text style={styles.error}> {this.state.error} </Text>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}> Log In </Text>
+            <Text style={styles.error}> {this.state.error} </Text>
+          </View>
+          <View style={styles.form}>
+            <LoginForm
+              form="login"
+              emailHandler={email => this.setState({ email })}
+              passwordHandler={password => this.setState({ password })}
+              onSubmit={this.loginHandler}
+            />
+          </View>
         </View>
-        <View style={styles.form}>
-          <LoginForm
-            form="login"
-            emailHandler={email => this.setState({ email })}
-            passwordHandler={password => this.setState({ password })}
-            onSubmit={this.loginHandler}
-          />
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
