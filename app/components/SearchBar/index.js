@@ -16,19 +16,23 @@ export default function ActivityIndicator(props) {
         borderTopColor: "transparent",
         ...props.containerStyle
       }}
-      inputStyle={{
+      inputContainerStyle={{
         backgroundColor: "#17c0eb",
-        borderRadius: 8,
+        borderRadius: 8
+      }}
+      inputStyle={{
         height: 35,
         flex: 1,
         color: "white",
         ...props.inputStyle
       }}
       placeholderTextColor={placeholderColor}
-      icon={{
+      searchIcon={{
         type: "font-awesome",
         name: "search",
-        style: [{ color: placeholderColor }, styles.icon]
+        color: placeholderColor,
+        size: 15,
+        containerStyle: styles.icon
       }}
       onChangeText={text => props.onChangeText(text)}
       placeholder={props.placeholder}

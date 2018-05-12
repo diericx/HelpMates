@@ -3,21 +3,32 @@ import EStyleSheet from "react-native-extended-stylesheet";
 const styles = EStyleSheet.create({
   container: {
     padding: 20,
-    width: "$screenWidth"
+    width: "$screenWidth",
+    alignItems: "center"
   },
-  input: {
-    color: "white",
+  inputContainer: {
+    // color: "rgba(0,0,0, 0.2)",
     // backgroundColor: "rgba(230,230,230,0.8)",borderRadius: 4,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: "rgb(220,220,220)",
+    borderColor: "rgba(255,255,255, 0.6)",
     height: 45,
     marginBottom: 18,
     paddingHorizontal: 10
   },
+  input: {
+    color: "white"
+  },
+  label: {
+    fontSize: 15,
+    textAlign: "center",
+    color: "rgba(255,255,255, 0.6)"
+  },
   buttonContainer: {
-    backgroundColor: "#32ff7e",
-    paddingVertical: 15
+    backgroundColor: "rgba(255,255,255, 0.6)",
+    paddingVertical: 15,
+    marginBottom: 15,
+    width: "90%"
   },
   buttonText: {
     color: "white",

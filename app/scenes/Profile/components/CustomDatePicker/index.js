@@ -57,6 +57,7 @@ class Index extends React.Component {
         <ButtonGroup
           onPress={this.updateDay}
           selectedIndex={selectedDay}
+          selectedButtonStyle={styles.selectedButton}
           buttons={dayButtons}
           containerStyle={{ height: 30 }}
         />

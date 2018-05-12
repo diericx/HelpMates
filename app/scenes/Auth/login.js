@@ -14,7 +14,7 @@ import LoginForm from "./components/LoginForm";
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "$bgColor",
+    backgroundColor: "$turquoise",
     alignItems: "center",
     paddingTop: 40
   },
@@ -22,7 +22,8 @@ const styles = EStyleSheet.create({
     alignItems: "center"
   },
   headerText: {
-    fontSize: 30
+    fontSize: 30,
+    color: "$bgColor"
   },
   error: {
     color: "red"

@@ -19,7 +19,7 @@ import { SetProfilePic } from "../../Helpers/Meteor";
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "$bgColor",
+    backgroundColor: "$turquoise",
     alignItems: "center",
     justifyContent: "space-between",
     paddingTop: 20
@@ -28,7 +28,8 @@ const styles = EStyleSheet.create({
     alignItems: "center"
   },
   headerText: {
-    fontSize: 30
+    color: "white",
+    fontSize: 40
   },
   error: {
     color: "red"
@@ -46,6 +47,7 @@ export default class Signup extends Component {
       email: "",
       password: "",
       name: "",
+      venmoHandle: "@",
       profilePicURI: "",
       profilePicURL: "",
       error: null
@@ -70,7 +72,7 @@ export default class Signup extends Component {
 
   // Check if the username and password are valid
   isValid() {
-    const { email, password, name, profilePicURI } = this.state;
+    const { email, password, venmoHandle, name, profilePicURI } = this.state;
     let valid = false;
 
     // make sure email is a valid edu email
@@ -84,6 +86,7 @@ export default class Signup extends Component {
     if (
       name.length > 0 &&
       email.length > 0 &&
+      venmoHandle.length > 1 &&
       password.length > 0 &&
       profilePicURI.length > 0
     ) {
@@ -107,26 +110,29 @@ export default class Signup extends Component {
   signupHandler() {
     Keyboard.dismiss();
     // get email and password from state
-    const { email, password, name, profilePicURL } = this.state;
+    const { email, password, name, venmoHandle, profilePicURL } = this.state;
     // check validity of email and password
     if (this.isValid()) {
-      Accounts.createUser({ email, password, name, profilePicURL }, error => {
-        if (error) {
-          this.setState({ error: error.reason });
-        } else {
-          Meteor.loginWithPassword(email, password, error => {
-            if (error) {
-              this.setState({ error: error.reason });
-            } else {
-              // upload the profile pic and set it for this user
-              UploadProfilePic(
-                this.state.profilePicURI,
-                this.onProfilePicUpload
-              );
-            }
-          });
+      Accounts.createUser(
+        { email, password, name, venmoHandle, profilePicURL },
+        error => {
+          if (error) {
+            this.setState({ error: error.reason });
+          } else {
+            Meteor.loginWithPassword(email, password, error => {
+              if (error) {
+                this.setState({ error: error.reason });
+              } else {
+                // upload the profile pic and set it for this user
+                UploadProfilePic(
+                  this.state.profilePicURI,
+                  this.onProfilePicUpload
+                );
+              }
+            });
+          }
         }
-      });
+      );
     }
   }
 
@@ -140,6 +146,7 @@ export default class Signup extends Component {
               <Text style={styles.error}> {this.state.error} </Text>
             </View>
             <ChooseAvatarPhoto
+              size={250}
               onChoosePhoto={this.onChoosePhoto}
               profilePicURI={this.state.profilePicURI}
             />
@@ -149,6 +156,7 @@ export default class Signup extends Component {
                 emailHandler={email => this.setState({ email })}
                 passwordHandler={password => this.setState({ password })}
                 nameHandler={name => this.setState({ name })}
+                venmoHandler={venmoHandle => this.setState({ venmoHandle })}
                 onSubmit={this.signupHandler}
               />
             </View>

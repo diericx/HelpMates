@@ -29,10 +29,16 @@ export default class Index extends React.Component {
     return (
       <View style={styles.container}>
         {profilePicURI == null || profilePicURI == "" ? (
-          <Avatar xlarge rounded icon={{ name: "person" }} activeOpacity={1} />
+          <Avatar
+            size={this.props.size || "xlarge"}
+            rounded
+            // overlayContainerStyle={styles.overlayContainer}
+            icon={{ name: "person" }}
+            activeOpacity={1}
+          />
         ) : (
           <Avatar
-            xlarge
+            size={this.props.size || "xlarge"}
             rounded
             source={{ uri: profilePicURI }}
             activeOpacity={1}
@@ -41,7 +47,8 @@ export default class Index extends React.Component {
 
         <Button
           onPress={this._pickImage}
-          title="Choose Profile Picture"
+          color={this.props.buttonColor || "white"}
+          title={this.props.buttonText || "Tap to Choose Profile Picture"}
           accessibilityLabel="Learn more about this purple button"
         />
       </View>

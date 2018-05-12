@@ -12,6 +12,9 @@ const styles = EStyleSheet.create({
   listItem: {
     borderBottomWidth: 0
   },
+  title: {
+    color: "gray"
+  },
   list: {
     borderTopWidth: 0,
     borderBottomWidth: 0,
@@ -20,7 +23,8 @@ const styles = EStyleSheet.create({
   header: {
     fontWeight: "bold",
     margin: 10,
-    marginTop: 18
+    marginTop: 18,
+    color: "gray"
   },
   divider: {
     backgroundColor: "lightgray"

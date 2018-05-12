@@ -1,6 +1,6 @@
 import React from "react";
 import { View, SectionList, Text } from "react-native";
-import { List, ListItem } from "react-native-elements";
+import { ListItem } from "react-native-elements";
 
 import styles from "./styles";
 
@@ -26,7 +26,7 @@ export default class CourseList extends React.Component {
       );
     }
     return (
-      <List containerStyle={styles.container}>
+      <View containerStyle={styles.container}>
         <SectionList
           renderItem={({ item }) =>
             this.props.renderItem ? (
@@ -54,7 +54,7 @@ export default class CourseList extends React.Component {
             )
           }
         />
-      </List>
+      </View>
     );
   }
 }

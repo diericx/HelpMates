@@ -9,7 +9,7 @@ import {
   ScrollView,
   AsyncStorage
 } from "react-native";
-import { List, ListItem, Divider } from "react-native-elements";
+import { ListItem, Divider } from "react-native-elements";
 // import { RNS3 } from 'react-native-aws3';
 import { ImagePicker } from "expo";
 import { UploadProfilePic } from "../../../Helpers/S3";
@@ -134,18 +134,10 @@ export default class Profile extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          {/* <Button
-            title="Pick an image from camera roll"
-            onPress={this._pickImage}
-          />
-          {profilePic && (
-            <Image
-              source={{ uri: profilePic }}
-              style={{ width: 200, height: 200 }}
-            />
-          )} */}
           <View style={styles.profilePicContainer}>
             <ChooseAvatarPhoto
+              buttonText="Tap to Change Profile Picture"
+              buttonColor="lightblue"
               profilePicURI={Meteor.user().profile.profilePic}
               onChoosePhoto={this.onChoosePhoto}
             />
@@ -155,33 +147,43 @@ export default class Profile extends React.Component {
 
           <Text style={styles.header}>HELP INFO</Text>
 
-          <List containerStyle={styles.list}>
+          <View containerStyle={styles.list}>
             {list.map((item, i) => (
               <ListItem
                 key={i}
                 title={item.title}
-                leftIcon={{ name: item.icon, type: item.iconType }}
+                titleStyle={styles.title}
+                leftIcon={{
+                  name: item.icon,
+                  type: item.iconType,
+                  color: "gray"
+                }}
                 onPress={() => this.onPress(item.screen)}
                 containerStyle={styles.listItem}
               />
             ))}
-          </List>
+          </View>
 
           <Divider style={styles.divider} />
 
           <Text style={styles.header}>SUPPORT</Text>
 
-          <List containerStyle={styles.list}>
+          <View containerStyle={styles.list}>
             {helpList.map((item, i) => (
               <ListItem
                 key={i}
                 title={item.title}
-                leftIcon={{ name: item.icon, type: item.iconType }}
+                titleStyle={styles.title}
+                leftIcon={{
+                  name: item.icon,
+                  color: "gray",
+                  type: item.iconType
+                }}
                 onPress={() => this.onPress(item.screen)}
                 containerStyle={styles.listItem}
               />
             ))}
-          </List>
+          </View>
 
           <Button onPress={this.logout} title="Logout" />
           <Image source={this.state.avatarSource} />

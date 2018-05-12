@@ -5,8 +5,9 @@ const styles = EStyleSheet.create({
     width: "100%",
     height: "100%",
     justifyContent: "center",
-    alignItems: "center",
-    borderBottomColor: "$lightblueDown"
+    alignItems: "center"
+    // backgroundColor: "$lightgray"
+    // borderBottomColor: "$lightblueDown"
   },
   text: {
     fontSize: 15,
