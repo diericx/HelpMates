@@ -14,8 +14,11 @@ const styles = EStyleSheet.create({
     fontSize: 20,
     paddingBottom: 3
   },
+  button: {
+    backgroundColor: "$lightgray"
+  },
   selectedButton: {
-    backgroundColor: "lightgray"
+    backgroundColor: "white"
   },
   labelText: {
     color: "lightgray"

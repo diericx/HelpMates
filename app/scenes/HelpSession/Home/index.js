@@ -122,6 +122,7 @@ class Index extends React.Component {
             buttons={groupButtons}
             containerStyle={styles.buttonGroup}
             selectedButtonStyle={styles.selectedButton}
+            buttonStyle={styles.button}
           />
         </View>
 

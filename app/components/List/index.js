@@ -35,7 +35,9 @@ export default class CourseList extends React.Component {
               <ListItem
                 containerStyle={styles.listItemContainer}
                 title={item.title1}
+                titleStyle={styles.title}
                 subtitle={item.title2}
+                subtitleStyle={styles.subtitle}
                 onPress={() => this.props.onPress({ course: item })}
                 hideChevron={this.props.hideChevron}
               />

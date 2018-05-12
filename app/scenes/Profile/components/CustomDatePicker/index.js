@@ -58,6 +58,8 @@ class Index extends React.Component {
           onPress={this.updateDay}
           selectedIndex={selectedDay}
           selectedButtonStyle={styles.selectedButton}
+          selectedTextStyle={{ color: "gray" }}
+          buttonStyle={styles.button}
           buttons={dayButtons}
           containerStyle={{ height: 30 }}
         />

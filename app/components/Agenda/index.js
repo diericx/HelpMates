@@ -11,6 +11,9 @@ import {
 
 import styles from "./styles";
 
+const MIN_HEIGHT = 75;
+const MAX_HEIGHT = 200;
+
 export default class UserAgenda extends React.Component {
   constructor(props) {
     super(props);
@@ -78,12 +81,20 @@ export default class UserAgenda extends React.Component {
           availabilityDate.setHours(availability.hours);
           availabilityDate.setMinutes(availability.minutes);
 
+          var height = availability.duration / 2;
+          if (height < MIN_HEIGHT) {
+            height = MIN_HEIGHT;
+          }
+          if (height > MAX_HEIGHT) {
+            height = MAX_HEIGHT;
+          }
+
           items[`${month.format("YYYY-MM-DD")}`].push({
             startDate: availabilityDate,
             endDate: new Date(
               availabilityDate.getTime() + availability.duration * 60000
             ),
-            height: availability.duration / 2,
+            height: height,
             index: i
           });
         }

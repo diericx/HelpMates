@@ -34,5 +34,11 @@ export default EStyleSheet.create({
     color: "gray",
     padding: 10,
     textAlign: "center"
+  },
+  title: {
+    color: "$darkgray"
+  },
+  subtitle: {
+    color: "gray"
   }
 });

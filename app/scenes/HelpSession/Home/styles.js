@@ -19,8 +19,11 @@ const styles = EStyleSheet.create({
     height: 30,
     marginTop: 10
   },
-  selectedButton: {
+  button: {
     backgroundColor: "$lightgray"
+  },
+  selectedButton: {
+    backgroundColor: "white"
   },
   divider: {
     backgroundColor: "lightgray"
