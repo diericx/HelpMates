@@ -35,7 +35,6 @@ export default class Index extends React.Component {
       return (
         <ListItem
           key={index}
-          roundAvatar
           title={courseName}
           containerStyle={styles.listItemContainer}
           onPress={() => this.props.onSelectCourse(courseId)}

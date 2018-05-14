@@ -17,6 +17,7 @@ export default class LoginForm extends Component {
           leftIcon={
             <Icon name="envelope-o" color="rgba(255,255,255, 0.6)" size={25} />
           }
+          keyboardType="email-address"
           inputContainerStyle={styles.inputContainer}
           inputStyle={styles.input}
           onChangeText={text => this.props.emailHandler(text)}
@@ -65,6 +66,7 @@ export default class LoginForm extends Component {
           leftIcon={
             <Icon name="envelope-o" color="rgba(255,255,255, 0.6)" size={25} />
           }
+          keyboardType="email-address"
           inputContainerStyle={styles.inputContainer}
           inputStyle={styles.input}
           onChangeText={text => this.props.emailHandler(text)}

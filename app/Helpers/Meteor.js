@@ -274,7 +274,7 @@ export function ConfirmPaymentForSession(session) {
 export function AddCompletedCourse(courseId) {
   Meteor.call(
     "users.addCompletedCourse",
-    { courseId, rate: 15 },
+    { courseId, rate: 7.5 },
     (err, res) => {
       // Do whatever you want with the response
       if (err) {

@@ -1,10 +1,10 @@
 import React from "react";
 import Meteor from "react-native-meteor";
 import { View, SectionList, Text } from "react-native";
-import { ListItem } from "react-native-elements";
+import { ListItem, Avatar } from "react-native-elements";
 import { Rating, AirbnbRating } from "react-native-ratings";
 
-import UserAvatar from "../../../../components/general/UserAvatar/index";
+// import UserAvatar from "../../../../components/general/UserAvatar/index";
 import List from "../../../../components/List/index";
 import { GetAverageRating } from "../../../../Helpers/User";
 
@@ -72,12 +72,21 @@ export default class UserList extends React.Component {
       targetUserId: item._id
     });
     const avgRating = GetAverageRating(ratingsForUser);
-    console.log("USER LIST-RAtings for usr: ", avgRating);
+    console.log("User Avatar: ", item.profile.profilePic);
     return (
       <ListItem
         containerStyle={styles.listItemContainer}
-        roundAvatar
-        avatar={<UserAvatar url={item.profile.profilePic} />}
+        // leftAvatar={{
+        //   source: { uri: item.profile.profilePic },
+        //   containerStyle: { backgroundColor: "white" }
+        // }}
+        leftAvatar={
+          <Avatar
+            rounded
+            size="medium"
+            source={{ uri: item.profile.profilePic }}
+          />
+        }
         title={item.profile.name}
         subtitle={
           <Rating

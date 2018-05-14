@@ -3,7 +3,6 @@ import Meteor from "react-native-meteor";
 import { View, Text } from "react-native";
 import { Avatar, Rating } from "react-native-elements";
 
-import UserAvatar from "../../../../components/general/UserAvatar/index";
 import { GetAverageRating } from "../../../../Helpers/User";
 import styles from "./styles";
 
@@ -19,7 +18,11 @@ export default class ProfileCard extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.profileImageContainer}>
-          <UserAvatar url={user.profile.profilePic} size={110} />
+          <Avatar
+            source={{ uri: user.profile.profilePic }}
+            rounded
+            size={110}
+          />
         </View>
 
         <View style={styles.profileDataContainer}>

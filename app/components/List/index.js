@@ -26,37 +26,33 @@ export default class CourseList extends React.Component {
       );
     }
     return (
-      <View containerStyle={styles.container}>
-        <SectionList
-          renderItem={({ item }) =>
-            this.props.renderItem ? (
-              this.props.renderItem(item)
-            ) : (
-              <ListItem
-                containerStyle={styles.listItemContainer}
-                title={item.title1}
-                titleStyle={styles.title}
-                subtitle={item.title2}
-                subtitleStyle={styles.subtitle}
-                onPress={() => this.props.onPress({ course: item })}
-                hideChevron={this.props.hideChevron}
-              />
-            )
-          }
-          renderSectionHeader={({ section }) =>
-            this.renderSectionHeader(section)
-          }
-          keyExtractor={item => item._id}
-          sections={this.props.data}
-          ListFooterComponent={() =>
-            this.props.footer == false ? (
-              <View />
-            ) : (
-              <View style={styles.listFooter} />
-            )
-          }
-        />
-      </View>
+      <SectionList
+        renderItem={({ item }) =>
+          this.props.renderItem ? (
+            this.props.renderItem(item)
+          ) : (
+            <ListItem
+              containerStyle={styles.listItemContainer}
+              title={item.title1}
+              titleStyle={styles.title}
+              subtitle={item.title2}
+              subtitleStyle={styles.subtitle}
+              onPress={() => this.props.onPress({ course: item })}
+              hideChevron={this.props.hideChevron}
+            />
+          )
+        }
+        renderSectionHeader={({ section }) => this.renderSectionHeader(section)}
+        keyExtractor={item => item._id}
+        sections={this.props.data}
+        ListFooterComponent={() =>
+          this.props.footer == false ? (
+            <View />
+          ) : (
+            <View style={styles.listFooter} />
+          )
+        }
+      />
     );
   }
 }

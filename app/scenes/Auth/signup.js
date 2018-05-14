@@ -146,7 +146,7 @@ export default class Signup extends Component {
               <Text style={styles.error}> {this.state.error} </Text>
             </View>
             <ChooseAvatarPhoto
-              size={250}
+              size={150}
               onChoosePhoto={this.onChoosePhoto}
               profilePicURI={this.state.profilePicURI}
             />
