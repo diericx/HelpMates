@@ -1,9 +1,8 @@
 import React from "react";
 import Meteor from "react-native-meteor";
 import { View, Text } from "react-native";
-import { ListItem, Rating } from "react-native-elements";
+import { ListItem, Rating, Avatar } from "react-native-elements";
 
-import UserAvatar from "../../../../components/general/UserAvatar/index";
 import { FullDateForSession_Words } from "../../../../Helpers/Date";
 import {
   CTextSubtitle,
@@ -115,7 +114,9 @@ export default class SessionList extends React.Component {
             </CTextSubtitle>
           </View>
         }
-        avatar={<UserAvatar url={otherUserProfilePic} />}
+        leftAvatar={
+          <Avatar rounded size="medium" source={{ uri: otherUserProfilePic }} />
+        }
         containerStyle={
           item.startedAt && item.endedAt && !item.hasStudentPayed
             ? [styles.listItemContainer, styles.lightRedBackground]

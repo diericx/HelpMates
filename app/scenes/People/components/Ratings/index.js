@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import Meteor from "react-native-meteor";
 import { View, ScrollView, Text } from "react-native";
-import { Card, Rating, Divider } from "react-native-elements";
+import { Card, Rating, Divider, Avatar } from "react-native-elements";
 
 import List from "../../../../components/List";
-import UserAvatar from "../../../../components/general/UserAvatar/index";
 import styles from "./styles";
 
 class Index extends Component {
@@ -16,7 +15,12 @@ class Index extends Component {
     return (
       <Card key={rating._id}>
         <View style={styles.headerContainer}>
-          <UserAvatar url={ratingAuthor.profile.profilePic} size={50} />
+          <Avatar
+            rounded
+            size={50}
+            source={{ uri: ratingAuthor.profile.profilePic }}
+          />
+          {/* <UserAvatar url={ratingAuthor.profile.profilePic} size={50} /> */}
           <View style={styles.headerRightContainer}>
             <Text style={styles.nameText}>{ratingAuthor.profile.name}</Text>
             <Rating

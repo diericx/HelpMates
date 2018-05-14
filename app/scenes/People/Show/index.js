@@ -64,6 +64,9 @@ class Show extends React.Component {
             onPress={this.updateGroup}
             selectedIndex={selectedGroup}
             buttons={buttons}
+            selectedButtonStyle={styles.selectedButton}
+            buttonStyle={styles.button}
+            selectedTextStyle={{ color: "gray" }}
             containerStyle={styles.buttonGroup}
           />
         </View>
@@ -84,7 +87,9 @@ class Show extends React.Component {
 const container = createContainer(params => ({}), Show);
 
 container.navigationOptions = ({ navigation }) => {
-  const { state: { params = {} } } = navigation;
+  const {
+    state: { params = {} }
+  } = navigation;
   return {
     headerTitle: params.user.profile.name || ""
   };
