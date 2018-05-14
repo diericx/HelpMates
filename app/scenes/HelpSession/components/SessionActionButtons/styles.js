@@ -1,37 +1,40 @@
-import EStyleSheet from 'react-native-extended-stylesheet';
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const styles = EStyleSheet.create({
+  container: {
+    width: "100%"
+  },
   actionButtonsContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
+    justifyContent: "space-evenly"
   },
   sideBySideButton: {
     width: 150,
     height: 45,
-    marginTop: 10,
     marginBottom: 10,
-    borderColor: 'transparent',
+    borderColor: "transparent",
     borderWidth: 0,
-    borderRadius: 5,
+    borderRadius: 5
   },
   endButton: {
     height: 45,
-    backgroundColor: '$green',
-    borderColor: 'transparent',
+    backgroundColor: "$green",
+    borderColor: "transparent",
     borderWidth: 0,
     borderRadius: 5,
     paddingVertical: 5,
-    width: '$screenWidth - 50',
-    marginBottom: 10,
+    width: "$screenWidth - 50",
+    marginBottom: 10
   },
   acceptButton: {
-    backgroundColor: '$green',
+    backgroundColor: "$green"
   },
   denyButton: {
-    backgroundColor: '$red',
+    backgroundColor: "$red"
   },
   cancelButton: {
-    backgroundColor: '$orange',
-  },
+    backgroundColor: "$orange"
+  }
 });
 
 export default styles;

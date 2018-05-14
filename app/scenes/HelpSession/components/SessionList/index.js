@@ -117,9 +117,9 @@ export default class SessionList extends React.Component {
         }
         avatar={<UserAvatar url={otherUserProfilePic} />}
         containerStyle={
-          item.endedAt && item.hasStudentPayed
-            ? styles.listItemContainer
-            : [styles.listItemContainer, styles.lightRedBackground]
+          item.startedAt && item.endedAt && !item.hasStudentPayed
+            ? [styles.listItemContainer, styles.lightRedBackground]
+            : styles.listItemContainer
         }
         onPress={() =>
           this.onPress({

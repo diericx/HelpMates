@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { Button } from "react-native-elements";
 import Meteor from "react-native-meteor";
 
@@ -42,14 +42,14 @@ export default class Index extends React.Component {
           title="Accept"
           textStyle={{ fontWeight: "700" }}
           buttonStyle={[styles.sideBySideButton, styles.acceptButton]}
-          containerStyle={{ marginTop: 20 }}
+          containerStyle={{ marginTop: 15 }}
           onPress={() => AcceptSession(session)}
         />
         <Button
           title="Deny"
           textStyle={{ fontWeight: "700" }}
           buttonStyle={[styles.sideBySideButton, styles.denyButton]}
-          containerStyle={{ marginTop: 20 }}
+          containerStyle={{ marginTop: 15 }}
           onPress={() => DenySession(session)}
         />
       </View>
@@ -64,14 +64,14 @@ export default class Index extends React.Component {
           title="Start"
           textStyle={{ fontWeight: "700" }}
           buttonStyle={[styles.sideBySideButton, styles.acceptButton]}
-          containerStyle={{ marginTop: 20 }}
+          containerStyle={{ marginTop: 15 }}
           onPress={() => StartSesson(session)}
         />
         <Button
           title="Cancel"
           textStyle={{ fontWeight: "700" }}
           buttonStyle={[styles.sideBySideButton, styles.cancelButton]}
-          containerStyle={{ marginTop: 20 }}
+          containerStyle={{ marginTop: 15 }}
           onPress={() => DenySession(session)}
         />
       </View>
@@ -184,6 +184,8 @@ export default class Index extends React.Component {
   }
 
   render() {
-    return <View>{this.renderSessionActionButtons()}</View>;
+    return (
+      <View style={styles.container}>{this.renderSessionActionButtons()}</View>
+    );
   }
 }

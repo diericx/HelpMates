@@ -55,7 +55,7 @@ class Show extends React.Component {
   }
 
   componentWillUnmount() {
-    timer.clearInterval(this);
+    timer.clearInterval("updateCurrentDate");
   }
 
   // When a message is sent on client
@@ -113,11 +113,13 @@ class Show extends React.Component {
 
     return (
       <View style={styles.container}>
-        <SessionData
-          session={session}
-          now={this.state.now}
-          onPressEndSession={this.onPressEndSession}
-        />
+        {sessionEndedAndUserHasntRated ? null : (
+          <SessionData
+            session={session}
+            now={this.state.now}
+            onPressEndSession={this.onPressEndSession}
+          />
+        )}
 
         <Divider style={{ backgroundColor: "lightgray" }} />
 
