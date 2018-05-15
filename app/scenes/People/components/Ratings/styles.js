@@ -4,6 +4,10 @@ const styles = EStyleSheet.create({
   container: {
     flex: 1
   },
+  cardContainer: {
+    marginTop: 0,
+    marginBottom: 15
+  },
   headerContainer: {
     flexDirection: "row",
     paddingBottom: 15

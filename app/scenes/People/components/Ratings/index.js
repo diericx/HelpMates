@@ -13,7 +13,7 @@ class Index extends Component {
     });
 
     return (
-      <Card key={rating._id}>
+      <Card key={rating._id} containerStyle={styles.cardContainer}>
         <View style={styles.headerContainer}>
           <Avatar
             rounded

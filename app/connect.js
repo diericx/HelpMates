@@ -10,7 +10,7 @@ const api = manifest.packagerOpts.dev
   : "localhost:3000/websocket";
 
 export default function() {
-  const url = "ws://10.7.107.240:3000/websocket";
-  // const url = "https://helpmates.appdojo.com/websocket";
+  // const url = "ws://10.7.107.240:3000/websocket";
+  const url = "https://helpmates.appdojo.com/websocket";
   Meteor.connect(url);
 }

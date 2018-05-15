@@ -73,7 +73,6 @@ export default class UserList extends React.Component {
     });
     const avgRating = GetAverageRating(ratingsForUser);
     const ratingCount = ratingsForUser.length;
-    console.log("AVG RATING: ", avgRating);
 
     return (
       <ListItem
@@ -81,7 +80,7 @@ export default class UserList extends React.Component {
         leftAvatar={
           <Avatar
             rounded
-            size="medium"
+            size={60}
             source={{ uri: item.profile.profilePic, cache: "force-cache" }}
           />
         }

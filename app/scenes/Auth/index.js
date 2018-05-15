@@ -15,7 +15,7 @@ import LoginForm from "./components/LoginForm/index";
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "$purple"
+    backgroundColor: "#18c0ea"
   },
   input: {
     color: "black",

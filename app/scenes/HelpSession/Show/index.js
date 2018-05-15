@@ -106,7 +106,8 @@ class Show extends React.Component {
     const { session } = this.props;
     // get this user's rating for this session
     const myRating = Meteor.collection("ratings").findOne({
-      userId: Meteor.userId()
+      userId: Meteor.userId(),
+      sessionId: session._id
     });
     const sessionEndedAndUserHasntRated = session.endedAt && !myRating;
 
