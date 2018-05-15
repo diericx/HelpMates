@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, ActivityIndicator } from "react-native";
 import Meteor, { createContainer } from "react-native-meteor";
 import { Card, Divider, Icon } from "react-native-elements";
 
@@ -50,8 +50,14 @@ class Index extends React.Component {
 
   render() {
     const { users } = this.props;
-    const { courses } = this.props;
+    const { courses, tutorsReady } = this.props;
     const filteredCourses = this.filterCourses(courses);
+
+    if (!tutorsReady) {
+      return (
+        <ActivityIndicator animating size="large" style={{ marginTop: 15 }} />
+      );
+    }
 
     return (
       <View style={styles.container}>
@@ -68,8 +74,9 @@ class Index extends React.Component {
 }
 
 const container = createContainer(params => {
-  Meteor.subscribe("tutors");
+  const tutorsHandle = Meteor.subscribe("tutors");
   return {
+    tutorsReady: tutorsHandle.ready(),
     users: Meteor.collection("users").find({ _id: { $ne: Meteor.userId() } }),
     courses: Meteor.collection("courses").find()
   };

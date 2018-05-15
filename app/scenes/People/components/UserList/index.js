@@ -73,6 +73,8 @@ export default class UserList extends React.Component {
     });
     const avgRating = GetAverageRating(ratingsForUser);
     const ratingCount = ratingsForUser.length;
+    console.log("AVG RATING: ", avgRating);
+
     return (
       <ListItem
         containerStyle={styles.listItemContainer}
@@ -93,6 +95,7 @@ export default class UserList extends React.Component {
               imageSize={20}
               readonly
             />
+            )
             <Text style={styles.subtitleText}>
               {ratingCount} {ratingCount === 1 ? "Review" : "Reviews"}
             </Text>
