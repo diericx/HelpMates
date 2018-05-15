@@ -1,8 +1,8 @@
 import React from "react";
-import { Dimensions, AsyncStorage, View, StatusBar } from "react-native";
+import { Dimensions, AsyncStorage, View, StatusBar, Image } from "react-native";
 import Meteor, { createContainer } from "react-native-meteor";
 import EStyleSheet from "react-native-extended-stylesheet";
-import Font from "expo";
+import { Font, Asset } from "expo";
 import { Permissions, Notifications, AppLoading } from "expo";
 
 import Intro from "./scenes/Intro/index";
@@ -70,6 +70,16 @@ async function registerForPushNotificationsAsync() {
   return SetPushNotificationToken(token);
 }
 
+function cacheImages(images) {
+  return images.map(image => {
+    if (typeof image === "string") {
+      return Image.prefetch(image);
+    } else {
+      return Asset.fromModule(image).downloadAsync();
+    }
+  });
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -88,6 +98,11 @@ class App extends React.Component {
       OpenSansBold: require("../assets/fonts/OpenSansBold.ttf"),
       OpenSans: require("../assets/fonts/OpenSansRegular.ttf")
     });
+
+    const imageAssets = cacheImages([
+      require("react-native-elements/src/rating/images/star.png")
+    ]);
+    await Promise.all([...imageAssets]);
 
     connect();
 

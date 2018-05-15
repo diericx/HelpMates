@@ -43,7 +43,7 @@ import PeopleHomeScreen from "../scenes/People/Home/index";
 
 // the default settings for the header of each stack
 const defaultNavigationOptions = {
-  title: "StudyBuddies",
+  title: "HelpMates",
   headerBackTitle: "Back",
   headerStyle: {
     backgroundColor: "#18dcff",
