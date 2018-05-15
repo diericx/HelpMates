@@ -107,10 +107,10 @@ export default class SessionList extends React.Component {
             <CTextSubtitle
               style={[styles.listSubTitle, styles.listSubTitleLarge]}
             >
-              {this.getCourseNameToDisplayForSession(item)}
+              {item.subtitle1 || this.getCourseNameToDisplayForSession(item)}
             </CTextSubtitle>
             <CTextSubtitle style={styles.listSubTitle}>
-              {FullDateForSession_Words(item)}
+              {item.subtitle2 || FullDateForSession_Words(item)}
             </CTextSubtitle>
           </View>
         }

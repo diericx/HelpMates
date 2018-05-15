@@ -4,6 +4,7 @@ import Meteor, { createContainer } from "react-native-meteor";
 import { Card, Divider, ButtonGroup } from "react-native-elements";
 import IconBadge from "react-native-icon-badge";
 
+import { GetCostOfSession, IsCurrentUserTutor } from "../../../Helpers/Session";
 import SessionList from "../components/SessionList/index";
 import BGButton from "../components/BGButton/index";
 
@@ -43,6 +44,20 @@ class Index extends React.Component {
     return sortedSessions;
   }
 
+  // Map over all ended sessions and update it's data
+  formatEndedSessions(sessions) {
+    return sessions.map(session => {
+      if (!session.endedAt) {
+        session.subtitle1 = "Session Cancelled";
+        return session;
+      }
+      let cost = GetCostOfSession(session);
+      let prefix = IsCurrentUserTutor(session) ? "+" : "-";
+      session.subtitle1 = `${prefix}${cost}`;
+      return session;
+    });
+  }
+
   renderSessionListForSelectedGroup(sessions, sessionRequests, endedSessions) {
     const { selectedGroup } = this.state;
     if (selectedGroup == 0) {
@@ -74,13 +89,14 @@ class Index extends React.Component {
 
   render() {
     const { selectedGroup } = this.state;
-    const {
+    let {
       sessions,
       sessionRequests,
       endedSessions,
       notificationLocation,
       requestsWithNotifications
     } = this.props;
+    endedSessions = this.formatEndedSessions(endedSessions);
     const { notifications } = this.props.screenProps;
 
     const groupButtons = [
@@ -142,14 +158,15 @@ const container = createContainer(params => {
   // subscribe to myHelpSessions is in main index
   return {
     sessionRequests: Meteor.collection("helpSessions").find({
-      tutorAccepted: false
+      tutorAccepted: false,
+      tutorDenied: false
     }),
     sessions: Meteor.collection("helpSessions").find({
       tutorAccepted: true,
       endedAt: { $exists: false }
     }),
     endedSessions: Meteor.collection("helpSessions").find({
-      endedAt: { $exists: true }
+      $or: [{ endedAt: { $exists: true } }, { tutorDenied: true }]
     })
   };
 }, Index);

@@ -1,4 +1,4 @@
-import Meteor from 'react-native-meteor';
+import Meteor from "react-native-meteor";
 
 export function CalculateTimeAndCost(session, now) {
   const diff = now.getTime() - session.startedAt.getTime();
@@ -19,14 +19,21 @@ export function CalculateTimeAndCost(session, now) {
   minutes %= 60;
   seconds %= 60;
   // calculate cost
-  const cost = ((hours + minutes / 60 + seconds / 3600) * session.cost).toFixed(2);
+  const cost = ((hours + minutes / 60 + seconds / 3600) * session.cost).toFixed(
+    2
+  );
 
   return {
     seconds,
     minutes,
     hours,
-    cost,
+    cost
   };
+}
+
+export function GetCostOfSession(session) {
+  let diffInHours = (session.endedAt - session.startedAt) / 1000 / 60 / 60;
+  return session.cost * diffInHours;
 }
 
 export function IsCurrentUserTutor(session) {
