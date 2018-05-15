@@ -25,7 +25,7 @@ export function UploadProfilePic(uri, onComplete) {
   const file = {
     // `uri` can also be a file system path (i.e. file://)
     uri: uri,
-    name: "profilePic-" + Meteor.userId() + imageFileType + msString,
+    name: "profilePic-" + Meteor.userId() + imageFileType,
     type: "image"
   };
 

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Avatar } from 'react-native-elements';
+import React, { Component } from "react";
+import { Avatar } from "react-native-elements";
 
-import styles from './styles';
+import styles from "./styles";
 
 export default class Index extends Component {
   constructor(props) {
@@ -15,22 +15,24 @@ export default class Index extends Component {
   render() {
     const size = this.props.size ? this.props.size : this.defaultSize;
 
-    return (
-      this.props.url ? 
+    return this.props.url ? (
       <Avatar
         rounded
         width={size}
         height={size}
-        source={this.props.url ? { uri: this.props.url } : null}
+        source={
+          this.props.url ? { uri: this.props.url, cache: "force-cache" } : null
+        }
         containerStyle={styles.container}
       />
-      : <Avatar
-      rounded
-      width={size}
-      height={size}
-      title="MT"
-      containerStyle={styles.container}
-    />
+    ) : (
+      <Avatar
+        rounded
+        width={size}
+        height={size}
+        title="MT"
+        containerStyle={styles.container}
+      />
     );
   }
 }

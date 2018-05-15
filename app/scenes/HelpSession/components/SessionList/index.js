@@ -115,7 +115,11 @@ export default class SessionList extends React.Component {
           </View>
         }
         leftAvatar={
-          <Avatar rounded size="medium" source={{ uri: otherUserProfilePic }} />
+          <Avatar
+            rounded
+            size="medium"
+            source={{ uri: otherUserProfilePic, cache: "force-cache" }}
+          />
         }
         containerStyle={
           item.startedAt && item.endedAt && !item.hasStudentPayed

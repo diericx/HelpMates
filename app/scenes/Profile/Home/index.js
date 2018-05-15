@@ -1,5 +1,5 @@
 import React from "react";
-import Meteor from "react-native-meteor";
+import Meteor, { createContainer } from "react-native-meteor";
 import EStyleSheet from "react-native-extended-stylesheet";
 import {
   View,
@@ -63,7 +63,7 @@ const helpList = [
   }
 ];
 
-export default class Profile extends React.Component {
+class Index extends React.Component {
   static navigationOptions = {
     title: "Profile"
   };
@@ -89,15 +89,15 @@ export default class Profile extends React.Component {
 
   onChoosePhoto(uri) {
     UploadProfilePic(uri, this.onProfilePicUpload);
+    this.setState({
+      profilePicURL: uri
+    });
   }
 
   onProfilePicUpload(url) {
     console.log("On Profile pic upload: ", url);
     // set the profile pic for this user in Meteor
     SetProfilePic(url);
-    this.setState({
-      profilePicURL: url
-    });
   }
 
   async resetAnonymousKey() {
@@ -129,7 +129,7 @@ export default class Profile extends React.Component {
 
   render() {
     let { profilePicURL } = this.state;
-    console.log(Meteor.user().profile.profilePic);
+    let { user } = this.props;
 
     return (
       <View style={styles.container}>
@@ -138,7 +138,7 @@ export default class Profile extends React.Component {
             <ChooseAvatarPhoto
               buttonText="Tap to Change Profile Picture"
               buttonColor="lightblue"
-              profilePicURI={Meteor.user().profile.profilePic}
+              profilePicURI={profilePicURL}
               onChoosePhoto={this.onChoosePhoto}
             />
           </View>
@@ -192,3 +192,16 @@ export default class Profile extends React.Component {
     );
   }
 }
+
+const container = createContainer(params => {
+  // subscribe to meteor collections
+  return {
+    user: Meteor.user()
+  };
+}, Index);
+
+container.navigationOptions = ({ navigation }) => ({
+  headerTitle: "Profile"
+});
+
+export default container;

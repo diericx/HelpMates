@@ -83,7 +83,7 @@ export default class UserList extends React.Component {
           <Avatar
             rounded
             size="medium"
-            source={{ uri: item.profile.profilePic }}
+            source={{ uri: item.profile.profilePic, cache: "force-cache" }}
           />
         }
         title={item.profile.name}

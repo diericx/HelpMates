@@ -18,7 +18,10 @@ class Index extends Component {
           <Avatar
             rounded
             size={50}
-            source={{ uri: ratingAuthor.profile.profilePic }}
+            source={{
+              uri: ratingAuthor.profile.profilePic,
+              cache: "force-cache"
+            }}
           />
           {/* <UserAvatar url={ratingAuthor.profile.profilePic} size={50} /> */}
           <View style={styles.headerRightContainer}>

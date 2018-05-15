@@ -79,19 +79,13 @@ export default class Index extends React.Component {
             onPress={() => {
               this.onCopyVenmoHandleButton(otherUser.profile.venmoHandle);
               Alert.alert(
-                "Alert Title",
-                "My Alert Msg",
+                "Venmo handle copied",
+                "",
                 [
                   {
-                    text: "Ask me later",
-                    onPress: () => console.log("Ask me later pressed")
-                  },
-                  {
-                    text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                  },
-                  { text: "OK", onPress: () => console.log("OK Pressed") }
+                    text: "Thanks!",
+                    onPress: () => console.log("Thanks")
+                  }
                 ],
                 { cancelable: false }
               );

@@ -19,7 +19,7 @@ export default class ProfileCard extends React.Component {
       <View style={styles.container}>
         <View style={styles.profileImageContainer}>
           <Avatar
-            source={{ uri: user.profile.profilePic }}
+            source={{ uri: user.profile.profilePic, cache: "force-cache" }}
             rounded
             size={110}
           />

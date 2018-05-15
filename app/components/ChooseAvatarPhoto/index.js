@@ -40,7 +40,7 @@ export default class Index extends React.Component {
           <Avatar
             size={this.props.size || "xlarge"}
             rounded
-            source={{ uri: profilePicURI }}
+            source={{ uri: profilePicURI, cache: "force-cache" }}
             activeOpacity={1}
           />
         )}

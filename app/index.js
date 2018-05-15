@@ -98,7 +98,6 @@ class App extends React.Component {
       OpenSansBold: require("../assets/fonts/OpenSansBold.ttf"),
       OpenSans: require("../assets/fonts/OpenSansRegular.ttf")
     });
-
     const imageAssets = cacheImages([
       require("react-native-elements/src/rating/images/star.png")
     ]);
