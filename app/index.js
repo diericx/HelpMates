@@ -3,7 +3,7 @@ import { Dimensions, AsyncStorage, View, StatusBar } from "react-native";
 import Meteor, { createContainer } from "react-native-meteor";
 import EStyleSheet from "react-native-extended-stylesheet";
 import Font from "expo";
-import { Permissions, Notifications } from "expo";
+import { Permissions, Notifications, AppLoading } from "expo";
 
 import Intro from "./scenes/Intro/index";
 import connect from "./connect";
@@ -80,7 +80,7 @@ class App extends React.Component {
     this.setHasSeenIntro = this.setHasSeenIntro.bind(this);
   }
 
-  async componentWillMount() {
+  async _preLoad() {
     // Import Assets
     await Expo.Font.loadAsync({
       Milkshake: require("../assets/fonts/Milkshake.ttf"),
@@ -111,8 +111,6 @@ class App extends React.Component {
       // Error retrieving data
       console.log(error);
     }
-
-    this.setState({ isReady: true });
   }
 
   async getHasSeenIntro() {
@@ -158,6 +156,16 @@ class App extends React.Component {
   render() {
     const { user, loggingIn, sessionsWithNotifications } = this.props;
     const { hasSeenIntro } = this.state;
+
+    if (!this.state.isReady) {
+      return (
+        <AppLoading
+          startAsync={this._preLoad}
+          onFinish={() => this.setState({ isReady: true })}
+          onError={console.warn}
+        />
+      );
+    }
 
     console.log("HAS SEEN INTRO: ", hasSeenIntro);
 

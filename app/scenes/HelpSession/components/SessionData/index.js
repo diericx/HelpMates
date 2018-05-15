@@ -1,8 +1,18 @@
 import React from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  Clipboard,
+  TouchableOpacity,
+  Alert
+} from "react-native";
 import Meteor from "react-native-meteor";
 
-import { GetOtherUsersNameForSession } from "../../../../scenes/HelpSession/helpers";
+import {
+  GetOtherUsersNameForSession,
+  GetOtherUserForSession
+} from "../../../../scenes/HelpSession/helpers";
 import {
   CalculateTimeAndCost,
   IsCurrentUserStudent
@@ -12,6 +22,10 @@ import SessionActionButtons from "../SessionActionButtons/index";
 import styles from "./styles";
 
 export default class Index extends React.Component {
+  async onCopyVenmoHandleButton(handle) {
+    await Clipboard.setString(handle);
+  }
+
   // Render a message about the current session
   renderSessionWaitingMessage(preMessage, postMessage, showLoader) {
     const { session } = this.props;
@@ -51,7 +65,8 @@ export default class Index extends React.Component {
     const myRating = Meteor.collection("ratings").findOne({
       userId: Meteor.userId()
     });
-    const otherUsersName = GetOtherUsersNameForSession(session);
+    const otherUser = GetOtherUserForSession(session);
+    const otherUsersName = otherUser.profile.name;
     if (session.endedAt && session.hasStudentPayed) {
       return null;
     }
@@ -60,15 +75,36 @@ export default class Index extends React.Component {
       if (IsCurrentUserStudent(session)) {
         // Show alert for student
         return (
-          <View>
+          <TouchableOpacity
+            onPress={() => {
+              this.onCopyVenmoHandleButton(otherUser.profile.venmoHandle);
+              Alert.alert(
+                "Alert Title",
+                "My Alert Msg",
+                [
+                  {
+                    text: "Ask me later",
+                    onPress: () => console.log("Ask me later pressed")
+                  },
+                  {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                  },
+                  { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+              );
+            }}
+          >
             <Text style={[styles.sessionWaitingText, styles.alertText]}>
               You owe {otherUsersName} ${
                 CalculateTimeAndCost(session, session.endedAt).cost
               }{" "}
               {"\n"}
-              Venmo @Zac-Holland
+              Tap to copy Venmo handle: {otherUser.profile.venmoHandle}
             </Text>
-          </View>
+          </TouchableOpacity>
         );
       } else {
         // Show alert for tutor

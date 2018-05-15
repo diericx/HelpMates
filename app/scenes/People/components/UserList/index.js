@@ -72,7 +72,6 @@ export default class UserList extends React.Component {
       targetUserId: item._id
     });
     const avgRating = GetAverageRating(ratingsForUser);
-    console.log("User Avatar: ", item.profile.profilePic);
     return (
       <ListItem
         containerStyle={styles.listItemContainer}

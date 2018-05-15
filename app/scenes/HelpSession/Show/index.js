@@ -27,7 +27,8 @@ class Show extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this._mounted = true;
     // start timer for updating the current date every second
     const { session } = this.props;
     if (!session) {
@@ -39,9 +40,11 @@ class Show extends React.Component {
         this,
         "updateCurrentDate",
         () => {
-          this.setState({
-            now: new Date()
-          });
+          if (this._mounted) {
+            this.setState({
+              now: new Date()
+            });
+          }
         },
         1000
       );
@@ -55,6 +58,7 @@ class Show extends React.Component {
   }
 
   componentWillUnmount() {
+    this._mounted = false;
     timer.clearInterval("updateCurrentDate");
   }
 
