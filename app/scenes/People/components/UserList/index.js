@@ -72,13 +72,10 @@ export default class UserList extends React.Component {
       targetUserId: item._id
     });
     const avgRating = GetAverageRating(ratingsForUser);
+    const ratingCount = ratingsForUser.length;
     return (
       <ListItem
         containerStyle={styles.listItemContainer}
-        // leftAvatar={{
-        //   source: { uri: item.profile.profilePic },
-        //   containerStyle: { backgroundColor: "white" }
-        // }}
         leftAvatar={
           <Avatar
             rounded
@@ -88,13 +85,18 @@ export default class UserList extends React.Component {
         }
         title={item.profile.name}
         subtitle={
-          <Rating
-            style={styles.subtitleRating}
-            fractions={2}
-            startingValue={avgRating}
-            imageSize={20}
-            readonly
-          />
+          <View>
+            <Rating
+              style={styles.subtitleRating}
+              fractions={2}
+              startingValue={avgRating}
+              imageSize={20}
+              readonly
+            />
+            <Text style={styles.subtitleText}>
+              {ratingCount} {ratingCount === 1 ? "Review" : "Reviews"}
+            </Text>
+          </View>
         }
         onPress={() => this.onPress({ user: item })}
       />

@@ -19,5 +19,10 @@ export default EStyleSheet.create({
   },
   subtitleRating: {
     // marginLeft: 9
+  },
+  subtitleText: {
+    marginVertical: 3,
+    fontSize: 13,
+    opacity: 0.5
   }
 });
