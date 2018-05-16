@@ -3,7 +3,7 @@ import Meteor from "react-native-meteor";
 import { View, StatusBar, Text } from "react-native";
 import PropTypes from "prop-types";
 import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 // import Badge from "react-native-smart-badge";
 import IconBadge from "react-native-icon-badge";
@@ -215,7 +215,6 @@ const TabNavigation = TabNavigator(
         }
 
         // You can return any component that you like here! We usually use an
-        // icon component from react-native-vector-icons
         return (
           <View style={styles.tabBarIconsContainer}>
             {/* <Ionicons name={iconName} size={35} color={tintColor} /> */}
