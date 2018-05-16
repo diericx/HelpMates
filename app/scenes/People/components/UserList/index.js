@@ -66,6 +66,26 @@ export default class UserList extends React.Component {
     });
   }
 
+  compareUsers(a, b) {
+    const ratingsForUserA = Meteor.collection("ratings").find({
+      targetUserId: a._id
+    });
+    const avgRatingA = GetAverageRating(ratingsForUserA);
+    const ratingsForUserB = Meteor.collection("ratings").find({
+      targetUserId: b._id
+    });
+    const avgRatingB = GetAverageRating(ratingsForUserB);
+    console.log("A: ", ratingsForUserA, "B: ", ratingsForUserB)
+    if (avgRatingA < avgRatingB) {
+      return -1;
+    }
+    if (avgRatingA > avgRatingB) {
+      return 1;
+    }
+    // a must be equal to b
+    return 0;
+  }
+
   renderItem(item) {
     // get meta data for user
     const ratingsForUser = Meteor.collection("ratings").find({
@@ -107,7 +127,28 @@ export default class UserList extends React.Component {
 
   render() {
     // Get users to display based off the filter text, then format the data
-    const users = this.formatData(this.filterUsers());
+    let users = this.filterUsers()
+    users = users.sort(function (a, b) {
+      const ratingsForUserA = Meteor.collection("ratings").find({
+        targetUserId: a._id
+      });
+      const avgRatingA = GetAverageRating(ratingsForUserA);
+      const ratingsForUserB = Meteor.collection("ratings").find({
+        targetUserId: b._id
+      });
+      const avgRatingB = GetAverageRating(ratingsForUserB);
+      console.log("A: ", ratingsForUserA, "B: ", ratingsForUserB)
+      if (avgRatingA > avgRatingB) {
+        return -1;
+      }
+      if (avgRatingA < avgRatingB) {
+        return 1;
+      }
+      // a must be equal to b
+      return 0;
+    })
+    users = this.formatData(users);
+    
     return <List renderItem={this.renderItem} data={users} />;
   }
 }

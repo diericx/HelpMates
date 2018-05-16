@@ -29,7 +29,7 @@ export default class Index extends React.Component {
   // Render a message about the current session
   renderSessionWaitingMessage(preMessage, postMessage, showLoader) {
     const { session } = this.props;
-    const otherUsersName = GetOtherUsersNameForSession(session);
+    const otherUsersName = GetOtherUsersNameForSession(session, Meteor.userId());
     return (
       <View style={styles.sessionWaitingContainer}>
         {showLoader ? (

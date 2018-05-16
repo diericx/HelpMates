@@ -77,7 +77,7 @@ const container = createContainer(params => {
   const tutorsHandle = Meteor.subscribe("tutors");
   return {
     tutorsReady: tutorsHandle.ready(),
-    users: Meteor.collection("users").find({ _id: { $ne: Meteor.userId() } }),
+    users: Meteor.collection("users").find(),
     courses: Meteor.collection("courses").find()
   };
 }, Index);
@@ -89,7 +89,7 @@ container.navigationOptions = ({ navigation }) => {
     // header: null,
     headerTitle: (
       <SearchBar
-        placeholder="Search for a person"
+        placeholder="Search by name or course"
         onChangeText={text => params.onChangeText(text)}
       />
     )

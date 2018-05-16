@@ -52,9 +52,13 @@ class Show extends React.Component {
   }
 
   render() {
-    const buttons = ["Get Help", "Reviews"];
+    let buttons = ["Get Help", "Reviews"];
     const { user } = this.state.params;
     const { selectedGroup } = this.state;
+
+    if (Meteor.userId() == user._id) {
+      buttons = ["Reviews"]
+    }
 
     return (
       <View style={styles.container}>
@@ -70,7 +74,7 @@ class Show extends React.Component {
             containerStyle={styles.buttonGroup}
           />
         </View>
-        {this.state.selectedGroup === 0 ? (
+        {buttons[this.state.selectedGroup] === "Get Help" ? (
           <GetHelp
             user={user}
             onSelectCourse={this.onSelectCourse}

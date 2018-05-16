@@ -1,7 +1,6 @@
 import React from "react";
-import { Ionicons } from "@expo/vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View, Text, Image } from "react-native";
-import { LinearGradient } from "expo";
 import AppIntroSlider from "react-native-app-intro-slider";
 
 import styles from "./styles";
@@ -44,19 +43,17 @@ const slides = [
 
 export default class App extends React.Component {
   _renderItem = props => (
-    <LinearGradient
+    <View
       style={[
         styles.mainContent,
         {
           paddingTop: props.topSpacer,
           paddingBottom: props.bottomSpacer,
           width: props.width,
-          height: props.height
+          height: props.height,
+          backgroundColor: props.colors[0]
         }
       ]}
-      colors={props.colors}
-      start={{ x: 0, y: 0.1 }}
-      end={{ x: 0.1, y: 1 }}
     >
       <Ionicons
         style={{ backgroundColor: "transparent" }}
@@ -68,7 +65,7 @@ export default class App extends React.Component {
         <Text style={styles.title}>{props.title}</Text>
         <Text style={styles.text}>{props.text}</Text>
       </View>
-    </LinearGradient>
+    </View>
   );
 
   render() {
