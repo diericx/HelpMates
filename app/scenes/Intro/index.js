@@ -1,5 +1,5 @@
 import React from "react";
-import { Ionicons } from "react-native-vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { LinearGradient } from "expo";
 import AppIntroSlider from "react-native-app-intro-slider";

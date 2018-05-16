@@ -63,7 +63,6 @@ class Show extends React.Component {
 
   // Render the chat UI element
   renderChat(messages) {
-    console.log(this.state.guid);
     if (messages) {
       return (
         <GiftedChat

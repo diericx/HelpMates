@@ -90,7 +90,19 @@ class App extends React.Component {
     this.setHasSeenIntro = this.setHasSeenIntro.bind(this);
   }
 
-  async componentWillMount() {
+  async _preLoad() {
+    // Import Assets
+    await Expo.Font.loadAsync({
+      Milkshake: require("../assets/fonts/Milkshake.ttf"),
+      OpenSansLight: require("../assets/fonts/OpenSansLight.ttf"),
+      OpenSansBold: require("../assets/fonts/OpenSansBold.ttf"),
+      OpenSans: require("../assets/fonts/OpenSansRegular.ttf")
+    });
+    const imageAssets = cacheImages([
+      require("react-native-elements/src/rating/images/star.png")
+    ]);
+    await Promise.all([...imageAssets]);
+
     connect();
 
     try {
@@ -113,20 +125,6 @@ class App extends React.Component {
       // Error retrieving data
       console.log(error);
     }
-  }
-
-  async _preLoad() {
-    // Import Assets
-    await Expo.Font.loadAsync({
-      Milkshake: require("../assets/fonts/Milkshake.ttf"),
-      OpenSansLight: require("../assets/fonts/OpenSansLight.ttf"),
-      OpenSansBold: require("../assets/fonts/OpenSansBold.ttf"),
-      OpenSans: require("../assets/fonts/OpenSansRegular.ttf")
-    });
-    const imageAssets = cacheImages([
-      require("react-native-elements/src/rating/images/star.png")
-    ]);
-    await Promise.all([...imageAssets]);
   }
 
   async getHasSeenIntro() {
