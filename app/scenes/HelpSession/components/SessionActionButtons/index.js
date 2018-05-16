@@ -31,7 +31,10 @@ export default class Index extends React.Component {
     // Send meteor message
     EndSession(session);
     // End timer
-    this.props.onPressEndSession();
+    if (this.props.onPressEndSession) {
+      this.props.onPressEndSession();
+    }
+    
   }
 
   renderAcceptDenyButtons() {
@@ -58,10 +61,13 @@ export default class Index extends React.Component {
 
   renderStartCancelButtons() {
     const { session } = this.props;
+    const today = new Date();
+    const sessionStartDate = new Date(session.startDate);
     return (
       <View style={styles.actionButtonsContainer}>
         <Button
           title="Start"
+          disabled={today < sessionStartDate}
           textStyle={{ fontWeight: "700" }}
           buttonStyle={[styles.sideBySideButton, styles.acceptButton]}
           containerStyle={{ marginTop: 15 }}

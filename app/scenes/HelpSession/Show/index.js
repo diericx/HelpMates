@@ -3,6 +3,7 @@ import { View } from "react-native";
 import Meteor, { createContainer } from "react-native-meteor";
 import { GiftedChat } from "react-native-gifted-chat";
 import { Divider } from "react-native-elements";
+import timer from "react-native-timer";
 
 import {
   SendMessageToHelpSession,
@@ -16,8 +17,6 @@ import RateUserView from "../components/RateUserView/index";
 import SessionData from "../components/SessionData/index";
 
 import styles from "./styles";
-
-const timer = require("react-native-timer");
 
 class Show extends React.Component {
   constructor(props) {
@@ -40,7 +39,7 @@ class Show extends React.Component {
         this,
         "updateCurrentDate",
         () => {
-          if (this._mounted) {
+          if (this._mounted && !this.props.session.endedAt) {
             this.setState({
               now: new Date()
             });
@@ -59,7 +58,7 @@ class Show extends React.Component {
 
   componentWillUnmount() {
     this._mounted = false;
-    timer.clearInterval("updateCurrentDate");
+    timer.clearInterval(this);
   }
 
   // When a message is sent on client
@@ -68,11 +67,6 @@ class Show extends React.Component {
     const message = messages[0];
     message.user.name = Meteor.user().profile.name;
     SendMessageToHelpSession(session._id, message);
-  }
-
-  // When the end session button is pressed, stop the timer
-  onPressEndSession() {
-    timer.clearInterval(this);
   }
 
   // Update the now attribute of state to the current date/time
@@ -122,7 +116,6 @@ class Show extends React.Component {
           <SessionData
             session={session}
             now={this.state.now}
-            onPressEndSession={this.onPressEndSession}
           />
         )}
 
