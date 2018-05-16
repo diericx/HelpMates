@@ -4,8 +4,8 @@ import { Button } from "react-native-elements";
 import Meteor, { createContainer } from "react-native-meteor";
 import { GiftedChat } from "react-native-gifted-chat";
 import Faker from "faker";
-import ActivityIndicator from "app/components/general/ActivityIndicator";
-import { SendMessageToSupport } from "app/Helpers/Meteor";
+import ActivityIndicator from "../../../components/general/ActivityIndicator";
+import { SendMessageToSupport } from "../../../Helpers/Meteor";
 
 import styles from "./styles";
 

@@ -16,7 +16,7 @@ import RateUserView from "../../components/RateUserView/index";
 import SessionData from "../../components/SessionData/index";
 
 import styles from "./styles";
-import { IsCurrentUserStudent } from "app/Helpers/Session";
+import { IsCurrentUserStudent } from "../../../../Helpers/Session";
 
 export default class Index extends React.Component {
   constructor(props) {
