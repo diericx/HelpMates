@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { View, TextInput, TouchableOpacity, Text } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import SimpleIcon from "react-native-vector-icons/SimpleLineIcons";
+import Icon from "@expo/vector-icons/FontAwesome";
+import SimpleIcon from "@expo/vector-icons/SimpleLineIcons";
 import { Input, Button } from "react-native-elements";
 
 import styles from "./styles";

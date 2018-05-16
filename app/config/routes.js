@@ -4,7 +4,7 @@ import { View, StatusBar, Text } from "react-native";
 import PropTypes from "prop-types";
 import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 // import Badge from "react-native-smart-badge";
 import IconBadge from "react-native-icon-badge";
 
