@@ -7,6 +7,10 @@ const styles = EStyleSheet.create({
     paddingTop: 15,
     justifyContent: "space-between"
   },
+  topContainer: {
+    flex: 1,
+    alignItems: "center"
+  },
   buttonContainer: {
     marginTop: 20,
     justifyContent: "center"
