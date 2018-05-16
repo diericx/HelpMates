@@ -74,7 +74,7 @@ export default class LoginForm extends Component {
         <Input
           placeholder="Venmo Handle"
           placeholderTextColor="rgba(255,255,255, 0.6)"
-          label="We need this so users can easily pay you"
+          label="Your Venmo handle so people can pay you"
           labelStyle={styles.label}
           value="@"
           leftIcon={
