@@ -1,7 +1,7 @@
 import React from "react";
 import Meteor from "react-native-meteor";
 import { View, StatusBar, Text } from "react-native";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";

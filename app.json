@@ -9,11 +9,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#18c0ea"
-    },
     "notification": {
       "icon": "./assets/icon-notification.png",
       "color": "#18c0ea"
@@ -23,12 +18,18 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "buildNumber": "2",
       "supportsTablet": true,
-      "bundleIdentifier": "com.appdojo.helpmates"
+      "bundleIdentifier": "com.appdojo.helpmates",
+      "splash": {
+        "image": "./assets/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#18c0ea"
+      },
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription":
+          "This app uses the camera roll to allow users to select a profile picture."
+      }
     }
-  },
-  "infoPlist": {
-    "NSPhotoLibraryUsageDescription":
-      "This app uses the camera roll to allow users to select a profile picture."
   }
 }
