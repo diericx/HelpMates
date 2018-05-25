@@ -1,289 +1,56 @@
-import React from "react";
-import Meteor from "react-native-meteor";
-import { View, StatusBar, Text } from "react-native";
-// import PropTypes from "prop-types";
-import { StackNavigator, TabNavigator, TabBarBottom } from "react-navigation";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-// import Badge from "react-native-smart-badge";
-import IconBadge from "react-native-icon-badge";
+import React from 'react';
+import { Image } from 'react-native';
+import { StackNavigator, TabNavigator } from 'react-navigation';
 
-// styles
-import styles from "./styles";
+// Auth
+import AuthHome from '../screens/auth/AuthHome'
+import Login from '../screens/auth/Login';
+import SignUp from '../screens/auth/SignUp';
+// Main App Screens
+import Home from '../screens/Home';
 
-// import AuthIndexContainer from '../containers/Auth';
-// Auth Screens
-import AuthHomeScreen from "../scenes/Auth/index";
-import AuthLoginScreen from "../scenes/Auth/login";
-import AuthSignupScreen from "../scenes/Auth/signup";
-// Profile screens
-import ProfileHomeScreen from "../scenes/Profile/Home/index";
-import ProfileCompletedCoursesScreen from "../scenes/Profile/CompletedCourses/index";
-import ProfileEditCompletedCourseScreen from "../scenes/Profile/EditCompletedCourse/index";
-import ProfileSelectCourseScreen from "../scenes/Profile/SelectCourse/index";
-import ProfileAvailabilityScreen from "../scenes/Profile/Availability/index";
-// User Screens
-import UsersShowScreen from "../scenes/People/Show/index";
-// Tutor Screens
-import CoursesShowScreen from "../scenes/Courses/Show/index";
-import CoursesHomeScreen from "../scenes/Courses/Home/index";
-// FAQ Screens
-import FAQPageShowScreen from "../scenes/Profile/FAQPage/index";
-// Problem Reporting Screen
-import ProblemReportingShowScreen from "../scenes/Profile/ProblemReporting/index";
-// Legal Screen
-import LegalShowScreen from "../scenes/Profile/Legal/index";
-//Chat with an Admin Screen
-import AdminChatScreen from "../scenes/Profile/AdminChat/index";
-// Help Session Request
-import HelpSessionHomeScreen from "../scenes/HelpSession/Home/index";
-import HelpSessionShowScreen from "../scenes/HelpSession/Show/index";
-// People Screen
-import PeopleHomeScreen from "../scenes/People/Home/index";
 
-// the default settings for the header of each stack
-const defaultNavigationOptions = {
-  title: "HelpMates",
-  headerBackTitle: "Back",
-  headerStyle: {
-    backgroundColor: "#18dcff",
-    height: 55,
-    borderBottomWidth: 3,
-    borderBottomColor: "#13d2f4"
-  },
-
-  headerTintColor: "white",
-  headerTitleStyle: {
-    fontSize: 30,
-    fontWeight: "bold"
-  }
-};
-
-// old tint #2b2b2b
-
-const ShowUserStack = StackNavigator(
-  {
-    Show: {
-      screen: UsersShowScreen
-    }
-  },
-  {
-    mode: "modal",
-    headerMode: "none"
-  }
-);
-
-const SearchPeopleStack = StackNavigator(
-  {
-    Search: {
-      screen: PeopleHomeScreen
-    },
-    ShowUser: {
-      screen: ShowUserStack
-    }
-  },
-  {
-    navigationOptions: defaultNavigationOptions
-  }
-);
-
-const CoursesStack = StackNavigator(
-  {
-    Search: {
-      screen: CoursesHomeScreen
-    },
-    ShowCourse: {
-      screen: CoursesShowScreen
-    }
-  },
-  {
-    navigationOptions: {
-      ...defaultNavigationOptions,
-      // headerStyle: {
-      //   ...defaultNavigationOptions.headerStyle,
-      //   backgroundColor: '#2b2b2b',
-      // },
-      headerTitle: "Anonymous Chat"
-    }
-  }
-);
-
-const SelectCourseStack = StackNavigator(
-  {
-    Main: {
-      screen: ProfileSelectCourseScreen
-    }
-  },
-  {
-    navigationOptions: defaultNavigationOptions,
-    mode: "modal"
-  }
-);
-
-const ProfileStack = StackNavigator(
-  {
-    Profile: {
-      screen: ProfileHomeScreen
-    },
-    Availability: {
-      screen: ProfileAvailabilityScreen
-    },
-    MyCourses: {
-      screen: ProfileCompletedCoursesScreen
-    },
-    EditCompletedCourse: {
-      screen: ProfileEditCompletedCourseScreen
-    },
-    FAQ: {
-      screen: FAQPageShowScreen
-    },
-    ProblemReporting: {
-      screen: ProblemReportingShowScreen
-    },
-    Legal: {
-      screen: LegalShowScreen
-    },
-    AdminChat: {
-      screen: AdminChatScreen
-    }
-  },
-  {
-    navigationOptions: {
-      ...defaultNavigationOptions,
-      headerTitle: "Profile"
-    }
-  }
-);
-
-const HelpSessionStack = StackNavigator(
-  {
-    Home: {
-      screen: HelpSessionHomeScreen
-    },
-    Show: {
-      screen: HelpSessionShowScreen
-    }
-  },
-  {
-    navigationOptions: {
-      ...defaultNavigationOptions,
-      headerTitle: "My Sessions"
-    }
-  }
-);
-
-const TabNavigation = TabNavigator(
-  {
-    GetHelp: {
-      screen: SearchPeopleStack,
-      navigationOptions: {
-        tabBarLabel: "Help"
-      }
-    },
-    AnonymousChat: {
-      screen: CoursesStack,
-      navigationOptions: {
-        tabBarLabel: "Anonymous"
-      }
-    },
-    Sessions: {
-      screen: HelpSessionStack,
-      navigationOptions: {
-        tabBarLabel: "Sessions"
-      }
-    },
-    Profile: {
-      screen: ProfileStack,
-      navigationOptions: {
-        tabBarLabel: "Profile"
-      }
-    }
-  },
-  {
-    navigationOptions: ({ navigation, screenProps }) => ({
-      tabBarIcon: ({ focused, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if (routeName === "AnonymousChat") {
-          iconName = `ios-people${focused ? "" : "-outline"}`;
-        } else if (routeName === "Profile") {
-          iconName = `ios-person${focused ? "" : "-outline"}`;
-        } else if (routeName === "Sessions") {
-          iconName = `ios-book${focused ? "" : "-outline"}`;
-        } else if (routeName === "GetHelp") {
-          iconName = `ios-search${focused ? "" : "-outline"}`;
-        }
-
-        // You can return any component that you like here! We usually use an
-        return (
-          <View style={styles.tabBarIconsContainer}>
-            {/* <Ionicons name={iconName} size={35} color={tintColor} /> */}
-            <IconBadge
-              MainElement={
-                <Ionicons name={iconName} size={35} color={tintColor} />
-              }
-              BadgeElement={
-                <Text style={{ color: "#FFFFFF" }}>
-                  {screenProps.notifications[routeName]
-                    ? screenProps.notifications[routeName].total
-                    : 0}
-                </Text>
-              }
-              IconBadgeStyle={{
-                right: -15,
-                minWidth: 20,
-                height: 20
-              }}
-              Hidden={
-                !screenProps.notifications[routeName] ||
-                screenProps.notifications[routeName].total == 0
-              }
-            />
-          </View>
-        );
-      }
-    }),
-    // tabBarComponent: (props) => {
-    //   const backgroundColor = props.position.interpolate({
-    //     inputRange: [0, 1, 2],
-    //     outputRange: ['white', '#2b2b2b', 'white'],
-    //   });
-    //   return <TabBarBottom {...props} style={{ backgroundColor }} />;
-    // },
-    tabBarOptions: {
-      showLabel: true,
-      activeTintColor: "#17c0eb",
-      style: {
-        height: 55
-      }
-    }
-  }
-);
-
-export const MainNavigation = StackNavigator(
-  {
-    Index: {
-      screen: TabNavigation
-    },
-    SelectCourseModal: {
-      screen: SelectCourseStack
-    }
-  },
-  {
-    navigationOptions: defaultNavigationOptions,
-    headerMode: "none",
-    mode: "modal"
-  }
-);
-
-export const AuthNavigation = StackNavigator({
-  Index: {
-    screen: AuthHomeScreen
+export const AuthStack = StackNavigator({
+  AuthHome: {
+    screen: AuthHome,
   },
   Login: {
-    screen: AuthLoginScreen
+    screen: Login,
   },
-  Signup: {
-    screen: AuthSignupScreen
+  SignUp: {
+    screen: SignUp
   }
+}, {
+  headerMode: 'none',
+});
+
+export const HomeStack = StackNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      headerTitle: 'Home',
+    },
+  }
+});
+
+const styles = {
+  icon: {
+    height: 30,
+    width: 30,
+  },
+};
+
+export const Tabs = TabNavigator({
+  Home: {
+    screen: HomeStack,
+    navigationOptions: {
+      tabBarLabel: 'Home',
+    },
+  },
+  // Profile: {
+  //   screen: ProfileStack,
+  //   navigationOptions: {
+  //     tabBarLabel: 'Profile',
+  //   },
+  // },
 });
