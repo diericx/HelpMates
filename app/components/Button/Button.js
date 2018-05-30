@@ -5,10 +5,11 @@ import styles from './styles';
 const Button = (props) => {
   const { text, onPress } = props;
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.buttonText}>
-        {text}
-      </Text>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={props.onPress}
+    >
+      <Text style={styles.label}> {props.label} </Text>
     </TouchableOpacity>
   );
 };

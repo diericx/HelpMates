@@ -6,7 +6,7 @@ EStyleSheet.build({
   $screenWidth: Dimensions.get("window").width,
   // Main theme colors
   $bgColor: "white",
-  $lightblue: "#18c0ea",
+  $lightblue: "#18dcff",
 
   $black: "black",
   $offBlack: "rgb(60, 60, 60)",

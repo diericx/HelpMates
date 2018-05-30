@@ -29,6 +29,12 @@ export const HomeStack = StackNavigator({
     screen: Home,
     navigationOptions: {
       headerTitle: 'Home',
+      headerStyle: {
+        backgroundColor: "#18dcff",
+        height: 55,
+        borderBottomWidth: 3,
+        borderBottomColor: "#13d2f4"
+      },
     },
   }
 });
@@ -53,4 +59,15 @@ export const Tabs = TabNavigator({
   //     tabBarLabel: 'Profile',
   //   },
   // },
+},
+{
+  navigationOptions: {
+    tabBarOptions: {
+      showLabel: true,
+      activeTintColor: "#17c0eb",
+      style: {
+        height: 55
+      }
+    }
+  }
 });
