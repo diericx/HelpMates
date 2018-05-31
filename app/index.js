@@ -1,7 +1,7 @@
 import React from 'react';
 import Meteor, { createContainer } from 'react-native-meteor';
 
-import { AuthStack, Tabs } from './config/routes';
+import { AuthStack, MainStack } from './config/routes';
 import Loading from "./components/Loading"
 import settings from './config/settings';
 import styles from './config/styles';
@@ -15,7 +15,7 @@ const HelpMates = (props) => {
   if (status.connected === false || loggingIn) {
     return <Loading size="large"/>;
   } else if (user !== null) {
-    return <Tabs />;
+    return <MainStack />;
   }
   return <AuthStack />;
 };

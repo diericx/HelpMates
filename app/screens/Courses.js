@@ -1,19 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Text, View, Animated, Dimensions } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+
 import Button from '../components/Button';
+import NavBar from "../components/navigation/NavBar";
+import FadingTransitionView from "../components/FadingTransitionView";
 
-import UserList from "../components/people/UserList";
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: "white",
+    backgroundColor: "white",
   },
-  scrollView: {
-    padding: 0,
-    margin: 0,
+  navBarTitleContainer: {
+    alignItems: "flex-end"
   },
   main: {
     fontSize: 20,
@@ -24,33 +26,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const users = [
-  {
-    _id: "1",
-    fullName: "John Doe",
-    avatar: "https://s3-us-west-2.amazonaws.com/helpmatesmedia/uploads/profilePic-5883qesZDQ22RNbhG.jp",
-    rating: 4.5,
-    bio: "I'm a third year computer science major. I've been tutoring for about 3 years.",
-    relatedCourses: ["Intro to Computer Science 1", "English Survey", "Buisness Analytics"]
-  },
-  {
-    _id: "2",
-    fullName: "Kate Jeffry",
-    avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
-    rating: 4,
-    bio: "I am an english major. I can help with almost any english class and still have.",
-    relatedCourses: ["English Survey", "Buisness Analytics"]
-  }
-]
-
-
-
-const Home = (props) => {
+const Courses = (props) => {
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-        <UserList users={users} />
-    </ScrollView>
+    <View style={{flex: 1}}>
+
+      <View style={styles.container}>
+          <Text> Courses </Text>
+      </View>
+
+    </View>
   );
 };
 
-export default Home;
+export default Courses;
