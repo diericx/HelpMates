@@ -9,7 +9,6 @@ import styles from './styles';
 
 const UserList = (props) => {
   let { users } = props;
-  console.log(users)
   return (
     <View style={styles.container}>
       {users.map(user => {

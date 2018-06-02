@@ -15,18 +15,15 @@ const styles = EStyleSheet.create({
   },
   navBarContent: {
     flex: 1,
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    paddingLeft: 50,
+    width: "100%",
+    height: "100%",
   },
 
   navBarTitleContainer: {
     flex: 1,
     justifyContent: "center",
     paddingLeft: 10,
+    zIndex: 99,
   },
   navBarTitle: {
     fontWeight: "bold",

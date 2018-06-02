@@ -1,15 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import Button from '../components/Button';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
+import Button from '../components/Button';
 import UserList from "../components/people/UserList";
 
-const styles = StyleSheet.create({
+
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingTop: 10,
+    // backgroundColor: "red"
+  },
+  scrollViewContainer: {
+    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "white",
+
   },
   scrollView: {
     padding: 0,
@@ -71,9 +81,8 @@ const users = [
 
 const People = (props) => {
   return (
-    <View style={{flex: 1}}>
-
-      <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
           <UserList users={users} />
       </ScrollView>
     </View>
