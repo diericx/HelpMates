@@ -29,7 +29,16 @@ const styles = EStyleSheet.create({
     fontWeight: "bold",
     fontSize: 25,
     color: "white"
-  }
+  },
+
+  searchFade: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    // backgroundColor: "black",
+  },
 });
 
 export default styles;

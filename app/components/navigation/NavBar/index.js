@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StatusBar } from 'react-native';
 import { Avatar } from "react-native-elements";
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient, Constants } from 'expo';
+import { LinearGradient, Constants, BlurView } from 'expo';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import FadingTransitionView from "../../FadingTransitionView";
@@ -31,6 +31,7 @@ const styles = EStyleSheet.create({
     backgroundColor: "transparent",
     height: Constants.statusBarHeight,
   },
+
 });
 
 export default function(props) {
@@ -48,7 +49,7 @@ export default function(props) {
         props.style, 
         props.defaultBackground ? styles.defaultBackground : null 
       ]}>
-        {props.placeholder ? null : 
+        {props.placeholder ? <View style={{width: 40, height: 40}} /> : 
         <Avatar
           size={40}
           rounded
@@ -58,14 +59,18 @@ export default function(props) {
           containerStyle={styles.avatar}
         />}
 
+        
+
         {!props.placeholder ?
           <FadingTransitionView index={props.index} xOffset={props.xOffset}>
             {props.children}
+            
           </FadingTransitionView>
-        : null }
-        
+        : <View>{props.children}</View> }
           
       </View>
+
+      
       
     </View>
   )

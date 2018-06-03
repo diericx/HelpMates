@@ -9,7 +9,7 @@ import UserList from "../components/people/UserList";
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingTop: 10,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, View, ActivityIndicator } from 'react-native';
-import { MeteorListView } from 'react-native-meteor';
+import { MeteorComplexListView } from 'react-native-meteor';
 import { ListItem } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -20,27 +20,25 @@ const styles = EStyleSheet.create({
   },
 });
 
-const CourseList = (props) => {
-  const { courses, coursesReady } = props;
+const MyGroupsList = (props) => {
+  const { groups, ready } = props;
 
-  if (!coursesReady) {
+  if (!ready) {
     return <ActivityIndicator />
   }
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.container}>
-        <MeteorListView
-          collection="courses"
-          selector={props.selector || {}}
-          options={{ sort: { createdAt: -1 } }}
-          renderRow={(course) => (
+        <MeteorComplexListView
+          elements={() => props.groups}
+          renderRow={(group) => (
             <ListItem
               containerStyle={styles.rowContainer}
-              key={course._id}
-              title={course.title1}
-              subtitle={course.title2}
-              onPress={() => props.navigation.navigate('Chat')}
+              key={group._id}
+              title={group.name}
+              subtitle={group.members.length + " people"}
+              onPress={() => props.navigation.navigate('Chat', {id: group._id})}
             />
           )
             
@@ -51,4 +49,4 @@ const CourseList = (props) => {
   );
 };
 
-export default CourseList
+export default MyGroupsList

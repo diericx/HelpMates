@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Button from '../components/Button';
-import Chat from '../components/Chat';
+
 
 const styles = EStyleSheet.create({
   container: {
@@ -31,13 +31,11 @@ const styles = EStyleSheet.create({
 });
 
 const Messages = (props) => {
-  const id = props.navigation.getParam("id", null)
-
   return (
     <View style={styles.container}>
 
       <View style={styles.messages}>
-          <Chat id={id}/>
+          <Text> Home </Text>
       </View>
     </View>
   );

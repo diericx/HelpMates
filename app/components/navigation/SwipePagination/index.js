@@ -39,9 +39,9 @@ const styles = EStyleSheet.create({
 });
 
 let Icons = [
-  "ios-book",
+  "ios-chatbubbles",
   "ios-people",
-  "ios-chatbubbles"
+  "ios-book"
 ]
 
 export default function(currentIndex, total) {

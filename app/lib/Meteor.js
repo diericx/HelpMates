@@ -1,5 +1,38 @@
 import Meteor from "react-native-meteor";
 
+
+// NEW SHIT
+/**
+|--------------------------------------------------
+| Conversations
+|--------------------------------------------------
+*/
+export function JoinGroup(id) {
+  Meteor.call("conversations.join", { conversationId: id }, (err, res) => {
+    // Do whatever you want with the response
+    if (err) {
+      console.log(err);
+    }
+  });
+}
+export function LeaveGroup(id) {
+  Meteor.call("conversations.leave", { conversationId: id }, (err, res) => {
+    // Do whatever you want with the response
+    if (err) {
+      console.log(err);
+    }
+  });
+}
+export function SendMessage(id, message) {
+  console.log("Sending message: ", message)
+  Meteor.call("conversations.sendMessage", { conversationId: id, message }, (err, res) => {
+    // Do whatever you want with the response
+    if (err) {
+      console.log(err);
+    }
+  });
+}
+
 // Send the message to a course conversation
 export function SendMessageToCourse(courseId, message) {
   Meteor.call("courses.sendMessage", { courseId, message }, (err, res) => {
