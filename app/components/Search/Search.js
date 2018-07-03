@@ -88,7 +88,7 @@ const Search = (props) => {
                 i == allGroups.length - 1 && styles.lastGroup
               ]}
               key={group._id}
-              title={group.name}
+              title={group.title}
               subtitle={group.members.length + " people"}
               titleStyle={styles.groupTitle}
               subtitleStyle={styles.groupSubtitle}

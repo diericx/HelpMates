@@ -7,14 +7,12 @@ export default withTracker(params => {
  
   return {
     groupsReady: handle.ready(),
-    groups: Meteor.collection('conversations').find({
-      isGroup: true,
+    groups: Meteor.collection('groups').find({
       members: {
         $nin: [Meteor.userId()]
       }
     }),
-    myGroups: Meteor.collection('conversations').find({
-      isGroup: true,
+    myGroups: Meteor.collection('groups').find({
       members: {
         $in: [Meteor.userId()]
       }

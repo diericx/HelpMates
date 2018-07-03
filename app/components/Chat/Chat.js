@@ -15,17 +15,24 @@ const styles = EStyleSheet.create({
 });
 
 const Chat = (props) => {
-  const { conversation, ready } = props;
+  const { messages, ready } = props;
 
   if (!ready) {
     return <ActivityIndicator />
   }
 
+  console.log("Messages: ", messages);
+
   return (
     <View style={styles.container}>
       <GiftedChat
-        messages={conversation.messages.reverse()}
-        onSend={messages => SendMessage(conversation._id, messages[0])}
+        messages={messages.reverse()}
+        onSend={messages => {
+          let message = messages[0]
+          delete message._id
+          message.receiverId = props.id
+          SendMessage(message)
+        }}
         user={{
           _id: Meteor.userId(),
           name: Meteor.user().profile.name,

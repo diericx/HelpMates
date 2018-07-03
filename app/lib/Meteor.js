@@ -8,7 +8,7 @@ import Meteor from "react-native-meteor";
 |--------------------------------------------------
 */
 export function JoinGroup(id) {
-  Meteor.call("conversations.join", { conversationId: id }, (err, res) => {
+  Meteor.call("groups.join", { groupId: id }, (err, res) => {
     // Do whatever you want with the response
     if (err) {
       console.log(err);
@@ -16,16 +16,16 @@ export function JoinGroup(id) {
   });
 }
 export function LeaveGroup(id) {
-  Meteor.call("conversations.leave", { conversationId: id }, (err, res) => {
+  Meteor.call("groups.leave", { groupId: id }, (err, res) => {
     // Do whatever you want with the response
     if (err) {
       console.log(err);
     }
   });
 }
-export function SendMessage(id, message) {
+export function SendMessage(message) {
   console.log("Sending message: ", message)
-  Meteor.call("conversations.sendMessage", { conversationId: id, message }, (err, res) => {
+  Meteor.call("messages.send", { message }, (err, res) => {
     // Do whatever you want with the response
     if (err) {
       console.log(err);

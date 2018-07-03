@@ -36,7 +36,7 @@ const MyGroupsList = (props) => {
             <ListItem
               containerStyle={styles.rowContainer}
               key={group._id}
-              title={group.name}
+              title={group.title}
               subtitle={group.members.length + " people"}
               onPress={() => props.navigation.navigate('Chat', {id: group._id})}
             />
