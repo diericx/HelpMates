@@ -2,12 +2,18 @@ import Meteor from "react-native-meteor";
 import { RNS3 } from "react-native-aws3";
 import moment from "moment";
 
+import { AWS_S3_KEYPREFIX, 
+         AWS_S3_BUCKET,
+         AWS_S3_REGION,
+         AWS_S3_ACCESS_KEY,
+         AWS_S3_SECRET_KEY} from 'react-native-dotenv'
+
 const options = {
-  keyPrefix: "uploads/",
-  bucket: "helpmatesmedia",
-  region: "us-west-2",
-  accessKey: "AKIAIV2DXYAEZ24DTFBA",
-  secretKey: "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",
+  keyPrefix: AWS_S3_KEYPREFIX,
+  bucket: AWS_S3_BUCKET,
+  region: AWS_S3_REGION,
+  accessKey: AWS_S3_ACCESS_KEY,
+  secretKey: AWS_S3_SECRET_KEY,
   successActionStatus: 201
 };
 

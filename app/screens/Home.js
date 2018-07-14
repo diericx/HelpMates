@@ -5,7 +5,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Button from '../components/Button';
 import UserList from "../components/people/UserList";
 
-
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
