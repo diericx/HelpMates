@@ -1,10 +1,12 @@
 import React from 'react';
 import { Image } from 'react-native';
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator, createBottomTabNavigator } from 'react-navigation';
 import Swiper from 'react-native-swiper';
 
 // Navigation
-import SwipeNav from "../components/navigation/SwipeNav";
+// import SwipeNav from "../components/navigation/SwipeNav";
+import HomeScreen from "../screens/Home";
+import MessagesScreen from "../screens/Messages";
 
 // Modals
 import Chat from "../screens/Chat";
@@ -36,13 +38,18 @@ export const AuthStack = StackNavigator({
   headerMode: 'none',
 });
 
-export const MainStack = StackNavigator({
-  Home: {
-    screen: SwipeNav,
-  },
-  Chat: {
-    screen: Chat,
-  }
-}, {
-  headerMode: 'none',
+// export const MainStack = StackNavigator({
+//   Home: {
+//     screen: SwipeNav,
+//   },
+//   Chat: {
+//     screen: Chat,
+//   }
+// }, {
+//   headerMode: 'none',
+// });
+
+export const TabNavigation = createBottomTabNavigator({
+  Home: HomeScreen,
+  Messages: MessagesScreen,
 });
