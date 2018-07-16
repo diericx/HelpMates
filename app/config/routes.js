@@ -7,6 +7,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // Navigation
 // import SwipeNav from "../components/navigation/SwipeNav";
 import HomeScreen from "../screens/Home";
+import GroupScreen from "../screens/Group";
+
 import MessagesScreen from "../screens/Messages";
 import ChooseUniversity from "../screens/explore/ChooseUniversity"
 import ChooseCourse from "../screens/explore/ChooseCourse"
@@ -75,6 +77,9 @@ export const ExploreStack = createStackNavigator({
 export const HomeStack = createStackNavigator({
   Home: {
     screen: HomeScreen
+  },
+  Group: {
+    screen: GroupScreen,
   }
 })
 

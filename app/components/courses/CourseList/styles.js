@@ -5,16 +5,16 @@ const styles = EStyleSheet.create({
     flex: 1,
   },
   title: {
-    color: '$lightblue',
+    color: '$green',
     marginLeft: -8
   },
   button: {
     backgroundColor: 'white',
     borderWidth: 2,
-    borderColor: '$lightblue',
+    borderColor: '$green',
   },
   icon: {
-    color: '$lightblue'
+    color: '$green'
   }
 });
 

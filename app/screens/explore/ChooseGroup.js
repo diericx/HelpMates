@@ -11,20 +11,20 @@ const styles = EStyleSheet.create({
   },
 });
 
-const ChooseGroup = (props) => {
-  const courseId = props.navigation.getParam("courseId", null)
+class ChooseGroup extends React.Component {
+  static navigationOptions = {
+    title: 'Groups',
+  };
 
-  onPress = (group) => {
-    props.navigation.navigate('ChooseCourse', {
-      universityId: university._id
-    })
+  render() {
+    const courseId = this.props.navigation.getParam("courseId", null)
+
+    return (
+      <View style={styles.container}>
+        <GroupList courseId={courseId} />
+      </View>
+    );
   }
-
-  return (
-    <View style={styles.container}>
-      <GroupList courseId={courseId} onPress={this.onPress} />
-    </View>
-  );
-};
+}
 
 export default ChooseGroup;

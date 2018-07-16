@@ -11,24 +11,29 @@ const styles = EStyleSheet.create({
   },
 });
 
-const ChooseCourse = (props) => {
-  const universityId = props.navigation.getParam("universityId", null)
+class ChooseCourse extends React.Component {
+  static navigationOptions = {
+    title: 'Courses',
+  };
 
   onPress = (course) => {
-    props.navigation.navigate('ChooseGroup', {
+    this.props.navigation.navigate('ChooseGroup', {
       courseId: course._id
     })
   }
 
-  return (
-    <View style={styles.container}>
-      <CourseList 
-        universityId={universityId} 
-        subscribe={"courses.all"} 
-        onPress={this.onPress} 
-      />
-    </View>
-  );
-};
+  render() {
+    const universityId = this.props.navigation.getParam("universityId", null)
+    return (
+      <View style={styles.container}>
+        <CourseList 
+          universityId={universityId} 
+          subscribe={"courses.all"} 
+          onPress={this.onPress} 
+        />
+      </View>
+    );
+  }
+}
 
 export default ChooseCourse;

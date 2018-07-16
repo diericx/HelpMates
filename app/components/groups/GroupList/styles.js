@@ -14,7 +14,7 @@ const styles = EStyleSheet.create({
     // borderColor: 'transparent',
   },
   icon: {
-    paddingLeft: 5
+    color: '$lightblue'
   }
 });
 

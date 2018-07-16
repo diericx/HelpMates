@@ -4,7 +4,7 @@ import Meteor from 'react-native-meteor';
 import { ListItem, Button } from "react-native-elements";
 import Icon from "@expo/vector-icons/FontAwesome";
 
-import { JoinGroup } from "../../../lib/Meteor";
+import { JoinGroup, LeaveGroup } from "../../../lib/Meteor";
 
 import styles from './styles';
 
@@ -17,7 +17,7 @@ const GroupList = (props) => {
     return <ActivityIndicator />
   }
 
-  console.log(groups)
+  console.log(props.onPress == null)
 
   return (
     <View style={styles.container}>
@@ -38,25 +38,32 @@ const GroupList = (props) => {
               leftIcon={
                 {
                   name: "verified-user",
-                  size: 30
+                  size: 32,
+                  iconStyle: styles.icon
                 }
               }
               rightTitle={
-                isUserInGroup ? null :
+                props.onPress == null ? 
                 <Button
                   title=''
                   // titleStyle={styles.buttonTitle}
                   icon={
                     {
                       name: isUserInGroup ? 'highlight-off' : 'add-circle-outline', 
-                      size: 30, 
-                      color: 'black'}
+                      size: 35, 
+                      color: 'black'
+                    }
                   }
                   buttonStyle={styles.button}
-                  onPress={() => JoinCourse(item._id) }
+                  onPress={isUserInGroup ? 
+                    () => LeaveGroup(item._id) :
+                    () => JoinGroup(item._id) }
                 />
+                :
+                null
               }
-              chevron={props.pressable}
+              onPress={props.onPress}
+              chevron={!(props.onPress == null)}
             />
           )
         }

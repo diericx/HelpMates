@@ -6,6 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import CourseList from '../components/courses/CourseList';
 import Button from '../components/Button';
 import UserList from "../components/people/UserList";
+import GroupList from '../components/groups/GroupList';
 
 const UNI_ID = "9Kn8hjCNex5zP7v4W";
 
@@ -19,12 +20,22 @@ const styles = EStyleSheet.create({
   }
 });
 
-const People = (props) => {
-  return (
+class Home extends React.Component {
+  static navigationOptions = {
+    title: 'My Groups',
+  };
+
+  onPress = (group) => {
+    props.navigation.navigate('Group', {
+      groupId: group._id
+    })
+  }
+
+  render() {
+    return (
       <View style={styles.container}>
-        <CourseList 
-          universityId={UNI_ID} 
-          subscribe={"courses.all"} 
+        <GroupList 
+          subscribe={"groups.myGroups"} 
           onPress={this.onPress} 
           findOptions={{
             members: {
@@ -33,7 +44,8 @@ const People = (props) => {
           }}
         />
       </View>
-  );
-};
+    );
+  }
+}
 
-export default People;
+export default Home;
