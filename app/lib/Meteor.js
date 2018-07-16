@@ -1,10 +1,24 @@
 import Meteor from "react-native-meteor";
 
 
+/**
+|--------------------------------------------------
+| GROUPS
+|--------------------------------------------------
+*/
+export function JoinCourse(id) {
+  Meteor.call("courses.join", { courseId: id }, (err, res) => {
+    // Do whatever you want with the response
+    if (err) {
+      console.log(err);
+    }
+  });
+}
+
 // NEW SHIT
 /**
 |--------------------------------------------------
-| Conversations
+| GROUPS
 |--------------------------------------------------
 */
 export function JoinGroup(id) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Meteor, { createContainer } from 'react-native-meteor';
+import Meteor, { withTracker } from 'react-native-meteor';
 
 import { AuthStack, TabNavigation } from './config/routes';
 import Loading from "./components/Loading"
@@ -20,10 +20,10 @@ const HelpMates = (props) => {
   return <AuthStack />;
 };
 
-export default createContainer(() => {
+export default withTracker(params => {
   return {
     status: Meteor.status(),
     user: Meteor.user(),
     loggingIn: Meteor.loggingIn(),
   };
-}, HelpMates);
+})(HelpMates);
