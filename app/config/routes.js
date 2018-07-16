@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { Icon } from 'react-native-elements';
 import Swiper from 'react-native-swiper';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -87,6 +88,31 @@ export const TabNavigation = createBottomTabNavigator(
   {
     Explore: ExploreStack,
     Home: HomeStack,
-    Messages: MessagesScreen,
+    Help: MessagesScreen,
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        let iconType = 'material-community';
+        if (routeName === 'Explore') {
+          iconName = 'wpexplorer';
+          iconType = 'font-awesome';
+        } else if (routeName === 'Home') {
+          iconName = 'group';
+          iconType = 'font-awesome';
+        } else if (routeName == 'Help') {
+          iconName = 'life-bouy';
+          iconType = 'font-awesome';
+        }
+
+        // You can return any component that you like here!
+        return <Icon name={iconName} type={iconType} size={30} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      showLabel: false
+    },
   }
 );
