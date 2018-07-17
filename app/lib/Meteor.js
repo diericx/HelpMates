@@ -37,9 +37,8 @@ export function LeaveGroup(id) {
     }
   });
 }
-export function SendMessage(message) {
-  console.log("Sending message: ", message)
-  Meteor.call("messages.send", { message }, (err, res) => {
+export function SendMessage(groupId, message) {
+  Meteor.call("groups.sendMessage", {groupId, message }, (err, res) => {
     // Do whatever you want with the response
     if (err) {
       console.log(err);

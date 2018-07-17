@@ -66,9 +66,6 @@ export const ExploreStack = createStackNavigator({
 {
   /* The header config from HomeScreen is now here */
   navigationOptions: {
-    headerStyle: {
-      backgroundColor: 'white',
-    },
     headerTitleStyle: {
       fontWeight: 'bold',
     },

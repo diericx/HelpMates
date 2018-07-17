@@ -29,6 +29,7 @@
     "react-native-dotenv": "^0.1.1"
   },
   "scripts": {
-    "start": "expo start"
+    "start": "expo start",
+    "start-offline": "expo start --offline --localhost"
   }
 }

@@ -7,7 +7,7 @@ import GroupList from '../../components/groups/GroupList';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "$lightblue"
+    backgroundColor: "white"
   },
 });
 

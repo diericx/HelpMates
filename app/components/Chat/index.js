@@ -3,15 +3,12 @@ import Meteor, { withTracker, MeteorListView } from 'react-native-meteor';
 import Chat from "./Chat";
 
 export default withTracker(params => {
-  const handle = Meteor.subscribe('messages', {receiverId: params.id});
+  const handle = Meteor.subscribe('group', {_id: params.groupId});
  
   return {
     ready: handle.ready(),
-    messages: Meteor.collection('messages').find({
-      receiverId: params.id
-    })
-    // conversation: Meteor.collection('conversations').findOne({
-    //   _id: params.id
-    // })
+    messages: Meteor.collection('groups').findOne({
+      _id: params.groupId
+    }).messages
   };
 })(Chat);

@@ -23,13 +23,14 @@ const CourseList = (props) => {
       <FlatList
         keyExtractor={this.keyExtractor}
         data={courses}
-        renderItem={({item}) => {
+        renderItem={({item, index}) => {
           let { members } = item;
           let isUserInCourse = members.includes(Meteor.userId());
 
           return <ListItem
             key={item._id}
             // leftAvatar={{ source: { uri: l.avatar_url } }}
+            containerStyle={[styles.itemBottomBorder, index == 0 ? styles.itemTopBorder : null]}
             title={item.title1}
             subtitle={item.title2}
             rightTitle={

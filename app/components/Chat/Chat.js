@@ -15,7 +15,7 @@ const styles = EStyleSheet.create({
 });
 
 const Chat = (props) => {
-  const { messages, ready } = props;
+  const { groupId, messages, ready } = props;
 
   if (!ready) {
     return <ActivityIndicator />
@@ -29,9 +29,7 @@ const Chat = (props) => {
         messages={messages.reverse()}
         onSend={messages => {
           let message = messages[0]
-          delete message._id
-          message.receiverId = props.id
-          SendMessage(message)
+          SendMessage(groupId, message)
         }}
         user={{
           _id: Meteor.userId(),

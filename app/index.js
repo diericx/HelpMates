@@ -10,7 +10,6 @@ Meteor.connect(settings.METEOR_URL);
 
 const HelpMates = (props) => {
   const { status, user, loggingIn } = props;
-  console.log("STATUS: ", status)
 
   if (status.connected === false || loggingIn) {
     return <Loading size="large"/>;

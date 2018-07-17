@@ -24,7 +24,7 @@ const GroupList = (props) => {
       <FlatList
         keyExtractor={this.keyExtractor}
         data={groups}
-        renderItem={({item}) => {
+        renderItem={({item, index}) => {
           let { members } = item;
 
           let headCountSuffix = item.members.length == 1 ? " Person" : " People"
@@ -35,6 +35,7 @@ const GroupList = (props) => {
               key={item._id}
               title={item.title1}
               subtitle={Meteor.collection('courses').findOne({_id: item.courseId}).title1}
+              containerStyle={[styles.itemBottomBorder, index == 0 ? styles.itemTopBorder : null]}
               leftIcon={
                 {
                   name: "verified-user",
@@ -62,7 +63,7 @@ const GroupList = (props) => {
                 :
                 null
               }
-              onPress={props.onPress}
+              onPress={() => props.onPress(item)}
               chevron={!(props.onPress == null)}
             />
           )

@@ -7,7 +7,7 @@ import CourseList from '../../components/courses/CourseList';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "$lightblue"
+    backgroundColor: "white"
   },
 });
 

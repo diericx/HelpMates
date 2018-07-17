@@ -13,7 +13,7 @@ const UNI_ID = "9Kn8hjCNex5zP7v4W";
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "white",
+    backgroundColor: "white",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     // backgroundColor: "red"
@@ -26,7 +26,8 @@ class Home extends React.Component {
   };
 
   onPress = (group) => {
-    props.navigation.navigate('Group', {
+    console.log(group.title1);
+    this.props.navigation.navigate('Group', {
       groupId: group._id
     })
   }
