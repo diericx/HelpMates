@@ -26,7 +26,6 @@ class Home extends React.Component {
   };
 
   onPress = (group) => {
-    console.log(group.title1);
     this.props.navigation.navigate('Group', {
       groupId: group._id
     })

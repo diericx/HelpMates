@@ -11,14 +11,16 @@ const styles = EStyleSheet.create({
   },
 });
 
-const Group = (props) => {
-  const groupId = props.navigation.getParam("groupId", null);
+class Group extends React.Component {
+  render() {
+    const groupId = this.props.navigation.getParam("groupId", null);
 
-  return (
-    <View style={styles.container}>
-      <Chat groupId={groupId}> Here's your group1 </Chat>
-    </View>
-  );
-};
+    return (
+      <View style={styles.container}>
+        <Chat groupId={groupId}> Here's your group1 </Chat>
+      </View>
+    );
+  }
+}
 
 export default Group;

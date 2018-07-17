@@ -30,6 +30,9 @@ const GroupList = (props) => {
           let headCountSuffix = item.members.length == 1 ? " Person" : " People"
           let isUserInGroup = members.includes(Meteor.userId());
 
+          let course = Meteor.collection('courses').findOne({_id: item.courseId});
+          console.log(course);
+
           return (
             <ListItem
               key={item._id}

@@ -18,7 +18,6 @@ const Messages = (props) => {
 
   // If the user has chosen a university before, go to it
   GetChosenUniversityId().then(universityId => {
-    console.log("UNI ID: ", universityId)
     if (universityId != null) {
       props.navigation.navigate('ChooseCourse', {
         universityId

@@ -21,8 +21,6 @@ const Chat = (props) => {
     return <ActivityIndicator />
   }
 
-  console.log("Messages: ", messages);
-
   return (
     <View style={styles.container}>
       <GiftedChat
