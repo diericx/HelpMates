@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import Meteor from 'react-native-meteor';
-
 import { ListItem, Button } from "react-native-elements";
 import Icon from "@expo/vector-icons/FontAwesome";
 
+import ListViewSubtitle from '../../ListViewSubtitle';
 import { JoinCourse } from "../../../lib/Meteor";
 
 import styles from './styles';
@@ -32,7 +32,7 @@ const CourseList = (props) => {
             // leftAvatar={{ source: { uri: l.avatar_url } }}
             containerStyle={[styles.itemBottomBorder, index == 0 ? styles.itemTopBorder : null]}
             title={item.title1}
-            subtitle={item.title2}
+            subtitle={<ListViewSubtitle subtitle={item.title2} userCount={members.length} />}
             rightTitle={
               isUserInCourse ? null :
               <Button

@@ -20,7 +20,8 @@ const Messages = (props) => {
   GetChosenUniversityId().then(universityId => {
     if (universityId != null) {
       props.navigation.navigate('ChooseCourse', {
-        universityId
+        universityId,
+        path: 'DU/'
       })
     }
   });
@@ -28,7 +29,8 @@ const Messages = (props) => {
   onPress = (university) => {
     SetChosenUniversityId(university._id);
     props.navigation.navigate('ChooseCourse', {
-      universityId: university._id
+      universityId: university._id,
+      path: university.abbreviation + "/"
     })
   }
 

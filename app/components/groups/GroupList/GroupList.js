@@ -4,6 +4,7 @@ import Meteor from 'react-native-meteor';
 import { ListItem, Button } from "react-native-elements";
 import Icon from "@expo/vector-icons/FontAwesome";
 
+import ListViewSubtitle from '../../ListViewSubtitle';
 import { JoinGroup, LeaveGroup } from "../../../lib/Meteor";
 
 import styles from './styles';
@@ -37,7 +38,7 @@ const GroupList = (props) => {
             <ListItem
               key={item._id}
               title={item.title1}
-              subtitle={Meteor.collection('courses').findOne({_id: item.courseId}).title1}
+              subtitle={<ListViewSubtitle subtitle={course.title1} userCount={course.members.length} />}
               containerStyle={[styles.itemBottomBorder, index == 0 ? styles.itemTopBorder : null]}
               leftIcon={
                 {

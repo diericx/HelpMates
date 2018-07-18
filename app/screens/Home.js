@@ -14,9 +14,6 @@ const styles = EStyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    // backgroundColor: "red"
   }
 });
 

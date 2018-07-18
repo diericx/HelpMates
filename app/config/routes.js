@@ -9,6 +9,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // import SwipeNav from "../components/navigation/SwipeNav";
 import HomeScreen from "../screens/Home";
 import GroupScreen from "../screens/Group";
+import ResourceScreen from "../screens/Resource";
 
 import MessagesScreen from "../screens/Messages";
 import ChooseUniversity from "../screens/explore/ChooseUniversity"
@@ -68,7 +69,7 @@ export const ExploreStack = createStackNavigator({
   navigationOptions: {
     headerTitleStyle: {
       fontWeight: 'bold',
-    },
+    }
   },
 })
 
@@ -77,7 +78,10 @@ export const HomeStack = createStackNavigator({
     screen: HomeScreen
   },
   Group: {
-    screen: GroupScreen,
+    screen: GroupScreen
+  },
+  Resource: {
+    screen: ResourceScreen
   }
 })
 
