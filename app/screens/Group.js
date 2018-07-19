@@ -9,8 +9,15 @@ import DocumentsForGroup from '../components/DocumentsForGroup';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white"
   },
+  buttonGroupContainer: {
+    height: 30,
+    width: '100%',
+    marginLeft: -1,
+    marginTop: -2,
+    marginBottom: 0,
+    padding: 0
+  }
 });
 
 class Group extends React.Component {
@@ -58,7 +65,7 @@ class Group extends React.Component {
           onPress={this.updateSelectedIndex}
           selectedIndex={selectedIndex}
           buttons={buttons}
-          containerStyle={{height: 30}}
+          containerStyle={styles.buttonGroupContainer}
         />
         {selectedIndex == 0 ? 
           <Chat groupId={groupId}> Here's your group1 </Chat>

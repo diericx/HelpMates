@@ -119,7 +119,10 @@ export const TabNavigation = createBottomTabNavigator(
       },
     }),
     tabBarOptions: {
-      showLabel: false
-    },
+      showLabel: false,
+      style: {
+        backgroundColor: 'white'
+      }
+    }
   }
 );
