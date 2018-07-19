@@ -35,12 +35,12 @@ const GroupList = (props) => {
             <ListItem
               key={item._id}
               title={item.title1}
-              subtitle={<ListViewSubtitle subtitle={course.title1} userCount={course.members.length} />}
+              subtitle={<ListViewSubtitle subtitle={course.title1} userCount={item.members.length} />}
               containerStyle={[styles.itemBottomBorder, index == 0 ? styles.itemTopBorder : null]}
               leftIcon={
                 {
                   name: "verified-user",
-                  size: 32,
+                  size: 35,
                   iconStyle: styles.icon
                 }
               }
