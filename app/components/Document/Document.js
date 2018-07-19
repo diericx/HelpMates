@@ -10,7 +10,7 @@ import styles from './styles';
 
 const Document = (props) => {
   let { ready, document } = props;
-  let { data, title1 } = document;
+  let { entries, title1 } = document;
 
   if (!ready) {
     return <ActivityIndicator />
@@ -18,12 +18,13 @@ const Document = (props) => {
 
   return (
     <ScrollView style={styles.container}>
-      {data.map((entry, i) => {
-        let { title, subtitle } = entry;
+      {entries.map((entry, i) => {
+        let { title, body, updatedBy } = entry;
         return (
-          <View key={i}>
+          <View key={i} style={styles.entryContainer}>
             <Text style={styles.entryTitle}>{title}</Text>
-            <Text style={styles.entrySubtitle}>{subtitle}</Text>
+            <Text style={styles.entryBody}>{body}</Text>
+            <Text style={styles.messageText}>Last edited by {updatedBy}</Text>
             {/* <TextInput
               style={{borderColor: 'gray', borderWidth: 1}}
               onChangeText={(text) => UpdateDocumentEntryTitle(i, text)}

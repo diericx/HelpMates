@@ -12,9 +12,9 @@ import GroupScreen from "../screens/Group";
 import ResourceScreen from "../screens/Resource";
 
 import MessagesScreen from "../screens/Messages";
-import ChooseUniversity from "../screens/explore/ChooseUniversity"
-import ChooseCourse from "../screens/explore/ChooseCourse"
-import ChooseGroup from "../screens/explore/ChooseGroup"
+import ChooseUniversityScreen from "../screens/explore/ChooseUniversity"
+import ChooseCourseScreen from "../screens/explore/ChooseCourse"
+import ChooseGroupScreen from "../screens/explore/ChooseGroup"
 
 // Modals
 import Chat from "../screens/Chat";
@@ -54,21 +54,14 @@ export const AuthStack = createStackNavigator({
 });
 
 export const ExploreStack = createStackNavigator({
-  ChooseUniversity: {
-    screen: ChooseUniversity
-  },
-  ChooseCourse: {
-    screen: ChooseCourse
-  },
-  ChooseGroup: {
-    screen: ChooseGroup
-  }
+  ChooseUniversity: ChooseUniversityScreen,
+  ChooseCourse: ChooseCourseScreen,
+  ChooseGroup: ChooseGroupScreen
 },
 {
-  /* The header config from HomeScreen is now here */
   navigationOptions: {
-    headerTitleStyle: {
-      fontWeight: 'bold',
+    headerStyle: {
+      backgroundColor: 'white',
     }
   },
 })
@@ -81,8 +74,21 @@ export const HomeStack = createStackNavigator({
     screen: GroupScreen
   },
   Resource: {
-    screen: ResourceScreen
+    screen: ResourceScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: 'white',
+        borderBottomWidth: 0
+      }
+    }
   }
+},
+{
+  navigationOptions: {
+    headerStyle: {
+      backgroundColor: 'white',
+    }
+  },
 })
 
 export const TabNavigation = createBottomTabNavigator(

@@ -12,9 +12,9 @@ const styles = EStyleSheet.create({
 });
 
 class Resource extends React.Component {
-  static navigationOptions = {
-    title: 'Resource',
-  };
+  static navigationOptions = (props) => ({
+    title: props.navigation.getParam("title", null),
+  });
 
   render() {
     const resourceId = this.props.navigation.getParam("resourceId", null);

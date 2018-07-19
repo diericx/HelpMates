@@ -46,6 +46,7 @@ class Group extends React.Component {
 
     onDocumentPress = (document) => {
       this.props.navigation.navigate('Resource', {
+        title: document.title1,
         resourceId: document._id,
         resourceType: 'document'
       })
