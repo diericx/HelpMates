@@ -14,6 +14,13 @@ const styles = EStyleSheet.create({
 });
 
 class Group extends React.Component {
+  static navigationOptions = (props) => {
+    const title = props.navigation.getParam("title", null);
+    return {
+      title
+    }
+  }
+
   constructor() {
     super();
     this.state = {
@@ -39,7 +46,7 @@ class Group extends React.Component {
 
     onDocumentPress = (document) => {
       this.props.navigation.navigate('Resource', {
-        resourceId: resource._id,
+        resourceId: document._id,
         resourceType: 'document'
       })
     }

@@ -95,7 +95,6 @@ const Search = (props) => {
               rightIcon={
                 renderGroupActionButton(group)
               }
-              onPress={() => console.log(group)}
             />
           )
             

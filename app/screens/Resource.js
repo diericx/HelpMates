@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import Meteor from 'react-native-meteor';
+import Document from '../components/Document';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const styles = EStyleSheet.create({
@@ -16,15 +17,18 @@ class Resource extends React.Component {
   };
 
   render() {
-    let { resource } = this.props;
+    const resourceId = this.props.navigation.getParam("resourceId", null);
+    const resourceType = this.props.navigation.getParam("resourceType", null);
     
-    console.log(resource.data);
-
-    return (
-      <View style={styles.container}>
-        
-      </View>
-    );
+    if (resourceType == "document") {
+      return (
+        <View style={styles.container}>
+          <Document id={resourceId} />
+        </View>
+      )
+    }
+    
+    return null;
   }
 }
 

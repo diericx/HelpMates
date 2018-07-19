@@ -18,8 +18,6 @@ const GroupList = (props) => {
     return <ActivityIndicator />
   }
 
-  console.log(props.onPress == null)
-
   return (
     <View style={styles.container}>
       <FlatList
@@ -32,7 +30,6 @@ const GroupList = (props) => {
           let isUserInGroup = members.includes(Meteor.userId());
 
           let course = Meteor.collection('courses').findOne({_id: item.courseId});
-          console.log(course);
 
           return (
             <ListItem
