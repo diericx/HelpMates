@@ -64,7 +64,7 @@ const GroupList = (props) => {
                 :
                 null
               }
-              onPress={() => props.onPress(item)}
+              onPress={props.onPress == null ? null : () => props.onPress(item)}
               chevron={!(props.onPress == null)}
             />
           )
