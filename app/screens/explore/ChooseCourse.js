@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Meteor from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import CourseList from '../../components/courses/CourseList';
@@ -24,14 +25,14 @@ class ChooseCourse extends React.Component {
   }
 
   render() {
-    const universityId = this.props.navigation.getParam("universityId", null)
+    const university = this.props.navigation.getParam("university", null)
     const path = this.props.navigation.getParam("path", null)
 
     return (
       <View style={styles.container}>
 
         <CourseList 
-          universityId={universityId} 
+          universityId={university._id} 
           subscribe={"courses.all"} 
           onPress={this.onPress} 
         />

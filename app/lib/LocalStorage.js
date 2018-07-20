@@ -20,12 +20,12 @@ export var _storeData = async (key, value) => {
   }
 }
 
-export async function GetChosenUniversityId() {
+export async function GetChosenUniversity() {
   var value = await _retrieveData("chosenUniversityId");
-  return value;
+  return JSON.parse(value);
 }
 
-export function SetChosenUniversityId(universityId) {
-  console.log("STORING: ", universityId)
-  _storeData("chosenUniversityId", universityId);
+export function SetChosenUniversity(university) {
+  console.log("STORING: ", university)
+  _storeData("chosenUniversityId", JSON.stringify(university) );
 }

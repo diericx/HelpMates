@@ -1,7 +1,7 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-import { Icon } from 'react-native-elements';
+import { Icon, Avatar } from 'react-native-elements';
 import Swiper from 'react-native-swiper';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -35,6 +35,9 @@ export const PageTitles = [
 const styles = EStyleSheet.create({
   exploreNavBar: {
     backgroundColor: "$lightblue"
+  },
+  avatar: {
+    marginTop: 100
   }
 });
 
@@ -59,11 +62,11 @@ export const ExploreStack = createStackNavigator({
   ChooseGroup: ChooseGroupScreen
 },
 {
-  navigationOptions: {
+  navigationOptions: ({ navigation }) => ({
     headerStyle: {
       backgroundColor: 'white',
-    }
-  },
+    },
+  }),
 })
 
 export const HomeStack = createStackNavigator({
@@ -81,13 +84,44 @@ export const HomeStack = createStackNavigator({
         borderBottomWidth: 0
       }
     }
-  }
+  },
 },
 {
   navigationOptions: {
     headerStyle: {
       backgroundColor: 'white',
-    }
+    },
+    headerRight: (
+      <View style={{
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20, 
+        marginLeft: 0, 
+        backgroundColor: 'white',
+        width: 75,
+        height: 75,
+        borderRadius: 100, 
+        borderWidth: 1,
+        borderColor: 'lightgray'
+      }}> 
+        <View style={{
+          position: 'absolute',
+          backgroundColor: 'white',
+          width: 100,
+          height: 50,
+          bottom: 25
+        }}>
+
+        </View>
+        <Avatar
+          size={65}
+          rounded
+          source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"}}
+          onPress={() => console.log("Works!")}
+          activeOpacity={0.7}
+        />
+      </View>
+    )
   },
 })
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import { GetChosenUniversityId, SetChosenUniversityId } from '../../lib/LocalStorage';
+import { GetChosenUniversity, SetChosenUniversity } from '../../lib/LocalStorage';
 
 import UniversityList from '../../components/universities/UniversityList';
 
@@ -17,19 +17,19 @@ const Messages = (props) => {
   const id = props.navigation.getParam("id", null)
 
   // If the user has chosen a university before, go to it
-  GetChosenUniversityId().then(universityId => {
-    if (universityId != null) {
+  GetChosenUniversity().then(university => {
+    if (university != null) {
       props.navigation.navigate('ChooseCourse', {
-        universityId,
-        path: 'DU/'
+        university,
+        path: 'DU/',
       })
     }
   });
 
   onPress = (university) => {
-    SetChosenUniversityId(university._id);
+    SetChosenUniversity(university);
     props.navigation.navigate('ChooseCourse', {
-      universityId: university._id,
+      university: university,
       path: university.abbreviation + "/"
     })
   }
