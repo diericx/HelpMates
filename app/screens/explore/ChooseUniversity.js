@@ -17,13 +17,13 @@ const ChooseUniversity = (props) => {
   const id = props.navigation.getParam("id", null)
 
   // If the user has chosen a university before, go to it
-  GetChosenUniversity().then(university => {
-    if (university != null) {
-      props.navigation.navigate('ChooseCourse', {
-        university,
-      })
-    }
-  });
+  // GetChosenUniversity().then(university => {
+  //   if (university != null) {
+  //     props.navigation.navigate('ChooseCourse', {
+  //       university,
+  //     })
+  //   }
+  // });
 
   onPress = (university) => {
     SetChosenUniversity(university);

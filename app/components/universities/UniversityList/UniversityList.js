@@ -1,28 +1,37 @@
 import React from 'react';
-import firebase, { GetUniversities } from '../../../lib/Firebase';
+
+import PropTypes from 'prop-types'
+
+// import firebase, { GetUniversities } from '../../../lib/Firebase';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem } from "react-native-elements";
 import Icon from "@expo/vector-icons/FontAwesome";
 
 import styles from './styles';
 
-class UniversityList extends React.Component {
+export default class UniversityList extends React.Component {
+  static contextTypes = {
+    store: PropTypes.object.isRequired
+  }
+
+  componentWillMount () {
+    const { firestore } = this.context.store
+    firestore.get('universities')
+  }
+
   constructor() {
     super();
     this.state = {
       loading: true
     }
-    GetUniversities(universities => this.setState({
-      universities,
-      loading: false
-    }));
   }
 
   keyExtractor = (item, index) => item.id
 
   render() {
-    const { loading, universities } = this.state;
-    if (loading) {
+    const { universities } = this.props
+
+    if (!universities) {
       return <ActivityIndicator />
     }
 
@@ -34,7 +43,6 @@ class UniversityList extends React.Component {
           renderItem={({item}) => 
             <ListItem
               key={item._id}
-              // leftAvatar={{ source: { uri: l.avatar_url } }}
               title={item.name}
               subtitle={item.city}
               onPress={() => this.props.onPress(item) }
@@ -46,5 +54,3 @@ class UniversityList extends React.Component {
     );
   }
 }
-
-export default UniversityList;
