@@ -18,7 +18,7 @@ class UniversityList extends React.Component {
     }));
   }
 
-  keyExtractor = (item, index) => item._id
+  keyExtractor = (item, index) => item.id
 
   render() {
     const { loading, universities } = this.state;
@@ -37,7 +37,7 @@ class UniversityList extends React.Component {
               // leftAvatar={{ source: { uri: l.avatar_url } }}
               title={item.name}
               subtitle={item.city}
-              onPress={() => props.onPress(item) }
+              onPress={() => this.props.onPress(item) }
               chevron
             />
           }

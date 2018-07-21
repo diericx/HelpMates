@@ -26,14 +26,12 @@ class ChooseCourse extends React.Component {
 
   render() {
     const university = this.props.navigation.getParam("university", null)
-    const path = this.props.navigation.getParam("path", null)
 
     return (
       <View style={styles.container}>
 
         <CourseList 
-          universityId={university._id} 
-          subscribe={"courses.all"} 
+          universityId={university.id} 
           onPress={this.onPress} 
         />
 

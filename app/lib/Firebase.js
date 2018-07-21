@@ -27,6 +27,17 @@ firestore.settings({
   timestampsInSnapshots: true
 })
 
+function validateParameters(method, options, params) {
+  let valid = true;
+  params.forEach(param => {
+    if (!options[param]) {
+      console.log(`ERROR calling Fireabse.${method}(). Missing param: ${param}`)
+      valid=false;
+    }
+  })
+  return valid;
+}
+
 export function GetUniversities(callback) {
   firebase.firestore().collection('universities').get()
     .then(querySnapshot => {
@@ -44,6 +55,31 @@ export function GetUniversities(callback) {
     }).catch(function(error) {
         console.log("Error getting documents: ", error);
     });
+}
+
+export function GetCoursesForUniversity(options, callback) {
+  validateParameters('GetCoursesForUniversity', options, ['universityId'])
+
+  firebase.firestore().collection('courses').get()
+    .then(querySnapshot => {
+      let courses = []
+
+      querySnapshot.forEach(function(doc) {
+        courses.push({
+          id: doc.id,
+          ...doc.data()
+        });
+      });
+
+      callback(courses);
+
+    }).catch(function(error) {
+        console.log("FIREBASE ERROR: ", error);
+    });
+}
+
+export function GetCurrentUser() {
+  return firebase.auth().currentUser
 }
 
 export default firebase;

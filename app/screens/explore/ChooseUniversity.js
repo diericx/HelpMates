@@ -13,7 +13,7 @@ const styles = EStyleSheet.create({
   },
 });
 
-const Messages = (props) => {
+const ChooseUniversity = (props) => {
   const id = props.navigation.getParam("id", null)
 
   // If the user has chosen a university before, go to it
@@ -21,7 +21,6 @@ const Messages = (props) => {
     if (university != null) {
       props.navigation.navigate('ChooseCourse', {
         university,
-        path: 'DU/',
       })
     }
   });
@@ -30,7 +29,6 @@ const Messages = (props) => {
     SetChosenUniversity(university);
     props.navigation.navigate('ChooseCourse', {
       university: university,
-      path: university.abbreviation + "/"
     })
   }
 
@@ -41,4 +39,4 @@ const Messages = (props) => {
   );
 };
 
-export default Messages;
+export default ChooseUniversity;
