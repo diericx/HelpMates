@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { LayoutAnimation, StyleSheet, Dimensions, Text, View, Image } from 'react-native';
-import Meteor, { Accounts } from 'react-native-meteor';
+import { connect } from 'react-redux'
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Icon from "@expo/vector-icons/FontAwesome";
@@ -137,4 +137,6 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default connect((state) => ({
+  courses: state.firestore.ordered.courses
+}))(Login)

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { LayoutAnimation, StyleSheet, Dimensions, Text, View, Image } from 'react-native';
-import firebase from '../../lib/Firebase';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Icon from "@expo/vector-icons/FontAwesome";

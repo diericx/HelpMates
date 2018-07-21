@@ -85,7 +85,11 @@ class HelpMates extends React.Component {
         </Provider>
       )
     }
-    return <AuthStack />;
+    return (
+      <Provider store={store}>
+        <AuthStack />
+      </Provider>
+    );
   }
 }
 
