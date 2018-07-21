@@ -83,11 +83,18 @@ class Login extends Component {
   handleSignIn = () => {
     if (this.validInput(true)) {
       const { email, password } = this.state;
-      Meteor.loginWithPassword(email, password, (err) => {
-        if (err) {
-          this.handleError(err.reason);
-        }
-      });
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((user) => {
+          // If you need to do anything with the user, do it here
+          // The user will be logged in automatically by the 
+          // `onAuthStateChanged` listener we set up in App.js earlier
+        })
+        .catch((error) => {
+          const { code, message } = error;
+          // For details of error codes, see the docs
+          // The message contains the default Firebase string
+          // representation of the error
+        });
     }
   }
 

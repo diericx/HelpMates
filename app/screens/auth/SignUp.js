@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { LayoutAnimation, StyleSheet, Dimensions, Text, View, Image } from 'react-native';
-import Meteor, { Accounts } from 'react-native-meteor';
+import firebase from '../../lib/Firebase';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Icon from "@expo/vector-icons/FontAwesome";
@@ -80,30 +80,24 @@ class Login extends Component {
     return valid;
   }
 
-  handleSignIn = () => {
-    if (this.validInput(true)) {
-      const { email, password } = this.state;
-      Meteor.loginWithPassword(email, password, (err) => {
-        if (err) {
-          this.handleError(err.reason);
-        }
-      });
-    }
-  }
-
   handleCreateAccount = () => {
     const { email, password } = this.state;
     console.log("Creating account: ", email, password)
 
     if (this.validInput()) {
-      Accounts.createUser({ email, password }, (err) => {
-        if (err) {
-          this.handleError(err.reason);
-        } else {
-          // hack because react-native-meteor doesn't login right away after sign in
-          this.handleSignIn();
-        }
-      });
+      console.log('firebae sign in...')
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((user) => {
+          // If you need to do anything with the user, do it here
+          // The user will be logged in automatically by the
+          // `onAuthStateChanged` listener we set up in App.js earlier
+        })
+        .catch((error) => {
+          const { code, message } = error;
+          // For details of error codes, see the docs
+          // The message contains the default Firebase string
+          // representation of the error
+        });
     } else {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
       this.setState({ confirmPasswordVisible: true });
