@@ -23,14 +23,22 @@ export default class CourseList extends React.Component {
       collection: 'courses',
       where: ['universityId', '==', universityId]
     });
+    firestore.onSnapshot({ collection: 'courses' })
   }
 
-  constructor(props) {
-    super(props);
+  JoinCourse(courseId) {
+    const { firestore } = this.context.store;
+    const { auth } = this.props;
+    firestore.collection('courses')
+    .doc(courseId)
+    .set(
+      { members: [auth.uid] },
+      { merge: true }
+    )
   }
 
   render() {
-    let { courses } = this.props;
+    let { courses, auth } = this.props;
 
     if (!courses) {
       return <ActivityIndicator />
@@ -44,7 +52,7 @@ export default class CourseList extends React.Component {
           renderItem={({item, index}) => {
             console.log(item);
             let { members } = item;
-            let isUserInCourse = members.includes('currentUser.uid');
+            let isUserInCourse = members.includes(auth.uid);
   
             return <ListItem
               key={item._id}
@@ -65,7 +73,7 @@ export default class CourseList extends React.Component {
                     }
                   }
                   buttonStyle={styles.button}
-                  onPress={() => JoinCourse(item._id) }
+                  onPress={() => this.JoinCourse(item.id) }
                 />
               }
               onPress={isUserInCourse ? () => this.props.onPress(item) : null}

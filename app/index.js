@@ -2,6 +2,7 @@ import React from 'react';
 import { createStore, combineReducers, compose } from 'redux'
 import { Provider } from 'react-redux';
 import { reduxFirestore, firestoreReducer } from 'redux-firestore'
+import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
@@ -31,6 +32,11 @@ const firebaseConfig = {
   messagingSenderId: FIRE_MESSAGING_SENDER_ID,
 }
 
+const rrfConfig = {
+  userProfile: 'users',
+  useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+}
+
 // Initialize firebase instance
 firebase.initializeApp(firebaseConfig)
 // Initialize Cloud Firestore through Firebase
@@ -39,11 +45,13 @@ firebase.firestore().settings({timestampsInSnapshots: true});
 // Add reduxFirestore store enhancer to store creator
 const createStoreWithFirebase = compose(
   reduxFirestore(firebase), // firebase instance as first argument
+  reactReduxFirebase(firebase, rrfConfig),
 )(createStore)
 
 // Add Firebase to reducers
 const rootReducer = combineReducers({
-  firestore: firestoreReducer
+  firestore: firestoreReducer,
+  firebase: firebaseReducer,
 })
 
 // Create store with reducers and initial state
