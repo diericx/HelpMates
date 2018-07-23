@@ -20,7 +20,7 @@ class ChooseCourse extends React.Component {
 
   onPress = (course) => {
     this.props.navigation.navigate('ChooseGroup', {
-      courseId: course._id
+      courseId: course.id
     })
   }
 

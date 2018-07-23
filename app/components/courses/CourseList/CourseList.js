@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 // import { GetCoursesForUniversity, GetCurrentUser } from '../../../lib/Firebase';
 import { ListItem, Button } from "react-native-elements";
@@ -19,22 +19,21 @@ export default class CourseList extends React.Component {
   componentWillMount () {
     const { universityId } = this.props;
     const { firestore } = this.context.store;
-    firestore.get({
+    firestore.onSnapshot({
       collection: 'courses',
       where: ['universityId', '==', universityId]
-    });
-    firestore.onSnapshot({ collection: 'courses' })
+    })
   }
 
   JoinCourse(courseId) {
     const { firestore } = this.context.store;
     const { auth } = this.props;
+    const path = `members.${[auth.uid]}`
     firestore.collection('courses')
     .doc(courseId)
-    .set(
-      { members: [auth.uid] },
-      { merge: true }
-    )
+    .update({
+      [path] : {}
+    })
   }
 
   render() {
@@ -50,12 +49,12 @@ export default class CourseList extends React.Component {
           keyExtractor={this.keyExtractor}
           data={courses}
           renderItem={({item, index}) => {
-            console.log(item);
             let { members } = item;
-            let isUserInCourse = members.includes(auth.uid);
+            let isUserInCourse = !(members[auth.uid] == null);
+            console.log(isUserInCourse);
   
             return <ListItem
-              key={item._id}
+              key={item.id}
               // leftAvatar={{ source: { uri: l.avatar_url } }}
               containerStyle={[styles.itemBottomBorder, index == 0 ? styles.itemTopBorder : null]}
               title={item.title}
