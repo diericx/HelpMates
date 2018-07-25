@@ -1,13 +1,7 @@
-import Meteor, { withTracker } from 'react-native-meteor';
+import { connect } from 'react-redux'
 
 import Document from "./Document";
 
-export default Document;
-// export default withTracker(params => {
-//   const document = Meteor.subscribe('documents.find', {_id: params.id});
- 
-//   return {
-//     ready: document.ready(),
-//     document: Meteor.collection('documents').findOne({_id: params.id}),
-//   };
-// })(Document);
+export default connect((state) => ({
+  entries: state.firestore.data.entries,
+}))(Document)

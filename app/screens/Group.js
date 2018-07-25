@@ -4,7 +4,7 @@ import { ButtonGroup } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Chat from "../components/Chat";
-import DocumentsForGroup from '../components/DocumentsForGroup';
+import DocumentList from '../components/DocumentList';
 
 const styles = EStyleSheet.create({
   container: {
@@ -53,8 +53,8 @@ class Group extends React.Component {
 
     onDocumentPress = (document) => {
       this.props.navigation.navigate('Resource', {
-        title: document.title1,
-        resourceId: document._id,
+        title: document.title,
+        resourceId: document.id,
         resourceType: 'document'
       })
     }
@@ -70,7 +70,7 @@ class Group extends React.Component {
         {selectedIndex == 0 ? 
           <Chat groupId={groupId}> Here's your group1 </Chat>
         : 
-          <DocumentsForGroup groupId={groupId} onPress={onDocumentPress} />
+          <DocumentList groupId={groupId} onPress={onDocumentPress} />
         }
         
       </View>

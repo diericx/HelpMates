@@ -23,7 +23,7 @@ class Resource extends React.Component {
     if (resourceType == "document") {
       return (
         <View style={styles.container}>
-          <Document id={resourceId} />
+          <Document documentId={resourceId} />
         </View>
       )
     }
