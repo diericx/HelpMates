@@ -6,7 +6,6 @@ import { MeteorComplexListView } from 'react-native-meteor';
 import { Ionicons } from '@expo/vector-icons';
 
 import NavBar from '../navigation/NavBar';
-import { JoinGroup, LeaveGroup } from '../../lib/Meteor';
 
 import styles from './styles';
 
@@ -95,7 +94,6 @@ const Search = (props) => {
               rightIcon={
                 renderGroupActionButton(group)
               }
-              onPress={() => console.log(group)}
             />
           )
             

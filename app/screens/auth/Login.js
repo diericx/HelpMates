@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
 import { LayoutAnimation, StyleSheet, Dimensions, Text, View, Image } from 'react-native';
-import Meteor, { Accounts } from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Icon from "@expo/vector-icons/FontAwesome";
@@ -35,9 +36,15 @@ const styles = EStyleSheet.create({
   },
 });
 
-class Login extends Component {
+class SignUp extends Component {
+  static contextTypes = {
+    store: PropTypes.object.isRequired
+  }
+
   constructor(props) {
     super(props);
+
+    console.log(props)
 
     this.mounted = false;
     this.state = {
@@ -81,13 +88,21 @@ class Login extends Component {
   }
 
   handleSignIn = () => {
+    const { firebase } = this.context.store;
     if (this.validInput(true)) {
       const { email, password } = this.state;
-      Meteor.loginWithPassword(email, password, (err) => {
-        if (err) {
-          this.handleError(err.reason);
-        }
-      });
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((user) => {
+          // If you need to do anything with the user, do it here
+          // The user will be logged in automatically by the 
+          // `onAuthStateChanged` listener we set up in App.js earlier
+        })
+        .catch((error) => {
+          const { code, message } = error;
+          // For details of error codes, see the docs
+          // The message contains the default Firebase string
+          // representation of the error
+        });
     }
   }
 
@@ -130,4 +145,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default SignUp;

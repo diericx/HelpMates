@@ -1,10 +1,20 @@
 import React from 'react';
-import { Image } from 'react-native';
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import { View, Text, Image } from 'react-native';
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { Icon, Avatar } from 'react-native-elements';
 import Swiper from 'react-native-swiper';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Navigation
-import SwipeNav from "../components/navigation/SwipeNav";
+// import SwipeNav from "../components/navigation/SwipeNav";
+import HomeScreen from "../screens/Home";
+import GroupScreen from "../screens/Group";
+import ResourceScreen from "../screens/Resource";
+
+import MessagesScreen from "../screens/Messages";
+import ChooseUniversityScreen from "../screens/explore/ChooseUniversity"
+import ChooseCourseScreen from "../screens/explore/ChooseCourse"
+import ChooseGroupScreen from "../screens/explore/ChooseGroup"
 
 // Modals
 import Chat from "../screens/Chat";
@@ -22,7 +32,17 @@ export const PageTitles = [
 ]
 
 
-export const AuthStack = StackNavigator({
+const styles = EStyleSheet.create({
+  exploreNavBar: {
+    backgroundColor: "$lightblue"
+  },
+  avatar: {
+    marginTop: 100
+  }
+});
+
+
+export const AuthStack = createStackNavigator({
   AuthHome: {
     screen: AuthHome,
   },
@@ -36,13 +56,107 @@ export const AuthStack = StackNavigator({
   headerMode: 'none',
 });
 
-export const MainStack = StackNavigator({
+export const ExploreStack = createStackNavigator({
+  ChooseUniversity: ChooseUniversityScreen,
+  ChooseCourse: ChooseCourseScreen,
+  ChooseGroup: ChooseGroupScreen
+},
+{
+  navigationOptions: ({ navigation }) => ({
+    headerStyle: {
+      backgroundColor: 'white',
+    },
+  }),
+})
+
+export const HomeStack = createStackNavigator({
   Home: {
-    screen: SwipeNav,
+    screen: HomeScreen
   },
-  Chat: {
-    screen: Chat,
+  Group: {
+    screen: GroupScreen
+  },
+  Resource: {
+    screen: ResourceScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: 'white',
+        borderBottomWidth: 0
+      }
+    }
+  },
+},
+{
+  navigationOptions: {
+    headerStyle: {
+      backgroundColor: 'white',
+    },
+    headerRight: (
+      <View style={{
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20, 
+        marginLeft: 0, 
+        backgroundColor: 'white',
+        width: 75,
+        height: 75,
+        borderRadius: 100, 
+        borderWidth: 1,
+        borderColor: 'lightgray'
+      }}> 
+        <View style={{
+          position: 'absolute',
+          backgroundColor: 'white',
+          width: 100,
+          height: 50,
+          bottom: 25
+        }}>
+
+        </View>
+        <Avatar
+          size={65}
+          rounded
+          source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"}}
+          onPress={() => console.log("Works!")}
+          activeOpacity={0.7}
+        />
+      </View>
+    )
+  },
+})
+
+export const TabNavigation = createBottomTabNavigator(
+  {
+    Explore: ExploreStack,
+    Home: HomeStack,
+    Help: MessagesScreen,
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        let iconType = 'material-community';
+        if (routeName === 'Explore') {
+          iconName = 'wpexplorer';
+          iconType = 'font-awesome';
+        } else if (routeName === 'Home') {
+          iconName = 'group';
+          iconType = 'font-awesome';
+        } else if (routeName == 'Help') {
+          iconName = 'life-bouy';
+          iconType = 'font-awesome';
+        }
+
+        // You can return any component that you like here!
+        return <Icon name={iconName} type={iconType} size={30} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      showLabel: false,
+      style: {
+        backgroundColor: 'white'
+      }
+    }
   }
-}, {
-  headerMode: 'none',
-});
+);
