@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { LayoutAnimation, StyleSheet, Dimensions, Text, View, Image } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
+import { LayoutAnimation, StyleSheet, Dimensions, Text, View, Image } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Icon from "@expo/vector-icons/FontAwesome";
@@ -35,9 +36,15 @@ const styles = EStyleSheet.create({
   },
 });
 
-class Login extends Component {
+class SignUp extends Component {
+  static contextTypes = {
+    store: PropTypes.object.isRequired
+  }
+
   constructor(props) {
     super(props);
+
+    console.log(props)
 
     this.mounted = false;
     this.state = {
@@ -81,6 +88,7 @@ class Login extends Component {
   }
 
   handleSignIn = () => {
+    const { firebase } = this.context.store;
     if (this.validInput(true)) {
       const { email, password } = this.state;
       firebase.auth().signInWithEmailAndPassword(email, password)
@@ -137,6 +145,4 @@ class Login extends Component {
   }
 }
 
-export default connect((state) => ({
-  courses: state.firestore.ordered.courses
-}))(Login)
+export default SignUp;

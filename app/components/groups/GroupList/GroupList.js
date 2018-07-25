@@ -21,7 +21,8 @@ export default class GroupList extends React.Component {
     let whereQuery = courseId ? ['courseId', '==', courseId] : [path, '==', true]
     firestore.setListener({
       collection: 'groups',
-      where: whereQuery
+      where: whereQuery,
+
     })
   }
 
@@ -49,7 +50,7 @@ export default class GroupList extends React.Component {
 
   render() {
     let { groups, courses, auth } = this.props;
-    console.log("GROUPS: ", groups);
+    
     if (!groups) {
       return <ActivityIndicator />
     }

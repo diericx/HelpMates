@@ -31,7 +31,6 @@ export default class Chat extends React.Component {
   }
  
   sendMessage(message) {
-    console.log("Sending: ", message);
     const { groupId } = this.props;
     const { firestore } = this.context.store;
     firestore.add({ 

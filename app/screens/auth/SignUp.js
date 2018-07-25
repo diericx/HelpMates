@@ -80,6 +80,7 @@ class Login extends Component {
   }
 
   handleCreateAccount = () => {
+    const { firebase } = this.context.store;
     const { email, password } = this.state;
     console.log("Creating account: ", email, password)
 

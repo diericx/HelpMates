@@ -51,7 +51,6 @@ export default class CourseList extends React.Component {
           renderItem={({item, index}) => {
             let { members } = item;
             let isUserInCourse = !(members[auth.uid] == null);
-            console.log(isUserInCourse);
   
             return <ListItem
               key={item.id}
