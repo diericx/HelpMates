@@ -1,10 +1,7 @@
 import React from 'react';
 import { View, ScrollView, Text, FlatList, ActivityIndicator, TextInput } from 'react-native';
-import Meteor from 'react-native-meteor';
 import { ListItem, Button } from "react-native-elements";
 import Icon from "@expo/vector-icons/FontAwesome";
-
-import { UpdateDocumentEntryTitle, UpdateDocumentEntrySubTitle } from '../../lib/Meteor';
 
 import styles from './styles';
 

@@ -5,7 +5,6 @@ import { ListItem, Button } from "react-native-elements";
 import Icon from "@expo/vector-icons/FontAwesome";
 
 import ListViewSubtitle from '../../ListViewSubtitle';
-import { JoinGroup, LeaveGroup } from "../../../lib/Meteor";
 
 import styles from './styles';
 
