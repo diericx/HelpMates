@@ -1,14 +1,15 @@
-import Meteor, { withTracker, MeteorListView } from 'react-native-meteor';
+import { connect } from 'react-redux'
 
 import Chat from "./Chat";
 
-export default withTracker(params => {
-  const handle = Meteor.subscribe('group', {_id: params.groupId});
- 
+export default connect((state, props) => {
+  let { groupId } = props;
+  // console.log(state.firestore)
+  // console.log(props);
   return {
-    ready: handle.ready(),
-    messages: Meteor.collection('groups').findOne({
-      _id: params.groupId
-    }).messages
-  };
-})(Chat);
+    group: state.firestore.data.groups[groupId],
+    messages: state.firestore.data.messages,
+    auth: state.firebase.auth,
+    profile: state.firebase.profile
+  }
+})(Chat)

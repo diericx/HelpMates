@@ -24,8 +24,8 @@ class Home extends React.Component {
 
   onPress = (group) => {
     this.props.navigation.navigate('Group', {
-      groupId: group._id,
-      title: group.title1
+      groupId: group.id,
+      title: group.title
     })
   }
 
@@ -33,7 +33,6 @@ class Home extends React.Component {
     return (
       <View style={styles.container}>
         <GroupList 
-          subscribe={"groups.myGroups"} 
           onPress={this.onPress} 
           findOptions={{
             members: {

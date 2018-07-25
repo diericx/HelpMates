@@ -15,11 +15,13 @@ export default class GroupList extends React.Component {
   }
 
   componentWillMount() {
-    const { courseId, profile } = this.props;
+    const { courseId, auth } = this.props;
     const { firestore } = this.context.store;
-    firestore.onSnapshot({
+    const path = `members.${[auth.uid]}`
+    let whereQuery = courseId ? ['courseId', '==', courseId] : [path, '==', true]
+    firestore.setListener({
       collection: 'groups',
-      where: ['courseId', '==', courseId]
+      where: whereQuery
     })
   }
 
@@ -30,7 +32,7 @@ export default class GroupList extends React.Component {
     firestore.collection('groups')
     .doc(groupId)
     .update({
-      [path] : {}
+      [path] : true
     })
   }
 
@@ -47,7 +49,7 @@ export default class GroupList extends React.Component {
 
   render() {
     let { groups, courses, auth } = this.props;
-
+    console.log("GROUPS: ", groups);
     if (!groups) {
       return <ActivityIndicator />
     }

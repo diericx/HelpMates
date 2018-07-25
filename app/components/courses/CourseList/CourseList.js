@@ -19,9 +19,9 @@ export default class CourseList extends React.Component {
   componentWillMount () {
     const { universityId } = this.props;
     const { firestore } = this.context.store;
-    firestore.onSnapshot({
+    firestore.setListener({
       collection: 'courses',
-      where: ['universityId', '==', universityId]
+      where: ['universityId', '==', universityId],
     })
   }
 
