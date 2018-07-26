@@ -52,6 +52,7 @@ class DocumentList extends React.Component {
                 subtitle={'TODO - Course subtitle'}
                 containerStyle={[styles.itemBottomBorder, index == 0 ? styles.itemTopBorder : null]}
                 onPress={() => this.props.onPress(item)}
+                leftIcon={{ name: 'file-text', type: 'feather', size: 33, color: '#3f3f3f' }}
                 chevron
               />
             )

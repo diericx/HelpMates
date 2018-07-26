@@ -25,7 +25,7 @@ const styles = EStyleSheet.create({
   messageText: {
     fontFamily: 'Avenir-LightOblique',
     fontSize: 10,
-    lineHeight: 10,
+    lineHeight: 12,
     color: 'lightgray',
   }
 });
