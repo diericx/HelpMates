@@ -9,7 +9,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // import SwipeNav from "../components/navigation/SwipeNav";
 import HomeScreen from "../screens/Home";
 import GroupScreen from "../screens/Group";
-import ResourceScreen from "../screens/Resource";
+import FileScreen from "../screens/File";
 
 import MessagesScreen from "../screens/Messages";
 import ChooseUniversityScreen from "../screens/explore/ChooseUniversity"
@@ -76,8 +76,8 @@ export const HomeStack = createStackNavigator({
   Group: {
     screen: GroupScreen
   },
-  Resource: {
-    screen: ResourceScreen,
+  File: {
+    screen: FileScreen,
     navigationOptions: {
       headerStyle: {
         backgroundColor: 'white',

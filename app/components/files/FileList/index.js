@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 
-import DocumentList from "./DocumentList";
+import FileList from "./FileList";
 
 export default connect((state, props) => {
   let { groupId } = props;
   return {
-    documents: state.firestore.data.documents,
+    files: state.firestore.data.files,
   }
-})(DocumentList)
+})(FileList)

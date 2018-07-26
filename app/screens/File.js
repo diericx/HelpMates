@@ -1,8 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import Meteor from 'react-native-meteor';
-import Document from '../components/Document';
+import Document from '../components/files/Document';
 import EStyleSheet from 'react-native-extended-stylesheet';
+
+import FileList from '../components/files/FileList';
 
 const styles = EStyleSheet.create({
   container: {
@@ -11,19 +13,25 @@ const styles = EStyleSheet.create({
   }
 });
 
-class Resource extends React.Component {
+class File extends React.Component {
   static navigationOptions = (props) => ({
     title: props.navigation.getParam("title", null),
   });
 
   render() {
-    const resourceId = this.props.navigation.getParam("resourceId", null);
-    const resourceType = this.props.navigation.getParam("resourceType", null);
+    const fileId = this.props.navigation.getParam("fileId", null);
+    const fileType = this.props.navigation.getParam("fileType", null);
     
-    if (resourceType == "document") {
+    if (fileType == 'folder') {
       return (
         <View style={styles.container}>
-          <Document documentId={resourceId} />
+          <FileList parentId={fileId} />
+        </View>
+      )
+    } else if (fileType == 'document') {
+      return (
+        <View style={styles.container}>
+          <Document fileId={fileId} />
         </View>
       )
     }
@@ -32,4 +40,4 @@ class Resource extends React.Component {
   }
 }
 
-export default Resource;
+export default File;

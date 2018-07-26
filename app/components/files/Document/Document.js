@@ -12,11 +12,11 @@ class Document extends React.Component {
   }
 
   componentWillMount () {
-    const { documentId } = this.props;
+    const { fileId } = this.props;
     const { firestore } = this.context.store;
     firestore.setListener({
-      collection: 'documents',
-      doc: documentId,
+      collection: 'files',
+      doc: fileId,
       storeAs: 'entries',
       subcollections: [{ collection: 'entries' }]
     })
