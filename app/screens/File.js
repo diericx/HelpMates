@@ -21,6 +21,8 @@ class File extends React.Component {
   render() {
     const fileId = this.props.navigation.getParam("fileId", null);
     const fileType = this.props.navigation.getParam("fileType", null);
+
+    console.log(fileId);
     
     if (fileType == 'folder') {
       return (

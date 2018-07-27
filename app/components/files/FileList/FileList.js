@@ -18,9 +18,11 @@ class FileList extends React.Component {
   componentWillMount () {
     const { parentId } = this.props;
     const { firestore } = this.context.store;
+    console.log(parentId);
     firestore.setListener({
       collection: 'files',
-      where: ['parent', '==', parentId],
+      storeAs: `files-${parentId}`,
+      where: ['parentId', '==', parentId]
     })
   }
 
