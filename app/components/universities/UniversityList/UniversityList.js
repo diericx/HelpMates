@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 // import firebase, { GetUniversities } from '../../../lib/Firebase';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem } from "react-native-elements";
+import SepperatorView from '../../SepperatorView';
 import Icon from "@expo/vector-icons/FontAwesome";
 
 import styles from './styles';
@@ -40,14 +41,17 @@ export default class UniversityList extends React.Component {
         <FlatList
           keyExtractor={this.keyExtractor}
           data={universities}
-          renderItem={({item}) => 
-            <ListItem
-              key={item._id}
-              title={item.name}
-              subtitle={item.city}
-              onPress={() => this.props.onPress(item) }
-              chevron
-            />
+          renderItem={({item, index}) => 
+            <SepperatorView renderTop={index==0} renderBottom={index==universities.length-1}>
+              <ListItem
+                key={item._id}
+                title={item.title}
+                subtitle={`${item.city}, ${item.state}`}
+                onPress={() => this.props.onPress(item) }
+                leftIcon={{ name: 'school', size: 30 }}
+                chevron
+              />
+            </SepperatorView>
           }
         />
       </View>

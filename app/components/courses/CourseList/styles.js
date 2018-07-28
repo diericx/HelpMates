@@ -16,14 +16,6 @@ const styles = EStyleSheet.create({
   icon: {
     color: '$green'
   },
-  itemTopBorder: {
-    borderTopWidth: 0.5,
-    borderColor: 'lightgray'
-  },
-  itemBottomBorder: {
-    borderBottomWidth: 0.5,
-    borderColor: 'lightgray'
-  }
 });
 
 export default styles;

@@ -4,6 +4,7 @@ import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 // import { GetCoursesForUniversity, GetCurrentUser } from '../../../lib/Firebase';
 import { ListItem, Button } from "react-native-elements";
 import Icon from "@expo/vector-icons/FontAwesome";
+import SepperatorView from "../../SepperatorView";
 
 import ListViewSubtitle from '../../ListViewSubtitle';
 
@@ -52,33 +53,35 @@ export default class CourseList extends React.Component {
             let { members } = item;
             let isUserInCourse = !(members[auth.uid] == null);
   
-            return <ListItem
-              key={item.id}
-              // leftAvatar={{ source: { uri: l.avatar_url } }}
-              containerStyle={[styles.itemBottomBorder, index == 0 ? styles.itemTopBorder : null]}
-              title={item.title}
-              subtitle={<ListViewSubtitle subtitle={item.subtitle} userCount={members.length} />}
-              rightTitle={
-                isUserInCourse ? null :
-                <Button
-                  title='Unlock'
-                  titleStyle={styles.title}
-                  icon={
-                    {
-                      name: 'lock', 
-                      size: 18, 
-                      iconStyle: styles.icon
-                    }
+            return (
+              <SepperatorView renderBottom={index==courses.length-1}>
+                <ListItem
+                  key={item.id}
+                  // leftAvatar={{ source: { uri: l.avatar_url } }}
+                  title={item.title}
+                  subtitle={<ListViewSubtitle subtitle={item.subtitle} userCount={members.length} />}
+                  rightTitle={
+                    isUserInCourse ? null :
+                    <Button
+                      title='Unlock'
+                      titleStyle={styles.title}
+                      icon={
+                        {
+                          name: 'lock', 
+                          size: 18, 
+                          iconStyle: styles.icon
+                        }
+                      }
+                      buttonStyle={styles.button}
+                      onPress={() => this.JoinCourse(item.id) }
+                    />
                   }
-                  buttonStyle={styles.button}
-                  onPress={() => this.JoinCourse(item.id) }
+                  onPress={isUserInCourse ? () => this.props.onPress(item) : null}
+                  chevron={isUserInCourse}
                 />
-              }
-              onPress={isUserInCourse ? () => this.props.onPress(item) : null}
-              chevron={isUserInCourse}
-            />
-            }
-          }
+              </SepperatorView>
+            )
+          }}
         />
       </View>
     );

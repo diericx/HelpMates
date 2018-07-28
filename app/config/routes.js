@@ -62,11 +62,32 @@ export const ExploreStack = createStackNavigator({
   ChooseGroup: ChooseGroupScreen
 },
 {
-  navigationOptions: ({ navigation }) => ({
+  navigationOptions: {
     headerStyle: {
       backgroundColor: 'white',
+      height: 70,
+      borderBottomWidth: 0
     },
-  }),
+    headerRight: (
+      <View style={{
+        justifyContent: 'center',
+        alignItems: 'center', 
+        marginLeft: 0, 
+        backgroundColor: 'white',
+        width: 50,
+        height: 50,
+        marginRight: 10
+      }}> 
+        <Avatar
+          size={50}
+          rounded
+          source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"}}
+          onPress={() => console.log("Works!")}
+          activeOpacity={0.7}
+        />
+      </View>
+    )
+  },
 })
 
 export const HomeStack = createStackNavigator({
@@ -81,7 +102,6 @@ export const HomeStack = createStackNavigator({
     navigationOptions: {
       headerStyle: {
         backgroundColor: 'white',
-        borderBottomWidth: 0
       }
     }
   },
@@ -90,31 +110,21 @@ export const HomeStack = createStackNavigator({
   navigationOptions: {
     headerStyle: {
       backgroundColor: 'white',
+      height: 70,
+      borderBottomWidth: 0
     },
     headerRight: (
       <View style={{
         justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 20, 
+        alignItems: 'center', 
         marginLeft: 0, 
         backgroundColor: 'white',
-        width: 75,
-        height: 75,
-        borderRadius: 100, 
-        borderWidth: 1,
-        borderColor: 'lightgray'
+        width: 50,
+        height: 50,
+        marginRight: 10
       }}> 
-        <View style={{
-          position: 'absolute',
-          backgroundColor: 'white',
-          width: 100,
-          height: 50,
-          bottom: 25
-        }}>
-
-        </View>
         <Avatar
-          size={65}
+          size={50}
           rounded
           source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"}}
           onPress={() => console.log("Works!")}

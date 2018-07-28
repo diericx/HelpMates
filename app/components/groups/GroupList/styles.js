@@ -18,14 +18,6 @@ const styles = EStyleSheet.create({
     padding: 0,
     margin: 0,
   },
-  itemTopBorder: {
-    borderTopWidth: 0.5,
-    borderColor: 'lightgray'
-  },
-  itemBottomBorder: {
-    borderBottomWidth: 0.5,
-    borderColor: 'lightgray'
-  }
 });
 
 export default styles;

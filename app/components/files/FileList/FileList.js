@@ -5,7 +5,7 @@ import { withNavigation } from 'react-navigation';
 import { ListItem, Button } from "react-native-elements";
 import Icon from "@expo/vector-icons/FontAwesome";
 
-import Sepperator from '../../Sepperator';
+import SepperatorView from '../../SepperatorView';
 
 import styles from './styles';
 
@@ -65,7 +65,7 @@ class FileList extends React.Component {
               iconName = 'folder';
             }
             return (
-              <View>
+              <SepperatorView renderTop={false} renderBottom={true}>
                 <ListItem
                   key={item.id}
                   title={item.title}
@@ -75,8 +75,7 @@ class FileList extends React.Component {
                   leftIcon={{ name: iconName, type: 'feather', size: 25, color: '#3f3f3f' }}
                   chevron
                 />
-                <Sepperator />
-              </View>
+              </SepperatorView>
             )
           }
             
