@@ -52,14 +52,15 @@ export default class CourseList extends React.Component {
           renderItem={({item, index}) => {
             let { members } = item;
             let isUserInCourse = !(members[auth.uid] == null);
-  
+            let headCount = Object.keys(members).length;
+
             return (
               <SepperatorView renderBottom={index==courses.length-1}>
                 <ListItem
                   key={item.id}
                   // leftAvatar={{ source: { uri: l.avatar_url } }}
                   title={item.title}
-                  subtitle={<ListViewSubtitle subtitle={item.subtitle} userCount={members.length} />}
+                  subtitle={<ListViewSubtitle subtitle={item.subtitle} userCount={headCount} />}
                   rightTitle={
                     isUserInCourse ? null :
                     <Button
@@ -76,6 +77,7 @@ export default class CourseList extends React.Component {
                       onPress={() => this.JoinCourse(item.id) }
                     />
                   }
+                  leftIcon={{name: 'book', size: 30, type: 'font-awesome'}}
                   onPress={isUserInCourse ? () => this.props.onPress(item) : null}
                   chevron={isUserInCourse}
                 />

@@ -62,15 +62,15 @@ export default class GroupList extends React.Component {
           renderItem={({item, index}) => {
             let { members } = item;
   
-            let headCountSuffix = item.members.length == 1 ? " Person" : " People"
             let isUserInGroup = !(members[auth.uid] == null);
+            let headCount = Object.keys(members).length;
     
             return (
               <SepperatorView renderTop={index==0} renderBottom={index==groups.length-1}>
                 <ListItem
                   key={item.id}
                   title={item.title}
-                  subtitle={<ListViewSubtitle subtitle={'TODO - Course Title'} userCount={item.members.length} />}
+                  subtitle={<ListViewSubtitle subtitle={'TODO - Course Title'} userCount={headCount} />}
                   leftIcon={
                     {
                       name: "verified-user",

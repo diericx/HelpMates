@@ -16,7 +16,20 @@ const styles = EStyleSheet.create({
     marginLeft: -1,
     marginTop: -2,
     marginBottom: 0,
-    padding: 0
+    padding: 0,
+    // borderColor: 'red',
+  },
+  button: {
+    borderWidth: 0,
+    borderColor: 'red',
+  },
+  selectedButtonStyle: {
+    backgroundColor: 'white',
+    borderColor: 'red'
+  },
+  selectedText: {
+    color: '#4f4f4f',
+    fontWeight: 'bold'
   }
 });
 
@@ -48,7 +61,7 @@ class Group extends React.Component {
   render() {
     const { selectedIndex } = this.state;
 
-    const buttons = ["Chat", "Resources"]
+    const buttons = ["Chat", "Resources", "Members"]
     const groupId = this.props.navigation.getParam("groupId", null);
 
     return (
@@ -58,6 +71,10 @@ class Group extends React.Component {
           selectedIndex={selectedIndex}
           buttons={buttons}
           containerStyle={styles.buttonGroupContainer}
+          buttonStyle={styles.button}
+          selectedButtonStyle={styles.selectedButtonStyle}
+          selectedTextStyle={styles.selectedText}
+          innerBorderStyle={{color: 'white'}}
         />
         {selectedIndex == 0 ? 
           <Chat groupId={groupId}> Here's your group1 </Chat>
