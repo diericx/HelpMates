@@ -37,7 +37,7 @@ class Group extends React.Component {
   static navigationOptions = (props) => {
     const title = props.navigation.getParam("title", null);
     return {
-      title
+      title,
     }
   }
 

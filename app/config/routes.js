@@ -95,23 +95,30 @@ export const HomeStack = createStackNavigator({
     screen: HomeScreen
   },
   Group: {
-    screen: GroupScreen
+    screen: GroupScreen,
+    headerStyle: {
+      height: 70,
+      borderBottomWidth: 0,
+      backgroundColor: '#18dcff'
+    },
   },
   File: {
     screen: FileScreen,
     navigationOptions: {
       headerStyle: {
-        backgroundColor: 'white',
-      }
+        height: 70,
+        borderBottomWidth: 0,
+        backgroundColor: 'white'
+      },
     }
   },
 },
 {
   navigationOptions: {
     headerStyle: {
-      backgroundColor: 'white',
       height: 70,
-      borderBottomWidth: 0
+      borderBottomWidth: 0,
+      backgroundColor: 'white'
     },
     headerRight: (
       <View style={{

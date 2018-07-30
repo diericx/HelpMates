@@ -10,7 +10,7 @@ const styles = EStyleSheet.create({
   sepperator: {
     width: '85%',
     alignSelf: 'flex-end', 
-    height: 1,
+    height: 0.5,
     backgroundColor: 'lightgray'
   }
 });
