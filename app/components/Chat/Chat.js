@@ -9,7 +9,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
-    backgroundColor: '#f3f3f3'
+    backgroundColor: '$lightgray'
   },
 });
 

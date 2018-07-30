@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import { Icon, Avatar } from 'react-native-elements';
 import Swiper from 'react-native-swiper';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -8,8 +8,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 // Navigation
 // import SwipeNav from "../components/navigation/SwipeNav";
 import HomeScreen from "../screens/Home";
-import GroupScreen from "../screens/Group";
 import FileScreen from "../screens/File";
+
+// Group
+import GroupChatScreen from "../screens/group/GroupChat";
+import GroupFilesScreen from "../screens/group/GroupFiles";
 
 import MessagesScreen from "../screens/Messages";
 import ChooseUniversityScreen from "../screens/explore/ChooseUniversity"
@@ -90,17 +93,39 @@ export const ExploreStack = createStackNavigator({
   },
 })
 
+const groupTabNavigator = createMaterialTopTabNavigator({
+  GroupChat: {
+    screen: GroupChatScreen,
+    tabBarLabel: "asdf"
+  },
+  GroupFiles: {
+    screen: GroupFilesScreen
+  }
+},
+{
+  tabBarOptions: {
+    tabStyle: {
+      height: 40,
+      padding: 0
+    },
+    style: {
+      backgroundColor: 'white',
+    },
+    labelStyle: {
+      color: 'black',
+    }
+  }
+})
+
 export const HomeStack = createStackNavigator({
   Home: {
     screen: HomeScreen
   },
   Group: {
-    screen: GroupScreen,
-    headerStyle: {
-      height: 70,
-      borderBottomWidth: 0,
-      backgroundColor: '#18dcff'
-    },
+    screen: groupTabNavigator,
+    navigationOptions: (props) => ({
+      title: props.navigation.getParam("title", null)
+    })
   },
   File: {
     screen: FileScreen,
