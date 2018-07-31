@@ -4,14 +4,13 @@ const styles = EStyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    backgroundColor: '$lightgray'
   },
   headerText: {
     color: 'gray'
   },
   header: {
     justifyContent: 'center',
-    backgroundColor: '$lightgray',
+    // backgroundColor: '$lightgray',
     height: 45,
     paddingLeft: 15
   },

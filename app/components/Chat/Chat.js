@@ -8,6 +8,7 @@ import STYLE_CONSTS from "../../config/styles";
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
+    height: '100%',
   },
 });
 
@@ -64,6 +65,7 @@ export default class Chat extends React.Component {
       <View style={styles.container}>
         <GiftedChat
           bottomOffset={45}
+          renderLoading={() => <ActivityIndicator />}
           messages={messages.reverse()}
           onSend={messages => {
             let message = messages[0];

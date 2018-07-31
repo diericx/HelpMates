@@ -9,7 +9,6 @@ import UniversityList from '../../components/universities/UniversityList';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white"
   },
 });
 

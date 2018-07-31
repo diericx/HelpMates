@@ -9,7 +9,6 @@ import PathBar from '../../components/PathBar';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white"
   },
 });
 
