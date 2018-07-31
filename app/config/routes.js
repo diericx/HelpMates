@@ -6,9 +6,9 @@ import Swiper from 'react-native-swiper';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Navigation
-// import SwipeNav from "../components/navigation/SwipeNav";
 import HomeScreen from "../screens/Home";
 import FileScreen from "../screens/File";
+import ProfileScreen from "../screens/Profile";
 
 // Group
 import GroupChatScreen from "../screens/group/GroupChat";
@@ -143,7 +143,7 @@ export const HomeStack = createStackNavigator({
   },
 },
 {
-  navigationOptions: {
+  navigationOptions: ({ navigation }) => ({
     headerStyle: {
       height: 70,
       borderBottomWidth: 0,
@@ -163,12 +163,12 @@ export const HomeStack = createStackNavigator({
           size={50}
           rounded
           source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"}}
-          onPress={() => console.log("Works!")}
+          onPress={() => navigation.navigate('ProfileModal')}
           activeOpacity={0.7}
         />
       </View>
     )
-  },
+  }),
 })
 
 export const TabNavigation = createBottomTabNavigator(
@@ -205,5 +205,20 @@ export const TabNavigation = createBottomTabNavigator(
       },
       activeTintColor: '#18dcff',
     }
+  }
+);
+
+export const RootStack = createStackNavigator(
+  {
+    Main: {
+      screen: TabNavigation,
+    },
+    ProfileModal: {
+      screen: ProfileScreen,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
   }
 );

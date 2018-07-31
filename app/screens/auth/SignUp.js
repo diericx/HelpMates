@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { LayoutAnimation, StyleSheet, Dimensions, Text, View, Image } from 'react-native';
+import PropTypes from 'prop-types';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Icon from "@expo/vector-icons/FontAwesome";
@@ -35,6 +36,10 @@ const styles = EStyleSheet.create({
 });
 
 class Login extends Component {
+  static contextTypes = {
+    store: PropTypes.object.isRequired
+  }
+  
   constructor(props) {
     super(props);
 

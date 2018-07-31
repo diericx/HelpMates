@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { LayoutAnimation, StyleSheet, Dimensions, Text, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
-import { LayoutAnimation, StyleSheet, Dimensions, Text, View, Image } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Icon from "@expo/vector-icons/FontAwesome";

@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import { ScrollView, View, ActivityIndicator } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat'
 import EStyleSheet from 'react-native-extended-stylesheet';
+import STYLE_CONSTS from "../../config/styles";
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    width: "100%",
-    height: "100%",
-    backgroundColor: '$lightgray'
   },
 });
 
@@ -65,6 +63,7 @@ export default class Chat extends React.Component {
     return (
       <View style={styles.container}>
         <GiftedChat
+          bottomOffset={45}
           messages={messages.reverse()}
           onSend={messages => {
             let message = messages[0];
@@ -73,7 +72,7 @@ export default class Chat extends React.Component {
           }}
           user={{
             _id: auth.uid,
-            name: profile.fullName,
+            name: profile.name,
           }}
         />
       </View>

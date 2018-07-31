@@ -8,7 +8,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import 'firebase/firestore'
 
-import { AuthStack, TabNavigation } from './config/routes';
+import { AuthStack, RootStack } from './config/routes';
 import Loading from "./components/Loading"
 import settings from './config/settings';
 import styles from './config/styles';
@@ -89,7 +89,7 @@ class HelpMates extends React.Component {
     } else if (user !== null) {
       return (
         <Provider store={store}>
-          <TabNavigation />
+          <RootStack />
         </Provider>
       )
     }
