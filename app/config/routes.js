@@ -96,7 +96,8 @@ export const ExploreStack = createStackNavigator({
 const groupTabNavigator = createMaterialTopTabNavigator({
   GroupChat: {
     screen: GroupChatScreen,
-    tabBarLabel: "asdf"
+    tabBarLabel: "asdf",
+    
   },
   GroupFiles: {
     screen: GroupFilesScreen
@@ -113,7 +114,10 @@ const groupTabNavigator = createMaterialTopTabNavigator({
     },
     labelStyle: {
       color: 'black',
-    }
+    },
+    indicatorStyle: {
+        backgroundColor: '#17c0eb',
+    },
   }
 })
 
@@ -198,7 +202,8 @@ export const TabNavigation = createBottomTabNavigator(
       showLabel: false,
       style: {
         backgroundColor: 'white'
-      }
+      },
+      activeTintColor: '#18dcff',
     }
   }
 );

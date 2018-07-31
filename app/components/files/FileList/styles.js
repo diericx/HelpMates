@@ -3,12 +3,22 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    justifyContent: 'flex-start',
+    backgroundColor: '$lightgray'
   },
-  seperator: {
-    width: '90%',
-    height: 1,
-    backgroundColor: 'gray'
+  headerText: {
+    color: 'gray'
+  },
+  header: {
+    justifyContent: 'center',
+    backgroundColor: '$lightgray',
+    height: 45,
+    paddingLeft: 15
+  },
+  subtitle: {
+    color: 'gray',
+    paddingVertical: 3,
+    fontSize: 12
   }
 });
 

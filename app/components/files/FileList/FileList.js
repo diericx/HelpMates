@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, SectionList, ActivityIndicator } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { ListItem, Button } from "react-native-elements";
 import Icon from "@expo/vector-icons/FontAwesome";
@@ -18,11 +18,12 @@ class FileList extends React.Component {
   componentWillMount () {
     const { parentId } = this.props;
     const { firestore } = this.context.store;
-    console.log(parentId);
+    // Create store for files (folders, ocuments, images, etc.)
     firestore.setListener({
       collection: 'files',
+      orderBy: ['title'],
       storeAs: `files-${parentId}`,
-      where: ['parentId', '==', parentId]
+      where: ['parentId', '==', parentId],
     })
   }
 
@@ -43,26 +44,50 @@ class FileList extends React.Component {
       return <ActivityIndicator />
     }
 
-    // Format the documents 
+    // Format the files 
     files = Object.keys(files).map((key) => {
-      let document = files[key];
+      let file = files[key];
       return {
         id: key,
-        ...document
+        ...file
       }
     })
 
+    // Split files => Folders | OtherFiles
+    let folders = []
+    let otherFiles = []
+    files.forEach(file => {
+      if (file.type === 'folder') {
+        folders.push(file);
+      } else {
+        otherFiles.push(file);
+      }
+    });
+
+    // Render
     return (
       <View style={styles.container}>
-        <FlatList
+        <SectionList
           keyExtractor={this.keyExtractor}
-          data={files}
+          stickySectionHeadersEnabled={false}
+          sections={[
+            {title: 'Folders', data: folders},
+            {title: 'Files', data: otherFiles},
+          ]}
+          renderSectionHeader={({section: {title, data}}) => data.length == 0 ? null : (
+            <View style={styles.header}>
+              <Text style={styles.headerText}>{title}</Text>
+            </View>
+          )}
           renderItem={({item, index}) => {
-            var iconName;
+            var leftIcon = { name: 'file-text', type: 'feather', size: 25, color: '#3f3f3f' };
             if (item.type == 'document') {
-              iconName = 'file-text';
+              leftIcon.name = 'file-text';
+              leftIcon.color = '#17c0eb'
             } else if (item.type == 'folder') {
-              iconName = 'folder';
+              leftIcon.name = 'folder';
+              leftIcon.type = 'material-comunity'
+              leftIcon.color = 'gray'
             }
             return (
               <SepperatorView renderTop={false} renderBottom={true}>
@@ -70,9 +95,10 @@ class FileList extends React.Component {
                   key={item.id}
                   title={item.title}
                   subtitle={'TODO - Course subtitle'}
+                  subtitleStyle={styles.subtitle}
                   containerStyle={[styles.itemBottomBorder, index == 0 ? styles.itemTopBorder : null]}
                   onPress={() => this.onPress(item)}
-                  leftIcon={{ name: iconName, type: 'feather', size: 25, color: '#3f3f3f' }}
+                  leftIcon={leftIcon}
                   chevron
                 />
               </SepperatorView>
