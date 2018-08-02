@@ -38,21 +38,31 @@ export default class UniversityList extends React.Component {
 
     return (
       <View style={styles.container}>
+        <View style={styles.header} >
+          <Text style={styles.headerText}> Choose Your University </Text>
+        </View>
+
         <FlatList
           keyExtractor={this.keyExtractor}
           data={universities}
-          renderItem={({item, index}) => 
-            <SepperatorView renderTop={index==0} renderBottom={index==universities.length-1}>
-              <ListItem
-                key={item._id}
-                title={item.title}
-                subtitle={`${item.city}, ${item.state}`}
-                onPress={() => this.props.onPress(item) }
-                leftIcon={{ name: 'school', size: 30 }}
-                chevron
-              />
-            </SepperatorView>
-          }
+          renderItem={({item, index}) => {
+            let { color, backgroundColor } = item;
+            return (
+              <View style={styles.universityContainer}>
+                <ListItem
+                  key={item._id}
+                  title={item.title}
+                  subtitle={`${item.city}, ${item.state}`}
+                  onPress={() => this.props.onPress(item) }
+                  leftIcon={{ name: 'school', size: 30, color }}
+                  titleStyle={{color}}
+                  subtitleStyle={{color}}
+                  containerStyle={[styles.university, {backgroundColor}]}
+                  chevron
+                />
+              </View>
+            )
+          }}
         />
       </View>
     );

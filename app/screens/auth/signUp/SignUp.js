@@ -6,8 +6,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Icon from "@expo/vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 
-import OutlinedInput from "../../components/OutlinedInput";
-import Button from "../../components/Button";
+import OutlinedInput from "../../../components/OutlinedInput";
+import Button from "../../../components/Button";
 
 
 const styles = EStyleSheet.create({

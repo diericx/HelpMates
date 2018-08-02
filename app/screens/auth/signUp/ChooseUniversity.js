@@ -2,9 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import { GetChosenUniversity, SetChosenUniversity } from '../../lib/LocalStorage';
-
-import UniversityList from '../../components/universities/UniversityList';
+import UniversityList from '../../../components/universities/UniversityList';
 
 const styles = EStyleSheet.create({
   container: {

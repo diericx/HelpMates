@@ -15,7 +15,6 @@ import GroupChatScreen from "../screens/group/GroupChat";
 import GroupFilesScreen from "../screens/group/GroupFiles";
 
 import MessagesScreen from "../screens/Messages";
-import ChooseUniversityScreen from "../screens/explore/ChooseUniversity"
 import ChooseCourseScreen from "../screens/explore/ChooseCourse"
 import ChooseGroupScreen from "../screens/explore/ChooseGroup"
 
@@ -23,9 +22,12 @@ import ChooseGroupScreen from "../screens/explore/ChooseGroup"
 import Chat from "../screens/Chat";
 
 // Auth
-import AuthHome from '../screens/auth/AuthHome'
-import Login from '../screens/auth/Login';
-import SignUp from '../screens/auth/SignUp';
+import AuthHomeScreen from '../screens/auth/AuthHome'
+
+import LoginScreen from '../screens/auth/login/Login';
+
+import SignUpScreen from '../screens/auth/signUp/SignUp';
+import ChooseUniversityScreen from "../screens/auth/signUp/ChooseUniversity"
 
 
 export const PageTitles = [
@@ -33,7 +35,6 @@ export const PageTitles = [
   "People",
   "Messages"
 ]
-
 
 const styles = EStyleSheet.create({
   exploreNavBar: {
@@ -44,23 +45,28 @@ const styles = EStyleSheet.create({
   }
 });
 
+// ---------
+// AUTH
+// ---------
 
-export const AuthStack = createStackNavigator({
-  AuthHome: {
-    screen: AuthHome,
-  },
-  Login: {
-    screen: Login,
-  },
-  SignUp: {
-    screen: SignUp
-  }
+export const SignUpStack = createStackNavigator({
+  ChooseUniversity: ChooseUniversityScreen,
+  SignUp: SignUpScreen
 }, {
   headerMode: 'none',
-});
+})
+
+export const LoginStack = createStackNavigator({
+  Login: LoginScreen,
+}, {
+  headerMode: 'none',
+})
+
+// ---------
+// ROOT
+// ---------
 
 export const ExploreStack = createStackNavigator({
-  ChooseUniversity: ChooseUniversityScreen,
   ChooseCourse: ChooseCourseScreen,
   ChooseGroup: ChooseGroupScreen
 },
@@ -207,6 +213,24 @@ export const TabNavigation = createBottomTabNavigator(
     }
   }
 );
+
+// --------
+// EXTERNAL STACKS
+// --------
+
+export const AuthStack = createStackNavigator({
+  Home: {
+    screen: AuthHomeScreen,
+  },
+  Login: {
+    screen: LoginStack,
+  },
+  SignUp: {
+    screen: SignUpStack
+  }
+}, {
+  headerMode: 'none',
+});
 
 export const RootStack = createStackNavigator(
   {
