@@ -9,7 +9,9 @@ import FileList from '../components/files/FileList';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+  },
+  white: {
+    backgroundColor: 'white'
   }
 });
 
@@ -21,18 +23,16 @@ class File extends React.Component {
   render() {
     const fileId = this.props.navigation.getParam("fileId", null);
     const fileType = this.props.navigation.getParam("fileType", null);
-
-    console.log(fileId);
     
     if (fileType == 'folder') {
       return (
-        <View style={styles.container}>
+        <View style={[styles.container]}>
           <FileList parentId={fileId} />
         </View>
       )
     } else if (fileType == 'document') {
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, styles.white]}>
           <Document fileId={fileId} />
         </View>
       )

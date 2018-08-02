@@ -6,6 +6,7 @@ import { ListItem, Button } from "react-native-elements";
 import Icon from "@expo/vector-icons/FontAwesome";
 
 import SepperatorView from '../../SepperatorView';
+import NewFileButton from '../NewFileButton';
 
 import styles from './styles';
 
@@ -103,10 +104,9 @@ class FileList extends React.Component {
                 />
               </SepperatorView>
             )
-          }
-            
-          }
+          }}
         />
+        <NewFileButton />
       </View>
     );
   }

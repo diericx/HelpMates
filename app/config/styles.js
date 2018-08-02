@@ -23,5 +23,6 @@ EStyleSheet.build({
   $red: "#ff4d4d",
   $lightred: "#ff4d4d22",
   $orange: "#ffb349",
-  $turquoise: "#67e6dc"
+  $turquoise: "#67e6dc",
+  $indigo: '#7158e2'
 });
