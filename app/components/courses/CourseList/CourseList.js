@@ -17,13 +17,16 @@ export default class CourseList extends React.Component {
 
   keyExtractor = (item, index) => item.id
 
-  componentWillMount () {
-    const { universityId } = this.props;
-    const { firestore } = this.context.store;
-    firestore.setListener({
-      collection: 'courses',
-      where: ['universityId', '==', universityId],
-    })
+  componentWillReceiveProps(nextProps) {
+    // If we haven't laoded the profile but are receiving it right now
+    if (!this.props.profile.isLoaded && nextProps.profile.isLoaded) {
+      const { profile } = nextProps;
+      const { firestore } = this.context.store;
+      firestore.setListener({
+        collection: 'courses',
+        where: ['universityId', '==', profile.activeUniversityId],
+      })
+    } 
   }
 
   JoinCourse(courseId) {
@@ -39,6 +42,7 @@ export default class CourseList extends React.Component {
 
   render() {
     let { courses, auth } = this.props;
+    console.log(this.props.profile)
 
     if (!courses) {
       return <ActivityIndicator />

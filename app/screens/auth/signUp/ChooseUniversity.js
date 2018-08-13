@@ -8,30 +8,22 @@ const styles = EStyleSheet.create({
   container: {
     flex: 1,
   },
+  headerTextStyle: {
+    color: 'white'
+  }
 });
 
 const ChooseUniversity = (props) => {
-  const id = props.navigation.getParam("id", null)
-
-  // If the user has chosen a university before, go to it
-  // GetChosenUniversity().then(university => {
-  //   if (university != null) {
-  //     props.navigation.navigate('ChooseCourse', {
-  //       university,
-  //     })
-  //   }
-  // });
 
   onPress = (university) => {
-    SetChosenUniversity(university);
-    props.navigation.navigate('ChooseCourse', {
+    props.navigation.navigate('SignUp', {
       university: university,
     })
   }
 
   return (
     <View style={styles.container}>
-      <UniversityList onPress={this.onPress} />
+      <UniversityList onPress={this.onPress} scrollEnabled={false} headerTextStyle={styles.headerTextStyle} />
     </View>
   );
 };

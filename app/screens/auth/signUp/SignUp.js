@@ -6,6 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Icon from "@expo/vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 
+import ChooseAvatar from "../../../components/ChooseAvatar";
 import OutlinedInput from "../../../components/OutlinedInput";
 import Button from "../../../components/Button";
 
@@ -32,6 +33,7 @@ const styles = EStyleSheet.create({
     fontSize: 30,
     fontWeight: '600',
     fontStyle: 'italic',
+    color: 'white'
   },
 });
 
@@ -47,6 +49,7 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
+      uri: null,
       error: null,
     };
 
@@ -90,7 +93,7 @@ class Login extends Component {
     console.log("Creating account: ", email, password)
 
     if (this.validInput()) {
-      console.log('firebae sign in...')
+      console.log('firebase sign in...')
       firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((user) => {
           // If you need to do anything with the user, do it here
@@ -113,9 +116,25 @@ class Login extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>Sign Up</Text>
+          <Text style={styles.headerText}>Almost done!</Text>
           <Text style={styles.errorText}>{this.state.error}</Text>
         </View>
+
+        <ChooseAvatar 
+          uri={this.state.uri}
+          onAvatarChosen={(uri) => this.setState({uri})} 
+        />
+
+        <OutlinedInput 
+          placeholder="Full Name" 
+          iconName="user-o" 
+          keyboardType="default"  
+          onChangeText={text => {
+            this.setState({
+              name: text
+            })
+          }}
+        />
 
         <OutlinedInput 
           placeholder="School Email" 

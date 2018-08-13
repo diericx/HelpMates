@@ -1,12 +1,13 @@
 import React from 'react';
-import { createStore, combineReducers, compose } from 'redux'
+import { createStore, combineReducers, compose } from 'redux';
 import { Provider } from 'react-redux';
-import { reduxFirestore, firestoreReducer } from 'redux-firestore'
-import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase'
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/database'
-import 'firebase/firestore'
+import { reduxFirestore, firestoreReducer } from 'redux-firestore';
+import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
+import 'firebase/firestore';
+import 'firebase/storage';
 
 import { AuthStack, RootStack } from './config/routes';
 import Loading from "./components/Loading"
@@ -20,7 +21,7 @@ import {
   FIRE_STORAGE_BUCKET,
   FIRE_PROJECT_ID,
   FIRE_MESSAGING_SENDER_ID
-} from 'react-native-dotenv'
+} from 'react-native-dotenv';
 
 
 const firebaseConfig = {
@@ -34,13 +35,25 @@ const firebaseConfig = {
 
 const rrfConfig = {
   userProfile: 'users',
-  useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+  useFirestoreForProfile: true, // Firestore for Profile instead of Realtime DB
+  useFirestoreForStorageMeta: true,
+  fileMetadataFactory: (uploadRes) => {
+    // upload response from Firebase's storage upload
+    const { metadata: { name, fullPath } } = uploadRes
+    // default factory includes name, fullPath, downloadURL
+    return {
+      name,
+      fullPath,
+    }
+  }
 }
 
 // Initialize firebase instance
 firebase.initializeApp(firebaseConfig)
 // Initialize Cloud Firestore through Firebase
 firebase.firestore().settings({timestampsInSnapshots: true});
+// Initialize storage
+firebase.storage()
 
 // Add reduxFirestore store enhancer to store creator
 const createStoreWithFirebase = compose(

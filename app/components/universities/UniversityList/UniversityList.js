@@ -39,12 +39,13 @@ export default class UniversityList extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.header} >
-          <Text style={styles.headerText}> Choose Your University </Text>
+          <Text style={[styles.headerText, this.props.headerTextStyle]}> Choose Your University </Text>
         </View>
 
         <FlatList
           keyExtractor={this.keyExtractor}
           data={universities}
+          scrollEnabled={this.props.scrollEnabled}
           renderItem={({item, index}) => {
             let { color, backgroundColor } = item;
             return (
