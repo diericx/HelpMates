@@ -44,8 +44,6 @@ class SignUp extends Component {
   constructor(props) {
     super(props);
 
-    console.log(props)
-
     this.mounted = false;
     this.state = {
       email: '',

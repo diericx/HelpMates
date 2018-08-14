@@ -59,7 +59,6 @@ class Profile extends React.Component {
     // Create the preview and get the uri for that
     let compressOptions = [{resize: {width: 50, height: 50}}];
     let preview = await ImageManipulator.manipulate(image.uri, compressOptions, {base64: true, format: 'jpeg', compress: 0.2})
-    console.log(preview)
     // Get the image object
     const response = await fetch(image.uri);
 

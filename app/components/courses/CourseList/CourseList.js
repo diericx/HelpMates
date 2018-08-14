@@ -42,7 +42,6 @@ export default class CourseList extends React.Component {
 
   render() {
     let { courses, auth } = this.props;
-    console.log(this.props.profile)
 
     if (!courses) {
       return <ActivityIndicator />
