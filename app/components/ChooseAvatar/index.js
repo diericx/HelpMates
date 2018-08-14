@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import { ImagePicker, Permissions } from 'expo';
+import { ImagePicker, ImageManipulator, Permissions } from 'expo';
 
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Avatar } from "react-native-elements";
+import CachedAvatar from "../CachedAvatar";
 
 import styles from './styles';
 
@@ -24,17 +24,17 @@ export default class ChooseAvatar extends React.Component {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0.5
+      quality: 0.8
     });
 
     if (!result.cancelled) {
-      this.props.onAvatarChosen(result)
+      this.props.onComplete(result)
     }
   };
 
   render() {
     const { hasCameraPermission } = this.state;
-    const { uri } = this.props
+    const { preview, uri } = this.props
 
     if (hasCameraPermission === null) {
       return <View />;
@@ -43,14 +43,12 @@ export default class ChooseAvatar extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-          <Avatar
-            size={200}
+          <CachedAvatar
+            size={300}
             rounded
-            source={uri ? {uri, cache: 'force-cache'} : null}
-            icon={{name: 'face', size: 200}}
-            containerStyle={styles.avatarContainer}
             onPress={this._pickImage}
-            activeOpacity={0.7}
+            preview={preview == null ? null : {uri: preview}}
+            {...{uri}}
           />
         </View>
       );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { ImageManipulator } from 'expo';
 import { compose } from 'redux';
 import { connect } from 'react-redux'
 import { Button, View } from 'react-native';
@@ -55,8 +56,13 @@ class Profile extends React.Component {
   async onAvatarChosen(image) {
     const { firebase, auth } = this.props
 
+    // Create the preview and get the uri for that
+    let compressOptions = [{resize: {width: 50, height: 50}}];
+    let preview = await ImageManipulator.manipulate(image.uri, compressOptions, {base64: true, format: 'jpeg', compress: 0.2})
+    console.log(preview)
     // Get the image object
     const response = await fetch(image.uri);
+
     // Convert the image to a blob
     const blob = await response.blob();
 
@@ -67,9 +73,12 @@ class Profile extends React.Component {
         name: auth.uid
       }
       let response = await firebase.uploadFile(storagePath, blob, databasePath, opts);
-      let url = await response.uploadTaskSnapshot.ref.getDownloadURL();
+      let uri = await response.uploadTaskSnapshot.ref.getDownloadURL();
       firebase.updateProfile({
-        avatarUrl: url
+        avatar: {
+          uri,
+          preview: `data:image/jpeg;base64,${preview.base64}`
+        }
       })
     } catch (e) {
       console.log("ERROR: ", e);
@@ -78,13 +87,14 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { profile } = this.props;
+    const { profile: { avatar } } = this.props;
+    const { preview, uri } = avatar;
     
     return (
       <View style={styles.container}>
         <ChooseAvatar 
-          uri={profile.avatarUrl}
-          onAvatarChosen={this.onAvatarChosen} 
+          onComplete={this.onAvatarChosen}
+          {...{preview, uri}} 
         />
 
         <Button title={"Sign Out"} onPress={this.signOut}>
