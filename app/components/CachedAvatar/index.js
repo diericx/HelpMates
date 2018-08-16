@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { View, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { Image } from "react-native-expo-image-cache";
 
 import styles from './styles';
@@ -19,10 +20,17 @@ export default class CachedAvatar extends React.Component {
         style={roundedStyle}
         onPress={onPress}
       >
-        <Image
-          style={[roundedStyle, sizeStyle]}
-          {...{preview, uri}}
-        />
+        {uri == null ? 
+          <View style={[roundedStyle, sizeStyle, styles.iconCircle]}>
+            <Icon type='font-awesome' name='image' size={150} color={'white'} />
+          </View>
+        :
+          <Image
+            style={[roundedStyle, sizeStyle]}
+            {...{preview, uri}}
+          />
+        }
+        
       </TouchableOpacity>
     );
   }

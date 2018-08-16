@@ -1,10 +1,11 @@
 import React from 'react';
 import { ImageManipulator } from 'expo';
 import { compose } from 'redux';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { Button, View } from 'react-native';
 import PropTypes from 'prop-types'
 import { firebaseConnect } from 'react-redux-firebase'
+import { UpdateAvatar } from '../lib/F7';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import ChooseAvatar from '../components/ChooseAvatar';
@@ -54,35 +55,8 @@ class Profile extends React.Component {
   }
 
   async onAvatarChosen(image) {
-    const { firebase, auth } = this.props
-
-    // Create the preview and get the uri for that
-    let compressOptions = [{resize: {width: 50, height: 50}}];
-    let preview = await ImageManipulator.manipulate(image.uri, compressOptions, {base64: true, format: 'jpeg', compress: 0.2})
-    // Get the image object
-    const response = await fetch(image.uri);
-
-    // Convert the image to a blob
-    const blob = await response.blob();
-
-    // Upload it to storage and get the download url. Update the user's profile
-    //   with this download url.
-    try {
-      const opts = {
-        name: auth.uid
-      }
-      let response = await firebase.uploadFile(storagePath, blob, databasePath, opts);
-      let uri = await response.uploadTaskSnapshot.ref.getDownloadURL();
-      firebase.updateProfile({
-        avatar: {
-          uri,
-          preview: `data:image/jpeg;base64,${preview.base64}`
-        }
-      })
-    } catch (e) {
-      console.log("ERROR: ", e);
-    }
-    
+    const { firebase } = this.props
+    await UpdateAvatar(image.uri, firebase);
   }
 
   render() {

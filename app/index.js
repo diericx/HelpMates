@@ -1,13 +1,14 @@
 import React from 'react';
 import { createStore, combineReducers, compose } from 'redux';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { reduxFirestore, firestoreReducer } from 'redux-firestore';
-import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase';
+import { reactReduxFirebase, firebaseReducer, firebaseConnect } from 'react-redux-firebase';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import 'firebase/firestore';
 import 'firebase/storage';
+
 
 import { AuthStack, RootStack } from './config/routes';
 import Loading from "./components/Loading"
@@ -97,6 +98,7 @@ class HelpMates extends React.Component {
 
   render() {
     const { loading, user } = this.state;
+    console.log("USER PROFILE: ", firebase.profile);
     if (loading) {
       return <Loading size="large"/>;
     } else if (user !== null) {
