@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import { Icon, Avatar } from 'react-native-elements';
 import Swiper from 'react-native-swiper';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import LoadingScreen from '../screens/Loading';
 // Navigation
 import HomeScreen from "../screens/Home";
 import FileScreen from "../screens/File";
@@ -218,7 +219,7 @@ export const TabNavigation = createBottomTabNavigator(
 // EXTERNAL STACKS
 // --------
 
-export const AuthStack = createStackNavigator({
+const AuthStack = createStackNavigator({
   Home: {
     screen: AuthHomeScreen,
   },
@@ -232,7 +233,7 @@ export const AuthStack = createStackNavigator({
   headerMode: 'none',
 });
 
-export const RootStack = createStackNavigator(
+const AppStack = createStackNavigator(
   {
     Main: {
       screen: TabNavigation,
@@ -246,3 +247,14 @@ export const RootStack = createStackNavigator(
     headerMode: 'none',
   }
 );
+
+export const RootStack = createSwitchNavigator(
+  {
+    Loading: LoadingScreen,
+    App: AppStack,
+    Auth: AuthStack
+  },
+  {
+    initialRouteName: 'Loading',
+  }
+)

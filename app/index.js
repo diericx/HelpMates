@@ -10,7 +10,7 @@ import 'firebase/firestore';
 import 'firebase/storage';
 
 
-import { AuthStack, RootStack } from './config/routes';
+import { RootStack } from './config/routes';
 import Loading from "./components/Loading"
 import settings from './config/settings';
 import styles from './config/styles';
@@ -81,38 +81,12 @@ class HelpMates extends React.Component {
     };
   }
 
-  // Subscribe to auth events on mount
-  componentDidMount() {
-    this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
-      this.setState({
-        loading: false,
-        user,
-      });
-    });
-  }
-
-  // End the subscription when the component unmounts
-  componentWillUnmount() {
-    this.authSubscription();
-  }
-
   render() {
-    const { loading, user } = this.state;
-    console.log("USER PROFILE: ", firebase.profile);
-    if (loading) {
-      return <Loading size="large"/>;
-    } else if (user !== null) {
-      return (
-        <Provider store={store}>
-          <RootStack />
-        </Provider>
-      )
-    }
     return (
       <Provider store={store}>
-        <AuthStack />
+        <RootStack />
       </Provider>
-    );
+    )
   }
 }
 
