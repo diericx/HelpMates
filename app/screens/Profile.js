@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Button, View } from 'react-native';
 import PropTypes from 'prop-types'
 import { firebaseConnect } from 'react-redux-firebase'
-import { UpdateAvatar, AVATARS_META_DATABASE_PATH } from '../lib/F7';
+import { UpdateAvatar } from '../lib/F7';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import ChooseAvatar from '../components/ChooseAvatar';

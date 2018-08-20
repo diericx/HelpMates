@@ -9,7 +9,7 @@ import Icon from "@expo/vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 
 import OutlinedInput from "../../../components/OutlinedInput";
-import Button from "../../../components/Button";
+import FlatButton from "../../../components/FlatButton";
 
 
 const styles = EStyleSheet.create({
@@ -136,7 +136,7 @@ class SignUp extends Component {
           }}
         />
 
-        <Button label="Login" onPress={this.handleSignIn}/>
+        <FlatButton label="Login" onPress={this.handleSignIn}/>
 
       </View>
     );

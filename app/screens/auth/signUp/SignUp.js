@@ -9,7 +9,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import ChooseAvatar from "../../../components/ChooseAvatar";
 import OutlinedInput from "../../../components/OutlinedInput";
-import Button from "../../../components/Button";
+import FlatButton from "../../../components/FlatButton";
 
 
 const styles = EStyleSheet.create({
@@ -124,7 +124,7 @@ class SignUp extends Component {
 
       // Send email 
       user.sendEmailVerification();
-      
+
       // Go to app screen
       this.props.navigation.navigate('WaitingForEmail');
     }
@@ -178,7 +178,7 @@ class SignUp extends Component {
           }}
         />
 
-        <Button label="Sign Up" onPress={this.handleCreateAccount}/>
+        <FlatButton label="Sign Up" onPress={this.handleCreateAccount}/>
 
       </View>
     );

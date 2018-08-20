@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import Button from '../components/Button';
 import Chat from '../components/Chat';
 
 const styles = EStyleSheet.create({
