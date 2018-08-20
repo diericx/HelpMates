@@ -18,7 +18,7 @@ const styles = EStyleSheet.create({
   },
   sendAgainContainer: {
     width: '90%',
-    marginBottom: 80
+    marginBottom: 10
   },
   sendAgainBtn: {
     height: 60,
@@ -31,18 +31,23 @@ const styles = EStyleSheet.create({
     color: "red",
     fontSize: 14,
   },
-  header: {
-    marginBottom: 25,
-    alignItems: 'center',
-  },
-  headerText: {
+  italicWhiteTxt: {
     fontSize: 30,
     fontWeight: '600',
     fontStyle: 'italic',
     color: 'white',
     textAlign: 'center',
-    marginTop: 70
   },
+  header: {
+    marginBottom: 15,
+    alignItems: 'center',
+  },
+  headerText: {
+    marginTop: 40
+  },
+  subHeaderTxt: {
+    marginTop: 10
+  }
 });
 
 @compose(
@@ -99,11 +104,10 @@ class WaitingForEmail extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>Almost Done!</Text>
-          <Text style={[styles.headerText, {fontSize: 20}]}>
+          <Text style={[styles.headerText, styles.italicWhiteTxt]}>Almost Done!</Text>
+          <Text style={[styles.italicWhiteTxt, styles.subHeaderTxt, {fontSize: 20}]}>
             We just sent you an email.{'\n'}
             hit the link and you'll be signed in automatically.
-            
           </Text>
         </View>
 
@@ -119,11 +123,13 @@ class WaitingForEmail extends React.Component {
         </View>
 
         <View style={styles.sendAgainContainer}>
-          <Text style={[styles.headerText, {fontSize: 20}]}> Didn't get the email?{'\n'} </Text>
+          <Text style={[styles.headerText, styles.italicWhiteTxt, {fontSize: 20, opacity: 0.8}]}> Didn't get the email?</Text>
 
           <Button
             title="Resend"
-            buttonStyle={styles.sendAgainBtn}
+            buttonStyle={[styles.sendAgainBtn, {
+              marginTop: 5
+            }]}
             disabled={this.state.resentEmail}
             onPress={this.resendEmail}
           />

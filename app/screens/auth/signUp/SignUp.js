@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LayoutAnimation, StyleSheet, Dimensions, Text, View, Image } from 'react-native';
+import { Text, View, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firebaseConnect } from 'react-redux-firebase';
@@ -123,7 +123,7 @@ class SignUp extends Component {
       await UpdateAvatar(uri, firebase);
 
       // Send email 
-      user.sendEmailVerification();
+      firebase.auth().currentUser.sendEmailVerification()
 
       // Go to app screen
       this.props.navigation.navigate('WaitingForEmail');
@@ -132,55 +132,69 @@ class SignUp extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Create an Account</Text>
-          <Text style={styles.errorText}>{this.state.error}</Text>
-        </View>
+      
+        <KeyboardAvoidingView style={{flex: 1}} contentContainerStyle={{flex: 1}} behavior="position">
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <Text style={styles.headerText}>Create an Account</Text>
+              <Text style={styles.errorText}>{this.state.error}</Text>
+            </View>
 
-        <ChooseAvatar 
-          uri={this.state.uri}
-          onComplete={(result) => this.setState({uri: result.uri})} 
-        />
+            <ChooseAvatar 
+              uri={this.state.uri}
+              onComplete={(result) => this.setState({uri: result.uri})} 
+            />
 
-        <OutlinedInput 
-          placeholder="Full Name" 
-          iconName="user-o" 
-          keyboardType="default"  
-          onChangeText={text => {
-            this.setState({
-              name: text
-            })
-          }}
-        />
+            <OutlinedInput 
+              placeholder="Full Name" 
+              iconName="user-o" 
+              keyboardType="default"  
+              onChangeText={text => {
+                this.setState({
+                  name: text
+                })
+              }}
+            />
 
-        <OutlinedInput 
-          placeholder="School Email" 
-          iconName="envelope-o" 
-          keyboardType="email-address"  
-          onChangeText={text => {
-            this.setState({
-              email: text
-            })
-          }}
-        />
+            <OutlinedInput 
+              placeholder="School Email" 
+              iconName="envelope-o" 
+              keyboardType="email-address"  
+              onChangeText={text => {
+                this.setState({
+                  email: text
+                })
+              }}
+            />
 
-        <OutlinedInput 
-          placeholder="Password" 
-          iconName="lock" 
-          keyboardType="email-address"  
-          autoCorrect={false}
-          secureTextEntry={true}
-          onChangeText={text => {
-            this.setState({
-              password: text
-            })
-          }}
-        />
+            <OutlinedInput 
+              placeholder="Password" 
+              iconName="lock" 
+              keyboardType="email-address"  
+              autoCorrect={false}
+              secureTextEntry={true}
+              onChangeText={text => {
+                this.setState({
+                  password: text
+                })
+              }}
+            />
 
-        <FlatButton label="Sign Up" onPress={this.handleCreateAccount}/>
+            <FlatButton 
+              title="Sign Up" 
+              onPress={this.handleCreateAccount}
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.6)',
+                width: '100%',
+                height: 45 
+              }}
+            />
 
-      </View>
+          </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      
     );
   }
 }

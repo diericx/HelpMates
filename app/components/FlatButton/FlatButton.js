@@ -3,30 +3,40 @@ import { Button } from 'react-native-elements';
 import { Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
+import EStyleSheet from 'react-native-extended-stylesheet';
+
 const FlatButton = (props) => {
   const { 
     title, 
-    loading, 
-    backgroundColor, 
-    width, 
+    loading,  
     containerStyle,
     onPress } = props;
-  <Button
-    title={title}
-    loading={loading}
-    // loadingProps={{ size: "large", color: "rgba(111, 202, 186, 1)" }}
-    titleStyle={{ fontWeight: "700" }}
-    buttonStyle={{
-      backgroundColor: {backgroundColor},
-      width: {width},
-      height: {height},
+
+  let styles = EStyleSheet.create({
+    container: {
+      width: '90%',
+      ...props.containerStyle
+    },
+    button: {
+      width: '100%',
+      backgroundColor: '$lightblue',
       borderColor: "transparent",
       borderWidth: 0,
-      borderRadius: 5
-    }}
-    containerStyle={containerStyle}
-    onPress={onPress}
-  />
+      borderRadius: 5,
+      marginBottom: 15,
+      ...props.style,
+    }
+  });
+  return (
+    <Button
+      title={title}
+      loading={loading}
+      titleStyle={{ fontWeight: "700" }}
+      buttonStyle={styles.button}
+      containerStyle={styles.container}
+      onPress={onPress}
+    />
+  )
 };
 
 export default FlatButton;

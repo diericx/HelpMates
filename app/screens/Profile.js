@@ -48,6 +48,7 @@ class Profile extends React.Component {
     
     return (
       <View style={styles.container}>
+        
         <ChooseAvatar 
           onComplete={this.onAvatarChosen}
           {...{preview, uri}} 
