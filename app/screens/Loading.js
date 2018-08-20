@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { withFirebase } from 'react-redux-firebase'
+import { withFirebase, firebaseConnect } from 'react-redux-firebase'
+import { connect } from 'react-redux'
+import { compose } from 'redux';
 
 import GroupList from '../components/groups/GroupList';
 
@@ -11,17 +13,34 @@ const styles = EStyleSheet.create({
   }
 });
 
+@compose(
+  firebaseConnect(),
+  connect(({ firebase: { profile, auth } }) => ({
+    auth
+  }))
+)
 class Loading extends React.Component {
 
   // Subscribe to auth events on mount
   componentDidMount() {
-    const { firebase } = this.props;
+    const { firebase, auth } = this.props;
 
     this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      this.props.navigation.navigate(user ? 'App' : 'Auth');
+      if (user) {
+        if (auth.emailVerified) {
+          this.props.navigation.navigate('App');
+        } else {
+          this.props.navigation.navigate('WaitingForEmail');
+        }
+      } else {
+        this.props.navigation.navigate('Auth');
+      }
+      // this.props.navigation.navigate(user ? 'App' : 'Auth');
     });
+
+    
   }
 
   // End the subscription when the component unmounts
@@ -38,4 +57,5 @@ class Loading extends React.Component {
   }
 }
 
-export default withFirebase(Loading);
+export default Loading;
+// export default connect(({ firebase: { profile } }) => ({ profile }))(Loading)

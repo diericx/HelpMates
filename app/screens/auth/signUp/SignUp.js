@@ -121,6 +121,12 @@ class SignUp extends Component {
 
       // Upload the user's avatar after they sign in
       await UpdateAvatar(uri, firebase);
+
+      // Send email 
+      user.sendEmailVerification();
+      
+      // Go to app screen
+      this.props.navigation.navigate('WaitingForEmail');
     }
   }
 

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { LayoutAnimation, StyleSheet, Dimensions, Text, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { firebaseConnect } from 'react-redux-firebase';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Icon from "@expo/vector-icons/FontAwesome";
@@ -36,10 +37,8 @@ const styles = EStyleSheet.create({
   },
 });
 
+@firebaseConnect()
 class SignUp extends Component {
-  static contextTypes = {
-    store: PropTypes.object.isRequired
-  }
 
   constructor(props) {
     super(props);
@@ -86,14 +85,15 @@ class SignUp extends Component {
   }
 
   handleSignIn = () => {
-    const { firebase } = this.context.store;
+    const { firebase } = this.props;
     if (this.validInput(true)) {
       const { email, password } = this.state;
-      firebase.auth().signInWithEmailAndPassword(email, password)
+      firebase.login({email, password})
         .then((user) => {
           // If you need to do anything with the user, do it here
           // The user will be logged in automatically by the 
           // `onAuthStateChanged` listener we set up in App.js earlier
+          this.props.navigation.navigate('App');
         })
         .catch((error) => {
           const { code, message } = error;

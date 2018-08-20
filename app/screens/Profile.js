@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Button, View } from 'react-native';
 import PropTypes from 'prop-types'
 import { firebaseConnect } from 'react-redux-firebase'
-import { UpdateAvatar } from '../lib/F7';
+import { UpdateAvatar, AVATARS_META_DATABASE_PATH } from '../lib/F7';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import ChooseAvatar from '../components/ChooseAvatar';
@@ -18,30 +18,11 @@ const styles = EStyleSheet.create({
   }
 });
 
-// Path within Database for metadata (also used for file Storage path)
-const storagePath = 'uploads/avatars';
-const databasePath = 'avatarsMeta';
-
-// Component Enhancer that adds props.firebase and creates a listener for
-// files them passes them into props.uploadedFiles
-const enhance = compose(
-  firebaseConnect([
-    databasePath
-  ]),
-  connect( ({ firebase: { auth, profile }, firestore }) => ({
-    avatars: firestore.data[databasePath],
-    profile,
-    auth,
-  }))
-)
-
+@firebaseConnect()
+@connect( ({ firebase: { profile } }) => ({
+  profile,
+}))
 class Profile extends React.Component {
-  static contextTypes = {
-    store: PropTypes.object.isRequired,
-    firebase: PropTypes.object,
-    avatars: PropTypes.object
-  }
-
   constructor() {
     super();
 
@@ -50,8 +31,10 @@ class Profile extends React.Component {
   }
 
   signOut() {
-    const { firebase } = this.context.store;
-    firebase.auth().signOut();
+    const { firebase } = this.props;
+
+    firebase.logout();
+    this.props.navigation.navigate('Loading');
   }
 
   async onAvatarChosen(image) {
@@ -78,4 +61,4 @@ class Profile extends React.Component {
   }
 }
 
-export default enhance(Profile);
+export default Profile;

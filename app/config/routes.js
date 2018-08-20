@@ -6,6 +6,8 @@ import Swiper from 'react-native-swiper';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import LoadingScreen from '../screens/Loading';
+
+import WaitingForEmailScreen from '../screens/WaitingForEmail';
 // Navigation
 import HomeScreen from "../screens/Home";
 import FileScreen from "../screens/File";
@@ -252,7 +254,8 @@ export const RootStack = createSwitchNavigator(
   {
     Loading: LoadingScreen,
     App: AppStack,
-    Auth: AuthStack
+    Auth: AuthStack,
+    WaitingForEmail: WaitingForEmailScreen
   },
   {
     initialRouteName: 'Loading',
