@@ -1,14 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
-// import { GetCoursesForUniversity, GetCurrentUser } from '../../../lib/Firebase';
+import { View, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem, Button } from "react-native-elements";
-import Icon from "@expo/vector-icons/FontAwesome";
 import SepperatorView from "../../SepperatorView";
+import { firestoreConnect } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import ListViewSubtitle from '../../ListViewSubtitle';
 
 import styles from './styles';
+
+@compose(
+  firestoreConnect((props) => {
+    console.log(props.universityId)
+    return  [
+      {
+        collection: 'courses',
+        where: ['universityId', '==', props.universityId]
+      }
+    ]
+  }),
+  connect(({ firebase: { auth }, firestore }, props) => ({
+    courses: firestore.ordered.courses,
+    auth
+  }))
+)
 
 export default class CourseList extends React.Component {
   static contextTypes = {
@@ -16,26 +33,6 @@ export default class CourseList extends React.Component {
   }
 
   keyExtractor = (item, index) => item.id
-
-  componentWillMount () {
-    const { universityId } = this.props;
-    const { firestore } = this.context.store;
-    firestore.setListener({
-      collection: 'courses',
-      where: ['universityId', '==', universityId],
-    })
-  }
-
-  JoinCourse(courseId) {
-    const { firestore } = this.context.store;
-    const { auth } = this.props;
-    const path = `members.${[auth.uid]}`
-    firestore.collection('courses')
-    .doc(courseId)
-    .update({
-      [path] : {}
-    })
-  }
 
   render() {
     let { courses, auth } = this.props;

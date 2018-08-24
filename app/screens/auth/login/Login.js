@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { LayoutAnimation, StyleSheet, Dimensions, Text, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { firebaseConnect } from 'react-redux-firebase';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Icon from "@expo/vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 
-import OutlinedInput from "../../components/OutlinedInput";
-import Button from "../../components/Button";
+import OutlinedInput from "../../../components/OutlinedInput";
+import FlatButton from "../../../components/FlatButton";
 
 
 const styles = EStyleSheet.create({
@@ -35,11 +37,9 @@ const styles = EStyleSheet.create({
   },
 });
 
-class Login extends Component {
-  static contextTypes = {
-    store: PropTypes.object.isRequired
-  }
-  
+@firebaseConnect()
+class SignUp extends Component {
+
   constructor(props) {
     super(props);
 
@@ -51,7 +51,7 @@ class Login extends Component {
     };
 
     // bind
-    this.handleCreateAccount = this.handleCreateAccount.bind(this);
+    this.handleSignIn = this.handleSignIn.bind(this);
   }
 
   componentWillMount() {
@@ -84,18 +84,16 @@ class Login extends Component {
     return valid;
   }
 
-  handleCreateAccount = () => {
-    const { firebase } = this.context.store;
-    const { email, password } = this.state;
-    console.log("Creating account: ", email, password)
-
-    if (this.validInput()) {
-      console.log('firebae sign in...')
-      firebase.auth().createUserWithEmailAndPassword(email, password)
+  handleSignIn = () => {
+    const { firebase } = this.props;
+    if (this.validInput(true)) {
+      const { email, password } = this.state;
+      firebase.login({email, password})
         .then((user) => {
           // If you need to do anything with the user, do it here
-          // The user will be logged in automatically by the
+          // The user will be logged in automatically by the 
           // `onAuthStateChanged` listener we set up in App.js earlier
+          this.props.navigation.navigate('App');
         })
         .catch((error) => {
           const { code, message } = error;
@@ -103,9 +101,6 @@ class Login extends Component {
           // The message contains the default Firebase string
           // representation of the error
         });
-    } else {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-      this.setState({ confirmPasswordVisible: true });
     }
   }
 
@@ -113,7 +108,7 @@ class Login extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>Sign Up</Text>
+          <Text style={styles.headerText}>Log In</Text>
           <Text style={styles.errorText}>{this.state.error}</Text>
         </View>
 
@@ -141,11 +136,14 @@ class Login extends Component {
           }}
         />
 
-        <Button label="Sign Up" onPress={this.handleCreateAccount}/>
+        <FlatButton 
+          title="Login" 
+          onPress={this.handleSignIn}
+        />
 
       </View>
     );
   }
 }
 
-export default Login;
+export default SignUp;

@@ -2,10 +2,12 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 const styles = EStyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    width: "100%",
-    paddingTop: 20
+    marginBottom: 40
+  },
+  cameraView: {
+    width: 100,
+    height: 100,
+    borderRadius: 100
   }
 });
 

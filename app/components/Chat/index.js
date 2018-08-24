@@ -6,7 +6,7 @@ export default connect((state, props) => {
   let { groupId } = props;
   return {
     group: state.firestore.data.groups[groupId],
-    messages: state.firestore.data.messages,
+    messages: state.firestore.data[`messages-${groupId}`],
     auth: state.firebase.auth,
     profile: state.firebase.profile
   }

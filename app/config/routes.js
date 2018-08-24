@@ -1,10 +1,13 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import { Icon, Avatar } from 'react-native-elements';
 import Swiper from 'react-native-swiper';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import LoadingScreen from '../screens/Loading';
+
+import WaitingForEmailScreen from '../screens/WaitingForEmail';
 // Navigation
 import HomeScreen from "../screens/Home";
 import FileScreen from "../screens/File";
@@ -15,7 +18,6 @@ import GroupChatScreen from "../screens/group/GroupChat";
 import GroupFilesScreen from "../screens/group/GroupFiles";
 
 import MessagesScreen from "../screens/Messages";
-import ChooseUniversityScreen from "../screens/explore/ChooseUniversity"
 import ChooseCourseScreen from "../screens/explore/ChooseCourse"
 import ChooseGroupScreen from "../screens/explore/ChooseGroup"
 
@@ -23,9 +25,12 @@ import ChooseGroupScreen from "../screens/explore/ChooseGroup"
 import Chat from "../screens/Chat";
 
 // Auth
-import AuthHome from '../screens/auth/AuthHome'
-import Login from '../screens/auth/Login';
-import SignUp from '../screens/auth/SignUp';
+import AuthHomeScreen from '../screens/auth/AuthHome'
+
+import LoginScreen from '../screens/auth/login/Login';
+
+import SignUpScreen from '../screens/auth/signUp/SignUp';
+import ChooseUniversityScreen from "../screens/auth/signUp/ChooseUniversity"
 
 
 export const PageTitles = [
@@ -33,7 +38,6 @@ export const PageTitles = [
   "People",
   "Messages"
 ]
-
 
 const styles = EStyleSheet.create({
   exploreNavBar: {
@@ -44,23 +48,28 @@ const styles = EStyleSheet.create({
   }
 });
 
+// ---------
+// AUTH
+// ---------
 
-export const AuthStack = createStackNavigator({
-  AuthHome: {
-    screen: AuthHome,
-  },
-  Login: {
-    screen: Login,
-  },
-  SignUp: {
-    screen: SignUp
-  }
+export const SignUpStack = createStackNavigator({
+  ChooseUniversity: ChooseUniversityScreen,
+  SignUp: SignUpScreen
 }, {
   headerMode: 'none',
-});
+})
+
+export const LoginStack = createStackNavigator({
+  Login: LoginScreen,
+}, {
+  headerMode: 'none',
+})
+
+// ---------
+// ROOT
+// ---------
 
 export const ExploreStack = createStackNavigator({
-  ChooseUniversity: ChooseUniversityScreen,
   ChooseCourse: ChooseCourseScreen,
   ChooseGroup: ChooseGroupScreen
 },
@@ -208,7 +217,25 @@ export const TabNavigation = createBottomTabNavigator(
   }
 );
 
-export const RootStack = createStackNavigator(
+// --------
+// EXTERNAL STACKS
+// --------
+
+const AuthStack = createStackNavigator({
+  Home: {
+    screen: AuthHomeScreen,
+  },
+  Login: {
+    screen: LoginStack,
+  },
+  SignUp: {
+    screen: SignUpStack
+  }
+}, {
+  headerMode: 'none',
+});
+
+const AppStack = createStackNavigator(
   {
     Main: {
       screen: TabNavigation,
@@ -222,3 +249,15 @@ export const RootStack = createStackNavigator(
     headerMode: 'none',
   }
 );
+
+export const RootStack = createSwitchNavigator(
+  {
+    Loading: LoadingScreen,
+    App: AppStack,
+    Auth: AuthStack,
+    WaitingForEmail: WaitingForEmailScreen
+  },
+  {
+    initialRouteName: 'Loading',
+  }
+)

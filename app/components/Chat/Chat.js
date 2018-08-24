@@ -24,7 +24,7 @@ export default class Chat extends React.Component {
       collection: 'groups',
       doc: groupId,
       orderBy: ['createdAt'],
-      storeAs: 'messages',
+      storeAs: `messages-${groupId}`,
       subcollections: [{ collection: 'messages' }]
     })
   }
