@@ -27,7 +27,7 @@ const styles = EStyleSheet.create({
     fontSize: 14,
   },
   header: {
-    marginBottom: 25,
+    marginBottom: 20,
     alignItems: 'center',
   },
   headerText: {
@@ -61,6 +61,7 @@ class SignUp extends Component {
       name: '',
       email: '',
       password: '',
+      signUpBtnEnabled: false,
       uri: null,
       error: null,
     };
@@ -108,21 +109,37 @@ class SignUp extends Component {
     const { firebase, navigation } = this.props;
     const { name, email, password, uri } = this.state;
     const university = navigation.getParam('university', null);
-    console.log("Creating account: ", email, password)
+
+    // Disable the sign up button until we know they should try again
+    this.setState({
+      signUpBtnEnabled: false
+    })
 
     if (this.validInput()) {
-      console.log('firebase sign in...')
 
       // Create the new user
-      let user = await firebase.createUser({email, password}, {
-        activeUniversityId: university.id,
-        name
-      });
+      try {
+        // Send request to firebase
+        await firebase.createUser({email, password}, {
+          activeUniversityId: university.id,
+          name
+        });
 
-      // Upload the user's avatar after they sign in
-      await UpdateAvatar(uri, firebase);
+        // Disable the button
+        this.setState({
+          signUpBtnEnabled: false
+        })
+      } catch (e) {
+        this.setState({
+          error: 'We encountered an error creating your account.',
+          signUpBtnEnabled: true
+        })
+      }
 
-      // Send email 
+      // ASYNC Upload the user's avatar after they sign in
+      UpdateAvatar(uri, firebase);
+
+      // ASYNC Send email 
       firebase.auth().currentUser.sendEmailVerification()
 
       // Go to app screen
@@ -131,6 +148,8 @@ class SignUp extends Component {
   }
 
   render() {
+    const { signUpBtnEnabled } = this.state;
+
     return (
       
         <KeyboardAvoidingView style={{flex: 1}} contentContainerStyle={{flex: 1}} behavior="position">
@@ -189,6 +208,7 @@ class SignUp extends Component {
                 width: '100%',
                 height: 45 
               }}
+              enabled={signUpBtnEnabled}
             />
 
           </View>

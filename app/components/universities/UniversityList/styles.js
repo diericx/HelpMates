@@ -4,7 +4,7 @@ const styles = EStyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 80,
-    backgroundColor: "$turquoise",
+
   },
   header: {
     marginBottom: 25,

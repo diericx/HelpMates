@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types'
-import { ImagePicker, ImageManipulator, Permissions } from 'expo';
+import { ImagePicker, Permissions } from 'expo';
 
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
 import CachedAvatar from "../CachedAvatar";
 
 import styles from './styles';

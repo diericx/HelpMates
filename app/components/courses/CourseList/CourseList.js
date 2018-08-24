@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
-// import { GetCoursesForUniversity, GetCurrentUser } from '../../../lib/Firebase';
+import { View, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem, Button } from "react-native-elements";
-import Icon from "@expo/vector-icons/FontAwesome";
 import SepperatorView from "../../SepperatorView";
+import { firestoreConnect } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import ListViewSubtitle from '../../ListViewSubtitle';
 
 import styles from './styles';
-import { firestoreConnect } from 'react-redux-firebase';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 
 @compose(
   firestoreConnect((props) => {

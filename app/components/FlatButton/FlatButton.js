@@ -10,6 +10,7 @@ const FlatButton = (props) => {
     title, 
     loading,  
     containerStyle,
+    enabled,
     onPress } = props;
 
   let styles = EStyleSheet.create({
@@ -35,6 +36,7 @@ const FlatButton = (props) => {
       buttonStyle={styles.button}
       containerStyle={styles.container}
       onPress={onPress}
+      enabled={enabled}
     />
   )
 };

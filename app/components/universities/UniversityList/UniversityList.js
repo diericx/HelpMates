@@ -33,7 +33,17 @@ export default class UniversityList extends React.Component {
     const { universities } = this.props
 
     if (!universities) {
-      return <ActivityIndicator />
+      return (
+        <View style={styles.container}>
+          <View style={styles.header} >
+            <Text style={[styles.headerText, this.props.headerTextStyle]}> Choose Your University </Text>
+          </View>
+
+          <ActivityIndicator size={"large"} />
+        </View>
+      )     
+      
+      
     }
 
     return (

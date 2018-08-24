@@ -136,7 +136,10 @@ class SignUp extends Component {
           }}
         />
 
-        <FlatButton label="Login" onPress={this.handleSignIn}/>
+        <FlatButton 
+          title="Login" 
+          onPress={this.handleSignIn}
+        />
 
       </View>
     );
