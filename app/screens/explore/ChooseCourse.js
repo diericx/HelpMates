@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Meteor from 'react-native-meteor';
+import { View, ActivityIndicator } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+
 import CourseList from '../../components/courses/CourseList';
-import PathBar from '../../components/PathBar';
+import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 
 const styles = EStyleSheet.create({
   container: {
@@ -12,6 +14,11 @@ const styles = EStyleSheet.create({
   },
 });
 
+// Connect to firebase
+@firebaseConnect()
+@connect(({ firebase: { profile } }) => ({ profile }))
+
+// Class
 class ChooseCourse extends React.Component {
   static navigationOptions = {
     title: 'Courses',
@@ -24,14 +31,20 @@ class ChooseCourse extends React.Component {
   }
 
   render() {
-
+    const { profile } = this.props;
     return (
       <View style={styles.container}>
 
-        <CourseList 
-          universityId={'Lz3HTeqI5w3C3Xe7nHRd'}
-          onPress={this.onPress} 
-        />
+        {
+          isLoaded(profile) ? 
+            <CourseList 
+              universityId={profile.activeUniversityId}
+              onPress={this.onPress} 
+            />
+          : 
+            <ActivityIndicator size={"large"} />
+        }
+        
 
       </View>
     );

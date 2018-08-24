@@ -28,6 +28,7 @@ const FlatButton = (props) => {
       ...props.style,
     }
   });
+  
   return (
     <Button
       title={title}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import Meteor, { Accounts } from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import FullWidthButton from "../../components/auth/FullWidthButton";

@@ -124,11 +124,6 @@ class SignUp extends Component {
           activeUniversityId: university.id,
           name
         });
-
-        // Disable the button
-        this.setState({
-          signUpBtnEnabled: false
-        })
       } catch (e) {
         this.setState({
           error: 'We encountered an error creating your account.',
