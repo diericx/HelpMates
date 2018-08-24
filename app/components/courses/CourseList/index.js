@@ -1,9 +1,7 @@
 import { connect } from 'react-redux'
+import { compose } from 'redux';
+import { withFirebase, firebaseConnect } from 'react-redux-firebase'
 
 import CourseList from "./CourseList";
 
-export default connect((state) => ({
-  courses: state.firestore.ordered.courses,
-  auth: state.firebase.auth,
-  profile: state.firebase.profile
-}))(CourseList)
+export default CourseList;

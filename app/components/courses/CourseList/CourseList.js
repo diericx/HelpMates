@@ -9,6 +9,25 @@ import SepperatorView from "../../SepperatorView";
 import ListViewSubtitle from '../../ListViewSubtitle';
 
 import styles from './styles';
+import { firestoreConnect } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+@compose(
+  firestoreConnect((props) => {
+    console.log(props.universityId)
+    return  [
+      {
+        collection: 'courses',
+        where: ['universityId', '==', props.universityId]
+      }
+    ]
+  }),
+  connect(({ firebase: { auth }, firestore }, props) => ({
+    courses: firestore.ordered.courses,
+    auth
+  }))
+)
 
 export default class CourseList extends React.Component {
   static contextTypes = {
@@ -16,29 +35,6 @@ export default class CourseList extends React.Component {
   }
 
   keyExtractor = (item, index) => item.id
-
-  componentWillReceiveProps(nextProps) {
-    // If we haven't laoded the profile but are receiving it right now
-    if (!this.props.profile.isLoaded && nextProps.profile.isLoaded) {
-      const { profile } = nextProps;
-      const { firestore } = this.context.store;
-      firestore.setListener({
-        collection: 'courses',
-        where: ['universityId', '==', profile.activeUniversityId],
-      })
-    } 
-  }
-
-  JoinCourse(courseId) {
-    const { firestore } = this.context.store;
-    const { auth } = this.props;
-    const path = `members.${[auth.uid]}`
-    firestore.collection('courses')
-    .doc(courseId)
-    .update({
-      [path] : {}
-    })
-  }
 
   render() {
     let { courses, auth } = this.props;

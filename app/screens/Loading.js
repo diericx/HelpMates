@@ -15,7 +15,7 @@ const styles = EStyleSheet.create({
 
 @compose(
   firebaseConnect(),
-  connect(({ firebase: { profile, auth } }) => ({
+  connect(({ firebase: { auth } }) => ({
     auth
   }))
 )
@@ -23,13 +23,13 @@ class Loading extends React.Component {
 
   // Subscribe to auth events on mount
   componentDidMount() {
-    const { firebase, auth } = this.props;
+    const { firebase } = this.props;
 
     this.authSubscription = firebase.auth().onAuthStateChanged((user) => {
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
       if (user) {
-        if (auth.emailVerified) {
+        if (user.emailVerified) {
           this.props.navigation.navigate('App');
         } else {
           this.props.navigation.navigate('WaitingForEmail');
@@ -37,7 +37,6 @@ class Loading extends React.Component {
       } else {
         this.props.navigation.navigate('Auth');
       }
-      // this.props.navigation.navigate(user ? 'App' : 'Auth');
     });
 
     

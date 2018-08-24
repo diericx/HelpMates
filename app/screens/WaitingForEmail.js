@@ -53,7 +53,8 @@ const styles = EStyleSheet.create({
 @compose(
   firebaseConnect(),
   connect(({ firebase: { profile, auth } }) => ({
-    auth
+    auth,
+    profile
   }))
 )
 class WaitingForEmail extends React.Component {
@@ -67,37 +68,57 @@ class WaitingForEmail extends React.Component {
 
     // bind
     this.resendEmail = this.resendEmail.bind(this);
+    this.checkIfEmailIsVerified = this.checkIfEmailIsVerified.bind(this);
   }
 
-  checkIfEmailIsVerified() {
-    const { auth } = this.props;
-    if (auth.emailVerified) {
+  async checkIfEmailIsVerified() {
+    const { firebase } = this.props;
+
+    // Reload the auth object
+    await firebase.reloadAuth()
+
+    // Get the current user
+    const user = firebase.auth().currentUser;
+    
+    if (user.emailVerified) {
       this.props.navigation.navigate('App');
     }
   }
 
   // Subscribe to auth events on mount
-  componentDidMount() {
-    this.checkIfEmailIsVerified();
+  async componentDidMount() {
+    const { firebase, auth, profile } = this.props;
+
+    // Do a sanity check to make sure we haven't already verified the email
+    await this.checkIfEmailIsVerified();
+
+    // Check if the email has been verified every 1000 seconds
+    this.checkEmailVerificationInterval = setInterval(this.checkIfEmailIsVerified, 1000);
   }
 
   componentWillReceiveProps() {
+    const { auth } = this.props;
+
+    // Doubleing back, this shouldn't happen, but maybe!
+    // Just make sure if the prop for auth changes we catch it and move on to App screen
     this.checkIfEmailIsVerified();
   }
 
-  // // End the subscription when the component unmounts
-  // componentWillUnmount() {
-  //   this.authSubscription();
-  // }
+  // End the subscription when the component unmounts
+  componentWillUnmount() {
+    clearInterval(this.checkEmailVerificationInterval)
+  }
 
+  // Tell Firebase to resend the confirmation email
   resendEmail() {
-    const { firebase, auth } = this.props;
+    const { firebase } = this.props;
 
     this.setState({
       resentEmail: true
     })
+
     
-    firebase.auth().currentUser.sendEmailVerification()
+    // firebase.auth().currentUser.sendEmailVerification()
   }
 
   render() {
@@ -107,7 +128,7 @@ class WaitingForEmail extends React.Component {
           <Text style={[styles.headerText, styles.italicWhiteTxt]}>Almost Done!</Text>
           <Text style={[styles.italicWhiteTxt, styles.subHeaderTxt, {fontSize: 20}]}>
             We just sent you an email.{'\n'}
-            hit the link and you'll be signed in automatically.
+            Hit the link and you'll be signed in automatically.
           </Text>
         </View>
 
