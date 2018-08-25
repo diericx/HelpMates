@@ -5,6 +5,7 @@ import { ListItem, Button } from "react-native-elements";
 import Icon from "@expo/vector-icons/FontAwesome";
 import SepperatorView from "../../SepperatorView";
 import ListViewSubtitle from '../../ListViewSubtitle';
+import EmptyList from '../../shared/EmptyList';
 
 import styles from './styles';
 
@@ -59,6 +60,10 @@ export default class GroupList extends React.Component {
         <FlatList
           keyExtractor={(item, index) => item.id}
           data={groups}
+          ListEmptyComponent={<EmptyList 
+            centered
+            text={'You aren\'t in any groups! \n\nGo to the Explore tab to find your courses and join some groups'}
+          />}
           renderItem={({item, index}) => {
             let { members } = item;
   
