@@ -17,6 +17,10 @@ const styles = EStyleSheet.create({
   }
 });
 
+/**
+ * EmptyList - Rendered when a list is empty.
+ * @param {Object} props {text, centered} 
+ */
 export default EmptyList = function (props) {
   return (
   <View style={[styles.container, props.centered ? styles.centered : null]}>
