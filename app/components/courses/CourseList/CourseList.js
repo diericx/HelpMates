@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem, Button } from "react-native-elements";
-import SepperatorView from "../../SepperatorView";
 import { firestoreConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+import SepperatorView from "../../SepperatorView";
 import ListViewSubtitle from '../../ListViewSubtitle';
 
 import styles from './styles';
@@ -33,6 +33,19 @@ export default class CourseList extends React.Component {
   }
 
   keyExtractor = (item, index) => item.id
+
+  JoinCourse(id) {
+    let { firestore, auth } = this.props;
+    let ref = firestore.collection('courses').doc(id)
+    ref.set(
+      {
+        members: {
+          [auth.uid]: true
+        }
+      },
+      {merge: true}
+    )
+  }
 
   render() {
     let { courses, auth } = this.props;
