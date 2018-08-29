@@ -5,11 +5,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 const styles = EStyleSheet.create({
   container: {
-    marginBottom: 20
+    marginBottom: 20,
   },
   title: {
     fontFamily: 'Avenir-Black',
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 19,
     lineHeight: 25,
     color: '#0f0f0f',
@@ -26,26 +26,15 @@ const styles = EStyleSheet.create({
     fontSize: 10,
     lineHeight: 12,
     color: 'lightgray',
-  }
+  },
 });
 
-export default DocumentInput = (props) => {
-  // parse props
-  const {
-    document,
-    onChangeTitle,
-    onChangeBody
-  } = props;
-
+const DocumentInput = ({ document, onChangeBody }) => {
   if (!document) {
     return null;
   }
 
-  const {
-    title,
-    body,
-    updatedBy
-  } = document;
+  const { body, updatedBy } = document;
   // render
   return (
     <View style={styles.container}>
@@ -56,15 +45,16 @@ export default DocumentInput = (props) => {
         value={title}
       /> */}
 
-      <TextInput 
+      <TextInput
         style={styles.body}
-        multiline={true}
+        multiline
         onChangeText={onChangeBody}
-        placeholder={"Body"}
+        placeholder="Body"
         value={body}
       />
       <Text style={styles.messageText}>Last edited by {updatedBy}</Text>
-
     </View>
-  )
-}
+  );
+};
+
+export default DocumentInput;
