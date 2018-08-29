@@ -1,9 +1,21 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
 import { Input } from "react-native-elements";
 import Icon from "@expo/vector-icons/FontAwesome";
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-import styles from './styles';
+const styles = EStyleSheet.create({
+  inputContainer: {
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255, 0.6)",
+    height: 45,
+    marginBottom: 18,
+    paddingHorizontal: 10
+  },
+  input: {
+    color: "white"
+  },
+});
 
 const OutlinedInput = (props) => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose } from 'redux';
-import { firestoreConnect, isLoaded  } from 'react-redux-firebase';
+import { firestoreConnect, isLoaded, isEmpty  } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { View, Text, SectionList, ActivityIndicator } from 'react-native';
 import { ListItem } from "react-native-elements";
@@ -10,7 +10,7 @@ import NavigationService from '../../config/navigationService';
 import NewFileModal from "./NewFileModal";
 import NewFileButton from './NewFileButton';
 import SepperatorView from '../shared/SepperatorView';
-
+import EmptyList from '../shared/EmptyList';
 
 const styles = EStyleSheet.create({
   container: {
@@ -64,7 +64,7 @@ export default class FileList extends React.Component {
   }
 
   onPress = (file) => {
-    NavigationService.navigate('File', {
+    NavigationService.push('File', {
       title: file.title,
       fileId: file.id,
       fileType: file.type
@@ -92,10 +92,14 @@ export default class FileList extends React.Component {
     let { files } = this.props;
 
     if (!isLoaded(files)) {
-      return <ActivityIndicator />
+      return <ActivityIndicator />;
     }
 
-    // Format the files 
+    if (isEmpty(files)) {
+      return <EmptyList centered text={'No files'}/>;
+    }
+
+    // Format the files
     formattedFiles = Object.keys(files).map((key) => {
       let file = files[key];
       return {

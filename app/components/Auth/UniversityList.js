@@ -1,35 +1,53 @@
 import React from 'react';
-
-import PropTypes from 'prop-types';
-
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem } from "react-native-elements";
+import EStyleSheet from 'react-native-extended-stylesheet';
+import connect from 'react-redux/lib/connect/connect';
+import { isLoaded } from 'react-redux-firebase';
 
-import styles from './styles';
 
+const styles = EStyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 80,
+
+  },
+  header: {
+    marginBottom: 25,
+    alignItems: 'center',
+  },
+  headerText: {
+    fontSize: 30,
+    fontWeight: '600',
+    fontStyle: 'italic',
+  },
+  universityContainer: {
+    paddingHorizontal: 20
+  },
+  university: {
+    borderRadius: 2,
+    marginVertical: 15
+  }
+});
+
+
+@connect(({firestore}) => ({
+  universities: firestore.ordered.universities
+}))
 export default class UniversityList extends React.Component {
-  static contextTypes = {
-    store: PropTypes.object.isRequired
-  }
-
   componentWillMount () {
-    const { firestore } = this.context.store
-    firestore.get('universities')
-  }
+    const { firestore } = this.props
 
-  constructor() {
-    super();
-    this.state = {
-      loading: true
-    }
+    // Don't connect, just query this data once. No need for live updateds
+    firestore.get('universities')
   }
 
   keyExtractor = (item, index) => item.id
 
   render() {
     const { universities } = this.props
-
-    if (!universities) {
+    
+    if (!isLoaded(universities)) {
       return (
         <View style={styles.container}>
           <View style={styles.header} >

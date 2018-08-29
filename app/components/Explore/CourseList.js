@@ -3,13 +3,32 @@ import PropTypes from 'prop-types';
 import { View, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem, Button } from "react-native-elements";
 import { firestoreConnect } from 'react-redux-firebase';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-// import SepperatorView from "../../shared/SepperatorView";
-import ListViewSubtitle from '../../shared/ListViewSubtitle';
+import SepperatorView from "../shared/SepperatorView";
+import ListViewSubtitle from '../shared/ListViewSubtitle';
 
-import styles from './styles';
+
+const styles = EStyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  title: {
+    color: '$green',
+    marginLeft: -8
+  },
+  button: {
+    backgroundColor: 'white',
+    borderWidth: 2,
+    borderColor: '$green',
+  },
+  icon: {
+    color: '$green'
+  },
+});
+
 
 @compose(
   firestoreConnect((props) => {
@@ -66,7 +85,7 @@ export default class CourseList extends React.Component {
             let headCount = Object.keys(members).length;
 
             return (
-              // <SepperatorView renderBottom={index==courses.length-1}>
+              <SepperatorView renderBottom={index==courses.length-1}>
                 <ListItem
                   key={item.id}
                   // leftAvatar={{ source: { uri: l.avatar_url } }}
@@ -92,7 +111,7 @@ export default class CourseList extends React.Component {
                   onPress={isUserInCourse ? () => this.props.onPress(item) : null}
                   chevron={isUserInCourse}
                 />
-              // </SepperatorView>
+              </SepperatorView>
             )
           }}
         />

@@ -1,12 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { View, ScrollView, Text, TextInput, ActivityIndicator } from 'react-native';
-import DocumentInput from "../DocumentInput";
-
-import styles from './styles';
+import { View, ScrollView, ActivityIndicator } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { compose } from 'redux';
-import { firestoreConnect, isLoaded, isEmpty  } from 'react-redux-firebase';
+import { firestoreConnect, isLoaded  } from 'react-redux-firebase';
 import { connect } from 'react-redux';
+
+import DocumentInput from "../MyGroups/DocumentInput";
+
+
+const styles = EStyleSheet.create({
+  container: {
+    paddingTop: 10,
+    paddingHorizontal: 15,
+  },
+});
+
 
 @compose(
   firestoreConnect((props) => {
