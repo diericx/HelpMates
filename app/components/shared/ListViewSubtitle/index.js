@@ -26,9 +26,14 @@ export default function ListViewSubtitle(props) {
   return (
     <View style={styles.container}>
       
-      <View style={styles.top}>
-        <Text style={styles.gray}> {props.subtitle} </Text>
-      </View>
+      {
+        props.subtitle != null && props.subtitle != '' ? 
+          <View style={styles.top}>
+            <Text style={styles.gray}> {props.subtitle} </Text>
+          </View>
+        :
+          null
+      }
 
       <View style={styles.bottom}>
         <Icon name='person' size={18} iconStyle={styles.gray} />

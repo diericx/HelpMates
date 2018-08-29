@@ -146,7 +146,7 @@ export default class FileList extends React.Component {
                 <ListItem
                   key={item.id}
                   title={item.title}
-                  subtitle={item.updatedBy == null ? '' : `Last updated by ${item.updatedBy}`}
+                  subtitle={item.updatedBy == null ? null : `Last updated by ${item.updatedBy}`}
                   subtitleStyle={styles.subtitle}
                   containerStyle={[styles.itemBottomBorder, index == 0 ? styles.itemTopBorder : null]}
                   onPress={() => this.onPress(item)}
