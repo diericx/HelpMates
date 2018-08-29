@@ -17,7 +17,6 @@ import ProfileScreen from "../screens/Profile";
 import GroupChatScreen from "../screens/group/GroupChat";
 import GroupFilesScreen from "../screens/group/GroupFiles";
 
-import MessagesScreen from "../screens/Messages";
 import ChooseCourseScreen from "../screens/explore/ChooseCourse"
 import ChooseGroupScreen from "../screens/explore/ChooseGroup"
 
@@ -31,13 +30,6 @@ import LoginScreen from '../screens/auth/login/Login';
 
 import SignUpScreen from '../screens/auth/signUp/SignUp';
 import ChooseUniversityScreen from "../screens/auth/signUp/ChooseUniversity"
-
-
-export const PageTitles = [
-  "Courses",
-  "People",
-  "Messages"
-]
 
 const styles = EStyleSheet.create({
   exploreNavBar: {
@@ -184,7 +176,7 @@ export const TabNavigation = createBottomTabNavigator(
   {
     Explore: ExploreStack,
     Home: HomeStack,
-    Help: MessagesScreen,
+    Help: HomeStack,
   },
   {
     navigationOptions: ({ navigation }) => ({

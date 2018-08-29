@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import Meteor from 'react-native-meteor';
 import Document from '../components/files/Document';
 import EStyleSheet from 'react-native-extended-stylesheet';
 

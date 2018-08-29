@@ -1,6 +1,5 @@
 import React from 'react';
 import { View } from 'react-native';
-import Meteor from 'react-native-meteor';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import GroupList from '../components/groups/GroupList';
@@ -26,14 +25,6 @@ class Home extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <GroupList 
-          onPress={this.onPress} 
-          findOptions={{
-            members: {
-              $in: [Meteor.userId()]
-            }
-          }}
-        />
       </View>
     );
   }
