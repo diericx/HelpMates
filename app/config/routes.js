@@ -2,34 +2,34 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import { Icon, Avatar } from 'react-native-elements';
-import Swiper from 'react-native-swiper';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+// Initial entry point
 import LoadingScreen from '../screens/Loading';
 
-import WaitingForEmailScreen from '../screens/WaitingForEmail';
-// Navigation
-import HomeScreen from "../screens/Home";
-import FileScreen from "../screens/File";
-import ProfileScreen from "../screens/Profile";
+// Auth screen collection
+import AuthHomeScreen from '../screens/Auth/AuthHome';
+import LoginScreen from '../screens/Auth/Login';
+import SignUpScreen from '../screens/Auth/SignUp';
+import ChooseUniversityScreen from "../screens/Auth/ChooseUniversity";
+import WaitingForEmailScreen from '../screens/Auth/WaitingForEmail';
 
-// Group
-import GroupChatScreen from "../screens/group/GroupChat";
-import GroupFilesScreen from "../screens/group/GroupFiles";
+// Explore screen collection
+import ChooseCourseScreen from "../screens/Explore/ChooseCourse";
+import ChooseGroupScreen from "../screens/Explore/ChooseGroup";
 
-import ChooseCourseScreen from "../screens/explore/ChooseCourse"
-import ChooseGroupScreen from "../screens/explore/ChooseGroup"
+// MyGroups screen collection
+import MyGroupsListScreen from "../screens/MyGroups/MyGroupsList";
+import GroupChatScreen from "../screens/MyGroups/GroupChat";
+import GroupFilesScreen from "../screens/MyGroups/GroupFiles";
+import FileScreen from "../screens/MyGroups/File";
 
-// Modals
-import Chat from "../screens/Chat";
+// Help screen collection
+import HelpChatScreen from "../screens/Help/HelpChat";
 
-// Auth
-import AuthHomeScreen from '../screens/auth/AuthHome'
+// Shared
+import ProfileScreen from "../screens/shared/Profile";
 
-import LoginScreen from '../screens/auth/login/Login';
-
-import SignUpScreen from '../screens/auth/signUp/SignUp';
-import ChooseUniversityScreen from "../screens/auth/signUp/ChooseUniversity"
 
 const styles = EStyleSheet.create({
   exploreNavBar: {
@@ -122,9 +122,9 @@ const groupTabNavigator = createMaterialTopTabNavigator({
   }
 })
 
-export const HomeStack = createStackNavigator({
-  Home: {
-    screen: HomeScreen
+export const MyGroupsStack = createStackNavigator({
+  MyGroupsList: {
+    screen: MyGroupsListScreen
   },
   Group: {
     screen: groupTabNavigator,
@@ -172,11 +172,43 @@ export const HomeStack = createStackNavigator({
   }),
 })
 
+export const HelpStack = createStackNavigator({
+  HelpChat: HelpChatScreen,
+},
+{
+  navigationOptions: {
+    headerStyle: {
+      backgroundColor: 'white',
+      height: 70,
+      borderBottomWidth: 0
+    },
+    headerRight: (
+      <View style={{
+        justifyContent: 'center',
+        alignItems: 'center', 
+        marginLeft: 0, 
+        backgroundColor: 'white',
+        width: 50,
+        height: 50,
+        marginRight: 10
+      }}> 
+        <Avatar
+          size={50}
+          rounded
+          source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"}}
+          onPress={() => console.log("Works!")}
+          activeOpacity={0.7}
+        />
+      </View>
+    )
+  },
+})
+
 export const TabNavigation = createBottomTabNavigator(
   {
     Explore: ExploreStack,
-    Home: HomeStack,
-    Help: HomeStack,
+    MyGroups: MyGroupsStack,
+    Help: HelpStack,
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -187,7 +219,7 @@ export const TabNavigation = createBottomTabNavigator(
         if (routeName === 'Explore') {
           iconName = 'wpexplorer';
           iconType = 'font-awesome';
-        } else if (routeName === 'Home') {
+        } else if (routeName === 'MyGroups') {
           iconName = 'group';
           iconType = 'font-awesome';
         } else if (routeName == 'Help') {

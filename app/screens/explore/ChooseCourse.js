@@ -5,7 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import CourseList from '../../components/courses/CourseList';
+import CourseList from '../../components/Explore/CourseList';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 
 const styles = EStyleSheet.create({
@@ -15,10 +15,10 @@ const styles = EStyleSheet.create({
 });
 
 // Connect to firebase
-@firebaseConnect()
-@connect(({ firebase: { profile } }) => ({ profile }))
-
-// Class
+@compose(
+  firebaseConnect(),
+  connect(({ firebase: { profile } }) => ({ profile }))
+)
 class ChooseCourse extends React.Component {
   static navigationOptions = {
     title: 'Courses',

@@ -5,6 +5,8 @@ import { RootStack } from './config/routes';
 
 // Create and get the store for firebase
 import store from './config/createStore';
+// Build the styles
+import './config/styles';
 
 // Main view
 class HelpMates extends React.Component {
