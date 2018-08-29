@@ -50,6 +50,8 @@ export default class GroupList extends React.Component {
 
   render() {
     let { groups, courses, auth } = this.props;
+
+    console.log("render gorup list")
     
     if (!groups) {
       return <ActivityIndicator />

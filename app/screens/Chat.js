@@ -30,16 +30,16 @@ const styles = EStyleSheet.create({
 });
 
 const Messages = (props) => {
-  const id = props.navigation.getParam("id", null)
+  // const id = props.navigation.getParam("id", null)
 
-  return (
-    <View style={styles.container}>
+  // return (
+  //   <View style={styles.container}>
 
-      <View style={styles.messages}>
-          <Chat id={id}/>
-      </View>
-    </View>
-  );
+  //     <View style={styles.messages}>
+  //         <Chat id={id}/>
+  //     </View>
+  //   </View>
+  // );
 };
 
 export default Messages;

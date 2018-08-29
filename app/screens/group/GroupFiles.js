@@ -32,12 +32,12 @@ const styles = EStyleSheet.create({
   }
 });
 
-class Group extends React.Component {
-  static navigationOptions = (props) => {
-    return {
-      tabBarLabel: 'Files'
-    }
-  }
+class GroupFiles extends React.Component {
+  // static navigationOptions = (props) => {
+  //   return {
+  //     tabBarLabel: 'Files'
+  //   }
+  // }
 
   render() {
 
@@ -45,10 +45,10 @@ class Group extends React.Component {
 
     return (
       <View style={styles.container}>
-          <FileList parentId={groupId} />
+        <FileList parentId={groupId} />
       </View>
     );
   }
 }
 
-export default Group;
+export default GroupFiles;

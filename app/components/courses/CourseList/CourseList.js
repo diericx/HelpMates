@@ -53,6 +53,8 @@ export default class CourseList extends React.Component {
     if (!courses) {
       return <ActivityIndicator />
     }
+
+    console.log("Render courses")
     
     return (
       <View style={styles.container}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import NavigationService from './config/navigationService';
 import { RootStack } from './config/routes';
 
 // Create and get the store for firebase
@@ -18,7 +19,11 @@ class HelpMates extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <RootStack />
+        <RootStack 
+          ref={navigatorRef => {
+            NavigationService.setTopLevelNavigator(navigatorRef);
+          }}
+        />
       </Provider>
     )
   }
