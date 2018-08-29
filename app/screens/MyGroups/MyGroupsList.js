@@ -7,23 +7,28 @@ import GroupList from '../../components/MyGroups/GroupList';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-  },
+  }
 });
 
-class ChooseGroup extends React.Component {
+class MyGroupsList extends React.Component {
   static navigationOptions = {
-    title: 'Groups',
+    title: 'My Groups',
   };
 
-  render() {
-    const courseId = this.props.navigation.getParam("courseId", null)
+  onPress = (group) => {
+    this.props.navigation.navigate('Group', {
+      groupId: group.id,
+      title: group.title
+    })
+  }
 
+  render() {
     return (
       <View style={styles.container}>
-        <GroupList courseId={courseId} />
+        <GroupList onPress={this.onPress}/>
       </View>
     );
   }
 }
 
-export default ChooseGroup;
+export default MyGroupsList;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import FullWidthButton from "../../components/auth/FullWidthButton";
+import FullWidthButton from "../../components/Auth/FullWidthButton";
 
 const styles = EStyleSheet.create({
   container: {

@@ -1,11 +1,9 @@
 import React from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { withFirebase, firebaseConnect } from 'react-redux-firebase'
+import { firebaseConnect } from 'react-redux-firebase'
 import { connect } from 'react-redux'
 import { compose } from 'redux';
-
-import GroupList from '../components/groups/GroupList';
 
 const styles = EStyleSheet.create({
   container: {

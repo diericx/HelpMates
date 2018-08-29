@@ -4,27 +4,26 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 const styles = EStyleSheet.create({
   container: {
-    marginTop: 5
+    marginTop: 5,
   },
   centered: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   text: {
     fontSize: 18,
     color: '$gray',
     textAlign: 'center',
-    paddingHorizontal: 5
-  }
+    paddingHorizontal: 5,
+  },
 });
 
 /**
  * EmptyList - Rendered when a list is empty.
- * @param {Object} props {text, centered} 
+ * @param {Object} props {text, centered}
  */
-export default EmptyList = function (props) {
-  return (
-  <View style={[styles.container, props.centered ? styles.centered : null]}>
-    <Text style={styles.text}>{props.text}</Text>
+const EmptyList = ({ text, centered }) => (
+  <View style={[styles.container, centered ? styles.centered : null]}>
+    <Text style={styles.text}>{text}</Text>
   </View>
-  )
-}
+);
+export default EmptyList;
