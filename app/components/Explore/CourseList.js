@@ -1,15 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { View, FlatList, ActivityIndicator } from 'react-native';
-import { ListItem, Button } from "react-native-elements";
+import { ListItem, Button } from 'react-native-elements';
 import { firestoreConnect } from 'react-redux-firebase';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import SepperatorView from "../shared/SepperatorView";
+import SepperatorView from '../shared/SepperatorView';
 import ListViewSubtitle from '../shared/ListViewSubtitle';
-
 
 const styles = EStyleSheet.create({
   container: {
@@ -17,7 +15,7 @@ const styles = EStyleSheet.create({
   },
   title: {
     color: '$green',
-    marginLeft: -8
+    marginLeft: -8,
   },
   button: {
     backgroundColor: 'white',
@@ -25,94 +23,83 @@ const styles = EStyleSheet.create({
     borderColor: '$green',
   },
   icon: {
-    color: '$green'
+    color: '$green',
   },
 });
 
-
 @compose(
-  firestoreConnect((props) => {
-    return  [
-      {
-        collection: 'courses',
-        where: ['universityId', '==', props.universityId]
-      }
-    ]
-  }),
-  connect(({ firebase: { auth }, firestore }, props) => ({
+  firestoreConnect(props => [
+    {
+      collection: 'courses',
+      where: ['universityId', '==', props.universityId],
+    },
+  ]),
+  connect(({ firebase: { auth }, firestore }) => ({
     courses: firestore.ordered.courses,
-    auth
+    auth,
   }))
 )
-
 export default class CourseList extends React.Component {
-  static contextTypes = {
-    store: PropTypes.object.isRequired
-  }
-
-  keyExtractor = (item, index) => item.id
+  keyExtractor = item => item.id;
 
   JoinCourse(id) {
-    let { firestore, auth } = this.props;
-    let ref = firestore.collection('courses').doc(id)
+    const { firestore, auth } = this.props;
+    const ref = firestore.collection('courses').doc(id);
     ref.set(
       {
         members: {
-          [auth.uid]: true
-        }
+          [auth.uid]: true,
+        },
       },
-      {merge: true}
-    )
+      { merge: true }
+    );
   }
 
   render() {
-    let { courses, auth } = this.props;
+    const { courses, auth, onPress } = this.props;
 
     if (!courses) {
-      return <ActivityIndicator />
+      return <ActivityIndicator />;
     }
 
-    console.log("Render courses")
-    
     return (
       <View style={styles.container}>
         <FlatList
           keyExtractor={this.keyExtractor}
           data={courses}
-          renderItem={({item, index}) => {
-            let { members } = item;
-            let isUserInCourse = !(members[auth.uid] == null);
-            let headCount = Object.keys(members).length;
+          renderItem={({ item, index }) => {
+            const { members } = item;
+            const isUserInCourse = !(members[auth.uid] == null);
+            const headCount = Object.keys(members).length;
 
             return (
-              <SepperatorView renderBottom={index==courses.length-1}>
+              <SepperatorView renderBottom={index == courses.length - 1}>
                 <ListItem
                   key={item.id}
                   // leftAvatar={{ source: { uri: l.avatar_url } }}
                   title={item.title}
                   subtitle={<ListViewSubtitle subtitle={item.subtitle} userCount={headCount} />}
                   rightTitle={
-                    isUserInCourse ? null :
-                    <Button
-                      title='Unlock'
-                      titleStyle={styles.title}
-                      icon={
-                        {
-                          name: 'lock', 
-                          size: 18, 
-                          iconStyle: styles.icon
-                        }
-                      }
-                      buttonStyle={styles.button}
-                      onPress={() => this.JoinCourse(item.id) }
-                    />
+                    isUserInCourse ? null : (
+                      <Button
+                        title="Unlock"
+                        titleStyle={styles.title}
+                        icon={{
+                          name: 'lock',
+                          size: 18,
+                          iconStyle: styles.icon,
+                        }}
+                        buttonStyle={styles.button}
+                        onPress={() => this.JoinCourse(item.id)}
+                      />
+                    )
                   }
-                  leftIcon={{name: 'book', size: 30, type: 'font-awesome'}}
-                  onPress={isUserInCourse ? () => this.props.onPress(item) : null}
+                  leftIcon={{ name: 'book', size: 30, type: 'font-awesome' }}
+                  onPress={isUserInCourse ? () => onPress(item) : null}
                   chevron={isUserInCourse}
                 />
               </SepperatorView>
-            )
+            );
           }}
         />
       </View>

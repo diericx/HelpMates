@@ -2,27 +2,26 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Button, View } from 'react-native';
-import { firebaseConnect } from 'react-redux-firebase'
-import { UpdateAvatar } from '../../lib/Firestore';
+import { firebaseConnect } from 'react-redux-firebase';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { UpdateAvatar } from '../../lib/Firestore';
 
 import ChooseAvatar from '../../components/shared/ChooseAvatar';
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    paddingTop: 50
-  }
+    backgroundColor: 'white',
+    paddingTop: 50,
+  },
 });
 
 @compose(
-  firebaseConnect,
-  connect( ({ firebase: { profile } }) => ({
+  firebaseConnect(),
+  connect(({ firebase: { profile } }) => ({
     profile,
   }))
 )
-
 class Profile extends React.Component {
   constructor() {
     super();
@@ -31,31 +30,29 @@ class Profile extends React.Component {
     this.onAvatarChosen = this.onAvatarChosen.bind(this);
   }
 
-  signOut() {
-    const { firebase } = this.props;
-
-    firebase.logout();
-    this.props.navigation.navigate('Loading');
-  }
-
   async onAvatarChosen(image) {
-    const { firebase } = this.props
+    const { firebase } = this.props;
     await UpdateAvatar(image.uri, firebase);
   }
 
+  signOut() {
+    const { firebase, navigation } = this.props;
+
+    firebase.logout();
+    navigation.navigate('Loading');
+  }
+
   render() {
-    const { profile: { avatar } } = this.props;
+    const {
+      profile: { avatar },
+    } = this.props;
     const { preview, uri } = avatar;
-    
+
     return (
       <View style={styles.container}>
-        
-        <ChooseAvatar 
-          onComplete={this.onAvatarChosen}
-          {...{preview, uri}} 
-        />
+        <ChooseAvatar onComplete={this.onAvatarChosen} {...{ preview, uri }} />
 
-        <Button title={"Sign Out"} onPress={this.signOut}>
+        <Button title="Sign Out" onPress={this.signOut}>
           Sign Out
         </Button>
       </View>

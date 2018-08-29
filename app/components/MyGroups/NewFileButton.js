@@ -15,33 +15,21 @@ const styles = EStyleSheet.create({
     height: 65,
     borderRadius: 75,
     backgroundColor: '$indigo',
-    
+
     shadowRadius: 5,
-    shadowOffset: {  
-      width: 0,  
-      height: 6,  
+    shadowOffset: {
+      width: 0,
+      height: 0,
     },
     shadowColor: 'black',
-    shadowOpacity: 0.3
-  }
+    shadowOpacity: 0.3,
+  },
 });
 
-class NewFileButton extends React.Component {
-  render() {
-    return (
-      <TouchableOpacity 
-        style={styles.container} 
-        onPress={this.props.onPress}
-        activeOpacity={0.5}
-      >
-        <Icon 
-          name='add' 
-          size={30} 
-          color='white'
-        />
-      </TouchableOpacity>
-    );
-  }
-}
+const NewFileButton = ({ onPress }) => (
+  <TouchableOpacity style={styles.container} onPress={onPress} activeOpacity={0.5}>
+    <Icon name="add" size={30} color="white" />
+  </TouchableOpacity>
+);
 
 export default NewFileButton;
