@@ -11,12 +11,6 @@ const styles = EStyleSheet.create({
 });
 
 class Group extends React.Component {
-  static navigationOptions = (props) => {
-    return {
-      tabBarLabel: 'Chat'
-    }
-  }
-
   render() {
     const groupId = this.props.navigation.getParam("groupId", null);
 

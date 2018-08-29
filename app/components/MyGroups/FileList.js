@@ -74,12 +74,14 @@ export default class FileList extends React.Component {
   keyExtractor = (item, index) => item.id
 
   newFile(title, type) {
-    const { firestore, parentId } = this.props;
+    const { firestore, profile, parentId } = this.props;
     firestore.add('files',
     {
       title,
       type,
-      parentId
+      parentId,
+      createdBy: profile.name,
+      updatedBy: profile.name
     })
     this.setState({
       newFileModalIsVisible: false

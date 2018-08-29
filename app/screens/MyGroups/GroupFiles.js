@@ -32,12 +32,6 @@ const styles = EStyleSheet.create({
 });
 
 class GroupFiles extends React.Component {
-  // static navigationOptions = (props) => {
-  //   return {
-  //     tabBarLabel: 'Files'
-  //   }
-  // }
-
   render() {
 
     const groupId = this.props.navigation.getParam("groupId", null);

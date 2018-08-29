@@ -97,11 +97,15 @@ export const ExploreStack = createStackNavigator({
 const groupTabNavigator = createMaterialTopTabNavigator({
   GroupChat: {
     screen: GroupChatScreen,
-    tabBarLabel: "asdf",
-    
+    navigationOptions: {
+      title: 'Chat'
+    }
   },
   GroupFiles: {
-    screen: GroupFilesScreen
+    screen: GroupFilesScreen,
+    navigationOptions: {
+      title: 'Files'
+    }
   }
 },
 {
