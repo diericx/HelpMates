@@ -58,7 +58,7 @@ export default class ChooseAvatar extends React.Component {
           size={300}
           rounded
           onPress={this._pickImage}
-          preview={preview == null ? null : { uri: preview }}
+          preview={preview == null ? null : preview}
           {...{ uri }}
         />
       </View>
