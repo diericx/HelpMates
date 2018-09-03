@@ -3,7 +3,8 @@ import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import connect from 'react-redux/lib/connect/connect';
-import { isLoaded } from 'react-redux-firebase';
+import { isLoaded, firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 
 const styles = EStyleSheet.create({
   container: {
@@ -28,9 +29,12 @@ const styles = EStyleSheet.create({
   },
 });
 
-@connect(({ firestore }) => ({
-  universities: firestore.ordered.universities,
-}))
+@compose(
+  firestoreConnect(),
+  connect(({ firestore }) => ({
+    universities: firestore.ordered.universities,
+  }))
+)
 export default class UniversityList extends React.Component {
   componentWillMount() {
     const { firestore } = this.props;

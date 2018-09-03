@@ -2,7 +2,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Button, View } from 'react-native';
-import { firebaseConnect } from 'react-redux-firebase';
+import { firebaseConnect, withFirebase } from 'react-redux-firebase';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { UpdateAvatar } from '../../lib/Firestore';
 
@@ -17,7 +17,7 @@ const styles = EStyleSheet.create({
 });
 
 @compose(
-  firebaseConnect(),
+  withFirebase,
   connect(({ firebase: { profile } }) => ({
     profile,
   }))

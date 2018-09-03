@@ -54,13 +54,7 @@ export default class ChooseAvatar extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <CachedAvatar
-          size={300}
-          rounded
-          onPress={this._pickImage}
-          preview={preview == null ? null : preview}
-          {...{ uri }}
-        />
+        <CachedAvatar size={300} rounded onPress={this._pickImage} {...{ uri, preview }} />
       </View>
     );
   }
