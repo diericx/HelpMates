@@ -11,12 +11,14 @@ import {
   ViewPropTypes,
   Platform,
 } from 'react-native';
-
 import { MessageText, MessageImage, Time, utils } from 'react-native-gifted-chat';
+import { Icon } from 'react-native-elements';
+
+import MessageText from './MessageText';
 
 const { isSameUser, isSameDay } = utils;
 
-export default class Bubble extends React.Component {
+export default class SlackBubble extends React.Component {
   constructor(props) {
     super(props);
     this.onLongPress = this.onLongPress.bind(this);
@@ -163,7 +165,7 @@ export default class Bubble extends React.Component {
     );
 
     return (
-      <View style={[styles.container, this.props.containerStyle]}>
+      <View style={[styles.container]}>
         <TouchableOpacity
           onLongPress={this.onLongPress}
           accessibilityTraits="text"
@@ -174,10 +176,17 @@ export default class Bubble extends React.Component {
               {this.renderCustomView()}
               {messageHeader}
               {this.renderMessageImage()}
-              {this.renderMessageText()}
+              {<MessageText {...this.props} />}
             </View>
           </View>
         </TouchableOpacity>
+        <Icon
+          name="heart"
+          type="font-awesome"
+          size={20}
+          containerStyle={styles.heartContainer}
+          iconStyle={styles.heart}
+        />
       </View>
     );
   }
@@ -186,16 +195,19 @@ export default class Bubble extends React.Component {
 // Note: Everything is forced to be "left" positioned with this component.
 // The "right" position is only used in the default Bubble.
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    backgroundColor: 'red',
+  },
   standardFont: {
     fontSize: 15,
   },
   slackMessageText: {
     marginLeft: 0,
     marginRight: 0,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'flex-start',
   },
   wrapper: {
     marginRight: 60,
@@ -239,11 +251,11 @@ const styles = StyleSheet.create({
   },
 });
 
-Bubble.contextTypes = {
+SlackBubble.contextTypes = {
   actionSheet: PropTypes.func,
 };
 
-Bubble.defaultProps = {
+SlackBubble.defaultProps = {
   touchableProps: {},
   onLongPress: null,
   renderMessageImage: null,
@@ -264,7 +276,7 @@ Bubble.defaultProps = {
   containerToPreviousStyle: {},
 };
 
-Bubble.propTypes = {
+SlackBubble.propTypes = {
   touchableProps: PropTypes.object,
   onLongPress: PropTypes.func,
   renderMessageImage: PropTypes.func,

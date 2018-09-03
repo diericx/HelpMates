@@ -7,7 +7,7 @@ import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import emojiUtils from 'emoji-utils';
 
-import SlackMessage from './Chat/SlackMessage';
+import SlackMessage from './SlackMessage';
 
 const styles = EStyleSheet.create({
   container: {

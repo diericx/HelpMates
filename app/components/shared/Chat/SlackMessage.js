@@ -1,13 +1,12 @@
 /* eslint-disable no-underscore-dangle, no-use-before-define */
-
-import PropTypes from 'prop-types';
 import React from 'react';
-import { View, ViewPropTypes, StyleSheet, Text } from 'react-native';
+import { View } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { Day, utils } from 'react-native-gifted-chat';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import CachedAvatar from '../CachedAvatar';
-import Bubble from './SlackBubble';
+import Bubble from './Bubble';
 
 const { isSameUser, isSameDay } = utils;
 const AVATAR_SIZE = 40;
@@ -15,14 +14,26 @@ const AVATAR_SIZE = 40;
 const styles = EStyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    // alignItems: 'flex-end',
     justifyContent: 'flex-start',
     marginLeft: 8,
     marginRight: 0,
   },
   avatar: {
     marginRight: 10,
+    // paddingTop: 5,
   },
+  heartContainer: {
+    paddingRight: 15,
+  },
+  heart: {
+    color: '$red',
+  },
+  // heartIconContainer: {
+  //   height: '100%',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
 });
 
 export default class Message extends React.Component {
@@ -37,10 +48,11 @@ export default class Message extends React.Component {
   }
 
   renderDay() {
-    if (this.props.currentMessage.createdAt) {
+    const { currentMessage, renderDay } = this.props;
+    if (currentMessage.createdAt) {
       const dayProps = this.getInnerComponentProps();
-      if (this.props.renderDay) {
-        return this.props.renderDay(dayProps);
+      if (renderDay) {
+        return renderDay(dayProps);
       }
       return <Day {...dayProps} />;
     }
@@ -60,8 +72,6 @@ export default class Message extends React.Component {
 
     if (isSameUser(currentMessage, previousMessage) && isSameDay(currentMessage, previousMessage)) {
       // Set the invisible avatar height to 0, but keep the width, padding, etc.
-      // console.log('Same user same dat', this.props.currentMessage);
-      // return null;
       return <View style={[{ width: AVATAR_SIZE, height: AVATAR_SIZE }, styles.avatar]} />;
     }
 
@@ -82,7 +92,7 @@ export default class Message extends React.Component {
     return (
       <View>
         {this.renderDay()}
-        <View style={[styles.container, { marginBottom }, this.props.containerStyle]}>
+        <View style={[styles.container, { marginBottom }]}>
           {this.renderAvatar()}
           {this.renderBubble()}
         </View>
@@ -90,28 +100,3 @@ export default class Message extends React.Component {
     );
   }
 }
-
-Message.defaultProps = {
-  renderAvatar: undefined,
-  renderBubble: null,
-  renderDay: null,
-  currentMessage: {},
-  nextMessage: {},
-  previousMessage: {},
-  user: {},
-  containerStyle: {},
-};
-
-Message.propTypes = {
-  renderAvatar: PropTypes.func,
-  renderBubble: PropTypes.func,
-  renderDay: PropTypes.func,
-  currentMessage: PropTypes.object,
-  nextMessage: PropTypes.object,
-  previousMessage: PropTypes.object,
-  user: PropTypes.object,
-  containerStyle: PropTypes.shape({
-    left: ViewPropTypes.style,
-    right: ViewPropTypes.style,
-  }),
-};

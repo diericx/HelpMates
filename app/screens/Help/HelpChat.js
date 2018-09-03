@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import Chat from "../../components/shared/Chat";
+import Chat from '../../components/shared/Chat/Chat';
 
 const styles = EStyleSheet.create({
   container: {
@@ -11,17 +11,12 @@ const styles = EStyleSheet.create({
 });
 
 class Group extends React.Component {
-  static navigationOptions = (props) => {
-    return {
-      tabBarLabel: 'Chat'
-    }
-  }
+  static navigationOptions = () => ({
+    tabBarLabel: 'Chat',
+  });
 
   render() {
-    return (
-      <View style={styles.container}>
-      </View>
-    );
+    return <View style={styles.container} />;
   }
 }
 
