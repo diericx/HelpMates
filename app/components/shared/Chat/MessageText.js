@@ -1,6 +1,8 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MessageText as RNGCMessageText } from 'react-native-gifted-chat';
+import emojiUtils from 'emoji-utils';
 
 const styles = EStyleSheet.create({
   text: {
@@ -15,8 +17,19 @@ export default function MessageText(props) {
     renderMessageText,
   } = props;
 
+  let messageTextStyleAdjustment;
+
+  // Make "pure emoji" messages much bigger than plain text.
+  if (text && emojiUtils.isPureEmojiString(text)) {
+    messageTextStyleAdjustment = {
+      fontSize: 30,
+      // Emoji get clipped if lineHeight isn't increased; make it consistent across platforms.
+      lineHeight: Platform.OS === 'android' ? 34 : 30,
+    };
+  }
+
   if (text) {
-    const { messageTextStyle, ...messageTextProps } = props;
+    const { ...messageTextProps } = props;
     if (renderMessageText) {
       return renderMessageText(messageTextProps);
     }
@@ -24,7 +37,7 @@ export default function MessageText(props) {
       <RNGCMessageText
         {...messageTextProps}
         textStyle={{
-          left: [messageTextStyle, messageTextProps.textStyle, styles.text],
+          left: [messageTextStyleAdjustment, messageTextProps.textStyle, styles.text],
         }}
       />
     );

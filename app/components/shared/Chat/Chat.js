@@ -5,7 +5,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { compose } from 'redux';
 import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
-import emojiUtils from 'emoji-utils';
 
 import SlackMessage from './SlackMessage';
 
@@ -59,30 +58,8 @@ export default class Chat extends React.Component {
   renderMessage = props => {
     // parse data from class props
     const { profile } = this.props;
-    // parse data from function props
-    const {
-      currentMessage: { text: currText },
-    } = props;
 
-    let messageTextStyle;
-
-    // Make "pure emoji" messages much bigger than plain text.
-    if (currText && emojiUtils.isPureEmojiString(currText)) {
-      messageTextStyle = {
-        fontSize: 28,
-        // Emoji get clipped if lineHeight isn't increased; make it consistent across platforms.
-        lineHeight: Platform.OS === 'android' ? 34 : 30,
-      };
-    }
-
-    return (
-      <SlackMessage
-        {...props}
-        {...this.props}
-        profile={profile}
-        messageTextStyle={messageTextStyle}
-      />
-    );
+    return <SlackMessage {...props} {...this.props} profile={profile} />;
   };
 
   render() {
