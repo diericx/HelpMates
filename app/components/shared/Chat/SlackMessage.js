@@ -60,11 +60,12 @@ export default class Message extends React.Component {
   }
 
   renderBubble() {
+    const { profile, groupId, renderBubble } = this.props;
     const bubbleProps = this.getInnerComponentProps();
-    if (this.props.renderBubble) {
-      return this.props.renderBubble(bubbleProps);
+    if (renderBubble) {
+      return renderBubble(bubbleProps);
     }
-    return <Bubble {...bubbleProps} />;
+    return <Bubble {...bubbleProps} profile={profile} groupId={groupId} />;
   }
 
   renderAvatar() {

@@ -14,6 +14,7 @@ import { Icon } from 'react-native-elements';
 
 import Username from './Username';
 import MessageText from './MessageText';
+import LikesHeart from './LikesHeart';
 
 const { isSameUser, isSameDay } = utils;
 
@@ -27,9 +28,6 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  heart: {
-    color: '$red',
-  },
 });
 
 export default class Bubble extends React.Component {
@@ -40,37 +38,33 @@ export default class Bubble extends React.Component {
 
   // Callback for long press on message
   onLongPress() {
-    if (this.props.onLongPress) {
-      this.props.onLongPress(this.context);
-    } else if (this.props.currentMessage.text) {
+    const { onLongPress, currentMessage } = this.props;
+
+    if (onLongPress) {
+      onLongPress(this.context);
+    } else if (currentMessage.text) {
       const options = ['Copy Text', 'Cancel'];
       const cancelButtonIndex = options.length - 1;
       this.context
         .actionSheet()
         .showActionSheetWithOptions({ options, cancelButtonIndex }, buttonIndex => {
           if (buttonIndex === 0) {
-            Clipboard.setString(this.props.currentMessage.text);
+            Clipboard.setString(currentMessage.text);
           }
         });
     }
   }
 
   renderUsername() {
-    const username = this.props.currentMessage.user.name;
+    const { currentMessage, renderUsername, usernameStyle } = this.props;
+    const username = currentMessage.user.name;
     if (username) {
       const { containerStyle, wrapperStyle, ...usernameProps } = this.props;
-      if (this.props.renderUsername) {
-        return this.props.renderUsername(usernameProps);
+      if (renderUsername) {
+        return renderUsername(usernameProps);
       }
       return (
-        <Text
-          style={[
-            styles.standardFont,
-            styles.headerItem,
-            styles.username,
-            this.props.usernameStyle,
-          ]}
-        >
+        <Text style={[styles.standardFont, styles.headerItem, styles.username, usernameStyle]}>
           {username}
         </Text>
       );
@@ -79,12 +73,10 @@ export default class Bubble extends React.Component {
   }
 
   render() {
-    const { currentMessage, previousMessage, touchableProps, wrapperStyle } = this.props;
+    const { currentMessage, previousMessage, touchableProps, wrapperStyle, profile } = this.props;
     const isSameThread =
       isSameUser(currentMessage, previousMessage) && isSameDay(currentMessage, previousMessage);
-
     const messageHeader = isSameThread ? null : <View style={styles.headerView} />;
-
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
@@ -102,15 +94,7 @@ export default class Bubble extends React.Component {
           </TouchableOpacity>
         </View>
 
-        <View>
-          <Icon
-            name="heart"
-            type="font-awesome"
-            size={20}
-            containerStyle={styles.heartContainer}
-            iconStyle={styles.heart}
-          />
-        </View>
+        <LikesHeart profile={profile} {...this.props} />
       </View>
     );
   }

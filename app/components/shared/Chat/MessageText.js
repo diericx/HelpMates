@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { MessageText as RNGCMessageText } from 'react-native-gifted-chat';
 
 const styles = EStyleSheet.create({
-  messageTextStyle: {
+  text: {
     marginLeft: 0,
     paddingLeft: 0,
   },
@@ -24,7 +24,7 @@ export default function MessageText(props) {
       <RNGCMessageText
         {...messageTextProps}
         textStyle={{
-          left: [styles.messageTextStyle, messageTextProps.textStyle],
+          left: [messageTextStyle, messageTextProps.textStyle, styles.text],
         }}
       />
     );

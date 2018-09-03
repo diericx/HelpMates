@@ -35,6 +35,12 @@ const styles = EStyleSheet.create({
   }))
 )
 export default class Chat extends React.Component {
+  constructor() {
+    super();
+    // bind
+    this.renderMessage = this.renderMessage.bind(this);
+  }
+
   sendMessage(message) {
     const { firestore, groupId } = this.props;
     firestore.add(
@@ -43,11 +49,17 @@ export default class Chat extends React.Component {
         doc: groupId,
         subcollections: [{ collection: 'messages' }],
       },
-      message
+      {
+        ...message,
+        likes: {},
+      }
     );
   }
 
   renderMessage = props => {
+    // parse data from class props
+    const { profile } = this.props;
+    // parse data from function props
     const {
       currentMessage: { text: currText },
     } = props;
@@ -63,7 +75,14 @@ export default class Chat extends React.Component {
       };
     }
 
-    return <SlackMessage {...props} messageTextStyle={messageTextStyle} />;
+    return (
+      <SlackMessage
+        {...props}
+        {...this.props}
+        profile={profile}
+        messageTextStyle={messageTextStyle}
+      />
+    );
   };
 
   render() {
