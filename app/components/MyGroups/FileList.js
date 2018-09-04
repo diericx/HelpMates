@@ -1,13 +1,13 @@
 import React from 'react';
 import { compose } from 'redux';
-import { firestoreConnect, isLoaded, isEmpty  } from 'react-redux-firebase';
+import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { View, Text, SectionList, ActivityIndicator } from 'react-native';
-import { ListItem } from "react-native-elements";
+import { ListItem } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import NavigationService from '../../config/navigationService';
-import NewFileModal from "./NewFileModal";
+import NewFileModal from './NewFileModal';
 import NewFileButton from './NewFileButton';
 import SepperatorView from '../shared/SepperatorView';
 import EmptyList from '../shared/EmptyList';
@@ -18,39 +18,35 @@ const styles = EStyleSheet.create({
     justifyContent: 'flex-start',
   },
   headerText: {
-    color: 'gray'
+    color: 'gray',
   },
   header: {
     justifyContent: 'center',
     // backgroundColor: '$lightgray',
     height: 45,
-    paddingLeft: 15
+    paddingLeft: 15,
   },
   subtitle: {
     color: 'gray',
     paddingVertical: 3,
-    fontSize: 12
-  }
+    fontSize: 12,
+  },
 });
 
-// A FileList simply renders all of the files that are currently in the 
+// A FileList simply renders all of the files that are currently in the
 @compose(
-  firestoreConnect((props) => {
-    return ([
-      {
-        collection: 'files',
-        where: ['parentId', '==', props.parentId],
-        orderBy: ['title'],
-        storeAs: `files-${props.parentId}`,
-      }
-    ])
-  }),
-  connect(({ firebase: { profile }, firestore }, props) => {
-    return ({
-      files: firestore.data[`files-${props.parentId}`],
-      profile: profile
-    })
-  })
+  firestoreConnect(props => [
+    {
+      collection: 'files',
+      where: ['parentId', '==', props.parentId],
+      orderBy: ['title'],
+      storeAs: `files-${props.parentId}`,
+    },
+  ]),
+  connect(({ firebase: { profile }, firestore }, props) => ({
+    files: firestore.data[`files-${props.parentId}`],
+    profile,
+  }))
 )
 export default class FileList extends React.Component {
   constructor() {
@@ -60,57 +56,56 @@ export default class FileList extends React.Component {
   }
 
   state = {
-    newFileModalIsVisible: false
-  }
+    newFileModalIsVisible: false,
+  };
 
-  onPress = (file) => {
+  onPress = file => {
     NavigationService.push('File', {
       title: file.title,
       fileId: file.id,
-      fileType: file.type
-    })
-  }
+      fileType: file.type,
+    });
+  };
 
-  keyExtractor = (item, index) => item.id
+  keyExtractor = (item, index) => item.id;
 
   newFile(title, type) {
     const { firestore, profile, parentId } = this.props;
-    firestore.add('files',
-    {
+    firestore.add('files', {
       title,
       type,
       parentId,
       createdBy: profile.name,
-      updatedBy: profile.name
-    })
+      updatedBy: profile.name,
+    });
     this.setState({
-      newFileModalIsVisible: false
-    })
+      newFileModalIsVisible: false,
+    });
   }
 
   render() {
-    let { files } = this.props;
+    const { files } = this.props;
 
     if (!isLoaded(files)) {
       return <ActivityIndicator />;
     }
 
     if (isEmpty(files)) {
-      return <EmptyList centered text={'No files'}/>;
+      return <EmptyList centered text="No files" />;
     }
 
     // Format the files
-    formattedFiles = Object.keys(files).map((key) => {
-      let file = files[key];
+    formattedFiles = Object.keys(files).map(key => {
+      const file = files[key];
       return {
         id: key,
-        ...file
-      }
-    })
+        ...file,
+      };
+    });
 
     // Split files => Folders | OtherFiles
-    let folders = []
-    let otherFiles = []
+    const folders = [];
+    const otherFiles = [];
     formattedFiles.forEach(file => {
       if (file.type === 'folder') {
         folders.push(file);
@@ -125,54 +120,58 @@ export default class FileList extends React.Component {
         <SectionList
           keyExtractor={this.keyExtractor}
           stickySectionHeadersEnabled={false}
-          sections={[
-            {title: 'Folders', data: folders},
-            {title: 'Files', data: otherFiles},
-          ]}
-          renderSectionHeader={({section: {title, data}}) => data.length == 0 ? null : (
-            <View style={styles.header}>
-              <Text style={styles.headerText}>{title}</Text>
-            </View>
-          )}
-          renderItem={({item, index}) => {
-            var leftIcon = { name: 'file-text', type: 'feather', size: 30, color: '#3f3f3f' };
+          sections={[{ title: 'Folders', data: folders }, { title: 'Files', data: otherFiles }]}
+          renderSectionHeader={({ section: { title, data } }) =>
+            data.length == 0 ? null : (
+              <View style={styles.header}>
+                <Text style={styles.headerText}>{title}</Text>
+              </View>
+            )
+          }
+          renderItem={({ item, index }) => {
+            const leftIcon = { name: 'file-text', type: 'feather', size: 30, color: '#3f3f3f' };
             if (item.type == 'document') {
-              leftIcon.type = 'material-community'
+              leftIcon.type = 'material-community';
               leftIcon.name = 'file-document';
-              leftIcon.color = '#17c0eb'
+              leftIcon.color = '#17c0eb';
             } else if (item.type == 'folder') {
               leftIcon.name = 'folder';
-              leftIcon.type = 'material-community'
-              leftIcon.color = 'gray'
+              leftIcon.type = 'material-community';
+              leftIcon.color = 'gray';
             }
             return (
-              <SepperatorView renderTop={false} renderBottom={true}>
+              <SepperatorView renderTop={false} renderBottom>
                 <ListItem
                   key={item.id}
                   title={item.title}
                   subtitle={item.updatedBy == null ? null : `Last updated by ${item.updatedBy}`}
                   subtitleStyle={styles.subtitle}
-                  containerStyle={[styles.itemBottomBorder, index == 0 ? styles.itemTopBorder : null]}
+                  containerStyle={[
+                    styles.itemBottomBorder,
+                    index == 0 ? styles.itemTopBorder : null,
+                  ]}
                   onPress={() => this.onPress(item)}
                   leftIcon={leftIcon}
                   chevron
                 />
               </SepperatorView>
-            )
+            );
           }}
         />
 
-        <NewFileButton onPress={() => {
-          this.setState({
-            newFileModalIsVisible: true
-          })
-        }} />
-        <NewFileModal 
+        <NewFileButton
+          onPress={() => {
+            this.setState({
+              newFileModalIsVisible: true,
+            });
+          }}
+        />
+        <NewFileModal
           isVisible={this.state.newFileModalIsVisible}
           dismissModal={() => {
             this.setState({
-              newFileModalIsVisible: false
-            })
+              newFileModalIsVisible: false,
+            });
           }}
           onCreate={this.newFile}
         />

@@ -34,6 +34,7 @@ import HelpChatScreen from '../screens/Help/HelpChat';
 
 // Shared
 import ProfileScreen from '../screens/shared/Profile';
+import NavBarAvatar from '../components/shared/NavBarAvater';
 
 const styles = EStyleSheet.create({
   exploreNavBar: {
@@ -83,27 +84,7 @@ export const ExploreStack = createStackNavigator(
         height: 70,
         borderBottomWidth: 0,
       },
-      headerRight: (
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginLeft: 0,
-            backgroundColor: 'white',
-            width: 50,
-            height: 50,
-            marginRight: 10,
-          }}
-        >
-          <Avatar
-            size={50}
-            rounded
-            source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg' }}
-            onPress={() => console.log('Works!')}
-            activeOpacity={0.7}
-          />
-        </View>
-      ),
+      headerRight: <NavBarAvatar />,
     },
   }
 );
@@ -171,27 +152,7 @@ export const MyGroupsStack = createStackNavigator(
         borderBottomWidth: 0,
         backgroundColor: 'white',
       },
-      headerRight: (
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginLeft: 0,
-            backgroundColor: 'white',
-            width: 50,
-            height: 50,
-            marginRight: 10,
-          }}
-        >
-          <Avatar
-            size={50}
-            rounded
-            source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg' }}
-            onPress={() => navigation.navigate('ProfileModal')}
-            activeOpacity={0.7}
-          />
-        </View>
-      ),
+      headerRight: <NavBarAvatar />,
     }),
   }
 );
