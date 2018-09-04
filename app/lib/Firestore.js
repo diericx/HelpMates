@@ -1,4 +1,5 @@
 import { ImageManipulator } from 'expo';
+import { validate } from './Utils';
 
 const AVATARS_STORAGE_PATH = 'uploads/avatars';
 const AVATARS_META_DATABASE_PATH = 'avatarsMeta';
@@ -6,6 +7,7 @@ const AVATARS_META_DATABASE_PATH = 'avatarsMeta';
 // Uploads an image to Firebase Storage and then updates the user's profile with the new image
 //   as their avatar.
 export async function UpdateAvatar(imageUri, firebase) {
+  validate('Firebase.UpdateAvatar missing parameter/s', imageUri, firebase);
   const fileName = firebase.auth().currentUser.uid;
 
   // Create the preview and get the uri for that

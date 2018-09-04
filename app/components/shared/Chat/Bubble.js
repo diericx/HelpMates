@@ -8,6 +8,7 @@ import {
   ViewPropTypes,
   Platform,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MessageImage, Time, utils } from 'react-native-gifted-chat';
 import { Icon } from 'react-native-elements';
@@ -43,13 +44,17 @@ export default class Bubble extends React.Component {
     if (onLongPress) {
       onLongPress(this.context);
     } else if (currentMessage.text) {
-      const options = ['Copy Text', 'Cancel'];
+      const options = ['Copy Text', 'Report Message', 'Cancel'];
       const cancelButtonIndex = options.length - 1;
       this.context
         .actionSheet()
         .showActionSheetWithOptions({ options, cancelButtonIndex }, buttonIndex => {
           if (buttonIndex === 0) {
+            // Copy Text
             Clipboard.setString(currentMessage.text);
+          } else if (buttonIndex === 1) {
+            // Report
+            console.log('TODO - implement report feature');
           }
         });
     }
@@ -99,3 +104,7 @@ export default class Bubble extends React.Component {
     );
   }
 }
+
+Bubble.contextTypes = {
+  actionSheet: PropTypes.func,
+};
