@@ -2,28 +2,27 @@ import React, { Component } from 'react';
 import { Text, View, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { firebaseConnect } from 'react-redux-firebase';
-import { UpdateAvatar } from '../../lib/Firestore';
+import { firebaseConnect, withFirebase } from 'react-redux-firebase';
 import PropTypes from 'prop-types';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { UpdateAvatar } from '../../lib/Firestore';
 
-import ChooseAvatar from "../../components/shared/ChooseAvatar";
-import OutlinedInput from "../../components/Auth/OutlinedInput";
-import FlatButton from "../../components/shared/FlatButton";
-
+import ChooseAvatar from '../../components/shared/ChooseAvatar';
+import OutlinedInput from '../../components/Auth/OutlinedInput';
+import FlatButton from '../../components/shared/FlatButton';
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "$turquoise",
+    backgroundColor: '$turquoise',
   },
   buttons: {
     flexDirection: 'row',
   },
   errorText: {
-    color: "red",
+    color: 'red',
     fontSize: 14,
   },
   header: {
@@ -34,25 +33,18 @@ const styles = EStyleSheet.create({
     fontSize: 30,
     fontWeight: '600',
     fontStyle: 'italic',
-    color: 'white'
+    color: 'white',
   },
 });
 
-// Component Enhancer that adds props.firebase and creates a listener for
-// files them passes them into props.uploadedFiles
-const enhance = compose(
-  firebaseConnect(),
-  connect( ({ firebase: { auth, profile }, firestore }) => ({
+@compose(
+  withFirebase,
+  connect(({ firebase: { auth, profile } }) => ({
     profile,
     auth,
   }))
 )
-
 class SignUp extends Component {
-  static contextTypes = {
-    store: PropTypes.object.isRequired
-  }
-  
   constructor(props) {
     super(props);
 
@@ -78,13 +70,13 @@ class SignUp extends Component {
     this.mounted = false;
   }
 
-  handleError = (error) => {
+  handleError = error => {
     if (this.mounted) {
       this.setState({ error });
     }
-  }
+  };
 
-  validInput = (overrideConfirm) => {
+  validInput = overrideConfirm => {
     const { email, password, uri } = this.state;
     let valid = true;
 
@@ -103,7 +95,7 @@ class SignUp extends Component {
     }
 
     return valid;
-  }
+  };
 
   handleCreateAccount = async () => {
     const { firebase, navigation } = this.props;
@@ -112,106 +104,113 @@ class SignUp extends Component {
 
     // Disable the sign up button until we know they should try again
     this.setState({
-      signUpBtnEnabled: false
-    })
+      signUpBtnEnabled: false,
+    });
 
     if (this.validInput()) {
-
       // Create the new user
       try {
         // Send request to firebase
-        await firebase.createUser({email, password}, {
-          activeUniversityId: university.id,
-          name
-        });
+        await firebase.createUser(
+          { email, password },
+          {
+            activeUniversityId: university.id,
+            name,
+          }
+        );
       } catch (e) {
         this.setState({
           error: 'We encountered an error creating your account.',
-          signUpBtnEnabled: true
-        })
+          signUpBtnEnabled: true,
+        });
+        console.log(e);
       }
 
       // ASYNC Upload the user's avatar after they sign in
       UpdateAvatar(uri, firebase);
 
-      // ASYNC Send email 
-      firebase.auth().currentUser.sendEmailVerification()
+      // ASYNC Send email
+      firebase.auth().currentUser.sendEmailVerification();
 
       // Go to app screen
       this.props.navigation.navigate('WaitingForEmail');
     }
-  }
+  };
 
   render() {
     const { signUpBtnEnabled } = this.state;
 
     return (
-      
-        <KeyboardAvoidingView style={{flex: 1}} contentContainerStyle={{flex: 1}} behavior="position">
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ flex: 1 }}
+        behavior="position"
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={styles.container}>
             <View style={styles.header}>
               <Text style={styles.headerText}>Create an Account</Text>
               <Text style={styles.errorText}>{this.state.error}</Text>
             </View>
 
-            <ChooseAvatar 
-              uri={this.state.uri}
-              onComplete={(result) => this.setState({uri: result.uri})} 
-            />
-
-            <OutlinedInput 
-              placeholder="Full Name" 
-              iconName="user-o" 
-              keyboardType="default"  
-              onChangeText={text => {
-                this.setState({
-                  name: text
-                })
+            <ChooseAvatar
+              uri={this.state.uri ? this.state.uri : null}
+              onComplete={result => {
+                console.log('image grab result: ', result);
+                this.setState({ uri: result.uri });
               }}
             />
 
-            <OutlinedInput 
-              placeholder="School Email" 
-              iconName="envelope-o" 
-              keyboardType="email-address"  
+            <OutlinedInput
+              placeholder="Full Name"
+              iconName="user-o"
+              keyboardType="default"
               onChangeText={text => {
                 this.setState({
-                  email: text
-                })
+                  name: text,
+                });
               }}
             />
 
-            <OutlinedInput 
-              placeholder="Password" 
-              iconName="lock" 
-              keyboardType="email-address"  
+            <OutlinedInput
+              placeholder="School Email"
+              iconName="envelope-o"
+              keyboardType="email-address"
+              onChangeText={text => {
+                this.setState({
+                  email: text,
+                });
+              }}
+            />
+
+            <OutlinedInput
+              placeholder="Password"
+              iconName="lock"
+              keyboardType="email-address"
               autoCorrect={false}
-              secureTextEntry={true}
+              secureTextEntry
               onChangeText={text => {
                 this.setState({
-                  password: text
-                })
+                  password: text,
+                });
               }}
             />
 
-            <FlatButton 
-              title="Sign Up" 
+            <FlatButton
+              title="Sign Up"
               onPress={this.handleCreateAccount}
               style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.6)',
                 width: '100%',
-                height: 45 
+                height: 45,
               }}
               enabled={signUpBtnEnabled}
             />
-
           </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     );
   }
 }
 
-export default enhance(SignUp);
+export default SignUp;

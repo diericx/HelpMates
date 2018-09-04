@@ -7,7 +7,7 @@ import GroupList from '../../components/MyGroups/GroupList';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-  }
+  },
 });
 
 class MyGroupsList extends React.Component {
@@ -15,17 +15,17 @@ class MyGroupsList extends React.Component {
     title: 'My Groups',
   };
 
-  onPress = (group) => {
+  onPress = group => {
     this.props.navigation.navigate('Group', {
       groupId: group.id,
-      title: group.title
-    })
-  }
+      title: group.title,
+    });
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <GroupList onPress={this.onPress}/>
+        <GroupList onPress={this.onPress} />
       </View>
     );
   }

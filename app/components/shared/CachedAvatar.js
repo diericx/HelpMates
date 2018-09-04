@@ -15,20 +15,20 @@ const styles = EStyleSheet.create({
 });
 
 const CachedAvatar = props => {
-  const { uri, size, preview, rounded, onPress } = props;
+  const { containerStyle, uri, size, preview, rounded, onPress } = props;
 
   // Create style objects for options specified in props (eg. rounded or size)
   const sizeStyle = { width: size == null ? 100 : size, height: size == null ? 100 : size };
   const roundedStyle = rounded ? { borderRadius: size / 2 } : null;
 
   return (
-    <TouchableOpacity style={roundedStyle} onPress={onPress}>
+    <TouchableOpacity style={[roundedStyle, containerStyle]} onPress={onPress}>
       {uri == null ? (
         <View style={[roundedStyle, sizeStyle, styles.iconCircle]}>
           <Icon type="font-awesome" name="image" size={150} color="white" />
         </View>
       ) : (
-        <Image style={[roundedStyle, sizeStyle]} {...{ preview, uri }} />
+        <Image style={[roundedStyle, sizeStyle]} {...{ preview: { uri: preview }, uri }} />
       )}
     </TouchableOpacity>
   );

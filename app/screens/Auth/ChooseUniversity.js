@@ -7,24 +7,27 @@ import UniversityList from '../../components/Auth/UniversityList';
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "$turquoise",
+    backgroundColor: '$turquoise',
   },
   headerTextStyle: {
-    color: 'white'
-  }
+    color: 'white',
+  },
 });
 
-const ChooseUniversity = (props) => {
-
-  onPress = (university) => {
+const ChooseUniversity = props => {
+  const onPress = university => {
     props.navigation.navigate('SignUp', {
-      university: university,
-    })
-  }
+      university,
+    });
+  };
 
   return (
     <View style={styles.container}>
-      <UniversityList onPress={this.onPress} scrollEnabled={false} headerTextStyle={styles.headerTextStyle} />
+      <UniversityList
+        onPress={onPress}
+        scrollEnabled={false}
+        headerTextStyle={styles.headerTextStyle}
+      />
     </View>
   );
 };

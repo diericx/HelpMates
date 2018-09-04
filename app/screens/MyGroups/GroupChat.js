@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import Chat from "../../components/shared/Chat";
+import Chat from '../../components/shared/Chat/Chat';
 
 const styles = EStyleSheet.create({
   container: {
@@ -12,11 +12,11 @@ const styles = EStyleSheet.create({
 
 class Group extends React.Component {
   render() {
-    const groupId = this.props.navigation.getParam("groupId", null);
+    const groupId = this.props.navigation.getParam('groupId', null);
 
     return (
       <View style={styles.container}>
-          <Chat groupId={groupId}> Here's your group1 </Chat>
+        <Chat groupId={groupId}> Here's your group1 </Chat>
       </View>
     );
   }

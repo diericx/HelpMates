@@ -1,15 +1,18 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Platform } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { compose } from 'redux';
-import { firestoreConnect } from 'react-redux-firebase';
+import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
+
+import SlackMessage from './SlackMessage';
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
     height: '100%',
+    // backgroundColor: '$lightgray',
   },
 });
 
@@ -31,6 +34,12 @@ const styles = EStyleSheet.create({
   }))
 )
 export default class Chat extends React.Component {
+  constructor() {
+    super();
+    // bind
+    this.renderMessage = this.renderMessage.bind(this);
+  }
+
   sendMessage(message) {
     const { firestore, groupId } = this.props;
     firestore.add(
@@ -39,38 +48,52 @@ export default class Chat extends React.Component {
         doc: groupId,
         subcollections: [{ collection: 'messages' }],
       },
-      message
+      {
+        ...message,
+        likes: {},
+      }
     );
   }
 
+  renderMessage = props => {
+    // parse data from class props
+    const { profile } = this.props;
+
+    return <SlackMessage {...props} {...this.props} profile={profile} />;
+  };
+
   render() {
     const { group, messages, auth, profile } = this.props;
+    let formattedMessages = null;
 
-    if (!group || !messages) {
+    if (!isLoaded(group) || !isLoaded(messages)) {
       return <ActivityIndicator />;
     }
 
-    // Format the messages from an object to an array and also handle some
-    //  object inequalities.
-    const formattedMessages = Object.keys(messages).map(key => {
-      const message = messages[key];
-      // If createdAt was sent from Firestore, it is a Timestamp object
-      //  so we need to convert it to a js date.
-      if (message.createdAt && message.createdAt.toDate) {
-        message.createdAt = message.createdAt.toDate();
-      }
-      return {
-        _id: key,
-        ...message,
-      };
-    });
+    if (!isEmpty(messages)) {
+      // Format the messages from an object to an array and also handle some
+      //  object inequalities.
+      formattedMessages = Object.keys(messages).map(key => {
+        const message = messages[key];
+        // If createdAt was sent from Firestore, it is a Timestamp object
+        //  so we need to convert it to a js date.
+        if (message.createdAt && message.createdAt.toDate) {
+          message.createdAt = message.createdAt.toDate();
+        }
+        return {
+          _id: key,
+          ...message,
+        };
+      });
+    }
 
     return (
       <View style={styles.container}>
         <GiftedChat
           bottomOffset={45}
           renderLoading={() => <ActivityIndicator />}
-          messages={formattedMessages.reverse()}
+          messages={formattedMessages == null ? messages : formattedMessages.reverse()}
+          renderMessage={this.renderMessage}
           onSend={messagesToSend => {
             const message = messagesToSend[0];
             delete message._id;
@@ -79,6 +102,7 @@ export default class Chat extends React.Component {
           user={{
             _id: auth.uid,
             name: profile.name,
+            avatar: profile.avatar,
           }}
         />
       </View>
