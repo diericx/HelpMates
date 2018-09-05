@@ -83,26 +83,16 @@ export default class FileList extends React.Component {
     });
   }
 
-  render() {
+  // Takes in files from props and formats them to be displayed correctly
+  formatAndSortFiles() {
     const { files } = this.props;
-
-    if (!isLoaded(files)) {
-      return <ActivityIndicator />;
-    }
-
-    if (isEmpty(files)) {
-      return <EmptyList centered text="No files" />;
-    }
-
-    // Format the files
-    formattedFiles = Object.keys(files).map(key => {
+    const formattedFiles = Object.keys(files).map(key => {
       const file = files[key];
       return {
         id: key,
         ...file,
       };
     });
-
     // Split files => Folders | OtherFiles
     const folders = [];
     const otherFiles = [];
@@ -113,51 +103,69 @@ export default class FileList extends React.Component {
         otherFiles.push(file);
       }
     });
+    // Return the sorted sections
+    return { folders, otherFiles };
+  }
+
+  // Helper function that renders the list (because it's so long and we need
+  //  logic in render)
+  renderList() {
+    const { folders, otherFiles } = this.formatAndSortFiles();
+    return (
+      <SectionList
+        keyExtractor={this.keyExtractor}
+        stickySectionHeadersEnabled={false}
+        sections={[{ title: 'Folders', data: folders }, { title: 'Files', data: otherFiles }]}
+        renderSectionHeader={({ section: { title, data } }) =>
+          data.length == 0 ? null : (
+            <View style={styles.header}>
+              <Text style={styles.headerText}>{title}</Text>
+            </View>
+          )
+        }
+        renderItem={({ item, index }) => {
+          const leftIcon = { name: 'file-text', type: 'feather', size: 30, color: '#3f3f3f' };
+          if (item.type == 'document') {
+            leftIcon.type = 'material-community';
+            leftIcon.name = 'file-document';
+            leftIcon.color = '#17c0eb';
+          } else if (item.type == 'folder') {
+            leftIcon.name = 'folder';
+            leftIcon.type = 'material-community';
+            leftIcon.color = 'gray';
+          }
+          return (
+            <SepperatorView renderTop={false} renderBottom>
+              <ListItem
+                key={item.id}
+                title={item.title}
+                subtitle={item.updatedBy == null ? null : `Last updated by ${item.updatedBy}`}
+                subtitleStyle={styles.subtitle}
+                containerStyle={[styles.itemBottomBorder, index == 0 ? styles.itemTopBorder : null]}
+                onPress={() => this.onPress(item)}
+                leftIcon={leftIcon}
+                chevron
+              />
+            </SepperatorView>
+          );
+        }}
+      />
+    );
+  }
+
+  render() {
+    const { files } = this.props;
+    const { newFileModalIsVisible } = this.state;
+
+    if (!isLoaded(files)) {
+      return <ActivityIndicator />;
+    }
 
     // Render
     return (
       <View style={styles.container}>
-        <SectionList
-          keyExtractor={this.keyExtractor}
-          stickySectionHeadersEnabled={false}
-          sections={[{ title: 'Folders', data: folders }, { title: 'Files', data: otherFiles }]}
-          renderSectionHeader={({ section: { title, data } }) =>
-            data.length == 0 ? null : (
-              <View style={styles.header}>
-                <Text style={styles.headerText}>{title}</Text>
-              </View>
-            )
-          }
-          renderItem={({ item, index }) => {
-            const leftIcon = { name: 'file-text', type: 'feather', size: 30, color: '#3f3f3f' };
-            if (item.type == 'document') {
-              leftIcon.type = 'material-community';
-              leftIcon.name = 'file-document';
-              leftIcon.color = '#17c0eb';
-            } else if (item.type == 'folder') {
-              leftIcon.name = 'folder';
-              leftIcon.type = 'material-community';
-              leftIcon.color = 'gray';
-            }
-            return (
-              <SepperatorView renderTop={false} renderBottom>
-                <ListItem
-                  key={item.id}
-                  title={item.title}
-                  subtitle={item.updatedBy == null ? null : `Last updated by ${item.updatedBy}`}
-                  subtitleStyle={styles.subtitle}
-                  containerStyle={[
-                    styles.itemBottomBorder,
-                    index == 0 ? styles.itemTopBorder : null,
-                  ]}
-                  onPress={() => this.onPress(item)}
-                  leftIcon={leftIcon}
-                  chevron
-                />
-              </SepperatorView>
-            );
-          }}
-        />
+        {// Only render the list if there are files here
+        isEmpty(files) ? <EmptyList centered text="No files" /> : this.renderList()}
 
         <NewFileButton
           onPress={() => {
@@ -167,7 +175,7 @@ export default class FileList extends React.Component {
           }}
         />
         <NewFileModal
-          isVisible={this.state.newFileModalIsVisible}
+          isVisible={newFileModalIsVisible}
           dismissModal={() => {
             this.setState({
               newFileModalIsVisible: false,

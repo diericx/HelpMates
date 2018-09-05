@@ -23,18 +23,17 @@ const styles = EStyleSheet.create({
   },
   selectedButtonStyle: {
     backgroundColor: 'white',
-    borderColor: 'red'
+    borderColor: 'red',
   },
   selectedText: {
     color: '#4f4f4f',
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 });
 
 class GroupFiles extends React.Component {
   render() {
-
-    const groupId = this.props.navigation.getParam("groupId", null);
+    const groupId = this.props.navigation.getParam('groupId', null);
 
     return (
       <View style={styles.container}>
