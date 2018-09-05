@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, ActivityIndicator, Platform } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
+import PropTypes from 'prop-types';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { compose } from 'redux';
-import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 
 import SlackMessage from './SlackMessage';
@@ -16,43 +16,15 @@ const styles = EStyleSheet.create({
   },
 });
 
-@compose(
-  firestoreConnect(({ groupId }) => [
-    {
-      collection: 'groups',
-      doc: groupId,
-      orderBy: ['createdAt'],
-      subcollections: [{ collection: 'messages' }],
-      storeAs: `messages-${groupId}`,
-    },
-  ]),
-  connect(({ firestore: { data }, firebase }, { groupId }) => ({
-    group: data.groups[groupId],
-    messages: data[`messages-${groupId}`],
-    auth: firebase.auth,
-    profile: firebase.profile,
-  }))
-)
-export default class Chat extends React.Component {
+@connect(({ firebase }) => ({
+  auth: firebase.auth,
+  profile: firebase.profile,
+}))
+class Chat extends React.Component {
   constructor() {
     super();
     // bind
     this.renderMessage = this.renderMessage.bind(this);
-  }
-
-  sendMessage(message) {
-    const { firestore, groupId } = this.props;
-    firestore.add(
-      {
-        collection: 'groups',
-        doc: groupId,
-        subcollections: [{ collection: 'messages' }],
-      },
-      {
-        ...message,
-        likes: {},
-      }
-    );
   }
 
   renderMessage = props => {
@@ -63,10 +35,10 @@ export default class Chat extends React.Component {
   };
 
   render() {
-    const { group, messages, auth, profile } = this.props;
+    const { messages, auth, profile } = this.props;
     let formattedMessages = null;
 
-    if (!isLoaded(group) || !isLoaded(messages)) {
+    if (!isLoaded(messages)) {
       return <ActivityIndicator />;
     }
 
@@ -109,3 +81,15 @@ export default class Chat extends React.Component {
     );
   }
 }
+
+Chat.propTypes = {
+  messages: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  sendMessage: PropTypes.func,
+};
+
+Chat.defaultProps = {
+  messages: null,
+  sendMessage: () => console.error('Chat.sendMessage() is null and was never passed in as a prop'),
+};
+
+export default Chat;
