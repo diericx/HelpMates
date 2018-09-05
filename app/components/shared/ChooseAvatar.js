@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ImagePicker, Permissions } from 'expo';
 import { View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -15,7 +16,11 @@ const styles = EStyleSheet.create({
   },
 });
 
-export default class ChooseAvatar extends React.Component {
+/**
+ * A component that will display a given avatar, but also give the user an option
+ * to replace the avatar by tapping on it.
+ */
+class ChooseAvatar extends React.Component {
   state = {
     hasCameraPermission: null,
   };
@@ -59,3 +64,17 @@ export default class ChooseAvatar extends React.Component {
     );
   }
 }
+
+ChooseAvatar.propTypes = {
+  uri: PropTypes.string.isRequired,
+
+  onComplete: PropTypes.func,
+  preview: PropTypes.string,
+};
+
+ChooseAvatar.defaultProps = {
+  onComplete: null,
+  preview: null,
+};
+
+export default ChooseAvatar;

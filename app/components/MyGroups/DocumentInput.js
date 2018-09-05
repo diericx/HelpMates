@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, TextInput } from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -29,22 +30,19 @@ const styles = EStyleSheet.create({
   },
 });
 
+/**
+ * The text input for a document. Simply takes in a document and then renders all
+ * inputs necessary for that doc.
+ */
 const DocumentInput = ({ document, onChangeBody }) => {
   if (!document) {
     return null;
   }
 
   const { body, updatedBy } = document;
-  // render
+
   return (
     <View style={styles.container}>
-      {/* <TextInput 
-        style={styles.title}
-        onChangeText={onChangeTitle} 
-        placeholder={"Title"}
-        value={title}
-      /> */}
-
       <TextInput
         style={styles.body}
         multiline
@@ -55,6 +53,15 @@ const DocumentInput = ({ document, onChangeBody }) => {
       <Text style={styles.messageText}>Last edited by {updatedBy}</Text>
     </View>
   );
+};
+
+DocumentInput.propTypes = {
+  document: PropTypes.object.isRequired,
+  onChangeBody: PropTypes.func,
+};
+
+DocumentInput.defaultProps = {
+  onChangeBody: null,
 };
 
 export default DocumentInput;

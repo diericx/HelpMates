@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Image } from 'react-native-expo-image-cache';
@@ -33,4 +34,20 @@ const CachedAvatar = props => {
     </TouchableOpacity>
   );
 };
+
+CachedAvatar.propTypes = {
+  uri: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired,
+
+  preview: PropTypes.string,
+  rounded: PropTypes.bool,
+  onPress: PropTypes.func,
+};
+
+CachedAvatar.defaultProps = {
+  preview: null,
+  rounded: false,
+  onPress: null,
+};
+
 export default CachedAvatar;

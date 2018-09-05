@@ -5,6 +5,10 @@ import { isLoaded } from 'react-redux-firebase';
 import CachedAvatar from './CachedAvatar';
 import NavigationService from '../../config/navigationService';
 
+/**
+ * Used for the top right of the NavBar. A Component that displays a small avatar icon and opens the Profile modal
+ * when tapped.
+ */
 @connect(({ firebase: { profile } }) => ({
   profile,
 }))

@@ -18,12 +18,13 @@ const styles = EStyleSheet.create({
 });
 
 /**
- * EmptyList - Rendered when a list is empty.
- * @param {Object} props {text, centered}
+ * A view that's rendered when a list is empty. Displays text first, then any
+ * children that are passed in.
  */
-const EmptyList = ({ text, centered }) => (
+const EmptyList = ({ text, centered, children }) => (
   <View style={[styles.container, centered ? styles.centered : null]}>
     <Text style={styles.text}>{text}</Text>
+    {children}
   </View>
 );
 export default EmptyList;
