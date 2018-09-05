@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
+import { ChatEngine } from '../../../lib/PubNub';
 
 import SlackMessage from './SlackMessage';
 
@@ -16,15 +17,58 @@ const styles = EStyleSheet.create({
   },
 });
 
-@connect(({ firebase }) => ({
+@connect(({ firebase, testObject }) => ({
   auth: firebase.auth,
   profile: firebase.profile,
+  testObject,
 }))
 class Chat extends React.Component {
+  state = {
+    chat: null,
+  };
+
   constructor() {
     super();
     // bind
     this.renderMessage = this.renderMessage.bind(this);
+  }
+
+  componentDidMount() {
+    const { profile, auth } = this.props;
+    if (profile == null || auth == null) {
+      console.error('Couldnt initialize chat because profile or auth is null!');
+    }
+
+    ChatEngine.connect(
+      auth.uid,
+      profile
+    );
+
+    ChatEngine.on('$.ready', data => {
+      const me = data.me;
+      const chat = new ChatEngine.Chat('MyChat');
+
+      this.setState({ chat, me });
+    });
+
+    // ChatEngine.on('$.ready', data => {
+    //   // // store my user as me
+    //   // const { me } = data;
+    //   // create a new ChatEngine chat room
+    //   const myChat = new ChatEngine.Chat('demo-room');
+    //   // connect to the chat room
+    //   myChat.on('$.connected', () => {
+    //     console.log('The chat is connected!');
+    //     // when we receive messages in this chat, render them
+    //     myChat.on('message', message => {
+    //       console.log('Incoming Message: ', message);
+    //     });
+    //     // // send a message to everyone in the chat room
+    //     // myChat.emit('message', {
+    //     //   text: 'Hi Everyone!',
+    //     // });
+    //   });
+    // });
   }
 
   renderMessage = props => {
@@ -36,6 +80,7 @@ class Chat extends React.Component {
 
   render() {
     const { messages, auth, profile } = this.props;
+    console.log(this.state.chat);
     let formattedMessages = null;
 
     if (!isLoaded(messages)) {
