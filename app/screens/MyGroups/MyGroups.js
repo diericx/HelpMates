@@ -23,13 +23,14 @@ const styles = EStyleSheet.create({
   firestoreConnect(({ auth }) => [
     {
       collection: 'groups',
-      where: [`members.${[auth.uid]}`, '==', true],
+      where: [`members.${auth.uid}`, '==', true],
+      storeAs: 'myGroups',
     },
   ]),
   // Finally, setup final props
   connect(({ firestore }, { auth }) => ({
     courses: firestore.courses,
-    groups: firestore.ordered.groups,
+    groups: firestore.ordered.myGroups,
     auth,
   }))
 )

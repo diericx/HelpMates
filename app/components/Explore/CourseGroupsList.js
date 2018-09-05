@@ -52,7 +52,7 @@ class CourseGroupsList extends React.Component {
         doc: groupId,
       },
       {
-        [`members.${auth.uid}`]: {},
+        [`members.${auth.uid}`]: true,
       }
     );
   }

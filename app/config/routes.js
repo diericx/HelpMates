@@ -7,7 +7,6 @@ import {
   createMaterialTopTabNavigator,
 } from 'react-navigation';
 import { Icon, Avatar } from 'react-native-elements';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 // Initial entry point
 import LoadingScreen from '../screens/Loading';
@@ -35,15 +34,6 @@ import HelpChatScreen from '../screens/Help/HelpChat';
 // Shared
 import ProfileScreen from '../screens/shared/Profile';
 import NavBarAvatar from '../components/shared/NavBarAvater';
-
-const styles = EStyleSheet.create({
-  exploreNavBar: {
-    backgroundColor: '$lightblue',
-  },
-  avatar: {
-    marginTop: 100,
-  },
-});
 
 // ---------
 // AUTH
@@ -168,27 +158,7 @@ export const HelpStack = createStackNavigator(
         height: 70,
         borderBottomWidth: 0,
       },
-      headerRight: (
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginLeft: 0,
-            backgroundColor: 'white',
-            width: 50,
-            height: 50,
-            marginRight: 10,
-          }}
-        >
-          <Avatar
-            size={50}
-            rounded
-            source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg' }}
-            onPress={() => console.log('Works!')}
-            activeOpacity={0.7}
-          />
-        </View>
-      ),
+      headerRight: <NavBarAvatar />,
     },
   }
 );
