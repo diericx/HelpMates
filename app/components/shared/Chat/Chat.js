@@ -27,6 +27,10 @@ class Chat extends React.Component {
     this.renderMessage = this.renderMessage.bind(this);
   }
 
+  onReportMessage() {
+    console.log('REPORITNG THE MESSAGE');
+  }
+
   renderMessage = props => {
     // parse data from class props
     const { profile } = this.props;

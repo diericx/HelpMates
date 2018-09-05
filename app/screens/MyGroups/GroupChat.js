@@ -7,6 +7,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import Chat from '../../components/shared/Chat/Chat';
 import NavigationService from '../../config/navigationService';
+import { validate } from '../../lib/Utils';
 
 const styles = EStyleSheet.create({
   container: {
@@ -18,6 +19,8 @@ const styles = EStyleSheet.create({
   firestoreConnect(({ navigation }) => {
     // Get groupId from navigation params
     const groupId = navigation.getParam('groupId', null);
+    validate('GroupChat.firestoreConnect() groupId should exist as a nav param. ', groupId);
+
     // Return query config
     return [
       {

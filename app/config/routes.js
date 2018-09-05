@@ -24,7 +24,7 @@ import ChooseCourseScreen from '../screens/Explore/ChooseCourse';
 import ChooseGroupScreen from '../screens/Explore/ChooseGroup';
 
 // MyGroups screen collection
-import MyGroupsListScreen from '../screens/MyGroups/MyGroupsList';
+import MyGroupsScreen from '../screens/MyGroups/MyGroups';
 import GroupChatScreen from '../screens/MyGroups/GroupChat';
 import GroupFilesScreen from '../screens/MyGroups/GroupFiles';
 import FileScreen from '../screens/MyGroups/File';
@@ -125,8 +125,8 @@ const groupTabNavigator = createMaterialTopTabNavigator(
 
 export const MyGroupsStack = createStackNavigator(
   {
-    MyGroupsList: {
-      screen: MyGroupsListScreen,
+    MyGroups: {
+      screen: MyGroupsScreen,
     },
     Group: {
       screen: groupTabNavigator,

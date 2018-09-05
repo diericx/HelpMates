@@ -5,8 +5,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import CourseList from '../../components/Explore/CourseList';
 import { firebaseConnect, isLoaded } from 'react-redux-firebase';
+import CourseList from '../../components/Explore/CourseList';
 
 const styles = EStyleSheet.create({
   container: {
@@ -24,28 +24,21 @@ class ChooseCourse extends React.Component {
     title: 'Courses',
   };
 
-  onPress = (course) => {
+  onPress = course => {
     this.props.navigation.navigate('ChooseGroup', {
-      courseId: course.id
-    })
-  }
+      courseId: course.id,
+    });
+  };
 
   render() {
     const { profile } = this.props;
     return (
       <View style={styles.container}>
-
-        {
-          isLoaded(profile) ? 
-            <CourseList 
-              universityId={profile.activeUniversityId}
-              onPress={this.onPress} 
-            />
-          : 
-            <ActivityIndicator size={"large"} />
-        }
-        
-
+        {isLoaded(profile) ? (
+          <CourseList universityId={profile.activeUniversityId} onPress={this.onPress} />
+        ) : (
+          <ActivityIndicator size="large" />
+        )}
       </View>
     );
   }

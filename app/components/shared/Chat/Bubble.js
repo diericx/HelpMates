@@ -37,6 +37,10 @@ export default class Bubble extends React.Component {
     this.onLongPress = this.onLongPress.bind(this);
   }
 
+  onReportMessage(message) {
+    console.log('reporting: ', message);
+  }
+
   // Callback for long press on message
   onLongPress() {
     const { onLongPress, currentMessage } = this.props;
@@ -54,7 +58,7 @@ export default class Bubble extends React.Component {
             Clipboard.setString(currentMessage.text);
           } else if (buttonIndex === 1) {
             // Report
-            console.log('TODO - implement report feature');
+            this.onReportMessage(currentMessage);
           }
         });
     }
