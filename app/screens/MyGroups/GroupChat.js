@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { compose } from 'redux';
-import { firestoreConnect } from 'react-redux-firebase';
+import { firestoreConnect, withFirestore } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import Chat from '../../components/shared/Chat/Chat';
 import NavigationService from '../../config/navigationService';
@@ -16,6 +16,7 @@ const styles = EStyleSheet.create({
 });
 
 @compose(
+  withFirestore,
   firestoreConnect(({ navigation }) => {
     // Get groupId from navigation params
     const groupId = navigation.getParam('groupId', null);
@@ -32,16 +33,22 @@ const styles = EStyleSheet.create({
       },
     ];
   }),
-  connect(({ firestore: { data } }, { navigation }) => {
+  connect(({ firestore }, { navigation }) => {
     // Get groupId from navigation params
     const groupId = navigation.getParam('groupId', null);
     return {
-      messages: data[`messages-${groupId}`],
+      messages: firestore.data[`messages-${groupId}`],
       groupId,
     };
   })
 )
 class Group extends React.Component {
+  constructor() {
+    super();
+    // bind
+    this.sendMessage = this.sendMessage.bind(this);
+  }
+
   /**
    * Sends a message to the group
    * @param {Object} message - The message to be sent

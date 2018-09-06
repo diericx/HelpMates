@@ -29,7 +29,8 @@ import GroupFilesScreen from '../screens/MyGroups/GroupFiles';
 import FileScreen from '../screens/MyGroups/File';
 
 // Help screen collection
-import HelpChatScreen from '../screens/Help/HelpChat';
+import HelpScreen from '../screens/Help/Help';
+import FeedbackChatScreen from '../screens/Help/FeedbackChat';
 
 // Shared
 import ProfileScreen from '../screens/shared/Profile';
@@ -149,7 +150,18 @@ export const MyGroupsStack = createStackNavigator(
 
 export const HelpStack = createStackNavigator(
   {
-    HelpChat: HelpChatScreen,
+    Help: {
+      screen: HelpScreen,
+      navigationOptions: {
+        title: 'Help & Feedback',
+      },
+    },
+    SupportChat: {
+      screen: FeedbackChatScreen,
+      navigationOptions: {
+        title: 'Feedback',
+      },
+    },
   },
   {
     navigationOptions: {

@@ -102,8 +102,7 @@ export default class Bubble extends React.Component {
             </View>
           </TouchableOpacity>
         </View>
-
-        <LikesHeart profile={profile} {...this.props} />
+        {currentMessage.likes == null ? null : <LikesHeart profile={profile} {...this.props} />}
       </View>
     );
   }

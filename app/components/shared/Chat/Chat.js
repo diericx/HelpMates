@@ -68,12 +68,12 @@ class Chat extends React.Component {
         <GiftedChat
           bottomOffset={45}
           renderLoading={() => <ActivityIndicator />}
-          messages={formattedMessages == null ? messages : formattedMessages.reverse()}
+          messages={formattedMessages == null ? [] : formattedMessages.reverse()}
           renderMessage={this.renderMessage}
           onSend={messagesToSend => {
             const message = messagesToSend[0];
             delete message._id;
-            this.sendMessage(message);
+            this.props.sendMessage(message);
           }}
           user={{
             _id: auth.uid,
