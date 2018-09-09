@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  Clipboard,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ViewPropTypes,
-  Platform,
-} from 'react-native';
+import { Text, Clipboard, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MessageImage, Time, utils } from 'react-native-gifted-chat';
@@ -37,13 +29,9 @@ export default class Bubble extends React.Component {
     this.onLongPress = this.onLongPress.bind(this);
   }
 
-  onReportMessage(message) {
-    console.log('reporting: ', message);
-  }
-
   // Callback for long press on message
   onLongPress() {
-    const { onLongPress, currentMessage } = this.props;
+    const { onLongPress, currentMessage, reportMessage } = this.props;
 
     if (onLongPress) {
       onLongPress(this.context);
@@ -58,7 +46,7 @@ export default class Bubble extends React.Component {
             Clipboard.setString(currentMessage.text);
           } else if (buttonIndex === 1) {
             // Report
-            this.onReportMessage(currentMessage);
+            reportMessage(currentMessage);
           }
         });
     }
@@ -82,7 +70,13 @@ export default class Bubble extends React.Component {
   }
 
   render() {
-    const { currentMessage, previousMessage, touchableProps, wrapperStyle, profile } = this.props;
+    const {
+      currentMessage,
+      previousMessage,
+      touchableProps,
+      wrapperStyle,
+      likeMessage,
+    } = this.props;
     const isSameThread =
       isSameUser(currentMessage, previousMessage) && isSameDay(currentMessage, previousMessage);
     const messageHeader = isSameThread ? null : <View style={styles.headerView} />;
@@ -102,7 +96,9 @@ export default class Bubble extends React.Component {
             </View>
           </TouchableOpacity>
         </View>
-        {currentMessage.likes == null ? null : <LikesHeart profile={profile} {...this.props} />}
+        {currentMessage.likes == null ? null : (
+          <LikesHeart currentMessage={currentMessage} onPress={likeMessage} />
+        )}
       </View>
     );
   }

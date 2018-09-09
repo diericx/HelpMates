@@ -6,7 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 
-import SlackMessage from './SlackMessage';
+import Message from './Message';
 
 const styles = EStyleSheet.create({
   container: {
@@ -27,19 +27,19 @@ class Chat extends React.Component {
     this.renderMessage = this.renderMessage.bind(this);
   }
 
-  onReportMessage() {
-    console.log('REPORITNG THE MESSAGE');
-  }
-
   renderMessage = props => {
     // parse data from class props
-    const { profile } = this.props;
+    const { reportMessage, likeMessage } = this.props;
 
-    return <SlackMessage {...props} {...this.props} profile={profile} />;
+    return <Message {...props} {...{ reportMessage, likeMessage }} />;
   };
 
   render() {
+    // get variable props
     const { messages, auth, profile } = this.props;
+    // get function props
+    const { sendMessage } = this.props;
+
     let formattedMessages = null;
 
     if (!isLoaded(messages)) {
@@ -73,7 +73,7 @@ class Chat extends React.Component {
           onSend={messagesToSend => {
             const message = messagesToSend[0];
             delete message._id;
-            this.props.sendMessage(message);
+            sendMessage(message);
           }}
           user={{
             _id: auth.uid,

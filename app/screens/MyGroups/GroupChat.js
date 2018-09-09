@@ -33,20 +33,23 @@ const styles = EStyleSheet.create({
       },
     ];
   }),
-  connect(({ firestore }, { navigation }) => {
+  connect(({ firestore: { data }, firebase: { auth } }, { navigation }) => {
     // Get groupId from navigation params
     const groupId = navigation.getParam('groupId', null);
     return {
-      messages: firestore.data[`messages-${groupId}`],
+      messages: data[`messages-${groupId}`],
+      auth,
       groupId,
     };
   })
 )
 class Group extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     // bind
     this.sendMessage = this.sendMessage.bind(this);
+    this.likeMessage = this.likeMessage.bind(this);
+    this.reportMessage = this.reportMessage.bind(this);
   }
 
   /**
@@ -68,11 +71,47 @@ class Group extends React.Component {
     );
   }
 
+  /**
+   * Likes the message in the chat
+   * @param {Object} message - The message to be liked
+   * @param {String} action - Whether to like or dislike the message (toggle)
+   */
+  likeMessage(message, action) {
+    const { firestore, auth, groupId } = this.props;
+    let deltaLikes = null;
+
+    // decide what to change
+    if (action === 'like') {
+      deltaLikes = {
+        [`likes.${auth.uid}`]: 1,
+      };
+    } else if (action === 'dislike') {
+      deltaLikes = {
+        [`likes.${auth.uid}`]: firestore.FieldValue.delete(),
+      };
+    }
+    // send update
+    firestore.update(`groups/${groupId}/messages/${message._id}`, deltaLikes);
+  }
+
+  /**
+   * Reports the message in the chat
+   * @param {Object} message - The message to be reported
+   */
+  reportMessage(message) {
+    console.log('outside report message');
+  }
+
   render() {
     const { messages } = this.props;
     return (
       <View style={styles.container}>
-        <Chat messages={messages} sendMessage={this.sendMessage} />
+        <Chat
+          messages={messages}
+          sendMessage={this.sendMessage}
+          likeMessage={this.likeMessage}
+          reportMessage={this.reportMessage}
+        />
       </View>
     );
   }

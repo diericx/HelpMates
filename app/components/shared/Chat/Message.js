@@ -60,12 +60,14 @@ export default class Message extends React.Component {
   }
 
   renderBubble() {
-    const { profile, groupId, renderBubble } = this.props;
+    const { reportMessage, likeMessage, renderBubble } = this.props;
     const bubbleProps = this.getInnerComponentProps();
+    // Check if a custom render method was provided
     if (renderBubble) {
       return renderBubble(bubbleProps);
     }
-    return <Bubble {...bubbleProps} profile={profile} groupId={groupId} />;
+    // Default to bubble for rendering
+    return <Bubble {...bubbleProps} {...{ reportMessage, likeMessage }} />;
   }
 
   renderAvatar() {
@@ -88,7 +90,9 @@ export default class Message extends React.Component {
   }
 
   render() {
-    const marginBottom = isSameUser(this.props.currentMessage, this.props.nextMessage) ? 2 : 10;
+    const { currentMessage, nextMessage } = this.props;
+
+    const marginBottom = isSameUser(currentMessage, nextMessage) ? 2 : 10;
 
     return (
       <View>

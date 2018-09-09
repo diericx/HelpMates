@@ -35,39 +35,15 @@ const styles = EStyleSheet.create({
   }))
 )
 export default class LikesHeart extends React.Component {
-  constructor() {
-    super();
-    // bind
-    this.likeMessage = this.likeMessage.bind(this);
-  }
-
-  likeMessage(message, action) {
-    const { firestore, auth, groupId } = this.props;
-    let deltaLikes = null;
-
-    // decide what to change
-    if (action === 'like') {
-      deltaLikes = {
-        [`likes.${auth.uid}`]: 1,
-      };
-    } else if (action === 'dislike') {
-      deltaLikes = {
-        [`likes.${auth.uid}`]: firestore.FieldValue.delete(),
-      };
-    }
-    // send update
-    firestore.update(`groups/${groupId}/messages/${message._id}`, deltaLikes);
-  }
-
   render() {
-    const { currentMessage, auth } = this.props;
+    const { currentMessage, onPress, auth } = this.props;
     const likesCount = Object.keys(currentMessage.likes).length;
     const hasLikedMessage = !(currentMessage.likes[auth.uid] == null);
     const onPressAction = hasLikedMessage ? 'dislike' : 'like';
     return (
       <View style={styles.container}>
         <TouchableWithoutFeedback
-          onPress={() => this.likeMessage(currentMessage, onPressAction)}
+          onPress={() => onPress(currentMessage, onPressAction)}
           style={{ flex: 1 }}
         >
           <Icon
