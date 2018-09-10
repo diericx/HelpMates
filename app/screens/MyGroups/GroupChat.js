@@ -99,7 +99,32 @@ class Group extends React.Component {
    * @param {Object} message - The message to be reported
    */
   reportMessage(message) {
-    console.log('outside report message');
+    const { firestore, auth, groupId } = this.props;
+    // Update the message to track who's reported it
+    firestore.update(
+      {
+        collection: 'groups',
+        doc: groupId,
+        subcollections: [{ collection: 'messages', doc: message._id }],
+      },
+      {
+        [`reporters.${auth.uid}`]: true,
+      }
+    );
+
+    // Open a new report ticket
+    firestore.add('reports', {
+      type: 'Message',
+      status: 'Pending Review',
+      message: {
+        _id: message._id,
+        createdAt: message.createdAt,
+        text: message.text,
+        user: message.user,
+      },
+      groupId,
+      reporterId: auth.uid,
+    });
   }
 
   render() {

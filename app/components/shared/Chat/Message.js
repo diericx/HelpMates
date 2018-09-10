@@ -60,14 +60,14 @@ export default class Message extends React.Component {
   }
 
   renderBubble() {
-    const { reportMessage, likeMessage, renderBubble } = this.props;
+    const { reportMessage, likeMessage, renderBubble, auth } = this.props;
     const bubbleProps = this.getInnerComponentProps();
     // Check if a custom render method was provided
     if (renderBubble) {
       return renderBubble(bubbleProps);
     }
     // Default to bubble for rendering
-    return <Bubble {...bubbleProps} {...{ reportMessage, likeMessage }} />;
+    return <Bubble {...bubbleProps} {...{ reportMessage, likeMessage, auth }} />;
   }
 
   renderAvatar() {

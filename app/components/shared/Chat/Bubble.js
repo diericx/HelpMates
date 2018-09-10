@@ -5,6 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { MessageImage, Time, utils } from 'react-native-gifted-chat';
 import { Icon } from 'react-native-elements';
 
+import { connect } from 'react-redux';
 import Username from './Username';
 import MessageText from './MessageText';
 import LikesHeart from './LikesHeart';
@@ -31,20 +32,23 @@ export default class Bubble extends React.Component {
 
   // Callback for long press on message
   onLongPress() {
-    const { onLongPress, currentMessage, reportMessage } = this.props;
+    const { onLongPress, currentMessage, reportMessage, auth } = this.props;
 
     if (onLongPress) {
       onLongPress(this.context);
     } else if (currentMessage.text) {
-      const options = ['Copy Text', 'Report Message', 'Cancel'];
+      const options =
+        currentMessage.reporters != null && currentMessage.reporters[auth.uid] != null
+          ? ['Copy Text', 'Cancel']
+          : ['Copy Text', 'Report Message', 'Cancel'];
       const cancelButtonIndex = options.length - 1;
       this.context
         .actionSheet()
         .showActionSheetWithOptions({ options, cancelButtonIndex }, buttonIndex => {
-          if (buttonIndex === 0) {
+          if (options[buttonIndex] === 'Copy Text') {
             // Copy Text
             Clipboard.setString(currentMessage.text);
-          } else if (buttonIndex === 1) {
+          } else if (options[buttonIndex] === 'Report Message') {
             // Report
             reportMessage(currentMessage);
           }

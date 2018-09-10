@@ -29,9 +29,9 @@ class Chat extends React.Component {
 
   renderMessage = props => {
     // parse data from class props
-    const { reportMessage, likeMessage } = this.props;
+    const { reportMessage, likeMessage, auth } = this.props;
 
-    return <Message {...props} {...{ reportMessage, likeMessage }} />;
+    return <Message {...props} {...{ reportMessage, likeMessage, auth }} />;
   };
 
   render() {
