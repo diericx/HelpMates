@@ -47,14 +47,10 @@ const styles = EStyleSheet.create({
     auth,
   }))
 )
-class Help extends React.Component {
+class HelpUser extends React.Component {
   static navigationOptions = () => ({
     tabBarLabel: 'Chat',
   });
-
-  goToFeedbackChat() {
-    NavigationService.navigate('SupportChat');
-  }
 
   render() {
     const { myReports } = this.props;
@@ -73,7 +69,7 @@ class Help extends React.Component {
                 title="Chat"
                 subtitle="A direct chat to our entire team"
                 subtitleStyle={styles.subtitle}
-                onPress={() => this.goToFeedbackChat(item)}
+                onPress={() => NavigationService.navigate('FeedbackChat')}
                 leftIcon={{
                   type: 'entypo',
                   name: 'chat',
@@ -132,4 +128,4 @@ class Help extends React.Component {
   }
 }
 
-export default Help;
+export default HelpUser;

@@ -29,7 +29,9 @@ import GroupFilesScreen from '../screens/MyGroups/GroupFiles';
 import FileScreen from '../screens/MyGroups/File';
 
 // Help screen collection
-import HelpScreen from '../screens/Help/Help';
+import HelpUserScreen from '../screens/Help/HelpUser';
+import HelpAdminScreen from '../screens/Help/HelpAdmin';
+import AdminOrUser from '../screens/Help/AdminOrUser';
 import FeedbackChatScreen from '../screens/Help/FeedbackChat';
 
 // Shared
@@ -148,15 +150,15 @@ export const MyGroupsStack = createStackNavigator(
   }
 );
 
-export const HelpStack = createStackNavigator(
+export const HelpUserStack = createStackNavigator(
   {
     Help: {
-      screen: HelpScreen,
+      screen: HelpUserScreen,
       navigationOptions: {
         title: 'Help & Feedback',
       },
     },
-    SupportChat: {
+    FeedbackChat: {
       screen: FeedbackChatScreen,
       navigationOptions: {
         title: 'Feedback',
@@ -175,11 +177,54 @@ export const HelpStack = createStackNavigator(
   }
 );
 
+export const HelpAdminStack = createStackNavigator(
+  {
+    Help: {
+      screen: HelpAdminScreen,
+      navigationOptions: {
+        title: 'Help & Feedback',
+      },
+    },
+    FeedbackChat: {
+      screen: FeedbackChatScreen,
+      navigationOptions: {
+        title: 'Feedback',
+      },
+    },
+  },
+  {
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: 'white',
+        height: 70,
+        borderBottomWidth: 0,
+      },
+      headerRight: <NavBarAvatar />,
+    },
+  }
+);
+
+export const HelpSwitchNav = createSwitchNavigator({
+  AdminOrUser,
+  HelpUser: {
+    screen: HelpUserStack,
+    navigationOptions: {
+      title: 'Help & Feedback',
+    },
+  },
+  HelpAdmin: {
+    screen: HelpAdminStack,
+    navigationOptions: {
+      title: 'Admin',
+    },
+  },
+});
+
 export const TabNavigation = createBottomTabNavigator(
   {
     Explore: ExploreStack,
     MyGroups: MyGroupsStack,
-    Help: HelpStack,
+    Help: HelpSwitchNav,
   },
   {
     navigationOptions: ({ navigation }) => ({

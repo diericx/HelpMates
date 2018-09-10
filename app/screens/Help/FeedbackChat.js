@@ -25,10 +25,10 @@ const styles = EStyleSheet.create({
     auth,
   })),
   // Now that we have auth, use the UID
-  firestoreConnect(({ auth }) => [
+  firestoreConnect(({ auth, navigation }) => [
     {
       collection: 'feedback',
-      doc: auth.uid,
+      doc: navigation.getParam('feedbackChatId', auth.uid),
       subcollections: [{ collection: 'messages' }],
       orderBy: ['createdAt'],
       storeAs: 'feedbackChatMessages',
@@ -49,10 +49,12 @@ class FeedbackChat extends React.Component {
   }
 
   componentDidMount() {
-    const { firestore, auth } = this.props;
+    const { firestore, auth, navigation } = this.props;
+    // Get the id of the current chat
+    const feedbackChatId = navigation.getParam('feedbackChatId', auth.uid);
     // If the feedback chat doesn't exist, let's create it!
     firestore
-      .doc(`feedback/${auth.uid}`)
+      .doc(`feedback/${feedbackChatId}`)
       .get()
       .then(snapshot => {
         if (!snapshot.exists) {
@@ -63,11 +65,13 @@ class FeedbackChat extends React.Component {
 
   // Create the document for this user's feedback data
   createFeedbackChat() {
-    const { firestore, auth } = this.props;
+    const { firestore, auth, navigation } = this.props;
+    // Get the id of the current chat
+    const feedbackChatId = navigation.getParam('feedbackChatId', auth.uid);
     // const { firestore, auth } = this.props;
     firestore
       .collection('feedback')
-      .doc(auth.uid)
+      .doc(feedbackChatId)
       .set(
         {
           lastMessage: null,
@@ -81,11 +85,14 @@ class FeedbackChat extends React.Component {
    * @param {Object} message - The message to be sent
    */
   sendMessage(message) {
-    const { firestore, auth } = this.props;
+    const { firestore, auth, navigation } = this.props;
+    // Get the id of the current chat
+    const feedbackChatId = navigation.getParam('feedbackChatId', auth.uid);
+    // Send the message
     firestore.add(
       {
         collection: 'feedback',
-        doc: auth.uid,
+        doc: feedbackChatId,
         subcollections: [{ collection: 'messages' }],
       },
       {
