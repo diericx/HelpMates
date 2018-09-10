@@ -97,17 +97,26 @@ class Help extends React.Component {
           data={myReports}
           keyExtractor={item => item.id}
           renderItem={({ item }) => {
-            console.log(item);
+            const icon = {
+              type: 'font-awesome',
+              name: 'exclamation-triangle',
+              color: '#ffaf40',
+            };
+            if (item.status === 'Pending Review') {
+              // do nothing, exclamation tri is right
+            } else if (item.status === 'Denied') {
+              icon.name = 'ban';
+              icon.color = '#ff3838';
+            } else if (item.status === 'Accepted') {
+              icon.name = 'check';
+              icon.color = '#32ff7e';
+            }
             return (
               <ListItem
                 title={`${item.type} #${item.id}`}
                 subtitle={item.status}
                 subtitleStyle={styles.subtitle}
-                leftIcon={{
-                  type: 'font-awesome',
-                  name: 'exclamation-triangle',
-                  color: '#ff3838',
-                }}
+                leftIcon={icon}
               />
             );
           }}
