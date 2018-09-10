@@ -30,6 +30,7 @@ const styles = EStyleSheet.create({
       collection: 'feedback',
       doc: auth.uid,
       subcollections: [{ collection: 'messages' }],
+      orderBy: ['createdAt'],
       storeAs: 'feedbackChatMessages',
     },
   ]),

@@ -124,6 +124,7 @@ class Group extends React.Component {
       },
       groupId,
       reporterId: auth.uid,
+      createdAt: Date.now(),
     });
   }
 
