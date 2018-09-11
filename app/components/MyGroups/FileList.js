@@ -1,10 +1,11 @@
 import React from 'react';
 import { compose } from 'redux';
-import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import { firestoreConnect, withFirestore, isLoaded, isEmpty } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { View, Text, SectionList, ActivityIndicator } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { NewFile } from '../../lib/Firestore';
 
 import NavigationService from '../../config/navigationService';
 import NewFileModal from './NewFileModal';
@@ -46,15 +47,10 @@ const styles = EStyleSheet.create({
   connect(({ firebase: { profile }, firestore }, props) => ({
     files: firestore.data[`files-${props.parentId}`],
     profile,
-  }))
+  })),
+  withFirestore
 )
 export default class FileList extends React.Component {
-  constructor() {
-    super();
-    // bind
-    this.newFile = this.newFile.bind(this);
-  }
-
   state = {
     newFileModalIsVisible: false,
   };
@@ -67,21 +63,7 @@ export default class FileList extends React.Component {
     });
   };
 
-  keyExtractor = (item, index) => item.id;
-
-  newFile(title, type) {
-    const { firestore, profile, parentId } = this.props;
-    firestore.add('files', {
-      title,
-      type,
-      parentId,
-      createdBy: profile.name,
-      updatedBy: profile.name,
-    });
-    this.setState({
-      newFileModalIsVisible: false,
-    });
-  }
+  keyExtractor = item => item.id;
 
   // Takes in files from props and formats them to be displayed correctly
   formatAndSortFiles() {
@@ -154,7 +136,7 @@ export default class FileList extends React.Component {
   }
 
   render() {
-    const { files } = this.props;
+    const { firestore, profile, files, parentId } = this.props;
     const { newFileModalIsVisible } = this.state;
 
     if (!isLoaded(files)) {
@@ -181,7 +163,7 @@ export default class FileList extends React.Component {
               newFileModalIsVisible: false,
             });
           }}
-          onCreate={this.newFile}
+          onCreate={(...args) => NewFile(firestore, profile, parentId, ...args)}
         />
       </View>
     );

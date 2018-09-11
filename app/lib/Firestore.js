@@ -1,3 +1,5 @@
+import { withFirestore } from 'react-redux-firebase';
+
 import { ImageManipulator } from 'expo';
 import { validate } from './Utils';
 
@@ -50,3 +52,128 @@ export async function UpdateAvatar(imageUri, firebase) {
     console.log('ERROR: ', e);
   }
 }
+
+/**
+|--------------------------------------------------
+| COURSES
+|--------------------------------------------------
+*/
+export const JoinCourse = (firestore, auth, courseId) => {
+  validate(
+    'Firestore.JoinCourse(): Missing param or param is undefined',
+    firestore,
+    auth,
+    courseId
+  );
+
+  const ref = firestore.collection('courses').doc(courseId);
+  ref.set(
+    {
+      members: {
+        [auth.uid]: true,
+      },
+    },
+    { merge: true }
+  );
+};
+
+/**
+|--------------------------------------------------
+| GROUPS
+|--------------------------------------------------
+*/
+
+/**
+ * Attempt to add the current user to a specific group
+ * @param {string} groupId - ID of the group that you wish to join
+ */
+export const JoinGroup = (firestore, auth, groupId) => {
+  validate('Firestore.JoinGroup(): Missing param or param is undefined', firestore, auth, groupId);
+
+  firestore.update(
+    {
+      collection: 'groups',
+      doc: groupId,
+    },
+    {
+      [`members.${auth.uid}`]: true,
+    }
+  );
+};
+
+/**
+ * Attempt to remove the current user from a specific group
+ * @param {string} groupId - ID of the group that you wish to leave
+ */
+export const LeaveGroup = (firestore, auth, groupId) => {
+  validate('Firestore.LeaveGroup(): Missing param or param is undefined', firestore, auth, groupId);
+
+  firestore.update(
+    {
+      collection: 'groups',
+      doc: groupId,
+    },
+    {
+      [`members.${auth.uid}`]: firestore.FieldValue.delete(),
+    }
+  );
+};
+
+/**
+|--------------------------------------------------
+| DOCUMENTS
+|--------------------------------------------------
+*/
+
+export const UpdateDocument = (firestore, profile, fileId, delta) => {
+  validate(
+    'Firestore.UpdateDocument(): Missing param or param is undefined',
+    firestore,
+    profile,
+    fileId,
+    delta
+  );
+
+  firestore.update(
+    {
+      collection: 'files',
+      doc: fileId,
+    },
+    {
+      ...delta,
+      updatedBy: profile.name,
+    }
+  );
+};
+
+/**
+|--------------------------------------------------
+| FILES
+|--------------------------------------------------
+*/
+
+/**
+ * Creates a new file given a title and a type.
+ * If the type is 'image' it will attempt to get an image from the user's
+ *  library and use that as the file.
+ * @param {string} title - name of the file
+ * @param {string} type - type of the file
+ */
+export const NewFile = (firestore, profile, parentId, title, type) => {
+  validate(
+    'Firestore.NewFile(): Missing param or param is undefined',
+    firestore,
+    profile,
+    parentId,
+    title,
+    type
+  );
+
+  firestore.add('files', {
+    title,
+    type,
+    parentId,
+    createdBy: profile.name,
+    updatedBy: profile.name,
+  });
+};

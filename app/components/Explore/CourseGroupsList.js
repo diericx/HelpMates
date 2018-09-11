@@ -3,9 +3,9 @@ import { View, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem, Button } from 'react-native-elements';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { firestoreConnect, withFirestore } from 'react-redux-firebase';
+import { withFirestore } from 'react-redux-firebase';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+import { JoinGroup, LeaveGroup } from '../../lib/Firestore';
 import SepperatorView from '../shared/SepperatorView';
 import ListViewSubtitle from '../shared/ListViewSubtitle';
 import EmptyList from '../shared/EmptyList';
@@ -40,42 +40,8 @@ const styles = EStyleSheet.create({
   }))
 )
 class CourseGroupsList extends React.Component {
-  /**
-   * Adds the currently signed in user to the specified group
-   * @param {string} groupId - ID of the group that you wish to join
-   */
-  JoinGroup(groupId) {
-    const { firestore, auth } = this.props;
-    firestore.update(
-      {
-        collection: 'groups',
-        doc: groupId,
-      },
-      {
-        [`members.${auth.uid}`]: true,
-      }
-    );
-  }
-
-  /**
-   * Removes the currently signed in user to the specified group
-   * @param {string} groupId - ID of the group that you wish to leave
-   */
-  LeaveGroup(groupId) {
-    const { firestore, auth } = this.props;
-    firestore.update(
-      {
-        collection: 'groups',
-        doc: groupId,
-      },
-      {
-        [`members.${auth.uid}`]: firestore.FieldValue.delete(),
-      }
-    );
-  }
-
   render() {
-    const { groups, auth } = this.props;
+    const { firestore, groups, auth } = this.props;
 
     if (!groups) {
       return <ActivityIndicator />;
@@ -125,8 +91,8 @@ class CourseGroupsList extends React.Component {
                       buttonStyle={styles.button}
                       onPress={
                         isUserInGroup
-                          ? () => this.LeaveGroup(item.id)
-                          : () => this.JoinGroup(item.id)
+                          ? () => LeaveGroup(firestore, auth, item.id)
+                          : () => JoinGroup(firestore, auth, item.id)
                       }
                     />
                   }
