@@ -67,6 +67,7 @@ class Group extends React.Component {
       {
         ...message,
         likes: {},
+        deleted: false,
       }
     );
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MessageText as RNGCMessageText } from 'react-native-gifted-chat';
 import emojiUtils from 'emoji-utils';
@@ -13,14 +13,14 @@ const styles = EStyleSheet.create({
 
 export default function MessageText(props) {
   const {
-    currentMessage: { text },
+    currentMessage: { text, deleted },
     renderMessageText,
   } = props;
 
   let messageTextStyleAdjustment;
 
   // Make "pure emoji" messages much bigger than plain text.
-  if (text && emojiUtils.isPureEmojiString(text)) {
+  if (text && emojiUtils.isPureEmojiString(text) && !deleted) {
     messageTextStyleAdjustment = {
       fontSize: 30,
       // Emoji get clipped if lineHeight isn't increased; make it consistent across platforms.
@@ -30,6 +30,10 @@ export default function MessageText(props) {
 
   if (text) {
     const { ...messageTextProps } = props;
+    if (messageTextProps.currentMessage.deleted) {
+      messageTextProps.currentMessage.text = 'Deleted';
+    }
+
     if (renderMessageText) {
       return renderMessageText(messageTextProps);
     }

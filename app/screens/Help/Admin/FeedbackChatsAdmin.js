@@ -40,12 +40,14 @@ export default class FeedbackChatsAdmin extends React.Component {
         <View>
           <FlatList
             data={feedbackChats}
-            renderItem={item => (
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
               <ListItem
                 title={item.userName}
-                subtitle={item.lastMessage}
                 subtitleStyle={styles.subtitle}
-                onPress={() => NavigationService.navigate('FeedbackChat')}
+                onPress={() =>
+                  NavigationService.navigate('FeedbackChat', { feedbackChatId: item.userId })
+                }
                 leftIcon={{
                   type: 'entypo',
                   name: 'chat',
@@ -53,11 +55,6 @@ export default class FeedbackChatsAdmin extends React.Component {
                 }}
                 chevron
               />
-            )}
-            ListHeaderComponent={() => (
-              <View style={styles.header}>
-                <Text style={styles.headerText}>Connect</Text>
-              </View>
             )}
             scrollEnabled={false}
           />

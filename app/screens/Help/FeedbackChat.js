@@ -19,6 +19,10 @@ const styles = EStyleSheet.create({
   },
 });
 
+/**
+ * NavigationParam feedbackChatId - the ID of the chat. If this is not provided
+ *   it defaults to the current user's auth id.
+ */
 @compose(
   // Connect first to feed auth into firestoreConnect
   connect(({ firebase: { auth } }) => ({
@@ -53,42 +57,42 @@ class FeedbackChat extends React.Component {
     const { firestore, auth, navigation } = this.props;
     // Get the id of the current chat
     const feedbackChatId = navigation.getParam('feedbackChatId', auth.uid);
-    // If the feedback chat doesn't exist, let's create it!
-    firestore
-      .doc(`feedbackChats/${feedbackChatId}`)
-      .get()
-      .then(snapshot => {
-        if (!snapshot.exists) {
-          this.createFeedbackChat();
-        }
-      });
+    // // If the feedback chat doesn't exist, let's create it!
+    // firestore
+    //   .doc(`feedbackChats/${feedbackChatId}`)
+    //   .get()
+    //   .then(snapshot => {
+    //     if (!snapshot.exists) {
+    //       this.createFeedbackChat();
+    //     }
+    //   });
   }
 
-  // Create the document for this user's feedback data
-  createFeedbackChat() {
-    const { firestore, auth, profile, navigation } = this.props;
-    // Get the id of the current chat
-    const feedbackChatId = navigation.getParam('feedbackChatId', auth.uid);
-    // const { firestore, auth } = this.props;
-    firestore
-      .collection('feedbackChats')
-      .doc(feedbackChatId)
-      .set(
-        {
-          lastMessage: null,
-          userId: auth.uid,
-          userName: profile.name,
-        },
-        { merge: true }
-      );
-  }
+  // // Create the document for this user's feedback data
+  // createFeedbackChat() {
+  //   const { firestore, auth, profile, navigation } = this.props;
+  //   // Get the id of the current chat
+  //   const feedbackChatId = navigation.getParam('feedbackChatId', auth.uid);
+  //   // const { firestore, auth } = this.props;
+  //   firestore
+  //     .collection('feedbackChats')
+  //     .doc(feedbackChatId)
+  //     .set(
+  //       {
+  //         lastMessage: null,
+  //         userId: auth.uid,
+  //         userName: profile.name,
+  //       },
+  //       { merge: true }
+  //     );
+  // }
 
   /**
    * Sends a message to the feedback chat for this user
    * @param {Object} message - The message to be sent
    */
   sendMessage(message) {
-    const { firestore, auth, navigation } = this.props;
+    const { firestore, auth, profile, navigation } = this.props;
     // Get the id of the current chat
     const feedbackChatId = navigation.getParam('feedbackChatId', auth.uid);
     // Send the message
@@ -100,18 +104,21 @@ class FeedbackChat extends React.Component {
       },
       {
         ...message,
+        deleted: false,
       }
     );
     // Update lastMessage
-    firestore.update(
-      {
-        collection: 'feedbackChats',
-        doc: feedbackChatId,
-      },
-      {
-        lastMessage: Date.now(),
-      }
-    );
+    firestore
+      .collection('feedbackChats')
+      .doc(feedbackChatId)
+      .set(
+        {
+          lastMessage: Date.now(),
+          userId: auth.uid,
+          userName: profile.name,
+        },
+        { merge: true }
+      );
   }
 
   render() {

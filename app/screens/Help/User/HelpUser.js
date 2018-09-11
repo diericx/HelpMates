@@ -36,6 +36,7 @@ const styles = EStyleSheet.create({
   firestoreConnect(({ auth }) => [
     {
       collection: 'reports',
+      orderBy: ['createdAt', 'desc'],
       where: ['reporterId', '==', auth.uid],
       storeAs: 'myReports',
     },
@@ -102,7 +103,7 @@ class HelpUser extends React.Component {
               } else if (item.status === 'Denied') {
                 icon.name = 'ban';
                 icon.color = '#ff3838';
-              } else if (item.status === 'Accepted') {
+              } else if (item.status === 'Approved') {
                 icon.name = 'check';
                 icon.color = '#32ff7e';
               }

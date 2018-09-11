@@ -32,9 +32,9 @@ import FileScreen from '../screens/MyGroups/File';
 import HelpUserScreen from '../screens/Help/User/HelpUser';
 import FeedbackChatsAdmin from '../screens/Help/Admin/FeedbackChatsAdmin';
 import ReportsAdmin from '../screens/Help/Admin/ReportsAdmin';
+import ReportScreen from '../screens/Help/Admin/Report';
 import AdminOrUser from '../screens/Help/AdminOrUser';
 import FeedbackChatScreen from '../screens/Help/FeedbackChat';
-
 // Shared
 import ProfileScreen from '../screens/shared/Profile';
 import NavBarAvatar from '../components/shared/NavBarAvater';
@@ -218,6 +218,18 @@ export const HelpAdminStack = createStackNavigator(
       screen: HelpAdminMaterialNav,
       navigationOptions: {
         title: 'Admin',
+      },
+    },
+    FeedbackChat: {
+      screen: FeedbackChatScreen,
+      navigationOptions: {
+        title: 'Feedback',
+      },
+    },
+    Report: {
+      screen: ReportScreen,
+      navigationOptions: {
+        title: 'Feedback',
       },
     },
   },
