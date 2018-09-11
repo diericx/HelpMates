@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView, FlatList, ActivityIndicator } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { compose } from 'redux';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
@@ -24,18 +24,45 @@ const styles = EStyleSheet.create({});
   // Finally, setup final props
   connect(({ firestore }, { auth }) => ({
     reports: firestore.ordered.reports,
-    chats: firestore.ordered.feedbackChats,
+    feedbackChats: firestore.ordered.feedbackChats,
     auth,
   }))
 )
 export default class FeedbackChatsAdmin extends React.Component {
   render() {
-    const { reports, chats } = this.props;
+    const { feedbackChats } = this.props;
+    if (!isLoaded(feedbackChats)) {
+      return <ActivityIndicator size="large" />;
+    }
 
     return (
-      <View>
-        <Text>Admin: FeedbackChats</Text>
-      </View>
+      <ScrollView style={{ flex: 1 }}>
+        <View>
+          <FlatList
+            data={feedbackChats}
+            renderItem={item => (
+              <ListItem
+                title={item.userName}
+                subtitle={item.lastMessage}
+                subtitleStyle={styles.subtitle}
+                onPress={() => NavigationService.navigate('FeedbackChat')}
+                leftIcon={{
+                  type: 'entypo',
+                  name: 'chat',
+                  color: '#3ae374',
+                }}
+                chevron
+              />
+            )}
+            ListHeaderComponent={() => (
+              <View style={styles.header}>
+                <Text style={styles.headerText}>Connect</Text>
+              </View>
+            )}
+            scrollEnabled={false}
+          />
+        </View>
+      </ScrollView>
     );
   }
 }

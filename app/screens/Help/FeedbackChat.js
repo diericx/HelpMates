@@ -27,7 +27,7 @@ const styles = EStyleSheet.create({
   // Now that we have auth, use the UID
   firestoreConnect(({ auth, navigation }) => [
     {
-      collection: 'feedback',
+      collection: 'feedbackChats',
       doc: navigation.getParam('feedbackChatId', auth.uid),
       subcollections: [{ collection: 'messages' }],
       orderBy: ['createdAt'],
@@ -35,9 +35,10 @@ const styles = EStyleSheet.create({
     },
   ]),
   // Setup final props
-  connect(({ firestore }, { auth }) => ({
+  connect(({ firestore, firebase: { profile } }, { auth }) => ({
     messages: firestore.data.feedbackChatMessages,
     auth,
+    profile,
   })),
   withFirestore
 )
@@ -54,7 +55,7 @@ class FeedbackChat extends React.Component {
     const feedbackChatId = navigation.getParam('feedbackChatId', auth.uid);
     // If the feedback chat doesn't exist, let's create it!
     firestore
-      .doc(`feedback/${feedbackChatId}`)
+      .doc(`feedbackChats/${feedbackChatId}`)
       .get()
       .then(snapshot => {
         if (!snapshot.exists) {
@@ -65,16 +66,18 @@ class FeedbackChat extends React.Component {
 
   // Create the document for this user's feedback data
   createFeedbackChat() {
-    const { firestore, auth, navigation } = this.props;
+    const { firestore, auth, profile, navigation } = this.props;
     // Get the id of the current chat
     const feedbackChatId = navigation.getParam('feedbackChatId', auth.uid);
     // const { firestore, auth } = this.props;
     firestore
-      .collection('feedback')
+      .collection('feedbackChats')
       .doc(feedbackChatId)
       .set(
         {
           lastMessage: null,
+          userId: auth.uid,
+          userName: profile.name,
         },
         { merge: true }
       );
@@ -91,12 +94,22 @@ class FeedbackChat extends React.Component {
     // Send the message
     firestore.add(
       {
-        collection: 'feedback',
+        collection: 'feedbackChats',
         doc: feedbackChatId,
         subcollections: [{ collection: 'messages' }],
       },
       {
         ...message,
+      }
+    );
+    // Update lastMessage
+    firestore.update(
+      {
+        collection: 'feedbackChats',
+        doc: feedbackChatId,
+      },
+      {
+        lastMessage: Date.now(),
       }
     );
   }
