@@ -29,8 +29,9 @@ import GroupFilesScreen from '../screens/MyGroups/GroupFiles';
 import FileScreen from '../screens/MyGroups/File';
 
 // Help screen collection
-import HelpUserScreen from '../screens/Help/HelpUser';
-import HelpAdminScreen from '../screens/Help/HelpAdmin';
+import HelpUserScreen from '../screens/Help/User/HelpUser';
+import FeedbackChatsAdmin from '../screens/Help/Admin/FeedbackChatsAdmin';
+import ReportsAdmin from '../screens/Help/Admin/ReportsAdmin';
 import AdminOrUser from '../screens/Help/AdminOrUser';
 import FeedbackChatScreen from '../screens/Help/FeedbackChat';
 
@@ -177,18 +178,46 @@ export const HelpUserStack = createStackNavigator(
   }
 );
 
-export const HelpAdminStack = createStackNavigator(
+const HelpAdminMaterialNav = createMaterialTopTabNavigator(
   {
-    Help: {
-      screen: HelpAdminScreen,
+    FeedbackChats: {
+      screen: FeedbackChatsAdmin,
       navigationOptions: {
-        title: 'Help & Feedback',
+        title: 'Feedback Chats',
       },
     },
-    FeedbackChat: {
-      screen: FeedbackChatScreen,
+    Reports: {
+      screen: ReportsAdmin,
       navigationOptions: {
-        title: 'Feedback',
+        title: 'Reports',
+      },
+    },
+  },
+  {
+    tabBarOptions: {
+      tabStyle: {
+        height: 40,
+        padding: 0,
+      },
+      style: {
+        backgroundColor: 'white',
+      },
+      labelStyle: {
+        color: 'black',
+      },
+      indicatorStyle: {
+        backgroundColor: '#17c0eb',
+      },
+    },
+  }
+);
+
+export const HelpAdminStack = createStackNavigator(
+  {
+    HelpAdmin: {
+      screen: HelpAdminMaterialNav,
+      navigationOptions: {
+        title: 'Admin',
       },
     },
   },
@@ -199,7 +228,6 @@ export const HelpAdminStack = createStackNavigator(
         height: 70,
         borderBottomWidth: 0,
       },
-      headerRight: <NavBarAvatar />,
     },
   }
 );

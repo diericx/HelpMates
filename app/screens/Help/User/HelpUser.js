@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { ListItem } from 'react-native-elements';
-import NavigationService from '../../config/navigationService';
+import NavigationService from '../../../config/navigationService';
 
 const styles = EStyleSheet.create({
   container: {
