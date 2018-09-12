@@ -62,28 +62,30 @@ export default class NewFileModal extends React.Component {
     title: null,
   };
 
-  validateFileParameters() {
-    const { type, title } = this.state;
-    return type != null && type != '' && title != null && title != '';
-  }
-
   /**
    * Get's the onCreate and dismissModal functions from props, then the
    * validated type and title from this state to create the file then
    * dismiss the modal
    */
-  onCreateFileBtnPress = () => {
+  onCreateFileBtnPress = async () => {
     const { onCreate, dismissModal } = this.props;
     const { type, title } = this.state;
     // Call the onCreate callback to create the file
-    onCreate(title, type);
-    // Dismiss the modal
-    dismissModal();
+    const wasSuccesful = await onCreate(title, type);
+    if (wasSuccesful) {
+      // Dismiss the modal
+      dismissModal();
+    }
   };
 
-  render() {
-    const { isVisible, dismissModal, onCreate } = this.props;
+  validateFileParameters() {
     const { type, title } = this.state;
+    return type != null && type !== '' && title != null && title !== '';
+  }
+
+  render() {
+    const { isVisible, dismissModal } = this.props;
+    const { type } = this.state;
 
     return (
       <Modal

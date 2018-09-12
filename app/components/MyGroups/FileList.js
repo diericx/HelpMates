@@ -1,12 +1,19 @@
 import React from 'react';
 import { compose } from 'redux';
-import { firestoreConnect, withFirestore, isLoaded, isEmpty } from 'react-redux-firebase';
+import {
+  firestoreConnect,
+  withFirestore,
+  isLoaded,
+  isEmpty,
+  withFirebase,
+} from 'react-redux-firebase';
 import { connect } from 'react-redux';
-import { View, Text, SectionList, ActivityIndicator } from 'react-native';
+import { View, Text, SectionList, ActivityIndicator, Alert } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { NewFile } from '../../lib/Firestore';
+import { ImagePicker, Permissions } from 'expo';
 
+import { NewFile, UploadImage } from '../../lib/Firestore';
 import NavigationService from '../../config/navigationService';
 import NewFileModal from './NewFileModal';
 import NewFileButton from './NewFileButton';
@@ -48,7 +55,8 @@ const styles = EStyleSheet.create({
     files: firestore.data[`files-${props.parentId}`],
     profile,
   })),
-  withFirestore
+  withFirestore,
+  withFirebase
 )
 export default class FileList extends React.Component {
   state = {
@@ -64,6 +72,62 @@ export default class FileList extends React.Component {
   };
 
   keyExtractor = item => item.id;
+
+  showNoCameraPermissionsAlert = () => {
+    Alert.alert(
+      'No Camera Roll Access',
+      'You will need to allow Camera access in Settings for HelpMates to upload photos.',
+      [{ text: 'OK', onPress: () => console.log('showNoCameraPermissionsAlert(): OK Pressed') }],
+      { cancelable: false }
+    );
+  };
+
+  /**
+   * Takes info given from the newFileModal and decides how to create a
+   *   new file. Some files are created differently or need extra input
+   *   from the user so this function handles that.
+   * @param title - title of the file. Passed down from NewFileModal
+   * @param type - type of the file. Passed down from NewFileModal
+   */
+  onCreateFileBtnPress = async (title, type) => {
+    console.log('onCreateFileBtnPress(): ', title, type);
+    const { firestore, firebase, profile, parentId } = this.props;
+    if (type === 'folder' || type === 'document') {
+      // If the type is a folder or file, it doesn't need any extra data,
+      //  so simply create the file with a title and type.
+      NewFile(firestore, profile, parentId, title, type);
+      return true;
+    }
+    if (type === 'image') {
+      console.log('onCreateFileBtnPress(): new image');
+      const camStatus = (await Permissions.askAsync(Permissions.CAMERA)).status;
+      const rollStatus = (await Permissions.askAsync(Permissions.CAMERA_ROLL)).status;
+      const hasCameraPermission = camStatus === 'granted' && rollStatus === 'granted';
+      console.log('onCreateFileBtnPress(): hasCameraPermission: ', hasCameraPermission);
+      // Show a modal if we don't have camera permission
+      if (!hasCameraPermission) {
+        this.showNoCameraPermissionsAlert();
+        return false;
+      }
+      // If we do have permission, get a photo
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        quality: 0.8,
+      });
+      // Check if the user cancelled the image pick
+      if (result.cancelled) {
+        return false;
+      }
+      // Upload the photo to Firebase, get the storage uri and preview
+      const imageData = await UploadImage(result.uri, firebase);
+      // Create the file relative to this group
+      console.log('onCreateFileBtnPress(): NewFile(): ', imageData.uri);
+      NewFile(firestore, profile, parentId, title, type, imageData);
+      return true;
+    }
+    // If all else has failed return false
+    return false;
+  };
 
   // Takes in files from props and formats them to be displayed correctly
   formatAndSortFiles() {
@@ -163,7 +227,7 @@ export default class FileList extends React.Component {
               newFileModalIsVisible: false,
             });
           }}
-          onCreate={(...args) => NewFile(firestore, profile, parentId, ...args)}
+          onCreate={this.onCreateFileBtnPress}
         />
       </View>
     );
