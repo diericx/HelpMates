@@ -99,11 +99,9 @@ export default class FileList extends React.Component {
       return true;
     }
     if (type === 'image') {
-      console.log('onCreateFileBtnPress(): new image');
       const camStatus = (await Permissions.askAsync(Permissions.CAMERA)).status;
       const rollStatus = (await Permissions.askAsync(Permissions.CAMERA_ROLL)).status;
       const hasCameraPermission = camStatus === 'granted' && rollStatus === 'granted';
-      console.log('onCreateFileBtnPress(): hasCameraPermission: ', hasCameraPermission);
       // Show a modal if we don't have camera permission
       if (!hasCameraPermission) {
         this.showNoCameraPermissionsAlert();
@@ -121,7 +119,6 @@ export default class FileList extends React.Component {
       // Upload the photo to Firebase, get the storage uri and preview
       const imageData = await UploadImage(result.uri, firebase);
       // Create the file relative to this group
-      console.log('onCreateFileBtnPress(): NewFile(): ', imageData.uri);
       NewFile(firestore, profile, parentId, title, type, imageData);
       return true;
     }
@@ -171,14 +168,18 @@ export default class FileList extends React.Component {
         }
         renderItem={({ item, index }) => {
           const leftIcon = { name: 'file-text', type: 'feather', size: 30, color: '#3f3f3f' };
-          if (item.type == 'document') {
+          if (item.type === 'document') {
             leftIcon.type = 'material-community';
             leftIcon.name = 'file-document';
             leftIcon.color = '#17c0eb';
-          } else if (item.type == 'folder') {
+          } else if (item.type === 'folder') {
             leftIcon.name = 'folder';
             leftIcon.type = 'material-community';
             leftIcon.color = 'gray';
+          } else if (item.type === 'image') {
+            leftIcon.name = 'file-image';
+            leftIcon.type = 'material-community';
+            leftIcon.color = '#78e08f';
           }
           return (
             <SepperatorView renderTop={false} renderBottom>

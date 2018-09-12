@@ -222,7 +222,7 @@ export async function UploadImage(imageUri, firebase) {
       opts
     );
     const uri = await response.uploadTaskSnapshot.ref.getDownloadURL();
-    return { uri, preview };
+    return { uri, preview: `data:image/jpeg;base64,${preview.base64}` };
   } catch (e) {
     console.log('ERROR: ', e);
   }
