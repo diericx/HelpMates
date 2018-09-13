@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { View, ScrollView, ActivityIndicator } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { compose } from 'redux';
-import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { firestoreConnect, withFirestore, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
+import { UpdateDocument } from '../../lib/Firestore';
 
 import DocumentInput from './DocumentInput';
 
@@ -29,31 +30,12 @@ const styles = EStyleSheet.create({
   connect(({ firebase: { profile }, firestore: { data } }, props) => ({
     document: data.files ? data.files[props.fileId] : null,
     profile,
-  }))
+  })),
+  withFirestore
 )
 class Document extends React.Component {
-  constructor() {
-    super();
-    // bind
-    this.updateDocument = this.updateDocument.bind(this);
-  }
-
-  updateDocument(delta) {
-    const { firestore, profile, fileId } = this.props;
-    firestore.update(
-      {
-        collection: 'files',
-        doc: fileId,
-      },
-      {
-        ...delta,
-        updatedBy: profile.name,
-      }
-    );
-  }
-
   render() {
-    const { document } = this.props;
+    const { firestore, profile, document, fileId } = this.props;
 
     // Check to see if the entries have loaded yet
     if (!isLoaded(document)) {
@@ -66,12 +48,12 @@ class Document extends React.Component {
           <DocumentInput
             document={document}
             onChangeTitle={title => {
-              this.updateDocument({
+              UpdateDocument(firestore, profile, fileId, {
                 title,
               });
             }}
             onChangeBody={body => {
-              this.updateDocument({
+              UpdateDocument(firestore, profile, fileId, {
                 body,
               });
             }}

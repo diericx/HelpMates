@@ -56,7 +56,7 @@ const DocumentInput = ({ document, onChangeBody }) => {
 };
 
 DocumentInput.propTypes = {
-  document: PropTypes.object.isRequired,
+  document: PropTypes.object,
   onChangeBody: PropTypes.func,
 };
 
