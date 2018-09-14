@@ -8,7 +8,15 @@ import {
   withFirebase,
 } from 'react-redux-firebase';
 import { connect } from 'react-redux';
-import { View, Text, Modal, SectionList, ActivityIndicator, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  Modal,
+  SectionList,
+  ActivityIndicator,
+  Alert,
+  ActionSheetIOS,
+} from 'react-native';
 import { ListItem } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ImagePicker, Permissions } from 'expo';
@@ -16,6 +24,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import { Image } from 'react-native-expo-image-cache';
 
 import { NewFile, UploadImage } from '../../lib/Firestore';
+import FileModalFooter from './FileModalFooter';
 import NavigationService from '../../config/navigationService';
 import NewFileModal from './NewFileModal';
 import NewFileButton from './NewFileButton';
@@ -164,6 +173,19 @@ export default class FileList extends React.Component {
     }
     // If all else has failed return false
     return false;
+  };
+
+  showImageOptionsActionSheet = () => {
+    const options = ['Save Image', 'Report Image', 'Cancel'];
+    const cancelButtonIndex = options.length - 1;
+
+    ActionSheetIOS.showActionSheetWithOptions({ options, cancelButtonIndex }, buttonIndex => {
+      if (options[buttonIndex] === 'Save Image') {
+        console.log('TODO: SAVE IMAGE');
+      } else if (options[buttonIndex] === 'Report Image') {
+        console.log('TODO: REPORT IMAGe');
+      }
+    });
   };
 
   /**
@@ -319,6 +341,7 @@ export default class FileList extends React.Component {
               } = props;
               return <Image style={{ height, width }} {...{ preview, uri }} />;
             }}
+            renderFooter={() => <FileModalFooter onPress={this.showImageOptionsActionSheet} />}
             index={imagesModalIndex}
             enableSwipeDown
             onCancel={() => this.setState({ imagesModalIsVisible: false })}
