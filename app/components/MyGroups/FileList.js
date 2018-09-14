@@ -23,7 +23,7 @@ import { ImagePicker, Permissions } from 'expo';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { Image } from 'react-native-expo-image-cache';
 
-import { NewFile, UploadImage } from '../../lib/Firestore';
+import { NewFile, UploadImage, ReportFile } from '../../lib/Firestore';
 import FileModalFooter from './FileModalFooter';
 import NavigationService from '../../config/navigationService';
 import NewFileModal from './NewFileModal';
@@ -62,8 +62,9 @@ const styles = EStyleSheet.create({
       storeAs: `files-${props.parentId}`,
     },
   ]),
-  connect(({ firebase: { profile }, firestore }, props) => ({
+  connect(({ firebase: { profile, auth }, firestore }, props) => ({
     files: firestore.data[`files-${props.parentId}`],
+    auth,
     profile,
   })),
   withFirestore,
@@ -74,8 +75,39 @@ export default class FileList extends React.Component {
     newFileModalIsVisible: false,
     imagesModalIsVisible: false,
     imagesModalIndex: 0,
+    imageFilesOnly: [],
   };
 
+  componentWillReceiveProps(nextProps) {
+    const { files } = nextProps;
+    if (isLoaded(files)) {
+      if (isEmpty(files)) {
+        this.setState({ imageFilesOnly: [] });
+      } else {
+        this.setState({ imageFilesOnly: this.getImageFilesOnly(files) });
+      }
+    }
+  }
+
+  /**
+   * Will get only the images from a file list and format them to fit within
+   * the parameters of the modal.
+   */
+  getImageFilesOnly = files => {
+    if (isEmpty(files)) {
+      return [];
+    }
+    // files is an object, so iterate over it like so
+    const keys = Object.keys(files);
+    const imageKeys = keys.filter(key => files[key].type === 'image' && !files[key].deleted);
+    // We can now assume these keys are all the images
+    return imageKeys.map(key => ({ id: key, ...files[key] }));
+  };
+
+  /**
+   * When a file is pressed in the list
+   * @param {object} file - the file that was pressed
+   */
   onPress = file => {
     if (file.type === 'image') {
       const indexOfImage = this.getIndexForImageFile(file);
@@ -88,8 +120,6 @@ export default class FileList extends React.Component {
       fileType: file.type,
     });
   };
-
-  keyExtractor = item => item.id;
 
   showNoCameraPermissionsAlert = () => {
     Alert.alert(
@@ -134,7 +164,6 @@ export default class FileList extends React.Component {
    * @param type - type of the file. Passed down from NewFileModal
    */
   onCreateFileBtnPress = async (title, type) => {
-    console.log('onCreateFileBtnPress(): ', title, type);
     const { firestore, firebase, profile, parentId } = this.props;
     // Make sure a file with this name doesn't already exist
     if (this.doesFileTitleAlreadyExistInList(title)) {
@@ -166,7 +195,7 @@ export default class FileList extends React.Component {
         return false;
       }
       // Upload the photo to Firebase, get the storage uri and preview
-      const imageData = await UploadImage(title, result.uri, firebase);
+      const imageData = await UploadImage(`${parentId}-${title}`, result.uri, firebase);
       // Create the file relative to this group
       NewFile(firestore, profile, parentId, title, type, imageData);
       return true;
@@ -176,33 +205,36 @@ export default class FileList extends React.Component {
   };
 
   showImageOptionsActionSheet = () => {
-    const options = ['Save Image', 'Report Image', 'Cancel'];
+    const { firestore, auth } = this.props;
+    const { imagesModalIndex, imageFilesOnly } = this.state;
+    const file = imageFilesOnly[imagesModalIndex];
+    const options =
+      file.reporters != null && file.reporters[auth.uid] != null
+        ? ['Cancel']
+        : ['Report Image', 'Cancel'];
     const cancelButtonIndex = options.length - 1;
 
     ActionSheetIOS.showActionSheetWithOptions({ options, cancelButtonIndex }, buttonIndex => {
       if (options[buttonIndex] === 'Save Image') {
         console.log('TODO: SAVE IMAGE');
       } else if (options[buttonIndex] === 'Report Image') {
-        console.log('TODO: REPORT IMAGe');
+        ReportFile(firestore, auth, file, file.id);
       }
     });
   };
 
   /**
-   * Will get only the images from a file list and format them to fit within
-   * the parameters of the modal.
+   * Formats a list if Files to be used for the image modal.
    */
-  getAndFormatImageFiles = () => {
-    const { files } = this.props;
-    if (isEmpty(files)) {
+  formatImageFilesForModal = () => {
+    const { imageFilesOnly } = this.state;
+    if (!isLoaded(imageFilesOnly) || isEmpty(imageFilesOnly)) {
       return [];
     }
-    // files is an object, so iterate over it like so
-    const keys = Object.keys(files);
-    const imageKeys = keys.filter(key => files[key].type === 'image');
-    // We can now assume these keys are all images
-    return imageKeys.map(key => {
-      const file = files[key];
+    // We can now assume imageFilesOnly is loaded AND has images
+    const keys = Object.keys(imageFilesOnly);
+    return keys.map(key => {
+      const file = imageFilesOnly[key];
       return {
         url: file.uri,
         props: { preview: { uri: file.preview } },
@@ -210,12 +242,18 @@ export default class FileList extends React.Component {
     });
   };
 
-  getIndexForImageFile = file => {
-    const { files } = this.props;
-    const keys = Object.keys(files);
-    const imageKeys = keys.filter(key => files[key].type === 'image');
-    for (let i = 0; i < imageKeys.length; i += 1) {
-      if (imageKeys[i] === file.id) {
+  /**
+   * Given a file, it will go through the current list of just image files
+   *   and return the index that this file occurs at.
+   * If the file can't be found, returns 0 so it will default to the first
+   *   image.
+   * [ASSUMPTION] that imageFilesOnly has already been sanitized
+   */
+  getIndexForImageFile = _file => {
+    const { imageFilesOnly } = this.state;
+    for (let i = 0; i < imageFilesOnly.length; i += 1) {
+      const file = imageFilesOnly[i];
+      if (file.id === _file.id) {
         return i;
       }
     }
@@ -252,7 +290,7 @@ export default class FileList extends React.Component {
     const { folders, otherFiles } = this.formatAndSortFiles();
     return (
       <SectionList
-        keyExtractor={this.keyExtractor}
+        keyExtractor={item => item.id}
         stickySectionHeadersEnabled={false}
         sections={[{ title: 'Folders', data: folders }, { title: 'Files', data: otherFiles }]}
         renderSectionHeader={({ section: { title, data } }) =>
@@ -263,6 +301,11 @@ export default class FileList extends React.Component {
           )
         }
         renderItem={({ item, index }) => {
+          // If this item has been marked for deletion but hasn't been deleted yet,
+          //  don't display it in the list.
+          if (item.deleted) {
+            return null;
+          }
           const leftIcon = { name: 'file-text', type: 'feather', size: 30, color: '#3f3f3f' };
           if (item.type === 'document') {
             leftIcon.type = 'material-community';
@@ -298,14 +341,17 @@ export default class FileList extends React.Component {
 
   render() {
     const { firestore, profile, files, parentId } = this.props;
-    const { newFileModalIsVisible, imagesModalIsVisible, imagesModalIndex } = this.state;
+    const {
+      newFileModalIsVisible,
+      imagesModalIsVisible,
+      imagesModalIndex,
+      // This list is obtained on didReceiveProps (simply parses files for just images)
+      imageFilesOnly,
+    } = this.state;
 
     if (!isLoaded(files)) {
       return <ActivityIndicator />;
     }
-
-    // Now that we know the files are loaded, get just the images for the modal
-    const imagesOnly = this.getAndFormatImageFiles();
 
     // Render
     return (
@@ -332,7 +378,7 @@ export default class FileList extends React.Component {
 
         <Modal visible={imagesModalIsVisible} transparent>
           <ImageViewer
-            imageUrls={imagesOnly}
+            imageUrls={this.formatImageFilesForModal(imageFilesOnly)}
             renderImage={props => {
               const {
                 style: { width, height },
@@ -344,6 +390,7 @@ export default class FileList extends React.Component {
             renderFooter={() => <FileModalFooter onPress={this.showImageOptionsActionSheet} />}
             index={imagesModalIndex}
             enableSwipeDown
+            saveToLocalByLongPress
             onCancel={() => this.setState({ imagesModalIsVisible: false })}
           />
         </Modal>

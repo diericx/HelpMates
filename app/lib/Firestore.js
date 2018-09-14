@@ -226,3 +226,30 @@ export async function UploadImage(name, imageUri, firebase) {
     console.log('ERROR: ', e);
   }
 }
+
+/**
+ * Reports the message in the chat
+ * @param {Object} message - The message to be reported
+ */
+export function ReportFile(firestore, auth, file, fileId) {
+  // Update the message to track who's reported it
+  firestore.update(
+    {
+      collection: 'files',
+      doc: fileId,
+    },
+    {
+      [`reporters.${auth.uid}`]: true,
+    }
+  );
+
+  // Open a new report ticket
+  firestore.add('reports', {
+    type: file.type.toLowerCase(),
+    status: 'Pending Review',
+    file,
+    fileId,
+    reporterId: auth.uid,
+    createdAt: Date.now(),
+  });
+}
