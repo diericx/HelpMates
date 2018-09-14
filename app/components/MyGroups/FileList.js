@@ -13,6 +13,7 @@ import { ListItem } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ImagePicker, Permissions } from 'expo';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import { Image } from 'react-native-expo-image-cache';
 
 import { NewFile, UploadImage } from '../../lib/Firestore';
 import NavigationService from '../../config/navigationService';
@@ -107,7 +108,7 @@ export default class FileList extends React.Component {
     const { files } = this.props;
     let foundMatch = false;
     Object.keys(files).forEach(key => {
-      if (files[key].title.toLowerCase() === title) {
+      if (files[key].title.toLowerCase() === sanitizedTitle) {
         foundMatch = true;
       }
     });
@@ -175,7 +176,10 @@ export default class FileList extends React.Component {
     // We can now assume these keys are all images
     return imageKeys.map(key => {
       const file = files[key];
-      return { url: file.uri };
+      return {
+        url: file.uri,
+        props: { preview: { uri: file.preview } },
+      };
     });
   };
 
@@ -263,7 +267,6 @@ export default class FileList extends React.Component {
 
     // Now that we know the files are loaded, get just the images for the modal
     const imagesOnly = this.getAndFormatImageFiles();
-    console.log('IMAGES ONLY', imagesOnly);
 
     // Render
     return (
@@ -291,6 +294,14 @@ export default class FileList extends React.Component {
         <Modal visible={imagesModalIsVisible} transparent>
           <ImageViewer
             imageUrls={imagesOnly}
+            renderImage={props => {
+              const {
+                style: { width, height },
+                source: { uri },
+                preview,
+              } = props;
+              return <Image style={{ height, width }} {...{ preview, uri }} />;
+            }}
             enableSwipeDown
             onCancel={() => this.setState({ imagesModalIsVisible: false })}
           />
