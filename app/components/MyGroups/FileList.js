@@ -64,11 +64,13 @@ export default class FileList extends React.Component {
   state = {
     newFileModalIsVisible: false,
     imagesModalIsVisible: false,
+    imagesModalIndex: 0,
   };
 
   onPress = file => {
     if (file.type === 'image') {
-      this.setState({ imagesModalIsVisible: true });
+      const indexOfImage = this.getIndexForImageFile(file);
+      this.setState({ imagesModalIsVisible: true, imagesModalIndex: indexOfImage });
       return;
     }
     NavigationService.push('File', {
@@ -170,6 +172,9 @@ export default class FileList extends React.Component {
    */
   getAndFormatImageFiles = () => {
     const { files } = this.props;
+    if (isEmpty(files)) {
+      return [];
+    }
     // files is an object, so iterate over it like so
     const keys = Object.keys(files);
     const imageKeys = keys.filter(key => files[key].type === 'image');
@@ -181,6 +186,18 @@ export default class FileList extends React.Component {
         props: { preview: { uri: file.preview } },
       };
     });
+  };
+
+  getIndexForImageFile = file => {
+    const { files } = this.props;
+    const keys = Object.keys(files);
+    const imageKeys = keys.filter(key => files[key].type === 'image');
+    for (let i = 0; i < imageKeys.length; i += 1) {
+      if (imageKeys[i] === file.id) {
+        return i;
+      }
+    }
+    return 0;
   };
 
   // Takes in files from props and formats them to be displayed correctly
@@ -259,7 +276,7 @@ export default class FileList extends React.Component {
 
   render() {
     const { firestore, profile, files, parentId } = this.props;
-    const { newFileModalIsVisible, imagesModalIsVisible } = this.state;
+    const { newFileModalIsVisible, imagesModalIsVisible, imagesModalIndex } = this.state;
 
     if (!isLoaded(files)) {
       return <ActivityIndicator />;
@@ -302,6 +319,7 @@ export default class FileList extends React.Component {
               } = props;
               return <Image style={{ height, width }} {...{ preview, uri }} />;
             }}
+            index={imagesModalIndex}
             enableSwipeDown
             onCancel={() => this.setState({ imagesModalIsVisible: false })}
           />
