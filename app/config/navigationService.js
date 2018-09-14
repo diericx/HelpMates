@@ -27,10 +27,17 @@ function push(routeName, params) {
   _navigator.dispatch(pushAction);
 }
 
+function pop() {
+  const pushAction = StackActions.pop();
+
+  _navigator.dispatch(pushAction);
+}
+
 // add other navigation functions that you need and export them
 
 export default {
   navigate,
   push,
+  pop,
   setTopLevelNavigator,
 };

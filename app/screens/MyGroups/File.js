@@ -1,14 +1,16 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, Modal, ActivityIndicator } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Image } from 'react-native-expo-image-cache';
 import { compose } from 'redux';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 import { connect } from 'react-redux';
-import Document from '../../components/MyGroups/Document';
+import ImageViewer from 'react-native-image-zoom-viewer';
 
+import Document from '../../components/MyGroups/Document';
 import FileList from '../../components/MyGroups/FileList';
 import { validate } from '../../lib/Utils';
+import NavigationService from '../../config/navigationService';
 
 const styles = EStyleSheet.create({
   container: {
@@ -82,6 +84,10 @@ class File extends React.Component {
     title: props.navigation.getParam('title', null),
   });
 
+  navigateBack = () => {
+    NavigationService.pop();
+  };
+
   render() {
     const { fileId, fileType, file, files } = this.props;
 
@@ -107,14 +113,18 @@ class File extends React.Component {
     // Render image
     if (fileType === 'image') {
       const { preview, uri } = file;
+      console.log('uri: ', uri);
       return (
-        <View style={[styles.container, styles.black, { flex: 1 }]}>
-          <Image
-            style={styles.imgStyle}
-            resizeMode="contain"
-            {...{ preview: { uri: preview }, uri }}
-          />
-        </View>
+        <Modal visible transparent>
+          <ImageViewer enableSwipeDown onCancel={this.navigateBack} imageUrls={[{ url: uri }]} />
+        </Modal>
+        // <View style={[styles.container, styles.black, { flex: 1 }]}>
+        //   {/* <Image
+        //     style={styles.imgStyle}
+        //     resizeMode="contain"
+        //     {...{ preview: { uri: preview }, uri }}
+        //   /> */}
+        // </View>
       );
     }
     // Render folder
