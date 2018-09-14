@@ -8,10 +8,11 @@ import {
   withFirebase,
 } from 'react-redux-firebase';
 import { connect } from 'react-redux';
-import { View, Text, SectionList, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, Modal, SectionList, ActivityIndicator, Alert } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ImagePicker, Permissions } from 'expo';
+import ImageViewer from 'react-native-image-zoom-viewer';
 
 import { NewFile, UploadImage } from '../../lib/Firestore';
 import NavigationService from '../../config/navigationService';
@@ -61,9 +62,14 @@ const styles = EStyleSheet.create({
 export default class FileList extends React.Component {
   state = {
     newFileModalIsVisible: false,
+    imagesModalIsVisible: false,
   };
 
   onPress = file => {
+    if (file.type === 'image') {
+      this.setState({ imagesModalIsVisible: true });
+      return;
+    }
     NavigationService.push('File', {
       title: file.title,
       fileId: file.id,
@@ -82,6 +88,32 @@ export default class FileList extends React.Component {
     );
   };
 
+  showFileTitleAlreadyExistsAlert = () => {
+    Alert.alert(
+      'A file with that name already exists in this folder!',
+      'Try calling it something else.',
+      [{ text: 'OK' }],
+      { cancelable: false }
+    );
+  };
+
+  /**
+   * Checks the current file list to see if any files already exist with the given
+   *   title to stop duplicates.
+   * @param {string} title - title that we are checking to see if already exists
+   */
+  doesFileTitleAlreadyExistInList = title => {
+    const sanitizedTitle = title.toLowerCase();
+    const { files } = this.props;
+    let foundMatch = false;
+    Object.keys(files).forEach(key => {
+      if (files[key].title.toLowerCase() === title) {
+        foundMatch = true;
+      }
+    });
+    return foundMatch;
+  };
+
   /**
    * Takes info given from the newFileModal and decides how to create a
    *   new file. Some files are created differently or need extra input
@@ -92,6 +124,11 @@ export default class FileList extends React.Component {
   onCreateFileBtnPress = async (title, type) => {
     console.log('onCreateFileBtnPress(): ', title, type);
     const { firestore, firebase, profile, parentId } = this.props;
+    // Make sure a file with this name doesn't already exist
+    if (this.doesFileTitleAlreadyExistInList(title)) {
+      this.showFileTitleAlreadyExistsAlert();
+      return false;
+    }
     if (type === 'folder' || type === 'document') {
       // If the type is a folder or file, it doesn't need any extra data,
       //  so simply create the file with a title and type.
@@ -117,13 +154,29 @@ export default class FileList extends React.Component {
         return false;
       }
       // Upload the photo to Firebase, get the storage uri and preview
-      const imageData = await UploadImage(result.uri, firebase);
+      const imageData = await UploadImage(title, result.uri, firebase);
       // Create the file relative to this group
       NewFile(firestore, profile, parentId, title, type, imageData);
       return true;
     }
     // If all else has failed return false
     return false;
+  };
+
+  /**
+   * Will get only the images from a file list and format them to fit within
+   * the parameters of the modal.
+   */
+  getAndFormatImageFiles = () => {
+    const { files } = this.props;
+    // files is an object, so iterate over it like so
+    const keys = Object.keys(files);
+    const imageKeys = keys.filter(key => files[key].type === 'image');
+    // We can now assume these keys are all images
+    return imageKeys.map(key => {
+      const file = files[key];
+      return { url: file.uri };
+    });
   };
 
   // Takes in files from props and formats them to be displayed correctly
@@ -202,11 +255,15 @@ export default class FileList extends React.Component {
 
   render() {
     const { firestore, profile, files, parentId } = this.props;
-    const { newFileModalIsVisible } = this.state;
+    const { newFileModalIsVisible, imagesModalIsVisible } = this.state;
 
     if (!isLoaded(files)) {
       return <ActivityIndicator />;
     }
+
+    // Now that we know the files are loaded, get just the images for the modal
+    const imagesOnly = this.getAndFormatImageFiles();
+    console.log('IMAGES ONLY', imagesOnly);
 
     // Render
     return (
@@ -230,6 +287,14 @@ export default class FileList extends React.Component {
           }}
           onCreate={this.onCreateFileBtnPress}
         />
+
+        <Modal visible={imagesModalIsVisible} transparent>
+          <ImageViewer
+            imageUrls={imagesOnly}
+            enableSwipeDown
+            onCancel={() => this.setState({ imagesModalIsVisible: false })}
+          />
+        </Modal>
       </View>
     );
   }
