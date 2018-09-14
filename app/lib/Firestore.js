@@ -189,9 +189,8 @@ export const NewFile = (firestore, profile, parentId, title, type, otherData) =>
  * @param {string} imageUri - Local URI to the image we want to upload
  * @param {object} firebase - firebase obj
  */
-export async function UploadImage(imageUri, firebase) {
+export async function UploadImage(name, imageUri, firebase) {
   validate('Firebase.UploadImage(): missing parameter', imageUri, firebase);
-  const fileName = firebase.auth().currentUser.uid;
 
   // Create the preview and get the uri for that
   const compressOptions = [{ resize: { width: 50, height: 50 } }];
@@ -213,7 +212,7 @@ export async function UploadImage(imageUri, firebase) {
   //   with this download url.
   try {
     const opts = {
-      name: fileName,
+      name,
     };
     const response = await firebase.uploadFile(
       IMAGES_STORAGE_PATH,
@@ -226,4 +225,31 @@ export async function UploadImage(imageUri, firebase) {
   } catch (e) {
     console.log('ERROR: ', e);
   }
+}
+
+/**
+ * Reports the message in the chat
+ * @param {Object} message - The message to be reported
+ */
+export function ReportFile(firestore, auth, file, fileId) {
+  // Update the message to track who's reported it
+  firestore.update(
+    {
+      collection: 'files',
+      doc: fileId,
+    },
+    {
+      [`reporters.${auth.uid}`]: true,
+    }
+  );
+
+  // Open a new report ticket
+  firestore.add('reports', {
+    type: file.type.toLowerCase(),
+    status: 'Pending Review',
+    file,
+    fileId,
+    reporterId: auth.uid,
+    createdAt: Date.now(),
+  });
 }

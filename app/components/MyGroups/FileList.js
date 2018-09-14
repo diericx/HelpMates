@@ -8,12 +8,23 @@ import {
   withFirebase,
 } from 'react-redux-firebase';
 import { connect } from 'react-redux';
-import { View, Text, SectionList, ActivityIndicator, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  Modal,
+  SectionList,
+  ActivityIndicator,
+  Alert,
+  ActionSheetIOS,
+} from 'react-native';
 import { ListItem } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ImagePicker, Permissions } from 'expo';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import { Image } from 'react-native-expo-image-cache';
 
-import { NewFile, UploadImage } from '../../lib/Firestore';
+import { NewFile, UploadImage, ReportFile } from '../../lib/Firestore';
+import FileModalFooter from './FileModalFooter';
 import NavigationService from '../../config/navigationService';
 import NewFileModal from './NewFileModal';
 import NewFileButton from './NewFileButton';
@@ -51,8 +62,9 @@ const styles = EStyleSheet.create({
       storeAs: `files-${props.parentId}`,
     },
   ]),
-  connect(({ firebase: { profile }, firestore }, props) => ({
+  connect(({ firebase: { profile, auth }, firestore }, props) => ({
     files: firestore.data[`files-${props.parentId}`],
+    auth,
     profile,
   })),
   withFirestore,
@@ -61,17 +73,53 @@ const styles = EStyleSheet.create({
 export default class FileList extends React.Component {
   state = {
     newFileModalIsVisible: false,
+    imagesModalIsVisible: false,
+    imagesModalIndex: 0,
+    imageFilesOnly: [],
   };
 
+  componentWillReceiveProps(nextProps) {
+    const { files } = nextProps;
+    if (isLoaded(files)) {
+      if (isEmpty(files)) {
+        this.setState({ imageFilesOnly: [] });
+      } else {
+        this.setState({ imageFilesOnly: this.getImageFilesOnly(files) });
+      }
+    }
+  }
+
+  /**
+   * Will get only the images from a file list and format them to fit within
+   * the parameters of the modal.
+   */
+  getImageFilesOnly = files => {
+    if (isEmpty(files)) {
+      return [];
+    }
+    // files is an object, so iterate over it like so
+    const keys = Object.keys(files);
+    const imageKeys = keys.filter(key => files[key].type === 'image' && !files[key].deleted);
+    // We can now assume these keys are all the images
+    return imageKeys.map(key => ({ id: key, ...files[key] }));
+  };
+
+  /**
+   * When a file is pressed in the list
+   * @param {object} file - the file that was pressed
+   */
   onPress = file => {
+    if (file.type === 'image') {
+      const indexOfImage = this.getIndexForImageFile(file);
+      this.setState({ imagesModalIsVisible: true, imagesModalIndex: indexOfImage });
+      return;
+    }
     NavigationService.push('File', {
       title: file.title,
       fileId: file.id,
       fileType: file.type,
     });
   };
-
-  keyExtractor = item => item.id;
 
   showNoCameraPermissionsAlert = () => {
     Alert.alert(
@@ -82,6 +130,32 @@ export default class FileList extends React.Component {
     );
   };
 
+  showFileTitleAlreadyExistsAlert = () => {
+    Alert.alert(
+      'A file with that name already exists in this folder!',
+      'Try calling it something else.',
+      [{ text: 'OK' }],
+      { cancelable: false }
+    );
+  };
+
+  /**
+   * Checks the current file list to see if any files already exist with the given
+   *   title to stop duplicates.
+   * @param {string} title - title that we are checking to see if already exists
+   */
+  doesFileTitleAlreadyExistInList = title => {
+    const sanitizedTitle = title.toLowerCase();
+    const { files } = this.props;
+    let foundMatch = false;
+    Object.keys(files).forEach(key => {
+      if (files[key].title.toLowerCase() === sanitizedTitle) {
+        foundMatch = true;
+      }
+    });
+    return foundMatch;
+  };
+
   /**
    * Takes info given from the newFileModal and decides how to create a
    *   new file. Some files are created differently or need extra input
@@ -90,8 +164,12 @@ export default class FileList extends React.Component {
    * @param type - type of the file. Passed down from NewFileModal
    */
   onCreateFileBtnPress = async (title, type) => {
-    console.log('onCreateFileBtnPress(): ', title, type);
     const { firestore, firebase, profile, parentId } = this.props;
+    // Make sure a file with this name doesn't already exist
+    if (this.doesFileTitleAlreadyExistInList(title)) {
+      this.showFileTitleAlreadyExistsAlert();
+      return false;
+    }
     if (type === 'folder' || type === 'document') {
       // If the type is a folder or file, it doesn't need any extra data,
       //  so simply create the file with a title and type.
@@ -117,13 +195,69 @@ export default class FileList extends React.Component {
         return false;
       }
       // Upload the photo to Firebase, get the storage uri and preview
-      const imageData = await UploadImage(result.uri, firebase);
+      const imageData = await UploadImage(`${parentId}-${title}`, result.uri, firebase);
       // Create the file relative to this group
       NewFile(firestore, profile, parentId, title, type, imageData);
       return true;
     }
     // If all else has failed return false
     return false;
+  };
+
+  showImageOptionsActionSheet = () => {
+    const { firestore, auth } = this.props;
+    const { imagesModalIndex, imageFilesOnly } = this.state;
+    const file = imageFilesOnly[imagesModalIndex];
+    const options =
+      file.reporters != null && file.reporters[auth.uid] != null
+        ? ['Cancel']
+        : ['Report Image', 'Cancel'];
+    const cancelButtonIndex = options.length - 1;
+
+    ActionSheetIOS.showActionSheetWithOptions({ options, cancelButtonIndex }, buttonIndex => {
+      if (options[buttonIndex] === 'Save Image') {
+        console.log('TODO: SAVE IMAGE');
+      } else if (options[buttonIndex] === 'Report Image') {
+        ReportFile(firestore, auth, file, file.id);
+      }
+    });
+  };
+
+  /**
+   * Formats a list if Files to be used for the image modal.
+   */
+  formatImageFilesForModal = () => {
+    const { imageFilesOnly } = this.state;
+    if (!isLoaded(imageFilesOnly) || isEmpty(imageFilesOnly)) {
+      return [];
+    }
+    // We can now assume imageFilesOnly is loaded AND has images
+    const keys = Object.keys(imageFilesOnly);
+    return keys.map(key => {
+      const file = imageFilesOnly[key];
+      return {
+        url: file.uri,
+        props: { preview: { uri: file.preview } },
+      };
+    });
+  };
+
+  /**
+   * Given a file, it will go through the current list of just image files
+   *   and return the index that this file occurs at.
+   * If the file can't be found, returns 0 so it will default to the first
+   *   image.
+   * [ASSUMPTION] that imageFilesOnly has already been sanitized
+   */
+  getIndexForImageFile = _file => {
+    const { imageFilesOnly } = this.state;
+    for (let i = 0; i < imageFilesOnly.length; i += 1) {
+      const file = imageFilesOnly[i];
+      if (file.id === _file.id) {
+        return i;
+      }
+    }
+    return 0;
   };
 
   // Takes in files from props and formats them to be displayed correctly
@@ -156,7 +290,7 @@ export default class FileList extends React.Component {
     const { folders, otherFiles } = this.formatAndSortFiles();
     return (
       <SectionList
-        keyExtractor={this.keyExtractor}
+        keyExtractor={item => item.id}
         stickySectionHeadersEnabled={false}
         sections={[{ title: 'Folders', data: folders }, { title: 'Files', data: otherFiles }]}
         renderSectionHeader={({ section: { title, data } }) =>
@@ -167,6 +301,11 @@ export default class FileList extends React.Component {
           )
         }
         renderItem={({ item, index }) => {
+          // If this item has been marked for deletion but hasn't been deleted yet,
+          //  don't display it in the list.
+          if (item.deleted) {
+            return null;
+          }
           const leftIcon = { name: 'file-text', type: 'feather', size: 30, color: '#3f3f3f' };
           if (item.type === 'document') {
             leftIcon.type = 'material-community';
@@ -202,7 +341,13 @@ export default class FileList extends React.Component {
 
   render() {
     const { firestore, profile, files, parentId } = this.props;
-    const { newFileModalIsVisible } = this.state;
+    const {
+      newFileModalIsVisible,
+      imagesModalIsVisible,
+      imagesModalIndex,
+      // This list is obtained on didReceiveProps (simply parses files for just images)
+      imageFilesOnly,
+    } = this.state;
 
     if (!isLoaded(files)) {
       return <ActivityIndicator />;
@@ -230,6 +375,25 @@ export default class FileList extends React.Component {
           }}
           onCreate={this.onCreateFileBtnPress}
         />
+
+        <Modal visible={imagesModalIsVisible} transparent>
+          <ImageViewer
+            imageUrls={this.formatImageFilesForModal(imageFilesOnly)}
+            renderImage={props => {
+              const {
+                style: { width, height },
+                source: { uri },
+                preview,
+              } = props;
+              return <Image style={{ height, width }} {...{ preview, uri }} />;
+            }}
+            renderFooter={() => <FileModalFooter onPress={this.showImageOptionsActionSheet} />}
+            index={imagesModalIndex}
+            enableSwipeDown
+            saveToLocalByLongPress
+            onCancel={() => this.setState({ imagesModalIsVisible: false })}
+          />
+        </Modal>
       </View>
     );
   }

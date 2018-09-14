@@ -84,10 +84,6 @@ class File extends React.Component {
     title: props.navigation.getParam('title', null),
   });
 
-  navigateBack = () => {
-    NavigationService.pop();
-  };
-
   render() {
     const { fileId, fileType, file, files } = this.props;
 
@@ -112,20 +108,8 @@ class File extends React.Component {
     }
     // Render image
     if (fileType === 'image') {
-      const { preview, uri } = file;
-      console.log('uri: ', uri);
-      return (
-        <Modal visible transparent>
-          <ImageViewer enableSwipeDown onCancel={this.navigateBack} imageUrls={[{ url: uri }]} />
-        </Modal>
-        // <View style={[styles.container, styles.black, { flex: 1 }]}>
-        //   {/* <Image
-        //     style={styles.imgStyle}
-        //     resizeMode="contain"
-        //     {...{ preview: { uri: preview }, uri }}
-        //   /> */}
-        // </View>
-      );
+      console.log('File.js THIS SHOULD NOT HAPPEN');
+      return null;
     }
     // Render folder
     if (fileType === 'folder') {
