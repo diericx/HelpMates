@@ -267,6 +267,7 @@ export const TabNavigation = createBottomTabNavigator(
     Help: HelpSwitchNav,
   },
   {
+    initialRouteName: 'MyGroups',
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;

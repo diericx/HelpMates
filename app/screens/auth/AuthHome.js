@@ -2,47 +2,46 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import FullWidthButton from "../../components/Auth/FullWidthButton";
+import FullWidthButton from '../../components/Auth/FullWidthButton';
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "$lightblue"
+    backgroundColor: '$lightblue',
   },
   logoContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     flexGrow: 1,
     marginTop: 50,
-    justifyContent: "flex-start"
+    justifyContent: 'flex-start',
   },
   logo: {
     fontSize: 55,
-    color: "white",
+    color: 'white',
   },
   signupButtonContainer: {
-    backgroundColor: "#32ff7e"
+    backgroundColor: '#32ff7e',
   },
   loginButtonContainer: {
-    backgroundColor: "#ff9f1a"
-  }
+    backgroundColor: '#ff9f1a',
+  },
 });
 
 class AuthHome extends Component {
-
   constructor(props) {
     super(props);
-    
+
     // bind
     this.onLoginBtn = this.onLoginBtn.bind(this);
     this.onSignUpBtn = this.onSignUpBtn.bind(this);
   }
 
   onLoginBtn() {
-    this.props.navigation.navigate('Login')
+    this.props.navigation.navigate('Login');
   }
 
   onSignUpBtn() {
-    this.props.navigation.navigate('SignUp')
+    this.props.navigation.navigate('SignUp');
   }
 
   render() {
@@ -52,12 +51,19 @@ class AuthHome extends Component {
           <Text style={styles.logo}> HelpMates </Text>
         </View>
 
-        <FullWidthButton containerStyle={styles.loginButtonContainer} label="Login" onPress={this.onLoginBtn} />
+        <FullWidthButton
+          containerStyle={styles.loginButtonContainer}
+          label="Login"
+          onPress={this.onLoginBtn}
+        />
 
-        <FullWidthButton containerStyle={styles.signupButtonContainer} label="Sign Up" onPress={this.onSignUpBtn} />
-
+        <FullWidthButton
+          containerStyle={styles.signupButtonContainer}
+          label="Sign Up"
+          onPress={this.onSignUpBtn}
+        />
       </View>
-    )
+    );
   }
 }
 
