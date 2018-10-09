@@ -21,13 +21,13 @@ class HelpMates extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <RootStack 
+        <RootStack
           ref={navigatorRef => {
             NavigationService.setTopLevelNavigator(navigatorRef);
           }}
         />
       </Provider>
-    )
+    );
   }
 }
 

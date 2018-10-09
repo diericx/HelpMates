@@ -1,9 +1,10 @@
 /* eslint-disable no-underscore-dangle, no-use-before-define */
 import React from 'react';
-import { View } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { View, ActionSheetIOS } from 'react-native';
 import { Day, utils } from 'react-native-gifted-chat';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { connect } from 'react-redux';
+import { validate } from '../../../lib/Utils';
 
 import CachedAvatar from '../CachedAvatar';
 import Bubble from './Bubble';
@@ -36,6 +37,10 @@ const styles = EStyleSheet.create({
   // },
 });
 
+@connect(({ firebase: { profile, auth } }) => ({
+  profile,
+  auth,
+}))
 export default class Message extends React.Component {
   getInnerComponentProps() {
     const { containerStyle, ...props } = this.props;
@@ -46,6 +51,23 @@ export default class Message extends React.Component {
       isSameDay,
     };
   }
+
+  showUserProfileActionSheet = userId => {
+    validate('Message.showUserProfileActionSheet()', userId);
+    const { blockUser, auth } = this.props;
+    // Don't let people block themselves!
+    if (auth.uid === userId) {
+      return null;
+    }
+    const options = ['Block User', 'Cancel'];
+    const cancelButtonIndex = options.length - 1;
+
+    ActionSheetIOS.showActionSheetWithOptions({ options, cancelButtonIndex }, buttonIndex => {
+      if (options[buttonIndex] === 'Block User') {
+        blockUser(userId);
+      }
+    });
+  };
 
   renderDay() {
     const { currentMessage, renderDay } = this.props;
@@ -84,16 +106,20 @@ export default class Message extends React.Component {
         preview={currentMessage.user.avatar.preview}
         size={AVATAR_SIZE}
         containerStyle={styles.avatar}
+        onPress={() => this.showUserProfileActionSheet(currentMessage.user._id)}
         rounded
       />
     );
   }
 
   render() {
-    const { currentMessage, nextMessage } = this.props;
+    const { currentMessage, nextMessage, profile } = this.props;
 
     const marginBottom = isSameUser(currentMessage, nextMessage) ? 2 : 10;
-
+    // If the user who sent this message is blocked, don't display it
+    if (profile.blockedUsers && profile.blockedUsers[currentMessage.user._id]) {
+      return null;
+    }
     return (
       <View>
         {this.renderDay()}

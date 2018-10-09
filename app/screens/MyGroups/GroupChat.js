@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import { compose } from 'redux';
-import { firestoreConnect, withFirestore } from 'react-redux-firebase';
+import { firestoreConnect, withFirebase, withFirestore } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import Chat from '../../components/shared/Chat/Chat';
 import NavigationService from '../../config/navigationService';
@@ -17,6 +17,7 @@ const styles = EStyleSheet.create({
 
 @compose(
   withFirestore,
+  withFirebase,
   firestoreConnect(({ navigation }) => {
     // Get groupId from navigation params
     const groupId = navigation.getParam('groupId', null);
@@ -129,6 +130,19 @@ class Group extends React.Component {
     });
   }
 
+  /**
+   * Adds the given userId to the current user's blocked user object
+   * @param {String} userIdToBlock - id for the user that you wish to block
+   */
+  blockUser = userIdToBlock => {
+    const { firebase } = this.props;
+    firebase.updateProfile({
+      blockedUsers: {
+        [userIdToBlock]: true,
+      },
+    });
+  };
+
   render() {
     const { messages } = this.props;
     return (
@@ -138,6 +152,7 @@ class Group extends React.Component {
           sendMessage={this.sendMessage}
           likeMessage={this.likeMessage}
           reportMessage={this.reportMessage}
+          blockUser={this.blockUser}
         />
       </View>
     );
