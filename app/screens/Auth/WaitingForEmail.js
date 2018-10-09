@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { firebaseConnect } from 'react-redux-firebase'
-import { connect } from 'react-redux'
+import { firebaseConnect } from 'react-redux-firebase';
+import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Button, Icon } from 'react-native-elements';
 
@@ -12,21 +12,21 @@ const styles = EStyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: "$turquoise",
+    backgroundColor: '$turquoise',
   },
   sendAgainContainer: {
     width: '90%',
-    marginBottom: 10
+    marginBottom: 10,
   },
   sendAgainBtn: {
     height: 60,
-    backgroundColor: '$lightblue'
+    backgroundColor: '$lightblue',
   },
   buttons: {
     flexDirection: 'row',
   },
   errorText: {
-    color: "red",
+    color: 'red',
     fontSize: 14,
   },
   italicWhiteTxt: {
@@ -41,25 +41,24 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   headerText: {
-    marginTop: 40
+    marginTop: 40,
   },
   subHeaderTxt: {
-    marginTop: 10
-  }
+    marginTop: 10,
+  },
 });
 
 @compose(
   firebaseConnect(),
   connect(({ firebase: { profile, auth } }) => ({
     auth,
-    profile
+    profile,
   }))
 )
 class WaitingForEmail extends React.Component {
-
   state = {
-    resentEmail: false
-  }
+    resentEmail: false,
+  };
 
   constructor() {
     super();
@@ -73,11 +72,11 @@ class WaitingForEmail extends React.Component {
     const { firebase } = this.props;
 
     // Reload the auth object
-    await firebase.reloadAuth()
+    await firebase.reloadAuth();
 
     // Get the current user
     const user = firebase.auth().currentUser;
-    
+
     if (user.emailVerified) {
       this.props.navigation.navigate('App');
     }
@@ -104,7 +103,7 @@ class WaitingForEmail extends React.Component {
 
   // End the subscription when the component unmounts
   componentWillUnmount() {
-    clearInterval(this.checkEmailVerificationInterval)
+    clearInterval(this.checkEmailVerificationInterval);
   }
 
   // Tell Firebase to resend the confirmation email
@@ -112,11 +111,10 @@ class WaitingForEmail extends React.Component {
     const { firebase } = this.props;
 
     this.setState({
-      resentEmail: true
-    })
+      resentEmail: true,
+    });
 
-    
-    // firebase.auth().currentUser.sendEmailVerification()
+    firebase.auth().currentUser.sendEmailVerification();
   }
 
   render() {
@@ -124,31 +122,38 @@ class WaitingForEmail extends React.Component {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={[styles.headerText, styles.italicWhiteTxt]}>Almost Done!</Text>
-          <Text style={[styles.italicWhiteTxt, styles.subHeaderTxt, {fontSize: 20}]}>
-            We just sent you an email.{'\n'}
+          <Text style={[styles.italicWhiteTxt, styles.subHeaderTxt, { fontSize: 20 }]}>
+            We just sent you an email.
+            {'\n'}
             Hit the link and you'll be signed in automatically.
           </Text>
         </View>
 
         <View>
-          <Animatable.View 
-            animation="swing" 
-            iterationCount='infinite' 
+          <Animatable.View
+            animation="swing"
+            iterationCount="infinite"
             iterationDelay={1000}
-            useNativeDriver={true}
+            useNativeDriver
           >
-            <Icon name='email' type='entypo' color='white' size={200} />
+            <Icon name="email" type="entypo" color="white" size={200} />
           </Animatable.View>
         </View>
 
         <View style={styles.sendAgainContainer}>
-          <Text style={[styles.headerText, styles.italicWhiteTxt, {fontSize: 20, opacity: 0.8}]}> Didn't get the email?</Text>
+          <Text style={[styles.headerText, styles.italicWhiteTxt, { fontSize: 20, opacity: 0.8 }]}>
+            {' '}
+            Didn't get the email?
+          </Text>
 
           <Button
             title="Resend"
-            buttonStyle={[styles.sendAgainBtn, {
-              marginTop: 5
-            }]}
+            buttonStyle={[
+              styles.sendAgainBtn,
+              {
+                marginTop: 5,
+              },
+            ]}
             disabled={this.state.resentEmail}
             onPress={this.resendEmail}
           />
