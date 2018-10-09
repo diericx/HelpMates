@@ -138,7 +138,7 @@ class SignUp extends Component {
   };
 
   render() {
-    const { signUpBtnEnabled } = this.state;
+    const { signUpBtnEnabled, uri, error } = this.state;
 
     return (
       <KeyboardAvoidingView
@@ -150,13 +150,13 @@ class SignUp extends Component {
           <View style={styles.container}>
             <View style={styles.header}>
               <Text style={styles.headerText}>Create an Account</Text>
-              <Text style={styles.errorText}>{this.state.error}</Text>
+              <Text style={styles.errorText}>{error}</Text>
             </View>
 
             <ChooseAvatar
-              uri={this.state.uri ? this.state.uri : null}
+              uri={uri}
               onComplete={result => {
-                console.log('image grab result: ', result);
+                console.log('image grab result: ', result.uri);
                 this.setState({ uri: result.uri });
               }}
             />

@@ -14,6 +14,10 @@ const styles = EStyleSheet.create({
     height: 100,
     borderRadius: 100,
   },
+  centerText: {
+    textAlign: 'center',
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
 });
 
 /**
@@ -55,7 +59,13 @@ class ChooseAvatar extends React.Component {
       return <View />;
     }
     if (hasCameraPermission === false) {
-      return <Text>No access to camera</Text>;
+      return (
+        <Text style={styles.centerText}>
+          Give HelpMates Camera access under {'\n'}
+          Settings->Privacy->Camera {'\n'}
+          Your profile picture is only shared when you aren't anonymous {'\n'}
+        </Text>
+      );
     }
     return (
       <View style={styles.container}>
@@ -66,13 +76,14 @@ class ChooseAvatar extends React.Component {
 }
 
 ChooseAvatar.propTypes = {
-  uri: PropTypes.string.isRequired,
+  uri: PropTypes.string,
 
   onComplete: PropTypes.func,
   preview: PropTypes.string,
 };
 
 ChooseAvatar.defaultProps = {
+  uri: null,
   onComplete: null,
   preview: null,
 };

@@ -24,19 +24,22 @@ const CachedAvatar = props => {
 
   return (
     <TouchableOpacity style={[roundedStyle, containerStyle]} onPress={onPress}>
-      {uri == null ? (
+      {!uri ? (
         <View style={[roundedStyle, sizeStyle, styles.iconCircle]}>
           <Icon type="font-awesome" name="image" size={150} color="white" />
         </View>
       ) : (
-        <Image style={[roundedStyle, sizeStyle]} {...{ preview: { uri: preview }, uri }} />
+        <Image
+          style={[roundedStyle, sizeStyle]}
+          {...{ preview: preview ? { uri: preview } : null, uri }}
+        />
       )}
     </TouchableOpacity>
   );
 };
 
 CachedAvatar.propTypes = {
-  uri: PropTypes.string.isRequired,
+  uri: PropTypes.string,
   size: PropTypes.number.isRequired,
 
   preview: PropTypes.string,
@@ -45,6 +48,7 @@ CachedAvatar.propTypes = {
 };
 
 CachedAvatar.defaultProps = {
+  uri: null,
   preview: null,
   rounded: false,
   onPress: null,

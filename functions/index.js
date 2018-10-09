@@ -7,6 +7,13 @@ admin.initializeApp();
 exports.sendGroupMessagePushNotification = functions.firestore
   .document('groups/{groupId}/messages/{messageId}')
   .onCreate(async (snap, context) => {
+    // Get data from the message that just got created
+    const newMessage = snap.data();
+    let messageAuthor = 'Anonymous';
+    if (newMessage.user && newMessage.user.name) {
+      messageAuthor = newMessage.user.name;
+    }
+
     const groupId = context.params.groupId;
     // Get the group
     const groupSnapshot = await admin
@@ -43,7 +50,7 @@ exports.sendGroupMessagePushNotification = functions.firestore
       // Add a message to the batch
       messages.push({
         to: pushNotificationsToken,
-        body: 'You have a new message!',
+        body: `${messageAuthor}: ${newMessage.text}`,
       });
     }
 
